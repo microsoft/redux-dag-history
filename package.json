@@ -1,0 +1,28 @@
+{
+  "name": "redux-dag-history",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "mocha": "mocha",
+    "develop": "mocha --watch",
+    "lint": "tslint src/*.ts test/*.ts",
+    "compile": "tsc",
+    "test": "npm-run-all compile lint mocha"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "immutable": "^3.8.1",
+    "mocha": "^2.5.3",
+    "redux-actions": "^0.9.1",
+    "tslint": "^3.10.2",
+    "typescript": "^1.8.10",
+    "typings": "^1.0.4"
+  },
+  "peerDependencies": {
+    "redux-actions": "*",
+    "immutable": "*"
+  }
+}

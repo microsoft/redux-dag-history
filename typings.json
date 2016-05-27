@@ -1,0 +1,13 @@
+{
+  "name": "redux-dag-history",
+  "dependencies": {},
+  "globalDependencies": {
+    "redux-actions": "registry:dt/redux-actions#0.8.0+20160521154116"
+  },
+  "devDependencies": {
+    "chai": "registry:npm/chai#3.5.0+20160415060238"
+  },
+  "globalDevDependencies": {
+    "mocha": "registry:env/mocha#2.2.5+20160321223601"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "resolution": "main",
+  "tree": {
+    "src": "https://raw.githubusercontent.com/typed-typings/env-mocha/749e3d8a4f5a7f4ff817a12011f3531e5f4f2ce8/typings.json",
+    "raw": "registry:env/mocha#2.2.5+20160321223601",
+    "files": [
+      "lib/global.d.ts",
+      "lib/mocha.d.ts"
+    ],
+    "global": false,
+    "name": "mocha",
+    "type": "typings"
+  }
+}

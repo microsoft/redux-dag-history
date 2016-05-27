@@ -1,0 +1,8 @@
+{
+  "resolution": "main",
+  "tree": {
+    "src": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/91b137179600e34f4d45a28e7dd8c297c1b825e4/redux-actions/redux-actions.d.ts",
+    "raw": "registry:dt/redux-actions#0.8.0+20160521154116",
+    "typings": "https://raw.githubusercontent.com/DefinitelyTyped/DefinitelyTyped/91b137179600e34f4d45a28e7dd8c297c1b825e4/redux-actions/redux-actions.d.ts"
+  }
+}
