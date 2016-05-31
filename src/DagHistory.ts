@@ -5,37 +5,40 @@ import {
     BranchId,
 } from "./interfaces";
 import * as Immutable from "immutable";
-import { DagGraph } from "./DagGraph";
+import DagGraph from "./DagGraph";
 
 let lastStateId = 0;
 function defaultStateIdGenerator() {
     return `${++lastStateId}`;
 }
 
-export function createHistory(appState = {}, generateNextId: StateIdGenerator = defaultStateIdGenerator): IDagHistory {
+export function createHistory(initialState = {}, generateNextId: StateIdGenerator = defaultStateIdGenerator): IDagHistory {
     const currentStateId = generateNextId();
-    return {
-        current: appState,
-        graph: Immutable.fromJS({
-            current: {
-                state: currentStateId,
-                branch: "master",
+    const stateTree = Object["assign"]({}, {
+            current: {},
+            graph: {
+                current: {
+                    state: currentStateId,
+                    branch: "master",
+                },
+                branches: {
+                  "master": {
+                    latest: currentStateId,
+                    committed: currentStateId,
+                  },
+                },
+                states: {
+                    [currentStateId]: {
+                        state: initialState,
+                        parent: null,
+                        children: [],
+                    }
+                },
             },
-            branches: {
-              "master": {
-                latest: currentStateId,
-                committed: currentStateId,
-              },
-            },
-            states: {
-                [currentStateId]: {
-                    state: appState,
-                    parent: null,
-                    children: [],
-                }
-            },
-        }),
-    };
+        }, initialState);
+
+    stateTree.graph = Immutable.fromJS(stateTree.graph);
+    return stateTree;
 }
 
 export function insert(state: any, history: IDagHistory, generateNextId: StateIdGenerator = defaultStateIdGenerator): IDagHistory {
@@ -158,9 +161,6 @@ export function squash(history: IDagHistory) {
     const { graph, current } = history;
     return {
         current,
-        graph: graph.withMutations(g => {
-            new DagGraph(g)
-                .squashCurrentBranch();
-        });
+        graph: graph.withMutations(g => new DagGraph(g).squashCurrentBranch()),
     };
 }

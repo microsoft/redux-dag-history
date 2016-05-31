@@ -1,7 +1,7 @@
 import { BranchId, StateId } from "./interfaces";
 import * as Immutable from "immutable";
 
-export class DagGraph {
+export default class DagGraph {
     constructor(public graph: Immutable.Map<any, any>) {
     }
 
@@ -71,7 +71,7 @@ export class DagGraph {
         return this;
     }
 
-    public setParent(commit: stateId, parent: StateId) {
+    public setParent(commit: StateId, parent: StateId) {
         this.graph = this.graph.setIn(["states", commit, "parent"], parent);
     }
 

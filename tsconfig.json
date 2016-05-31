@@ -7,18 +7,22 @@
         "jsx": "react",
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
-        "declaration": false,
+        "declaration": true,
         "noImplicitAny": false,
         "noImplicitUseStrict": false,
         "removeComments": true,
         "noLib": false,
         "preserveConstEnums": true,
-        "suppressImplicitAnyIndexErrors": true
+        "suppressImplicitAnyIndexErrors": true,
+        "outDir": "lib/"
     },
     "exclude": [
         "node_modules",
         "typings/browser",
         "typings/browser.d.ts"
+    ],
+    "files": [
+      "src/index.ts"
     ],
     "compileOnSave": true,
     "buildOnSave": false,
