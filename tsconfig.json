@@ -17,12 +17,11 @@
         "outDir": "lib/"
     },
     "exclude": [
-        "node_modules",
-        "typings/browser",
-        "typings/browser.d.ts"
+        "node_modules"
     ],
     "files": [
-      "src/index.ts"
+      "src/index.ts",
+      "typings/index.d.ts"
     ],
     "compileOnSave": true,
     "buildOnSave": false,
