@@ -5,11 +5,11 @@ export class DagGraph {
     constructor(public graph: Immutable.Map<any, any>) {
     }
 
-    public get currentState(): StateId {
+    public get currentStateId(): StateId {
         return this.graph.getIn(["current", "state"]);
     }
 
-    public setCurrentState(stateId: StateId) {
+    public setCurrentStateId(stateId: StateId) {
         this.graph = this.graph.setIn(["current", "state"], stateId);
         return this;
     }
@@ -42,7 +42,11 @@ export class DagGraph {
     }
 
     public insertState(commit: StateId, parent: StateId, state: any) {
-        this.graph = this.graph.setIn(["states", commit], Immutable.fromJS({ state, parent, children: [] }));
+        this.graph = this.graph.setIn(["states", commit], Immutable.fromJS({
+            state,
+            parent,
+            children: []
+        }));
         return this;
     }
 
@@ -60,16 +64,31 @@ export class DagGraph {
 
     public addChild(parent: StateId, child: StateId) {
         const children = this.childrenOf(parent);
+        if (!children) {
+            console.log("NO CHILDREN ON ", parent, this.graph.toJS());
+        }
         this.graph = this.graph.setIn(["states", parent, "children"], children.push(child));
+        return this;
+    }
+
+    public setParent(commit: stateId, parent: StateId) {
+        this.graph = this.graph.setIn(["states", commit, "parent"], parent);
+    }
+
+    public setChildren(parent: StateId, children: Immutable.List<StateId>) {
+        this.graph.setIn(["states", parent, "children"], children);
         return this;
     }
 
     public get branches() {
         const branches = this.graph.get("branches");
-        return Array.from(branches.keys());
+        return Array["from"](branches.keys());
     }
 
     public branchesOf(commit: StateId): string[] {
+        if (!commit) {
+            throw new Error("commit must be defined");
+        }
         const children = this.childrenOf(commit);
 
         if (children.size === 0) {
@@ -81,15 +100,56 @@ export class DagGraph {
             }
             return branches;
         } else {
-            return [].concat.apply(children.map(child => this.branchesOf(child)));
+            let result = [];
+            let childrenBranches = children.map(child => this.branchesOf(child)).toJS();
+            childrenBranches.forEach(cb => result = result.concat(...cb));
+            return result;
         }
     }
 
     public prune(commits) {
         for (let commit of commits) {
+            // Prune Children
             this.prune(this.childrenOf(commit));
-            this.graph.deleteIn(["states", commit]);
+            this.remove(commit);
         }
+        return this;
+    }
+
+    private remove(commit: StateId) {
+        // Remove Commit from Parent
+        const parentId = this.parentOf(commit);
+        if (parentId) {
+            const children = this.childrenOf(parentId);
+            this.setChildren(parentId, children.filter(cid => cid !== commit));
+        }
+
+        // Remove Commit from Graph
+        this.graph.deleteIn(["states", commit]);
+    }
+
+    public squashCurrentBranch() {
+        const toSquash = [];
+        let current = this.parentOf(this.currentStateId);
+        let numBranches;
+
+        if (current) {
+            do {
+                // If there is a single branch in the parent, it's squashable
+                const branches = this.branchesOf(current);
+                numBranches = current ? branches.length : 0;
+                if (numBranches === 1) {
+                    toSquash.push(current);
+                }
+                current = this.parentOf(current);
+            } while (current && numBranches === 1);
+        }
+
+        if (toSquash.length > 0) {
+            toSquash.forEach(c => this.remove(c));
+            this.setParent(this.currentStateId, current);
+        }
+
         return this;
     }
 }

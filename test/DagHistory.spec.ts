@@ -10,10 +10,10 @@ describe("The DagHistory Module", () => {
             expect(history.current).to.deep.equal({});
 
             const graph = new DagGraph(history.graph);
-            expect(graph.currentState).to.be.ok;
+            expect(graph.currentStateId).to.be.ok;
             expect(graph.currentBranch).to.equal("master");
-            expect(graph.latestOn("master")).to.equal(graph.currentState);
-            expect(graph.committedOn("master")).to.equal(graph.currentState);
+            expect(graph.latestOn("master")).to.equal(graph.currentStateId);
+            expect(graph.committedOn("master")).to.equal(graph.currentStateId);
         });
 
         it("can create a new history object with an initial state", () => {
@@ -30,10 +30,10 @@ describe("The DagHistory Module", () => {
 
             const graphA = new DagGraph(historyA.graph);
             const graphB = new DagGraph(historyB.graph);
-            expect(graphA.currentState).to.not.equal(graphB.currentState);
-            expect(graphB.childrenOf(graphA.currentState).toJS()).to.deep.equal([graphB.currentState]);
-            expect(graphB.latestOn("master")).to.equal(graphB.currentState);
-            expect(graphB.committedOn("master")).to.equal(graphB.currentState);
+            expect(graphA.currentStateId).to.not.equal(graphB.currentStateId);
+            expect(graphB.childrenOf(graphA.currentStateId).toJS()).to.deep.equal([graphB.currentStateId]);
+            expect(graphB.latestOn("master")).to.equal(graphB.currentStateId);
+            expect(graphB.committedOn("master")).to.equal(graphB.currentStateId);
         });
 
         it("will not cull children of the parent state that are associated with branches", () => {
@@ -43,12 +43,12 @@ describe("The DagHistory Module", () => {
             const historyB = DagHistory.insert({x: 1}, historyA);
             const graphB = new DagGraph(historyB.graph);
 
-            const historyC = DagHistory.jumpToState(graphA.currentState, historyB);
+            const historyC = DagHistory.jumpToState(graphA.currentStateId, historyB);
             const graphC = new DagGraph(historyC.graph);
 
             const historyD = DagHistory.insert({x: 2}, historyC);
             const graphD = new DagGraph(historyD.graph);
-            expect(graphD.getState(graphB.currentState)).to.be.ok;
+            expect(graphD.getState(graphB.currentStateId)).to.be.ok;
         });
 
         it("will cull children of the parent state that are not associated with branches", () => {
@@ -60,14 +60,14 @@ describe("The DagHistory Module", () => {
 
             const historyC = DagHistory.undo(historyB);
             const graphC = new DagGraph(historyC.graph);
-            expect(graphC.latestOn("master")).to.equal(graphB.currentState);
-            expect(graphC.committedOn("master")).to.equal(graphA.currentState);
+            expect(graphC.latestOn("master")).to.equal(graphB.currentStateId);
+            expect(graphC.committedOn("master")).to.equal(graphA.currentStateId);
 
             const historyD = DagHistory.insert({x: 2}, historyC);
             const graphD = new DagGraph(historyD.graph);
-            expect(graphD.getState(graphB.currentState)).to.be.ok;
-            expect(graphD.latestOn("master")).to.equal(graphD.currentState);
-            expect(graphD.committedOn("master")).to.equal(graphD.currentState);
+            expect(graphD.getState(graphB.currentStateId)).to.be.ok;
+            expect(graphD.latestOn("master")).to.equal(graphD.currentStateId);
+            expect(graphD.committedOn("master")).to.equal(graphD.currentStateId);
         });
     });
 
@@ -81,8 +81,8 @@ describe("The DagHistory Module", () => {
 
             const historyC = DagHistory.undo(historyB);
             const graphC = new DagGraph(historyC.graph);
-            expect(graphC.latestOn("master")).to.equal(graphB.currentState);
-            expect(graphC.committedOn("master")).to.equal(graphA.currentState);
+            expect(graphC.latestOn("master")).to.equal(graphB.currentStateId);
+            expect(graphC.committedOn("master")).to.equal(graphA.currentStateId);
         });
 
         it("redo will move the committed state forward", () => {
@@ -92,12 +92,12 @@ describe("The DagHistory Module", () => {
             const historyB = DagHistory.insert({x: 1}, historyA);
             const graphB = new DagGraph(historyB.graph);
 
-            const historyC = DagHistory.undo(historyB)
+            const historyC = DagHistory.undo(historyB);
             const historyD = DagHistory.redo(historyC);
 
             const graphD = new DagGraph(historyD.graph);
-            expect(graphD.latestOn("master")).to.equal(graphB.currentState);
-            expect(graphD.committedOn("master")).to.equal(graphB.currentState);
+            expect(graphD.latestOn("master")).to.equal(graphB.currentStateId);
+            expect(graphD.committedOn("master")).to.equal(graphB.currentStateId);
         });
     });
 
@@ -109,19 +109,51 @@ describe("The DagHistory Module", () => {
             const historyB = DagHistory.insert({x: 1}, historyA);
             const graphB = new DagGraph(historyB.graph);
 
-            const historyC = DagHistory.jumpToState(graphA.currentState, historyB);
+            const historyC = DagHistory.jumpToState(graphA.currentStateId, historyB);
             const graphC = new DagGraph(historyC.graph);
 
             const historyD = DagHistory.createBranch("derp", historyC);
             const graphD = new DagGraph(historyD.graph);
             expect(graphD.currentBranch).to.equal("derp");
-            expect(graphD.latestOn("derp")).to.equal(graphD.currentState);
-            expect(graphD.committedOn("derp")).to.equal(graphD.currentState);
+            expect(graphD.latestOn("derp")).to.equal(graphD.currentStateId);
+            expect(graphD.committedOn("derp")).to.equal(graphD.currentStateId);
+        });
+    });
+
+    describe("clear", () => {
+        it("can clear the history", () => {
+            const historyA = DagHistory.createHistory();
+            const historyB = DagHistory.insert({x: 1}, historyA);
+
+            const historyC = DagHistory.clear(historyB);
+            expect(Object.keys(historyC.graph.get("states").toJS()).length).to.equal(1);
+        });
+    });
+
+    describe("squash", () => {
+        it("will collapse parent states that have a single ancestor", () => {
+            const historyInit = DagHistory.createHistory({x: 0});
+            const branchA = DagHistory.createBranch("A", historyInit);
+            const branchACommit1 = DagHistory.insert({x: 1}, branchA);
+            const jumpBack = DagHistory.jumpToBranch("master", branchACommit1);
+            const branchB = DagHistory.createBranch("B", jumpBack);
+            const branchBCommit1 = DagHistory.insert({x: 2}, branchB);
+            const branchBCommit2 = DagHistory.insert({x: 3}, branchBCommit1);
+
+            // Commit 1 and Commit 2 from Branch B should be squashed
+            const squashed = DagHistory.squash(branchBCommit2);
+            expect(Object.keys(squashed.graph.get("states").toJS()).length).to.equal(3);
+        });
+
+        it("will collapse a linear chain into a single root", () => {
+            const init = DagHistory.createHistory({x: 0});
+            const histA = DagHistory.insert({x: 1}, init);
+            const histB = DagHistory.insert({x: 2}, histA);
+            const histC = DagHistory.insert({x: 3}, histB);
+
+            // Commit 1 and Commit 2 from Branch B should be squashed
+            const squashed = DagHistory.squash(histC);
+            expect(Object.keys(squashed.graph.get("states").toJS()).length).to.equal(1);
         });
     });
 });
-
-/*
-exports.CLEAR = "DAG_HISTORY_CLEAR";
-exports.SQUASH = "DAG_HISTORY_SQUASH";
-*/

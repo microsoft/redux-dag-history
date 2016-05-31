@@ -41,7 +41,7 @@ export function createHistory(appState = {}, generateNextId: StateIdGenerator = 
 export function insert(state: any, history: IDagHistory, generateNextId: StateIdGenerator = defaultStateIdGenerator): IDagHistory {
     const { graph } = history;
     const reader = new DagGraph(graph);
-    const parentStateId = reader.currentState;
+    const parentStateId = reader.currentStateId;
     const currentBranch = reader.currentBranch;
     const newStateId = generateNextId();
 
@@ -54,7 +54,7 @@ export function insert(state: any, history: IDagHistory, generateNextId: StateId
         graph: graph.withMutations(g => {
             new DagGraph(g)
                 .insertState(newStateId, parentStateId, state)
-                .setCurrentState(newStateId)
+                .setCurrentStateId(newStateId)
                 .prune(cousinsToPrune.toJS())
                 .addChild(parentStateId, newStateId)
                 .setLatest(currentBranch, newStateId)
@@ -72,7 +72,7 @@ export function jumpToState(stateId: StateId, history: IDagHistory) {
     return {
         current: reader.getState("stateId"),
         graph: graph.withMutations(g => {
-            const writer = new DagGraph(g).setCurrentState(stateId);
+            const writer = new DagGraph(g).setCurrentStateId(stateId);
             if (branches.indexOf(branch) !== -1) {
                 writer.setCurrentBranch(null);
             }
@@ -90,7 +90,7 @@ export function jumpToBranch(branch: BranchId, history: IDagHistory) {
         current: reader.getState(branchCommitId),
         graph: graph.withMutations(g => {
             new DagGraph(g)
-                .setCurrentState(branchCommitId)
+                .setCurrentStateId(branchCommitId)
                 .setCurrentBranch(branches.indexOf(branch) !== -1 ? branch : null);
         }),
     };
@@ -99,13 +99,13 @@ export function jumpToBranch(branch: BranchId, history: IDagHistory) {
 export function undo(history: IDagHistory) {
     const { graph } = history;
     const reader = new DagGraph(graph);
-    const parentId = reader.parentOf(reader.currentState);
+    const parentId = reader.parentOf(reader.currentStateId);
 
     return {
         current: reader.getState(parentId),
         graph: graph.withMutations(g => {
             const writer = new DagGraph(g);
-                writer.setCurrentState(parentId);
+                writer.setCurrentStateId(parentId);
                 if (reader.currentBranch) {
                     writer.setCommitted(reader.currentBranch, parentId);
                 }
@@ -117,7 +117,7 @@ export function redo(history: IDagHistory) {
     const { graph } = history;
     const reader = new DagGraph(graph);
     const children = reader
-        .childrenOf(reader.currentState)
+        .childrenOf(reader.currentStateId)
         .filter(child => reader.branchesOf(child).indexOf(reader.currentBranch) !== -1);
 
     if (children.size > 0) {
@@ -143,8 +143,24 @@ export function createBranch(branchId: BranchId, history: IDagHistory) {
         graph: graph.withMutations(g => {
             new DagGraph(g)
                 .setCurrentBranch(branchId)
-                .setCommitted(branchId, reader.currentState)
-                .setLatest(branchId, reader.currentState);
+                .setCommitted(branchId, reader.currentStateId)
+                .setLatest(branchId, reader.currentStateId);
         }),
+    };
+}
+
+export function clear(history: IDagHistory) {
+    const { graph, current } = history;
+    return createHistory(current);
+}
+
+export function squash(history: IDagHistory) {
+    const { graph, current } = history;
+    return {
+        current,
+        graph: graph.withMutations(g => {
+            new DagGraph(g)
+                .squashCurrentBranch();
+        });
     };
 }
