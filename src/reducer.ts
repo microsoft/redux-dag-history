@@ -1,4 +1,6 @@
-import { IDagHistory, StateIdGenerator, StateId, IAction } from "./interfaces";
+const log = require("debug")("redux-dag-history:reducer");
+import { IDagHistory, StateIdGenerator, StateId } from "./interfaces";
+import { Action }from "redux-actions";
 import * as ActionTypes from "./ActionTypes";
 import Configuration from "./Configuration";
 import * as DagHistory from "./DagHistory";
@@ -6,7 +8,7 @@ import * as DagHistory from "./DagHistory";
 const EMPTY_ACTION = {
     type: undefined,
     payload: undefined,
-} as IAction<{}>;
+} as Action<{}>;
 
 /**
  * A redux higher-order Reducer for tracking the user's history.
@@ -14,9 +16,20 @@ const EMPTY_ACTION = {
 export default function trackHistory(reducer: Function, rawConfig = {}) {
     const config = new Configuration(rawConfig);
 
-    return function trackHistoryReducer(state: any, action: IAction<any> = EMPTY_ACTION) {
+    function logGraphActions(reducer: any) {
+        return (state: any, action: Action<any>) => {
+            const result = reducer(state, action);
+            const newStateGraph = result.graph;
+            const oldStateGraph = state && state.graph ? state.graph : null;
+            log("Action: '%s'\n%s\n%s", action.type, oldStateGraph, newStateGraph);
+            return result;
+        };
+    }
+
+    function trackHistoryReducer(state: any, action: Action<any> = EMPTY_ACTION) {
         let history: IDagHistory = state;
-        if (!history) {
+        if (!history || !history.graph) {
+            log("history not present; creating new DagHistory");
             history = DagHistory.createHistory(state);
         }
 
@@ -44,7 +57,13 @@ export default function trackHistory(reducer: Function, rawConfig = {}) {
 
             default:
                 const newState = reducer(history.current, action);
-                history = DagHistory.insert(newState, history);
+                if (config.actionFilter(action.type)) {
+                    return DagHistory.insert(newState, history);
+                } else {
+                    return DagHistory.replaceCurrentState(newState, history);
+                }
         }
-    };
+    }
+
+    return config.debug ? logGraphActions(trackHistoryReducer) : trackHistoryReducer;
 }

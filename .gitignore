@@ -3,3 +3,4 @@ node_modules/
 !wallaby.conf.js
 lib/
 *.d.ts
+typings/

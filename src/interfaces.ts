@@ -1,10 +1,10 @@
 import * as Immutable from "immutable";
-
 export type StateId = string;
 export type BranchId = string;
 
 export interface IConfiguration {
-    actionFilter?: (actionName: string) => boolean;
+    debug?: boolean;
+    actionFilter?: (actionType: string) => boolean;
     clearActionType?: string;
     undoActionType?: string;
     redoActionType?: string;
@@ -12,13 +12,6 @@ export interface IConfiguration {
     jumpToBranchActionType?: string;
     createBranchActionType?: string;
     squashActionType?: string;
-}
-
-
-// Flux Standard Action
-export interface IAction<T> {
-    type: string;
-    payload?: T;
 }
 
 /**

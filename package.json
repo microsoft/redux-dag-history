@@ -19,14 +19,18 @@
     "chai": "^3.5.0",
     "immutable": "^3.8.1",
     "mocha": "^2.5.3",
-    "redux-actions": "^0.9.1",
+    "npm-run-all": "^2.1.2",
+    "redux-actions": "^0.10.0",
     "ts-npm-lint": "^0.1.0",
-    "tslint": "^3.10.2",
+    "tslint": "^3.11.0",
     "typescript": "^1.8.10",
-    "typings": "^1.0.4"
+    "typings": "^1.2.0"
   },
   "peerDependencies": {
     "redux-actions": "*",
     "immutable": "*"
+  },
+  "dependencies": {
+    "debug": "^2.2.0"
   }
 }

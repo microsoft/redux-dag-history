@@ -14,6 +14,10 @@ export default class Configuation implements IConfiguration {
     constructor(private _rawConfig: IConfiguration) {
     }
 
+    public get debug() {
+        return this._rawConfig.debug || false;
+    }
+
     public get actionFilter() {
         return this._rawConfig.actionFilter || DEFAULT_ACTION_FILTER;
     }

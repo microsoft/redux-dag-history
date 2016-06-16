@@ -1,6 +1,6 @@
 import { expect } from "chai";
-import * as DagHistory from "../src/DagHistory";
-import { DagGraph } from "../src/DagGraph";
+import * as DagHistory from "../lib/DagHistory";
+import { DagGraph } from "../lib/DagGraph";
 
 describe("The DagHistory Module", () => {
     describe("createHistory", () => {

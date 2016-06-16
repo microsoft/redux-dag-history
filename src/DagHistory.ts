@@ -1,3 +1,4 @@
+const log = require("debug")("redux-dag-history:DagHistory");
 import {
     IDagHistory,
     StateIdGenerator,
@@ -43,6 +44,9 @@ export function createHistory(initialState = {}, generateNextId: StateIdGenerato
 
 export function insert(state: any, history: IDagHistory, generateNextId: StateIdGenerator = defaultStateIdGenerator): IDagHistory {
     const { graph } = history;
+    if (!graph) {
+        throw new Error("History graph is not defined");
+    }
     const reader = new DagGraph(graph);
     const parentStateId = reader.currentStateId;
     const currentBranch = reader.currentBranch;
@@ -50,11 +54,11 @@ export function insert(state: any, history: IDagHistory, generateNextId: StateId
 
     // TODO: Prune Orphaned children of parent. Reset branch latest
     const cousins = reader.childrenOf(parentStateId);
-    const cousinsToPrune = cousins.filter(cousin => (reader.branchesOf(cousin)).length === 0);
+    const cousinsToPrune = cousins.filter((cousin: StateId) => (reader.branchesOf(cousin)).length === 0);
 
     return {
         current: state,
-        graph: graph.withMutations((g: Immutable.Map<any, any>) => {
+        graph: graph.withMutations(g => {
             new DagGraph(g)
                 .insertState(newStateId, parentStateId, state)
                 .setCurrentStateId(newStateId)
@@ -71,15 +75,16 @@ export function jumpToState(stateId: StateId, history: IDagHistory) {
     const reader = new DagGraph(graph);
     const branches = reader.branchesOf(stateId);
     const branch = reader.currentBranch;
-
+    const updatedGraph = graph.withMutations(g => {
+        const writer = new DagGraph(g).setCurrentStateId(stateId);
+        if (branches.indexOf(branch) !== -1) {
+            log("current branch %s is not present on commit %s - setting current branch to null", branch, stateId);
+            writer.setCurrentBranch(null);
+        }
+    });
     return {
-        current: reader.getState("stateId"),
-        graph: graph.withMutations(g => {
-            const writer = new DagGraph(g).setCurrentStateId(stateId);
-            if (branches.indexOf(branch) !== -1) {
-                writer.setCurrentBranch(null);
-            }
-        }),
+        current: reader.getState(stateId),
+        graph: updatedGraph,
     };
 }
 
@@ -163,4 +168,15 @@ export function squash(history: IDagHistory) {
         current,
         graph: graph.withMutations(g => new DagGraph(g).squashCurrentBranch()),
     };
+}
+
+export function replaceCurrentState(state: any, history: IDagHistory) {
+    const { graph } = history;
+    const reader = new DagGraph(graph);
+    const currentStateId = reader.currentStateId;
+    return {
+        current: state,
+        graph: graph.withMutations(g => new DagGraph(g).replaceState(currentStateId, state)),
+    };
+
 }

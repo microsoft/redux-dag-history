@@ -1,8 +1,15 @@
+const log = require("debug")("redux-dag-history:DagGraph");
 import { BranchId, StateId } from "./interfaces";
 import * as Immutable from "immutable";
 
 export default class DagGraph {
     constructor(public graph: Immutable.Map<any, any>) {
+        if (!graph) {
+            throw new Error("'graph' parameter must be defined");
+        }
+        if (!graph.getIn) {
+            throw new Error("'graph' appears to not be an immutablejs instance");
+        }
     }
 
     public get currentStateId(): StateId {
@@ -42,11 +49,12 @@ export default class DagGraph {
     }
 
     public insertState(commit: StateId, parent: StateId, state: any) {
-        this.graph = this.graph.setIn(["states", commit], Immutable.fromJS({
+        const newState = Immutable.fromJS({
             state,
             parent,
-            children: []
-        }));
+            children: Immutable.List(),
+        });
+        this.graph = this.graph.setIn(["states", commit], newState);
         return this;
     }
 
@@ -55,20 +63,40 @@ export default class DagGraph {
     }
 
     public childrenOf(commit: StateId): StateId[] {
-        return this.graph.getIn(["states", commit, "children"]).toJS();
+        const children = this.graph.getIn(["states", commit, "children"]);
+        return children ? children.toJS() : [];
     }
 
     public parentOf(commit: StateId): StateId {
         return this.graph.getIn(["states", commit, "parent"]);
     }
 
-    public addChild(parent: StateId, child: StateId) {
-        const children = this.childrenOf(parent);
-        if (!children) {
-            console.log("NO CHILDREN ON ", parent, this.graph.toJS());
-        }
-        this.graph = this.graph.setIn(["states", parent, "children"], children.push(child));
+    public replaceState(commit: StateId, state: any) {
+        this.graph = this.graph.setIn(["states", commit, "state"], state);
         return this;
+    }
+
+    public parentPath(commit: StateId): StateId[] {
+        const parents: StateId[] = [];
+        let current = commit;
+        do {
+            const parent = this.parentOf(current);
+            if (parent) {
+                parents.unshift(parent);
+            }
+            current = parent;
+        } while (current);
+        return parents;
+    }
+
+    public addChild(parent: StateId, child: StateId) {
+        let children = this.childrenOf(parent);
+        if (!children) {
+            log("No children on ", parent, this.graph.toJS());
+            children = [];
+        }
+        children.push(child);
+        return this.setChildren(parent, Immutable.List(children));
     }
 
     public setParent(commit: StateId, parent: StateId) {
@@ -90,7 +118,6 @@ export default class DagGraph {
             throw new Error("commit must be defined");
         }
         const children = this.childrenOf(commit);
-
         if (children.length === 0) {
             const branches: BranchId[] = [];
             for (let branch of this.branches) {
@@ -120,8 +147,8 @@ export default class DagGraph {
         // Remove Commit from Parent
         const parentId = this.parentOf(commit);
         if (parentId) {
-            const children = this.childrenOf(parentId);
-            this.setChildren(parentId, Immutable.List(children.filter((cid: StateId) => cid !== commit)));
+            const children = this.childrenOf(parentId).filter(cid => cid !== commit);
+            this.setChildren(parentId, Immutable.List(children));
         }
 
         // Remove Commit from Graph
