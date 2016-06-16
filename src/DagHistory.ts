@@ -54,7 +54,7 @@ export function insert(state: any, history: IDagHistory, generateNextId: StateId
 
     // TODO: Prune Orphaned children of parent. Reset branch latest
     const cousins = reader.childrenOf(parentStateId);
-    const cousinsToPrune = cousins.filter((cousin: StateId) => (reader.branchesOf(cousin)).length === 0);
+    const abandonedCousins = cousins.filter((cousin: StateId) => (reader.branchesOf(cousin)).length === 0);
 
     return {
         current: state,
@@ -62,7 +62,7 @@ export function insert(state: any, history: IDagHistory, generateNextId: StateId
             new DagGraph(g)
                 .insertState(newStateId, parentStateId, state)
                 .setCurrentStateId(newStateId)
-                .prune(cousinsToPrune)
+                .prune(abandonedCousins)
                 .addChild(parentStateId, newStateId)
                 .setLatest(currentBranch, newStateId)
                 .setCommitted(currentBranch, newStateId);
