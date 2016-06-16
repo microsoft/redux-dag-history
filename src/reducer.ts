@@ -21,7 +21,7 @@ export default function trackHistory(reducer: Function, rawConfig = {}) {
             const result = reducer(state, action);
             const newStateGraph = result.graph;
             const oldStateGraph = state && state.graph ? state.graph : null;
-            log("Action: '%s'\n%s\n%s", action.type, oldStateGraph, newStateGraph);
+            log("Action: '%s", action.type, oldStateGraph, newStateGraph);
             return result;
         };
     }

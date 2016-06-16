@@ -77,8 +77,8 @@ export function jumpToState(stateId: StateId, history: IDagHistory) {
     const branch = reader.currentBranch;
     const updatedGraph = graph.withMutations(g => {
         const writer = new DagGraph(g).setCurrentStateId(stateId);
-        if (branches.indexOf(branch) !== -1) {
-            log("current branch %s is not present on commit %s - setting current branch to null", branch, stateId);
+        if (branches.indexOf(branch) === -1) {
+            log("current branch %s is not present on commit %s, available are [%s] - setting current branch to null", branch, stateId, branches.join(", "));
             writer.setCurrentBranch(null);
         }
     });
