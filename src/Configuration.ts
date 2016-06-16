@@ -1,5 +1,5 @@
 import * as ActionTypes from "./ActionTypes";
-
+import { IConfiguration } from "./interfaces";
 export const CLEAR = "DAG_HISTORY_CLEAR";
 export const UNDO = "DAG_HISTORY_UNDO";
 export const REDO = "DAG_HISTORY_REDO";
@@ -10,8 +10,8 @@ export const SQUASH = "DAG_HISTORY_SQUASH";
 
 const DEFAULT_ACTION_FILTER = () => true;
 
-export default class Configuation {
-    constructor(private _rawConfig) {
+export default class Configuation implements IConfiguration {
+    constructor(private _rawConfig: IConfiguration) {
     }
 
     public get actionFilter() {

@@ -23,11 +23,11 @@ export default class DagGraph {
         return this;
     }
 
-    public latestOn(branch: BranchId) {
+    public latestOn(branch: BranchId): StateId {
         return this.graph.getIn(["branches", branch, "latest"]);
     }
 
-    public committedOn(branch: BranchId) {
+    public committedOn(branch: BranchId): StateId {
         return this.graph.getIn(["branches", branch, "committed"]);
     }
 
@@ -54,11 +54,11 @@ export default class DagGraph {
         return this.graph.getIn(["states", commit, "state"]);
     }
 
-    public childrenOf(commit: StateId) {
-        return this.graph.getIn(["states", commit, "children"]);
+    public childrenOf(commit: StateId): StateId[] {
+        return this.graph.getIn(["states", commit, "children"]).toJS();
     }
 
-    public parentOf(commit: StateId) {
+    public parentOf(commit: StateId): StateId {
         return this.graph.getIn(["states", commit, "parent"]);
     }
 
@@ -80,19 +80,19 @@ export default class DagGraph {
         return this;
     }
 
-    public get branches() {
+    public get branches(): BranchId[] {
         const branches = this.graph.get("branches");
         return Array["from"](branches.keys());
     }
 
-    public branchesOf(commit: StateId): string[] {
+    public branchesOf(commit: StateId): BranchId[] {
         if (!commit) {
             throw new Error("commit must be defined");
         }
         const children = this.childrenOf(commit);
 
-        if (children.size === 0) {
-            const branches = [];
+        if (children.length === 0) {
+            const branches: BranchId[] = [];
             for (let branch of this.branches) {
                 if (this.latestOn(branch) === commit) {
                     branches.push(branch);
@@ -100,14 +100,14 @@ export default class DagGraph {
             }
             return branches;
         } else {
-            let result = [];
-            let childrenBranches = children.map(child => this.branchesOf(child)).toJS();
+            let result: BranchId[] = [];
+            let childrenBranches = children.map(child => this.branchesOf(child));
             childrenBranches.forEach(cb => result = result.concat(...cb));
             return result;
         }
     }
 
-    public prune(commits) {
+    public prune(commits: StateId[]) {
         for (let commit of commits) {
             // Prune Children
             this.prune(this.childrenOf(commit));
@@ -121,7 +121,7 @@ export default class DagGraph {
         const parentId = this.parentOf(commit);
         if (parentId) {
             const children = this.childrenOf(parentId);
-            this.setChildren(parentId, children.filter(cid => cid !== commit));
+            this.setChildren(parentId, Immutable.List(children.filter((cid: StateId) => cid !== commit)));
         }
 
         // Remove Commit from Graph
@@ -129,9 +129,9 @@ export default class DagGraph {
     }
 
     public squashCurrentBranch() {
-        const toSquash = [];
+        const toSquash: StateId[] = [];
         let current = this.parentOf(this.currentStateId);
-        let numBranches;
+        let numBranches: number;
 
         if (current) {
             do {

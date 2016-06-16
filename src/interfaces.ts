@@ -1,5 +1,25 @@
+import * as Immutable from "immutable";
+
 export type StateId = string;
 export type BranchId = string;
+
+export interface IConfiguration {
+    actionFilter?: (actionName: string) => boolean;
+    clearActionType?: string;
+    undoActionType?: string;
+    redoActionType?: string;
+    jumpToStateActionType?: string;
+    jumpToBranchActionType?: string;
+    createBranchActionType?: string;
+    squashActionType?: string;
+}
+
+
+// Flux Standard Action
+export interface IAction<T> {
+    type: string;
+    payload?: T;
+}
 
 /**
  * This interface represents the state shape of the DAG history in the Redux
@@ -14,7 +34,7 @@ export interface IDagHistory {
     /**
      * The explored state space, represented as a graph (future and past)
      */
-    graph: any; // {
+    graph: Immutable.Map<any, any>; // {
         /*
         current: {
 

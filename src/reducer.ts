@@ -1,15 +1,20 @@
-import { IDagHistory, StateIdGenerator, StateId } from "./interfaces";
+import { IDagHistory, StateIdGenerator, StateId, IAction } from "./interfaces";
 import * as ActionTypes from "./ActionTypes";
 import Configuration from "./Configuration";
 import * as DagHistory from "./DagHistory";
 
+const EMPTY_ACTION = {
+    type: undefined,
+    payload: undefined,
+} as IAction<{}>;
+
 /**
  * A redux higher-order Reducer for tracking the user's history.
  */
-export default function trackHistory(reducer, rawConfig = {}) {
+export default function trackHistory(reducer: Function, rawConfig = {}) {
     const config = new Configuration(rawConfig);
 
-    return function trackHistoryReducer(state, action = {type: undefined, payload: undefined}) {
+    return function trackHistoryReducer(state: any, action: IAction<any> = EMPTY_ACTION) {
         let history: IDagHistory = state;
         if (!history) {
             history = DagHistory.createHistory(state);

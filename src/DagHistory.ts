@@ -54,11 +54,11 @@ export function insert(state: any, history: IDagHistory, generateNextId: StateId
 
     return {
         current: state,
-        graph: graph.withMutations(g => {
+        graph: graph.withMutations((g: Immutable.Map<any, any>) => {
             new DagGraph(g)
                 .insertState(newStateId, parentStateId, state)
                 .setCurrentStateId(newStateId)
-                .prune(cousinsToPrune.toJS())
+                .prune(cousinsToPrune)
                 .addChild(parentStateId, newStateId)
                 .setLatest(currentBranch, newStateId)
                 .setCommitted(currentBranch, newStateId);
@@ -123,9 +123,9 @@ export function redo(history: IDagHistory) {
         .childrenOf(reader.currentStateId)
         .filter(child => reader.branchesOf(child).indexOf(reader.currentBranch) !== -1);
 
-    if (children.size > 0) {
+    if (children.length > 0) {
         // TODO: throw an error or something if children.size > 1
-        const child = children.get(0);
+        const child = children[0];
         return {
             current: reader.getState(child),
             graph: graph.withMutations(g => {
