@@ -1,0 +1,8 @@
+*~
+__test__
+src
+wallaby.conf.js
+typings/
+.editorconfig
+tsconfig.json
+typings.json
