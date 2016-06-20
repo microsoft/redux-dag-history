@@ -1,6 +1,7 @@
 import { expect } from "chai";
 import * as DagHistory from "../DagHistory";
 import DagGraph from "../DagGraph";
+const treeify = require("treeify");
 
 describe("The DagHistory Module", () => {
     describe("createHistory", () => {
@@ -152,6 +153,7 @@ describe("The DagHistory Module", () => {
             expect(graphE.commitPath(graphE.currentStateId)).to.deep.equal([graphA.currentStateId, graphB.currentStateId, graphE.currentStateId]);
             expect(graphE.commitPath(graphB.currentStateId)).to.deep.equal([graphA.currentStateId, graphB.currentStateId]);
 
+            console.log("Graph: \n", graphE.print());
         });
     });
 

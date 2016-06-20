@@ -4,6 +4,8 @@ import { Action }from "redux-actions";
 import * as ActionTypes from "./ActionTypes";
 import Configuration from "./Configuration";
 import * as DagHistory from "./DagHistory";
+import DagGraph from "./DagGraph";
+import * as Immutable from "immutable";
 
 const EMPTY_ACTION = {
     type: undefined,
@@ -19,9 +21,8 @@ export default function trackHistory(reducer: Function, rawConfig = {}) {
     function logGraphActions(reducer: any) {
         return (state: any, action: Action<any>) => {
             const result = reducer(state, action);
-            const newStateGraph = result.graph;
-            const oldStateGraph = state && state.graph ? state.graph : null;
-            log("Action: '%s", action.type, oldStateGraph, newStateGraph);
+            const newStateGraph = new DagGraph(result.graph);
+            log("Action: '%s', State=", action.type, newStateGraph.print());
             return result;
         };
     }

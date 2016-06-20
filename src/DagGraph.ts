@@ -1,6 +1,7 @@
 const log = require("debug")("redux-dag-history:DagGraph");
 import { BranchId, StateId } from "./interfaces";
 import * as Immutable from "immutable";
+const treeify = require("treeify");
 
 export default class DagGraph {
     constructor(public graph: Immutable.Map<any, any>) {
@@ -10,6 +11,40 @@ export default class DagGraph {
         if (!graph.getIn) {
             throw new Error("'graph' appears to not be an immutablejs instance");
         }
+    }
+
+    public print() {
+        const graph = this.graph.toJS();
+        let root: any = null;
+        const states = {};
+        const getOrCreateState = (stateId: string) => {
+            let result = states[stateId];
+            if (!result) {
+                result = {id: stateId, children: [] as any};
+                states[stateId] = result;
+            }
+            return result;
+        }
+
+        Object.keys(graph.states || {}).forEach(stateId => {
+            const parentId = graph.states[stateId].parent;
+            const state = getOrCreateState(stateId);
+            if (!parentId) {
+                root = state;
+            }
+            getOrCreateState(parentId).children.push(state);
+            states[stateId] = state;
+
+        });
+
+        const tree = {
+            current: graph.current,
+            branches: graph.branches,
+            // states: graph.states,
+            dag: root,
+        };
+        const result = treeify.asTree(tree, true);
+        return result;
     }
 
     public get currentStateId(): StateId {
@@ -52,7 +87,6 @@ export default class DagGraph {
         const newState = Immutable.fromJS({
             state,
             parent,
-            children: Immutable.List(),
         });
         this.graph = this.graph.setIn(["states", commit], newState);
         return this;
@@ -63,8 +97,12 @@ export default class DagGraph {
     }
 
     public childrenOf(commit: StateId): StateId[] {
-        const children = this.graph.getIn(["states", commit, "children"]);
-        return children ? children.toJS() : [];
+        const states = this.graph.get("states");
+
+        return states.toSeq()
+            .filter((state: Immutable.Map<any, any>) => state.get("parent") === commit)
+            .map((state: Immutable.Map<any, any>, key: string) => key)
+            .toList().toJS();
     }
 
     public parentOf(commit: StateId): StateId {
@@ -89,23 +127,8 @@ export default class DagGraph {
         return path;
     }
 
-    public addChild(parent: StateId, child: StateId) {
-        let children = this.childrenOf(parent);
-        if (!children) {
-            log("No children on ", parent, this.graph.toJS());
-            children = [];
-        }
-        children.push(child);
-        return this.setChildren(parent, Immutable.List(children));
-    }
-
     public setParent(commit: StateId, parent: StateId) {
         this.graph = this.graph.setIn(["states", commit, "parent"], parent);
-    }
-
-    public setChildren(parent: StateId, children: Immutable.List<StateId>) {
-        this.graph.setIn(["states", parent, "children"], children);
-        return this;
     }
 
     public get branches(): BranchId[] {
@@ -144,14 +167,6 @@ export default class DagGraph {
     }
 
     private remove(commit: StateId) {
-        // Remove Commit from Parent
-        const parentId = this.parentOf(commit);
-        if (parentId) {
-            const children = this.childrenOf(parentId).filter(cid => cid !== commit);
-            this.setChildren(parentId, Immutable.List(children));
-        }
-
-        // Remove Commit from Graph
         this.graph.deleteIn(["states", commit]);
     }
 
