@@ -57,11 +57,13 @@ export default function trackHistory(reducer: Function, rawConfig = {}) {
 
             default:
                 const newState = reducer(history.current, action);
+                let result: IDagHistory;
                 if (config.actionFilter(action.type)) {
-                    return DagHistory.insert(newState, history);
+                    result = DagHistory.insert(newState, history);
                 } else {
-                    return DagHistory.replaceCurrentState(newState, history);
+                    result = DagHistory.replaceCurrentState(newState, history);
                 }
+                return result;
         }
     }
 

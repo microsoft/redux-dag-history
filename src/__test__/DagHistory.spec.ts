@@ -1,6 +1,6 @@
 import { expect } from "chai";
-import * as DagHistory from "../lib/DagHistory";
-import { DagGraph } from "../lib/DagGraph";
+import * as DagHistory from "../DagHistory";
+import DagGraph from "../DagGraph";
 
 describe("The DagHistory Module", () => {
     describe("createHistory", () => {
@@ -32,7 +32,7 @@ describe("The DagHistory Module", () => {
             const graphA = new DagGraph(historyA.graph);
             const graphB = new DagGraph(historyB.graph);
             expect(graphA.currentStateId).to.not.equal(graphB.currentStateId);
-            expect(graphB.childrenOf(graphA.currentStateId).toJS()).to.deep.equal([graphB.currentStateId]);
+            expect(graphB.childrenOf(graphA.currentStateId)).to.deep.equal([graphB.currentStateId]);
             expect(graphB.latestOn("master")).to.equal(graphB.currentStateId);
             expect(graphB.committedOn("master")).to.equal(graphB.currentStateId);
         });
@@ -103,7 +103,9 @@ describe("The DagHistory Module", () => {
     });
 
     describe("create branch", () => {
-        it("will create a new branch on the current active node", () => {
+        it("will create a new branch on the current active with a common ancestor", () => {
+            // a -> b <master>
+            //   -> e <derp>
             const historyA = DagHistory.createHistory();
             const graphA = new DagGraph(historyA.graph);
 
@@ -115,9 +117,41 @@ describe("The DagHistory Module", () => {
 
             const historyD = DagHistory.createBranch("derp", historyC);
             const graphD = new DagGraph(historyD.graph);
+
+            const historyE = DagHistory.insert({x: 2}, historyD);
+            const graphE = new DagGraph(historyE.graph);
+
             expect(graphD.currentBranch).to.equal("derp");
             expect(graphD.latestOn("derp")).to.equal(graphD.currentStateId);
             expect(graphD.committedOn("derp")).to.equal(graphD.currentStateId);
+
+            expect(graphE.commitPath(graphE.currentStateId)).to.deep.equal([graphA.currentStateId, graphE.currentStateId]);
+            expect(graphE.commitPath(graphB.currentStateId)).to.deep.equal([graphA.currentStateId, graphB.currentStateId]);
+
+        });
+
+        it("will create a new branch on the current active node", () => {
+            // a -> b <master>
+            //        -> e <derp>
+            const historyA = DagHistory.createHistory();
+            const graphA = new DagGraph(historyA.graph);
+
+            const historyB = DagHistory.insert({x: 1}, historyA);
+            const graphB = new DagGraph(historyB.graph);
+
+            const historyD = DagHistory.createBranch("derp", historyB);
+            const graphD = new DagGraph(historyD.graph);
+
+            const historyE = DagHistory.insert({x: 2}, historyD);
+            const graphE = new DagGraph(historyE.graph);
+
+            expect(graphD.currentBranch).to.equal("derp");
+            expect(graphD.latestOn("derp")).to.equal(graphD.currentStateId);
+            expect(graphD.committedOn("derp")).to.equal(graphD.currentStateId);
+
+            expect(graphE.commitPath(graphE.currentStateId)).to.deep.equal([graphA.currentStateId, graphB.currentStateId, graphE.currentStateId]);
+            expect(graphE.commitPath(graphB.currentStateId)).to.deep.equal([graphA.currentStateId, graphB.currentStateId]);
+
         });
     });
 

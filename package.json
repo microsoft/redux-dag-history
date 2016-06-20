@@ -4,13 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "mocha": "mocha",
-    "develop": "mocha --watch",
-    "lint": "npm-run-all --parallel lint:*",
+    "mocha": "mocha lib/__test__",
     "lint:ts": "ts-npm-lint",
     "lint:src": "tslint src/*.ts test/*.ts",
+    "lint": "npm-run-all --parallel lint:*",
     "compile": "tsc",
-    "test": "npm-run-all compile lint mocha"
+    "test": "npm-run-all compile lint mocha",
+    "watch:mocha": "npm run mocha -- --watch",
+    "watch:ts": "npm run tsc -- -w",
+    "develop": "npm-run-all watch:*"
   },
   "author": "",
   "typings": "lib/index",

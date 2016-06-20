@@ -76,17 +76,17 @@ export default class DagGraph {
         return this;
     }
 
-    public parentPath(commit: StateId): StateId[] {
-        const parents: StateId[] = [];
+    public commitPath(commit: StateId): StateId[] {
+        const path: StateId[] = [commit];
         let current = commit;
         do {
             const parent = this.parentOf(current);
             if (parent) {
-                parents.unshift(parent);
+                path.unshift(parent);
             }
             current = parent;
         } while (current);
-        return parents;
+        return path;
     }
 
     public addChild(parent: StateId, child: StateId) {
