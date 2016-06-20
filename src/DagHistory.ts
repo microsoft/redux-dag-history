@@ -91,7 +91,7 @@ export function jumpToState(stateId: StateId, history: IDagHistory) {
 export function jumpToBranch(branch: BranchId, history: IDagHistory) {
     const { graph } = history;
     const reader = new DagGraph(graph);
-    const branchCommitId = reader.committedOn(branch);
+    const branchCommitId = reader.latestOn(branch);
     const branches = reader.branchesOf(branchCommitId);
 
     return {
