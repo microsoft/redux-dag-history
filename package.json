@@ -31,7 +31,8 @@
   },
   "peerDependencies": {
     "redux-actions": "*",
-    "immutable": "*"
+    "immutable": "*",
+    "treeify": "^1.0.1"
   },
   "dependencies": {
     "debug": "^2.2.0"
