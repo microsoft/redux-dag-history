@@ -24,7 +24,7 @@ export default class DagGraph {
                 states[stateId] = result;
             }
             return result;
-        }
+        };
 
         Object.keys(graph.states || {}).forEach(stateId => {
             const parentId = graph.states[stateId].parent;
@@ -84,10 +84,14 @@ export default class DagGraph {
     }
 
     public insertState(commit: StateId, parent: StateId, state: any) {
+        log("Inserting new commit", commit);
         const newState = Immutable.fromJS({
             state,
             parent,
         });
+        if (this.graph.getIn(["states", commit])) {
+            log("Commit %s is already present", this.getState(commit));
+        }
         this.graph = this.graph.setIn(["states", commit], newState);
         return this;
     }

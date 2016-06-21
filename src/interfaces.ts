@@ -24,6 +24,8 @@ export interface IDagHistory {
      */
     current: any;
 
+    lastStateId: StateId;
+
     /**
      * The explored state space, represented as a graph (future and past)
      */
@@ -68,5 +70,5 @@ export interface IDagHistory {
 };
 
 export interface StateIdGenerator {
-    (): StateId;
+    (lastStateId: StateId): StateId;
 }
