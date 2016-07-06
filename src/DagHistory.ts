@@ -91,16 +91,19 @@ export function jumpToState(stateId: StateId, history: IDagHistory) {
     const reader = new DagGraph(graph);
     const branches = reader.branchesOf(stateId);
     const branch = reader.currentBranch;
-    const updatedGraph = graph.withMutations(g => {
-        const writer = new DagGraph(g).setCurrentStateId(stateId);
-        if (branches.indexOf(branch) === -1) {
-            log("current branch %s is not present on commit %s, available are [%s] - setting current branch to null", branch, stateId, branches.join(", "));
-            writer.setCurrentBranch(null);
-        }
-    });
     return Object.assign({}, history, {
         current: reader.getState(stateId),
-        graph: updatedGraph,
+        graph: graph.withMutations(g => {
+            const writer = new DagGraph(g)
+                .setCurrentStateId(stateId);
+
+            if (branches.indexOf(branch) === -1) {
+                log("current branch %s is not present on commit %s, available are [%s] - setting current branch to null", branch, stateId, branches.join(", "));
+                writer.setCurrentBranch(null);
+            } else {
+                writer.setCommitted(branch, stateId);
+            }
+        }),
     });
 }
 
