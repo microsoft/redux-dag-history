@@ -50,37 +50,36 @@ export function insert(state: any, history: IDagHistory, getStateName: StateName
     }
     const reader = new DagGraph(graph);
     const parentStateId = reader.currentStateId;
-    const currentBranch = reader.currentBranch;
+    const currentBranchId = reader.currentBranch;
     const newStateId = history.lastStateId + 1;
     const newStateName = getStateName(state, newStateId);
 
-    // TODO: Prune Orphaned children of parent. Reset branch latest
     const cousins = reader.childrenOf(parentStateId);
     const abandonedCousins = cousins.filter((cousin: StateId) => {
         const branches = reader.branchesOf(cousin);
-        return branches.length === 1 && branches[0] === currentBranch;
+        return branches.length === 1 && branches[0] === currentBranchId;
     });
     const newBranchId = abandonedCousins.length > 0 ? lastBranchId + 1 : lastBranchId;
 
     return Object.assign({}, history, {
         current: state,
         lastStateId: newStateId,
-        lastBranchId: newBranchId + 1,
+        lastBranchId: newBranchId,
         graph: graph.withMutations(g => {
             let dg = new DagGraph(g)
                 .insertState(newStateId, parentStateId, state, newStateName)
                 .setCurrentStateId(newStateId);
 
             if (abandonedCousins.length > 0) {
-                const newBranch = dg.newBranchName(currentBranch);
+                const newBranch = dg.newBranchName(currentBranchId, newBranchId, newStateName);
                 dg.setCurrentBranch(newBranchId)
                   .setBranchName(newBranchId, newBranch)
                   .setLatest(newBranchId, newStateId)
                   .setFirst(newBranchId, newStateId)
                   .setCommitted(newBranchId, newStateId);
             } else {
-                dg.setLatest(currentBranch, newStateId)
-                  .setCommitted(currentBranch, newStateId);
+                dg.setLatest(currentBranchId, newStateId)
+                  .setCommitted(currentBranchId, newStateId);
             }
         }),
     });

@@ -65,8 +65,6 @@ export default class DagGraph {
     public depthIndexOf(branch: BranchId, commit: StateId): number {
         const commits = this.branchCommitPath(branch);
         let foundIndex = commits.indexOf(commit);
-
-        log("Determining Depth Index of ", branch, commit, foundIndex, commits);
         if (foundIndex === -1) {
             return undefined;
         } else {
@@ -232,20 +230,8 @@ export default class DagGraph {
         }
     }
 
-    public newBranchName(oldBranch: BranchId): string {
-        // Hash the existing branches for quick lookup
-        const hash = {};
-        this.branches.forEach(e => hash[e] = true);
-
-        let increment = 1;
-        while (1) {
-            const candidate = `${oldBranch}-${increment}`;
-            if (!hash[candidate]) {
-                return candidate;
-            } else {
-                increment++;
-            }
-        }
+    public newBranchName(oldBranch: BranchId, newBranch: BranchId, label: string): string {
+        return `${newBranch} (${oldBranch}): ${label}`;
     }
 
     private remove(commit: StateId) {
