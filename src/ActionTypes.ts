@@ -47,3 +47,8 @@ export const CREATE_BRANCH = "DAG_HISTORY_CREATE_BRANCH";
  **        c -> d -> [e                     [e]
  */
 export const SQUASH = "DAG_HISTORY_SQUASH";
+
+/**
+ * Renames the current state
+ */
+export const RENAME_STATE = "DAG_HISTORY_RENAME_STATE";

@@ -1,6 +1,7 @@
 {
   "name": "redux-dag-history",
-  "dependencies": {},
+  "dependencies": {
+  },
   "globalDependencies": {
     "mocha": "registry:env/mocha#2.2.5+20160321223601",
     "node": "registry:env/node#6.0.0+20160610031852",

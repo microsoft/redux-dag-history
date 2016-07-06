@@ -1,5 +1,5 @@
 import * as ActionTypes from "./ActionTypes";
-import { IConfiguration } from "./interfaces";
+import { IConfiguration, StateId } from "./interfaces";
 export const CLEAR = "DAG_HISTORY_CLEAR";
 export const UNDO = "DAG_HISTORY_UNDO";
 export const REDO = "DAG_HISTORY_REDO";
@@ -12,6 +12,14 @@ const DEFAULT_ACTION_FILTER = () => true;
 
 export default class Configuation implements IConfiguration {
     constructor(private _rawConfig: IConfiguration) {
+    }
+
+    public actionName(state: any, id: StateId) {
+        if (this._rawConfig.actionName) {
+            return this._rawConfig.actionName(state, id);
+        } else {
+            return `State ${id}`;
+        };
     }
 
     public get debug() {
@@ -48,5 +56,17 @@ export default class Configuation implements IConfiguration {
 
     public get squashActionType() {
         return this._rawConfig.squashActionType || ActionTypes.SQUASH;
+    }
+
+    public get renameStateActionType() {
+        return this._rawConfig.renameStateActionType || ActionTypes.RENAME_STATE;
+    }
+
+    public get initialBranchName() {
+        return this._rawConfig.initialBranchName || "init";
+    }
+
+    public get initialStateName() {
+        return this._rawConfig.initialStateName || "Initial";
     }
 }

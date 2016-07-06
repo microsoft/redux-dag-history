@@ -1,6 +1,6 @@
 import * as Immutable from "immutable";
-export type StateId = string;
-export type BranchId = string;
+export type StateId = number;
+export type BranchId = number;
 
 export interface IConfiguration {
     debug?: boolean;
@@ -11,7 +11,11 @@ export interface IConfiguration {
     jumpToStateActionType?: string;
     jumpToBranchActionType?: string;
     createBranchActionType?: string;
+    renameStateActionType?: string;
     squashActionType?: string;
+    initialBranchName?: string;
+    initialStateName?: string;
+    actionName?: (state: any, stateId: StateId) => string;
 }
 
 /**
@@ -23,8 +27,8 @@ export interface IDagHistory {
      * The current application state
      */
     current: any;
-
     lastStateId: StateId;
+    lastBranchId: BranchId;
 
     /**
      * The explored state space, represented as a graph (future and past)
@@ -71,4 +75,8 @@ export interface IDagHistory {
 
 export interface StateIdGenerator {
     (lastStateId: StateId): StateId;
+}
+
+export interface StateNameGenerator {
+    (state: any, id: StateId): string;
 }

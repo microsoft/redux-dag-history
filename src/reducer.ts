@@ -31,7 +31,7 @@ export default function trackHistory(reducer: Function, rawConfig = {}) {
         let history: IDagHistory = state;
         if (!history || !history.graph) {
             log("history not present; creating new DagHistory");
-            history = DagHistory.createHistory(state);
+            history = DagHistory.createHistory(state, config.initialBranchName, config.initialStateName);
         }
 
         switch (action.type) {
@@ -56,11 +56,14 @@ export default function trackHistory(reducer: Function, rawConfig = {}) {
             case config.squashActionType:
                 return DagHistory.squash(history);
 
+            case config.renameStateActionType:
+                return DagHistory.renameState(action.payload.stateId, action.payload.name as string, history);
+
             default:
                 const newState = reducer(history.current, action);
                 let result: IDagHistory;
                 if (config.actionFilter(action.type)) {
-                    result = DagHistory.insert(newState, history);
+                    result = DagHistory.insert(newState, history, config.actionName.bind(config));
                 } else {
                     result = DagHistory.replaceCurrentState(newState, history);
                 }

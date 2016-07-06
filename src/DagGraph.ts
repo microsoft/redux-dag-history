@@ -17,10 +17,10 @@ export default class DagGraph {
         const graph = this.graph.toJS();
         let root: any = null;
         const states = {};
-        const getOrCreateState = (stateId: string) => {
+        const getOrCreateState = (stateId: StateId) => {
             let result = states[stateId];
             if (!result) {
-                result = {id: stateId, children: [] as any};
+                result = {id: stateId, name: this.stateName(stateId), children: [] as any};
                 states[stateId] = result;
             }
             return result;
@@ -28,13 +28,12 @@ export default class DagGraph {
 
         Object.keys(graph.states || {}).forEach(stateId => {
             const parentId = graph.states[stateId].parent;
-            const state = getOrCreateState(stateId);
+            const state = getOrCreateState(parseInt(stateId, 10));
             if (!parentId) {
                 root = state;
             }
             getOrCreateState(parentId).children.push(state);
             states[stateId] = state;
-
         });
 
         const tree = {
@@ -49,6 +48,43 @@ export default class DagGraph {
 
     public get currentStateId(): StateId {
         return this.graph.getIn(["current", "state"]);
+    }
+
+    public branchStartDepth(branch: BranchId): number {
+        return this.stateDepth(this.firstOn(branch));
+    }
+
+    public branchEndDepth(branch: BranchId): number {
+        return this.stateDepth(this.latestOn(branch));
+    }
+
+    public stateDepth(commit: StateId): number {
+        return this.commitPath(commit).length - 1;
+    }
+
+    public depthIndexOf(branch: BranchId, commit: StateId): number {
+        const commits = this.branchCommitPath(branch);
+        let foundIndex = commits.indexOf(commit);
+
+        log("Determining Depth Index of ", branch, commit, foundIndex, commits);
+        if (foundIndex === -1) {
+            return undefined;
+        } else {
+            const start = this.branchStartDepth(branch);
+            return start + foundIndex;
+        }
+    }
+
+    public get maxDepth(): number {
+        const branches = this.branches;
+        const branchDepths = branches.map(b => this.branchEndDepth(b));
+        let max: number = -1;
+        branchDepths.forEach(d => {
+            if (d > max) {
+                max = d;
+            }
+        });
+        return max;
     }
 
     public setCurrentStateId(stateId: StateId) {
@@ -66,38 +102,66 @@ export default class DagGraph {
     }
 
     public latestOn(branch: BranchId): StateId {
-        return this.graph.getIn(["branches", branch, "latest"]);
+        return this.graph.getIn(["branches", `${branch}`, "latest"]);
     }
 
     public committedOn(branch: BranchId): StateId {
-        return this.graph.getIn(["branches", branch, "committed"]);
+        return this.graph.getIn(["branches", `${branch}`, "committed"]);
     }
 
     public setLatest(branch: BranchId, commit: StateId) {
-        this.graph = this.graph.setIn(["branches", branch, "latest"], commit);
+        this.graph = this.graph.setIn(["branches", `${branch}`, "latest"], commit);
         return this;
     }
 
     public setCommitted(branch: BranchId, commit: StateId) {
-        this.graph = this.graph.setIn(["branches", branch, "committed"], commit);
+        this.graph = this.graph.setIn(["branches", `${branch}`, "committed"], commit);
         return this;
     }
 
-    public insertState(commit: StateId, parent: StateId, state: any) {
-        log("Inserting new commit", commit);
-        const newState = Immutable.fromJS({
-            state,
-            parent,
-        });
-        if (this.graph.getIn(["states", commit])) {
-            log("Commit %s is already present", this.getState(commit));
-        }
-        this.graph = this.graph.setIn(["states", commit], newState);
+    public setFirst(branch: BranchId, commit: StateId) {
+        this.graph = this.graph.setIn(["branches", `${branch}`, "first"], commit);
+        return this;
+    }
+
+    public firstOn(branch: BranchId): StateId {
+        return this.graph.getIn(["branches", `${branch}`, "first"]);
+    }
+
+    public renameState(commit: StateId, name: string) {
+        this.graph = this.graph.setIn(["states", `${commit}`, "name"], name);
+        return this;
+    }
+
+    public stateName(commit: StateId) {
+        return this.graph.getIn(["states", `${commit}`, "name"]);
+    }
+
+    public getBranchName(branch: BranchId) {
+        return this.graph.getIn(["branches", `${branch}`, "name"]);
+    }
+
+    public setBranchName(branch: BranchId, name: string) {
+        this.graph = this.graph.setIn(["branches", `${branch}`, "name"], name);
         return this;
     }
 
     public getState(commit: StateId) {
-        return this.graph.getIn(["states", commit, "state"]);
+        return this.graph.getIn(["states", `${commit}`, "state"]);
+    }
+
+    public insertState(commit: StateId, parent: StateId, state: any, name: string) {
+        log("Inserting new commit", commit);
+        const newState = Immutable.fromJS({
+            state,
+            name,
+            parent,
+        });
+        if (this.graph.getIn(["states", `${commit}`])) {
+            log("Commit %s is already present", this.getState(commit));
+        }
+        this.graph = this.graph.setIn(["states", `${commit}`], newState);
+        return this;
     }
 
     public childrenOf(commit: StateId): StateId[] {
@@ -106,15 +170,15 @@ export default class DagGraph {
         return states.toSeq()
             .filter((state: Immutable.Map<any, any>) => state.get("parent") === commit)
             .map((state: Immutable.Map<any, any>, key: string) => key)
-            .toList().toJS();
+            .toList().toJS().map((s: string) => parseInt(s, 10));
     }
 
     public parentOf(commit: StateId): StateId {
-        return this.graph.getIn(["states", commit, "parent"]);
+        return this.graph.getIn(["states", `${commit}`, "parent"]);
     }
 
     public replaceState(commit: StateId, state: any) {
-        this.graph = this.graph.setIn(["states", commit, "state"], state);
+        this.graph = this.graph.setIn(["states", `${commit}`, "state"], state);
         return this;
     }
 
@@ -131,13 +195,20 @@ export default class DagGraph {
         return path;
     }
 
+    public branchCommitPath(branch: BranchId): StateId[] {
+        const latest = this.latestOn(branch);
+        const path = this.commitPath(latest);
+        const firstCommitOnBranch = this.firstOn(branch);
+        return path.slice(path.indexOf(firstCommitOnBranch));
+    }
+
     public setParent(commit: StateId, parent: StateId) {
-        this.graph = this.graph.setIn(["states", commit, "parent"], parent);
+        this.graph = this.graph.setIn(["states", `${commit}`, "parent"], parent);
     }
 
     public get branches(): BranchId[] {
         const branches = this.graph.get("branches");
-        return Array["from"](branches.keys());
+        return Array.from(branches.keys()).map((branch: string) => parseInt(branch, 10));
     }
 
     public branchesOf(commit: StateId): BranchId[] {
@@ -161,17 +232,24 @@ export default class DagGraph {
         }
     }
 
-    public prune(commits: StateId[]) {
-        for (let commit of commits) {
-            // Prune Children
-            this.prune(this.childrenOf(commit));
-            this.remove(commit);
+    public newBranchName(oldBranch: BranchId): string {
+        // Hash the existing branches for quick lookup
+        const hash = {};
+        this.branches.forEach(e => hash[e] = true);
+
+        let increment = 1;
+        while (1) {
+            const candidate = `${oldBranch}-${increment}`;
+            if (!hash[candidate]) {
+                return candidate;
+            } else {
+                increment++;
+            }
         }
-        return this;
     }
 
     private remove(commit: StateId) {
-        this.graph.deleteIn(["states", commit]);
+        this.graph = this.graph.deleteIn(["states", `${commit}`]);
     }
 
     public squashCurrentBranch() {

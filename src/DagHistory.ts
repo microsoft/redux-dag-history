@@ -1,72 +1,89 @@
 const log = require("debug")("redux-dag-history:DagHistory");
 import {
     IDagHistory,
-    StateIdGenerator,
+    StateNameGenerator,
     StateId,
     BranchId,
 } from "./interfaces";
 import * as Immutable from "immutable";
 import DagGraph from "./DagGraph";
 
-function defaultStateIdGenerator(lastStateId: StateId) {
-    return `${parseInt(lastStateId, 10) + 1}`;
-}
-
-export function createHistory(initialState = {}, generateNextId: StateIdGenerator = defaultStateIdGenerator): IDagHistory {
-    const currentStateId = generateNextId("0");
-    const stateTree = Object["assign"]({}, {
-            current: {},
-            lastStateId: currentStateId,
-            graph: {
-                current: {
-                    state: currentStateId,
-                    branch: "master",
-                },
-                branches: {
-                  "master": {
-                    latest: currentStateId,
-                    committed: currentStateId,
-                  },
-                },
-                states: {
-                    [currentStateId]: {
-                        state: initialState,
-                        parent: null
-                    }
+export function createHistory(
+    initialState = {},
+    initialBranchName: string = "init",
+    initialStateName: string = "Initial"
+): IDagHistory {
+    const currentStateId = 1;
+    const currentBranchId = 1;
+    return Object.assign({}, {
+        current: {},
+        lastStateId: currentStateId,
+        lastBranchId: currentBranchId,
+        graph: Immutable.fromJS({
+            current: {
+                state: currentStateId,
+                branch: currentBranchId,
+            },
+            branches: {
+                [currentBranchId]: {
+                latest: currentStateId,
+                name: initialBranchName,
+                first: currentStateId,
+                committed: currentStateId,
                 },
             },
-        }, initialState);
-
-    stateTree.graph = Immutable.fromJS(stateTree.graph);
-    return stateTree;
+            states: {
+                [currentStateId]: {
+                    state: initialState,
+                    name: initialStateName,
+                    parent: null
+                }
+            },
+        }),
+    }, initialState);
 }
 
-export function insert(state: any, history: IDagHistory, generateNextId: StateIdGenerator = defaultStateIdGenerator): IDagHistory {
-    const { graph } = history;
+export function insert(state: any, history: IDagHistory, getStateName: StateNameGenerator): IDagHistory {
+    const { graph, lastBranchId } = history;
     if (!graph) {
         throw new Error("History graph is not defined");
     }
     const reader = new DagGraph(graph);
     const parentStateId = reader.currentStateId;
     const currentBranch = reader.currentBranch;
-    const newStateId = generateNextId(history.lastStateId);
+    const newStateId = history.lastStateId + 1;
+    const newStateName = getStateName(state, newStateId);
 
     // TODO: Prune Orphaned children of parent. Reset branch latest
     const cousins = reader.childrenOf(parentStateId);
-    const abandonedCousins = cousins.filter((cousin: StateId) => (reader.branchesOf(cousin)).length === 0);
+    const abandonedCousins = cousins.filter((cousin: StateId) => {
+        const branches = reader.branchesOf(cousin);
+        return branches.length === 1 && branches[0] === currentBranch;
+    });
+    const newBranchId = abandonedCousins.length > 0 ? lastBranchId + 1 : lastBranchId;
 
-    return {
+    return Object.assign({}, history, {
         current: state,
         lastStateId: newStateId,
+        lastBranchId: newBranchId + 1,
         graph: graph.withMutations(g => {
-            new DagGraph(g)
-                .insertState(newStateId, parentStateId, state)
-                .setCurrentStateId(newStateId)
-                .prune(abandonedCousins)
-                .setLatest(currentBranch, newStateId)
-                .setCommitted(currentBranch, newStateId);
+            let dg = new DagGraph(g)
+                .insertState(newStateId, parentStateId, state, newStateName)
+                .setCurrentStateId(newStateId);
+
+            if (abandonedCousins.length > 0) {
+                const newBranch = dg.newBranchName(currentBranch);
+                dg.setCurrentBranch(newBranchId)
+                  .setBranchName(newBranchId, newBranch)
+                  .setLatest(newBranchId, newStateId)
+                  .setFirst(newBranchId, newStateId)
+                  .setCommitted(newBranchId, newStateId);
+            } else {
+                dg.setLatest(currentBranch, newStateId)
+                  .setCommitted(currentBranch, newStateId);
+            }
         }),
-    };
+    });
 }
 
 export function jumpToState(stateId: StateId, history: IDagHistory) {
@@ -81,11 +98,10 @@ export function jumpToState(stateId: StateId, history: IDagHistory) {
             writer.setCurrentBranch(null);
         }
     });
-    return {
+    return Object.assign({}, history, {
         current: reader.getState(stateId),
-        lastStateId: history.lastStateId,
         graph: updatedGraph,
-    };
+    });
 }
 
 export function jumpToBranch(branch: BranchId, history: IDagHistory) {
@@ -96,15 +112,14 @@ export function jumpToBranch(branch: BranchId, history: IDagHistory) {
         return this.createBranch(branch, history);
     } else {
         const branchCommitId = reader.committedOn(branch);
-        return {
+        return Object.assign({}, history, {
             current: reader.getState(branchCommitId),
-            lastStateId: history.lastStateId,
             graph: graph.withMutations(g => {
                 new DagGraph(g)
                     .setCurrentStateId(branchCommitId)
                     .setCurrentBranch(branch);
             }),
-        };
+        });
     }
 }
 
@@ -113,9 +128,8 @@ export function undo(history: IDagHistory) {
     const reader = new DagGraph(graph);
     const parentId = reader.parentOf(reader.currentStateId);
 
-    return {
+    return Object.assign({}, history, {
         current: reader.getState(parentId),
-        lastStateId: history.lastStateId,
         graph: graph.withMutations(g => {
             const writer = new DagGraph(g);
                 writer.setCurrentStateId(parentId);
@@ -123,7 +137,7 @@ export function undo(history: IDagHistory) {
                     writer.setCommitted(reader.currentBranch, parentId);
                 }
         }),
-    };
+    });
 }
 
 export function redo(history: IDagHistory) {
@@ -136,32 +150,35 @@ export function redo(history: IDagHistory) {
     if (children.length > 0) {
         // TODO: throw an error or something if children.size > 1
         const child = children[0];
-        return {
+        return Object.assign({}, history, {
             current: reader.getState(child),
-            lastStateId: history.lastStateId,
             graph: graph.withMutations(g => {
                 new DagGraph(g).setCommitted(reader.currentBranch, child);
             }),
-        };
+        });
     } else {
         return history;
     }
 }
 
-export function createBranch(branchId: BranchId, history: IDagHistory) {
-    const { graph, current } = history;
+export function createBranch(branchName: string, history: IDagHistory) {
+    const { graph, current, lastBranchId } = history;
     const reader = new DagGraph(graph);
 
-    return {
+    const newBranchId = lastBranchId + 1;
+
+    return Object.assign({}, history, {
         current,
-        lastStateId: history.lastStateId,
+        lastBranchId: newBranchId,
         graph: graph.withMutations(g => {
             new DagGraph(g)
-                .setCurrentBranch(branchId)
-                .setCommitted(branchId, reader.currentStateId)
-                .setLatest(branchId, reader.currentStateId);
+                .setCurrentBranch(newBranchId)
+                .setBranchName(newBranchId, branchName)
+                .setCommitted(newBranchId, reader.currentStateId)
+                .setFirst(newBranchId, reader.currentStateId)
+                .setLatest(newBranchId, reader.currentStateId);
         }),
-    };
+    });
 }
 
 export function clear(history: IDagHistory) {
@@ -171,21 +188,26 @@ export function clear(history: IDagHistory) {
 
 export function squash(history: IDagHistory) {
     const { graph, current } = history;
-    return {
+    return Object.assign({}, history, {
         current,
-        lastStateId: history.lastStateId,
         graph: graph.withMutations(g => new DagGraph(g).squashCurrentBranch()),
-    };
+    });
 }
 
 export function replaceCurrentState(state: any, history: IDagHistory) {
     const { graph } = history;
     const reader = new DagGraph(graph);
     const currentStateId = reader.currentStateId;
-    return {
+    return Object.assign({}, history, {
         current: state,
-        lastStateId: history.lastStateId,
         graph: graph.withMutations(g => new DagGraph(g).replaceState(currentStateId, state)),
-    };
+    });
+}
 
+export function renameState(stateId: StateId, name: string, history: IDagHistory) {
+    const { graph } = history;
+    return Object.assign({}, history, {
+        current: history.current,
+        graph: graph.withMutations(g => new DagGraph(g).renameState(stateId, name)),
+    });
 }
