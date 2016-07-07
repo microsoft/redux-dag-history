@@ -117,6 +117,11 @@ export default class DagGraph {
         return this;
     }
 
+    public markStateForBranch(commit: StateId, branch: BranchId) {
+        this.graph = this.graph.setIn(["states", `${commit}`, "branch"], branch);
+        return this;
+    }
+
     public setFirst(branch: BranchId, commit: StateId) {
         this.graph = this.graph.setIn(["branches", `${branch}`, "first"], commit);
         return this;
@@ -207,6 +212,10 @@ export default class DagGraph {
     public get branches(): BranchId[] {
         const branches = this.graph.get("branches");
         return Array.from(branches.keys()).map((branch: string) => parseInt(branch, 10));
+    }
+
+    public branchOf(commit: StateId): BranchId {
+        return this.graph.getIn(["states", `${commit}`, "branch"]);
     }
 
     public branchesOf(commit: StateId): BranchId[] {

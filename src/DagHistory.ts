@@ -36,8 +36,9 @@ export function createHistory(
                 [currentStateId]: {
                     state: initialState,
                     name: initialStateName,
+                    branch: 1,
                     parent: null
-                }
+                },
             },
         }),
     }, initialState);
@@ -76,10 +77,12 @@ export function insert(state: any, history: IDagHistory, getStateName: StateName
                   .setBranchName(newBranchId, newBranch)
                   .setLatest(newBranchId, newStateId)
                   .setFirst(newBranchId, newStateId)
-                  .setCommitted(newBranchId, newStateId);
+                  .setCommitted(newBranchId, newStateId)
+                  .markStateForBranch(newStateId, newBranchId);
             } else {
                 dg.setLatest(currentBranchId, newStateId)
-                  .setCommitted(currentBranchId, newStateId);
+                  .setCommitted(currentBranchId, newStateId)
+                  .markStateForBranch(newStateId, currentBranchId);
             }
         }),
     });
