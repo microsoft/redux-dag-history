@@ -56,11 +56,8 @@ export function insert(state: any, history: IDagHistory, getStateName: StateName
     const newStateName = getStateName(state, newStateId);
 
     const cousins = reader.childrenOf(parentStateId);
-    const abandonedCousins = cousins.filter((cousin: StateId) => {
-        const branches = reader.branchesOf(cousin);
-        return branches.length === 1 && branches[0] === currentBranchId;
-    });
-    const newBranchId = abandonedCousins.length > 0 ? lastBranchId + 1 : lastBranchId;
+    const isBranching = cousins.length > 0 || lastBranchId > currentBranchId;
+    const newBranchId = isBranching ? lastBranchId + 1 : lastBranchId;
 
     return Object.assign({}, history, {
         current: state,
@@ -71,7 +68,7 @@ export function insert(state: any, history: IDagHistory, getStateName: StateName
                 .insertState(newStateId, parentStateId, state, newStateName)
                 .setCurrentStateId(newStateId);
 
-            if (abandonedCousins.length > 0) {
+            if (isBranching) {
                 const newBranch = dg.newBranchName(currentBranchId, newBranchId, newStateName);
                 dg.setCurrentBranch(newBranchId)
                   .setBranchName(newBranchId, newBranch)
