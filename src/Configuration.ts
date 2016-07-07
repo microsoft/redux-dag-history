@@ -63,7 +63,7 @@ export default class Configuation implements IConfiguration {
     }
 
     public get initialBranchName() {
-        return this._rawConfig.initialBranchName || "init";
+        return this._rawConfig.initialBranchName || "1: Initial";
     }
 
     public get initialStateName() {

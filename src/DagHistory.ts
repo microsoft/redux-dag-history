@@ -10,7 +10,7 @@ import DagGraph from "./DagGraph";
 
 export function createHistory(
     initialState = {},
-    initialBranchName: string = "init",
+    initialBranchName: string = "1: Initial",
     initialStateName: string = "Initial"
 ): IDagHistory {
     const currentStateId = 1;

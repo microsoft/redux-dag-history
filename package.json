@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "mocha": "mocha lib/__test__",
-    "lint:ts": "ts-npm-lint",
+    "lint:ts": "ts-npm-lint --fix-typings",
     "lint:src": "tslint src/*.ts test/*.ts",
     "lint": "npm-run-all --parallel lint:*",
     "compile": "tsc",
