@@ -91,7 +91,7 @@ export function jumpToState(stateId: StateId, history: IDagHistory) {
     const branches = reader.branchesOf(stateId);
     const branch = reader.currentBranch;
     return Object.assign({}, history, {
-        current: reader.getState(stateId),
+        current: reader.getState(stateId).toJS(),
         graph: graph.withMutations(g => {
             const writer = new DagGraph(g)
                 .setCurrentStateId(stateId);
@@ -115,7 +115,7 @@ export function jumpToBranch(branch: BranchId, history: IDagHistory) {
     } else {
         const branchCommitId = reader.committedOn(branch);
         return Object.assign({}, history, {
-            current: reader.getState(branchCommitId),
+            current: reader.getState(branchCommitId).toJS(),
             graph: graph.withMutations(g => {
                 new DagGraph(g)
                     .setCurrentStateId(branchCommitId)
@@ -131,7 +131,7 @@ export function undo(history: IDagHistory) {
     const parentId = reader.parentOf(reader.currentStateId);
 
     return Object.assign({}, history, {
-        current: reader.getState(parentId),
+        current: reader.getState(parentId).toJS(),
         graph: graph.withMutations(g => {
             const writer = new DagGraph(g);
                 writer.setCurrentStateId(parentId);
@@ -153,7 +153,7 @@ export function redo(history: IDagHistory) {
         // TODO: throw an error or something if children.size > 1
         const child = children[0];
         return Object.assign({}, history, {
-            current: reader.getState(child),
+            current: reader.getState(child).toJS(),
             graph: graph.withMutations(g => {
                 new DagGraph(g).setCommitted(reader.currentBranch, child);
             }),
