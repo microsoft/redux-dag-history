@@ -30,8 +30,8 @@ export default function trackHistory(reducer: Function, rawConfig = {}) {
     function trackHistoryReducer(state: any, action: Action<any> = EMPTY_ACTION) {
         let history: IDagHistory = state;
         if (!history || !history.graph) {
-            log("history not present; creating new DagHistory");
-            history = DagHistory.createHistory(state, config.initialBranchName, config.initialStateName);
+            state = reducer(undefined, action);
+            return DagHistory.createHistory(state, config.initialBranchName, config.initialStateName);
         }
 
         switch (action.type) {
@@ -62,7 +62,10 @@ export default function trackHistory(reducer: Function, rawConfig = {}) {
             default:
                 const newState = reducer(history.current, action);
                 let result: IDagHistory;
-                if (config.actionFilter(action.type)) {
+                const isActionInsertable = config.actionFilter(action.type);
+                log("is action insertable? %s", action.type, isActionInsertable);
+
+                if (isActionInsertable) {
                     result = DagHistory.insert(newState, history, config.actionName.bind(config));
                 } else {
                     result = DagHistory.replaceCurrentState(newState, history);

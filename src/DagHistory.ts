@@ -16,7 +16,7 @@ export function createHistory(
     const currentStateId = 1;
     const currentBranchId = 1;
     return Object.assign({}, {
-        current: {},
+        current: initialState,
         lastStateId: currentStateId,
         lastBranchId: currentBranchId,
         graph: Immutable.fromJS({
