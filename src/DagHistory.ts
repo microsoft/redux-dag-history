@@ -8,6 +8,10 @@ import {
 import * as Immutable from "immutable";
 import DagGraph from "./DagGraph";
 
+export function load(history: any) {
+    return Object.assign({}, history, { graph: Immutable.fromJS(history.graph) });
+}
+
 export function createHistory(
     initialState = {},
     initialBranchName: string = "1: Initial",
@@ -15,11 +19,11 @@ export function createHistory(
 ): IDagHistory {
     const currentStateId = 1;
     const currentBranchId = 1;
-    return Object.assign({}, {
+    return load({
         current: initialState,
         lastStateId: currentStateId,
         lastBranchId: currentBranchId,
-        graph: Immutable.fromJS({
+        graph: {
             current: {
                 state: currentStateId,
                 branch: currentBranchId,
@@ -40,8 +44,8 @@ export function createHistory(
                     parent: null
                 },
             },
-        }),
-    }, initialState);
+        },
+    });
 }
 
 export function insert(state: any, history: IDagHistory, getStateName: StateNameGenerator): IDagHistory {

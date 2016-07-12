@@ -5,6 +5,7 @@ export type BranchId = number;
 export interface IConfiguration {
     debug?: boolean;
     actionFilter?: (actionType: string) => boolean;
+    loadActionType?: string;
     clearActionType?: string;
     undoActionType?: string;
     redoActionType?: string;

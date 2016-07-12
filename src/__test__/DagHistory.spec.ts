@@ -21,7 +21,7 @@ describe("The DagHistory Module", () => {
         });
 
         it("can create a new history object with an initial state", () => {
-            const history = DagHistory.createHistory({current: {x: 1, y: 2}});
+            const history = DagHistory.createHistory({x: 1, y: 2});
             expect(history).to.be.ok;
             expect(history.current).to.deep.equal({x: 1, y: 2});
             expect(history.graph).to.be.ok;
@@ -66,7 +66,7 @@ describe("The DagHistory Module", () => {
                 graph = new DagGraph(history.graph);
                 currentBranch = graph.currentBranch;
                 return graph.currentStateId;
-            }
+            };
 
             // Set up an initial state
             //  (init) A*

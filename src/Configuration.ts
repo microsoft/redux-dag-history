@@ -30,6 +30,10 @@ export default class Configuation implements IConfiguration {
         return this._rawConfig.actionFilter || DEFAULT_ACTION_FILTER;
     }
 
+    public get loadActionType() {
+        return this._rawConfig.loadActionType || ActionTypes.LOAD;
+    }
+
     public get clearActionType() {
         return this._rawConfig.clearActionType || ActionTypes.CLEAR;
     }

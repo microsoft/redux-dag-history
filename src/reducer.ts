@@ -31,10 +31,15 @@ export default function trackHistory(reducer: Function, rawConfig = {}) {
         let history: IDagHistory = state;
         if (!history || !history.graph) {
             state = reducer(undefined, action);
-            return DagHistory.createHistory(state, config.initialBranchName, config.initialStateName);
+            const result = DagHistory.createHistory(state, config.initialBranchName, config.initialStateName);
+            log("creating new history with initial state", state, result);
+            return result;
         }
 
         switch (action.type) {
+            case config.loadActionType:
+                return DagHistory.load(action.payload);
+
             case config.clearActionType:
                 return DagHistory.clear(history);
 

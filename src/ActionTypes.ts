@@ -1,4 +1,9 @@
 /**
+ * Loads a history graph, discarding the current history
+ */
+export const LOAD = "DAG_HISTORY_LOAD";
+
+/**
  * Clears the state graph. The current state will become the root state of
  * the new graph.
  */
