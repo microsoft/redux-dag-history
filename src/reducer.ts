@@ -29,10 +29,8 @@ export default function trackHistory(reducer: Function, rawConfig = {}) {
 
     function trackHistoryReducer(state: any, action: Action<any> = EMPTY_ACTION) {
         let history: IDagHistory = state;
-        const isStateBlank = !history;
-        const isStateNonHistory = !history.graph;
-
-        if (isStateBlank || isStateNonHistory) {
+        if (!history || !history.graph) {
+            // State is either blank or a non-history object
             state = reducer(undefined, action);
             const result = DagHistory.createHistory(state, config.initialBranchName, config.initialStateName);
             log("creating new history with initial state", state, result);
