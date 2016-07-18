@@ -17,12 +17,15 @@ export function createHistory(
     initialBranchName: string = "1: Initial",
     initialStateName: string = "Initial"
 ): IDagHistory {
+    log("creating history");
     const currentStateId = 1;
     const currentBranchId = 1;
+    const currentBookmarkId = 0;
     return load({
         current: initialState,
         lastStateId: currentStateId,
         lastBranchId: currentBranchId,
+        bookmarks: [],
         graph: {
             current: {
                 state: currentStateId,
@@ -49,6 +52,7 @@ export function createHistory(
 }
 
 export function insert(state: any, history: IDagHistory, getStateName: StateNameGenerator): IDagHistory {
+    log("inserting new history state");
     const { graph, lastBranchId } = history;
     if (!graph) {
         throw new Error("History graph is not defined");
@@ -90,6 +94,7 @@ export function insert(state: any, history: IDagHistory, getStateName: StateName
 }
 
 export function jumpToState(stateId: StateId, history: IDagHistory) {
+    log("jumping to state %s", stateId);
     const { graph } = history;
     const reader = new DagGraph(graph);
     const branches = reader.branchesOf(stateId);
@@ -111,6 +116,7 @@ export function jumpToState(stateId: StateId, history: IDagHistory) {
 }
 
 export function jumpToBranch(branch: BranchId, history: IDagHistory) {
+    log("jumping to branch %s", branch);
     const { graph } = history;
     const reader = new DagGraph(graph);
     const branches = reader.branches;
@@ -130,6 +136,7 @@ export function jumpToBranch(branch: BranchId, history: IDagHistory) {
 }
 
 export function undo(history: IDagHistory) {
+    log("undoing");
     const { graph } = history;
     const reader = new DagGraph(graph);
     const parentId = reader.parentOf(reader.currentStateId);
@@ -147,6 +154,7 @@ export function undo(history: IDagHistory) {
 }
 
 export function redo(history: IDagHistory) {
+    log("redoing");
     const { graph } = history;
     const reader = new DagGraph(graph);
     const children = reader
@@ -168,6 +176,7 @@ export function redo(history: IDagHistory) {
 }
 
 export function createBranch(branchName: string, history: IDagHistory) {
+    log("creating branch %s", branchName);
     const { graph, current, lastBranchId } = history;
     const reader = new DagGraph(graph);
 
@@ -188,11 +197,13 @@ export function createBranch(branchName: string, history: IDagHistory) {
 }
 
 export function clear(history: IDagHistory) {
+    log("clearing history");
     const { graph, current } = history;
     return createHistory(current);
 }
 
 export function squash(history: IDagHistory) {
+    log("squashing history");
     const { graph, current } = history;
     return Object.assign({}, history, {
         current,
@@ -201,6 +212,7 @@ export function squash(history: IDagHistory) {
 }
 
 export function replaceCurrentState(state: any, history: IDagHistory) {
+    log("replace current state");
     const { graph } = history;
     const reader = new DagGraph(graph);
     const currentStateId = reader.currentStateId;
@@ -211,9 +223,35 @@ export function replaceCurrentState(state: any, history: IDagHistory) {
 }
 
 export function renameState(stateId: StateId, name: string, history: IDagHistory) {
+    log("rename state %s => %s", stateId, name);
     const { graph } = history;
     return Object.assign({}, history, {
         current: history.current,
         graph: graph.withMutations(g => new DagGraph(g).renameState(stateId, name)),
     });
+}
+
+export function addBookmark(stateId: StateId, history: IDagHistory) {
+    log("adding bookmark on state %s", stateId);
+    const result = Object.assign({}, history);
+    result.bookmarks.push({
+        stateId: stateId,
+        name: `Bookmark ${history.bookmarks.length + 1}`
+    });
+    return result;
+}
+
+export function removeBookmark(stateId: StateId, history: IDagHistory) {
+    log("removing bookmark for state %s", stateId);
+    const result = Object.assign({}, history) as IDagHistory;
+    result.bookmarks = history.bookmarks.filter((element) => element.stateId !== stateId);
+    return result;
+}
+
+export function renameBookmark(bookmarkId: StateId, name: string, history: IDagHistory) {
+    log("renaming bookmark %s", bookmarkId);
+    const result = Object.assign({}, history);
+    result.bookmarks = Object.assign({}, result.bookmarks);
+    result.bookmarks[bookmarkId].name = name;
+    return result;
 }

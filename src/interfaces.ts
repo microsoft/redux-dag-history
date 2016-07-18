@@ -14,6 +14,9 @@ export interface IConfiguration {
     createBranchActionType?: string;
     renameStateActionType?: string;
     squashActionType?: string;
+    addBookmarkActionType?: string;
+    removeBookmarkActionType?: string;
+    renameBookmarkActionType?: string;
     initialBranchName?: string;
     initialStateName?: string;
     actionName?: (state: any, stateId: StateId) => string;
@@ -30,7 +33,10 @@ export interface IDagHistory {
     current: any;
     lastStateId: StateId;
     lastBranchId: BranchId;
-
+    bookmarks: Array<{
+        stateId: StateId;
+        name: string;
+    }>;
     /**
      * The explored state space, represented as a graph (future and past)
      */
@@ -80,4 +86,9 @@ export interface StateIdGenerator {
 
 export interface StateNameGenerator {
     (state: any, id: StateId): string;
+}
+
+export interface RenameBookmarkPayload {
+    bookmark: BookmarkId;
+    name: string;
 }

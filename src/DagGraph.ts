@@ -249,21 +249,20 @@ export default class DagGraph {
 
     public squashCurrentBranch() {
         const toSquash: StateId[] = [];
+        const branch = this.branchOf(this.currentStateId);
         let current = this.parentOf(this.currentStateId);
-        let numBranches: number;
+        let keepSquashing = true;
 
-        if (current) {
-            do {
-                // If there is a single branch in the parent, it's squashable
-                const branches = this.branchesOf(current);
-                numBranches = current ? branches.length : 0;
-                if (numBranches === 1) {
-                    toSquash.push(current);
-                }
+        do {
+            if (current && this.branchOf(current) === branch) {
+                toSquash.push(current);
                 current = this.parentOf(current);
-            } while (current && numBranches === 1);
-        }
+            } else {
+                keepSquashing = false;
+            }
+        } while (keepSquashing);
 
+        log("squashing %s states on branch %s => ", toSquash.length, branch, current, toSquash);
         if (toSquash.length > 0) {
             toSquash.forEach(c => this.remove(c));
             this.setParent(this.currentStateId, current);
