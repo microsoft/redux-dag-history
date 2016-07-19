@@ -251,7 +251,10 @@ export function removeBookmark(stateId: StateId, history: IDagHistory) {
 export function renameBookmark(bookmarkId: StateId, name: string, history: IDagHistory) {
     log("renaming bookmark %s", bookmarkId);
     const result = Object.assign({}, history);
-    result.bookmarks = Object.assign({}, result.bookmarks);
-    result.bookmarks[bookmarkId].name = name;
+    result.bookmarks.forEach(b => {
+        if (b.stateId === bookmarkId) {
+            b.name = name;
+        }
+    });
     return result;
 }
