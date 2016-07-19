@@ -89,6 +89,6 @@ export interface StateNameGenerator {
 }
 
 export interface RenameBookmarkPayload {
-    bookmark: BookmarkId;
+    bookmark: StateId;
     name: string;
 }

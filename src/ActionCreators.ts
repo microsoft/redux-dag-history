@@ -3,7 +3,6 @@ import { createAction } from "redux-actions";
 import {
     BranchId,
     StateId,
-    BookmarkId,
     RenameBookmarkPayload,
 } from "./interfaces";
 
@@ -16,5 +15,5 @@ export const jumpToBranch = createAction<BranchId>(ActionTypes.JUMP_TO_BRANCH);
 export const createBranch = createAction<string>(ActionTypes.CREATE_BRANCH);
 export const squash = createAction<void>(ActionTypes.SQUASH);
 export const addBookmark = createAction<StateId>(ActionTypes.ADD_BOOKMARK);
-export const removeBookmark = createAction<BookmarkId>(ActionTypes.REMOVE_BOOKMARK);
+export const removeBookmark = createAction<StateId>(ActionTypes.REMOVE_BOOKMARK);
 export const renameBookmark = createAction<RenameBookmarkPayload>(ActionTypes.RENAME_BOOKMARK);
