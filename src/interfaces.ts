@@ -17,6 +17,7 @@ export interface IConfiguration {
     addBookmarkActionType?: string;
     removeBookmarkActionType?: string;
     renameBookmarkActionType?: string;
+    moveBookmarkActionType?: string;
     initialBranchName?: string;
     initialStateName?: string;
     actionName?: (state: any, stateId: StateId) => string;
@@ -91,4 +92,9 @@ export interface StateNameGenerator {
 export interface RenameBookmarkPayload {
     bookmark: StateId;
     name: string;
+}
+
+export interface MoveBookmarkPayload {
+    from: number;
+    to: number;
 }

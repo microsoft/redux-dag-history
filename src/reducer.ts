@@ -74,6 +74,9 @@ export default function trackHistory(reducer: Function, rawConfig = {}) {
             case config.renameBookmarkActionType:
                 return DagHistory.renameBookmark(action.payload.bookmark, action.payload.name, history);
 
+            case config.moveBookmarkActionType:
+                return DagHistory.moveBookmark(action.payload.from, action.payload.to, history);
+
             default:
                 const newState = reducer(history.current, action);
                 let result: IDagHistory;

@@ -78,6 +78,10 @@ export default class Configuation implements IConfiguration {
         return this._rawConfig.renameBookmarkActionType || ActionTypes.RENAME_BOOKMARK;
     }
 
+    public get moveBookmarkActionType() {
+        return this._rawConfig.moveBookmarkActionType || ActionTypes.MOVE_BOOKMARK;
+    }
+
     public get initialBranchName() {
         return this._rawConfig.initialBranchName || "1: Initial";
     }

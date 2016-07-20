@@ -4,6 +4,7 @@ import {
     BranchId,
     StateId,
     RenameBookmarkPayload,
+    MoveBookmarkPayload,
 } from "./interfaces";
 
 export const load = createAction<any>(ActionTypes.LOAD);
@@ -17,3 +18,4 @@ export const squash = createAction<void>(ActionTypes.SQUASH);
 export const addBookmark = createAction<StateId>(ActionTypes.ADD_BOOKMARK);
 export const removeBookmark = createAction<StateId>(ActionTypes.REMOVE_BOOKMARK);
 export const renameBookmark = createAction<RenameBookmarkPayload>(ActionTypes.RENAME_BOOKMARK);
+export const moveBookmark = createAction<MoveBookmarkPayload>(ActionTypes.MOVE_BOOKMARK);

@@ -74,3 +74,8 @@ export const REMOVE_BOOKMARK = action("remove_bookmark");
  * Rename a state bookmark
  */
 export const RENAME_BOOKMARK = action("rename_bookmark");
+
+/**
+ * Move a bookmark to a different position
+ */
+export const MOVE_BOOKMARK = action("move_bookmark");
