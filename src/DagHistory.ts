@@ -99,8 +99,9 @@ export function jumpToState(stateId: StateId, history: IDagHistory) {
     const reader = new DagGraph(graph);
     const branches = reader.branchesOf(stateId);
     const branch = reader.currentBranch;
+    const targetState = reader.getState(stateId);
     return Object.assign({}, history, {
-        current: reader.getState(stateId).toJS(),
+        current: targetState && targetState.toJS ? targetState.toJS() : targetState,
         graph: graph.withMutations(g => {
             const writer = new DagGraph(g)
                 .setCurrentStateId(stateId);
