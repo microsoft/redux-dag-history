@@ -8,6 +8,10 @@ import {
 import * as Immutable from "immutable";
 import DagGraph from "./DagGraph";
 
+function unfreeze(state: any) {
+    return state && state.toJS ? state.toJS() : state;
+}
+
 export function load(history: any) {
     return Object.assign({}, history, { graph: Immutable.fromJS(history.graph) });
 }
@@ -101,7 +105,7 @@ export function jumpToState(stateId: StateId, history: IDagHistory) {
     const branch = reader.currentBranch;
     const targetState = reader.getState(stateId);
     return Object.assign({}, history, {
-        current: targetState && targetState.toJS ? targetState.toJS() : targetState,
+        current: unfreeze(targetState),
         graph: graph.withMutations(g => {
             const writer = new DagGraph(g)
                 .setCurrentStateId(stateId);
@@ -125,8 +129,9 @@ export function jumpToBranch(branch: BranchId, history: IDagHistory) {
         return this.createBranch(branch, history);
     } else {
         const branchCommitId = reader.committedOn(branch);
+        const branchState = reader.getState(branchCommitId);
         return Object.assign({}, history, {
-            current: reader.getState(branchCommitId).toJS(),
+            current: unfreeze(branchState),
             graph: graph.withMutations(g => {
                 new DagGraph(g)
                     .setCurrentStateId(branchCommitId)
@@ -143,7 +148,7 @@ export function undo(history: IDagHistory) {
     const parentId = reader.parentOf(reader.currentStateId);
 
     return Object.assign({}, history, {
-        current: reader.getState(parentId).toJS(),
+        current: unfreeze(reader.getState(parentId)),
         graph: graph.withMutations(g => {
             const writer = new DagGraph(g);
                 writer.setCurrentStateId(parentId);
@@ -166,7 +171,7 @@ export function redo(history: IDagHistory) {
         // TODO: throw an error or something if children.size > 1
         const child = children[0];
         return Object.assign({}, history, {
-            current: reader.getState(child).toJS(),
+            current: unfreeze(reader.getState(child)),
             graph: graph.withMutations(g => {
                 new DagGraph(g).setCommitted(reader.currentBranch, child);
             }),
