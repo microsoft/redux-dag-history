@@ -20,7 +20,10 @@ export interface IConfiguration {
     moveBookmarkActionType?: string;
     initialBranchName?: string;
     initialStateName?: string;
+    pinStateActionType?: string;
     actionName?: (state: any, stateId: StateId) => string;
+    canHandleAction?: (action: any) => boolean;
+    handleAction?: (action: any, history: IDagHistory) => IDagHistory;
 }
 
 /**
@@ -33,6 +36,7 @@ export interface IDagHistory {
      */
     current: any;
     lastStateId: StateId;
+    pinnedStateId: StateId;
     lastBranchId: BranchId;
     bookmarks: Array<{
         stateId: StateId;

@@ -19,3 +19,4 @@ export const addBookmark = createAction<StateId>(ActionTypes.ADD_BOOKMARK);
 export const removeBookmark = createAction<StateId>(ActionTypes.REMOVE_BOOKMARK);
 export const renameBookmark = createAction<RenameBookmarkPayload>(ActionTypes.RENAME_BOOKMARK);
 export const moveBookmark = createAction<MoveBookmarkPayload>(ActionTypes.MOVE_BOOKMARK);
+export const pinState = createAction<StateId>(ActionTypes.PIN_STATE);

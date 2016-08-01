@@ -1,5 +1,5 @@
 import * as ActionTypes from "./ActionTypes";
-import { IConfiguration, StateId } from "./interfaces";
+import { IConfiguration, StateId, IDagHistory } from "./interfaces";
 export const CLEAR = "DAG_HISTORY_CLEAR";
 export const UNDO = "DAG_HISTORY_UNDO";
 export const REDO = "DAG_HISTORY_REDO";
@@ -20,6 +20,14 @@ export default class Configuation implements IConfiguration {
         } else {
             return `State ${id}`;
         };
+    }
+
+    public canHandleAction(action: any): boolean {
+        return this._rawConfig.canHandleAction && this._rawConfig.canHandleAction(action);
+    }
+
+    public handleAction(action: any, history: IDagHistory): IDagHistory {
+        return this._rawConfig.handleAction(action, history);
     }
 
     public get debug() {
@@ -82,8 +90,12 @@ export default class Configuation implements IConfiguration {
         return this._rawConfig.moveBookmarkActionType || ActionTypes.MOVE_BOOKMARK;
     }
 
+    public get pinStateActionType() {
+        return this._rawConfig.pinStateActionType || ActionTypes.PIN_STATE;
+    }
+
     public get initialBranchName() {
-        return this._rawConfig.initialBranchName || "1: Initial";
+        return this._rawConfig.initialBranchName || "Initial";
     }
 
     public get initialStateName() {

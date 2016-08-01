@@ -79,3 +79,8 @@ export const RENAME_BOOKMARK = action("rename_bookmark");
  * Move a bookmark to a different position
  */
 export const MOVE_BOOKMARK = action("move_bookmark");
+
+/**
+ * Pin a state for successor browsing
+ */
+export const PIN_STATE = action("pin_state");

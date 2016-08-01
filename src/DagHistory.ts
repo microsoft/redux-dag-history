@@ -29,6 +29,7 @@ export function createHistory(
         current: initialState,
         lastStateId: currentStateId,
         lastBranchId: currentBranchId,
+        pinnedStateId: null,
         bookmarks: [],
         graph: {
             current: {
@@ -73,6 +74,7 @@ export function insert(state: any, history: IDagHistory, getStateName: StateName
 
     return Object.assign({}, history, {
         current: state,
+        pinnedStateId: null,
         lastStateId: newStateId,
         lastBranchId: newBranchId,
         graph: graph.withMutations(g => {
@@ -104,8 +106,10 @@ export function jumpToState(stateId: StateId, history: IDagHistory) {
     const branches = reader.branchesOf(stateId);
     const branch = reader.currentBranch;
     const targetState = reader.getState(stateId);
+
     return Object.assign({}, history, {
         current: unfreeze(targetState),
+        pinnedStateId: null,
         graph: graph.withMutations(g => {
             const writer = new DagGraph(g)
                 .setCurrentStateId(stateId);
@@ -122,23 +126,41 @@ export function jumpToState(stateId: StateId, history: IDagHistory) {
 
 export function jumpToBranch(branch: BranchId, history: IDagHistory) {
     log("jumping to branch %s", branch);
-    const { graph } = history;
+    const { pinnedStateId, graph } = history;
     const reader = new DagGraph(graph);
     const branches = reader.branches;
+
     if (branches.indexOf(branch) === -1) {
         return this.createBranch(branch, history);
-    } else {
-        const branchCommitId = reader.committedOn(branch);
-        const branchState = reader.getState(branchCommitId);
-        return Object.assign({}, history, {
-            current: unfreeze(branchState),
-            graph: graph.withMutations(g => {
-                new DagGraph(g)
-                    .setCurrentStateId(branchCommitId)
-                    .setCurrentBranch(branch);
-            }),
-        });
+    } else if (pinnedStateId) {
+        // If a state is pinned, navigate to its successor
+        const branchPath = reader.branchCommitPath(branch);
+        const childStateIds = branchPath.filter(state => reader.parentOf(state) === pinnedStateId);
+        const childStateId = childStateIds.length > 0 ? childStateIds[0] : null;
+        const current = reader.getState(childStateId);
+
+        if (childStateId) {
+            return Object.assign({}, history, {
+                current: unfreeze(current),
+                graph: graph.withMutations(g => {
+                    new DagGraph(g)
+                        .setCurrentStateId(childStateId)
+                        .setCurrentBranch(branch);
+                }),
+            });
+        }
     }
+
+    const branchCommitId = reader.committedOn(branch);
+    const branchState = reader.getState(branchCommitId);
+    return Object.assign({}, history, {
+        current: unfreeze(branchState),
+        graph: graph.withMutations(g => {
+            new DagGraph(g)
+                .setCurrentStateId(branchCommitId)
+                .setCurrentBranch(branch);
+        }),
+    });
 }
 
 export function undo(history: IDagHistory) {
@@ -191,6 +213,7 @@ export function createBranch(branchName: string, history: IDagHistory) {
     return Object.assign({}, history, {
         current,
         lastBranchId: newBranchId,
+        pinnedStateId: null,
         graph: graph.withMutations(g => {
             new DagGraph(g)
                 .setCurrentBranch(newBranchId)
@@ -223,6 +246,7 @@ export function replaceCurrentState(state: any, history: IDagHistory) {
     const reader = new DagGraph(graph);
     const currentStateId = reader.currentStateId;
     return Object.assign({}, history, {
+        pinnedStateId: null,
         current: state,
         graph: graph.withMutations(g => new DagGraph(g).replaceState(currentStateId, state)),
     });
@@ -273,4 +297,44 @@ export function moveBookmark(from: number, to: number, history: IDagHistory) {
     }
     result.bookmarks.splice(to, 0, result.bookmarks.splice(from, 1)[0]);
     return result;
+}
+
+export function pinState(stateId: StateId, history: IDagHistory) {
+    // Set the pinned state ID
+    // set the current state to the pinned state's child in the current branch
+    log(`pinning state ${stateId}`);
+    const { graph, pinnedStateId } = history;
+    if (pinnedStateId === stateId) {
+        // Unpin State
+        return Object.assign({}, history, { pinnedStateId: null });
+    }
+
+    const reader = new DagGraph(graph);
+    const { currentBranch } = reader;
+
+    const children = reader.childrenOf(stateId);
+    const child = children.map(child => ({
+        state: child,
+        branch: reader.branchOf(child),
+    })).filter(result => result.branch === currentBranch);
+
+    const targetStateId = children.length === 0 ? stateId : child.length > 0 ? child[0].state : children[0];
+
+    const branches = reader.branchesOf(stateId);
+    const branch = reader.currentBranch;
+    const targetState = reader.getState(targetStateId);
+
+    return Object.assign({}, history, {
+        pinnedStateId: stateId,
+        current: unfreeze(targetState),
+        graph: graph.withMutations(g => {
+            const writer = new DagGraph(g)
+                .setCurrentStateId(targetStateId);
+
+            if (branches.indexOf(branch) === -1) {
+                log("current branch %s is not present on commit %s, available are [%s] - setting current branch to null", branch, stateId, branches.join(", "));
+                writer.setCurrentBranch(null);
+            }
+        }),
+    });
 }

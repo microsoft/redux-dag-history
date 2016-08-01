@@ -77,18 +77,25 @@ export default function trackHistory(reducer: Function, rawConfig = {}) {
             case config.moveBookmarkActionType:
                 return DagHistory.moveBookmark(action.payload.from, action.payload.to, history);
 
-            default:
-                const newState = reducer(history.current, action);
-                let result: IDagHistory;
-                const isActionInsertable = config.actionFilter(action.type);
-                log("is action insertable? %s", action.type, isActionInsertable);
+            case config.pinStateActionType:
+                return DagHistory.pinState(action.payload, history);
 
-                if (isActionInsertable) {
-                    result = DagHistory.insert(newState, history, config.actionName.bind(config));
+            default:
+                if (config.canHandleAction(action)) {
+                    return config.handleAction(action, history);
                 } else {
-                    result = DagHistory.replaceCurrentState(newState, history);
+                    const newState = reducer(history.current, action);
+                    let result: IDagHistory;
+                    const isActionInsertable = config.actionFilter(action.type);
+                    log("is action insertable? %s", action.type, isActionInsertable);
+
+                    if (isActionInsertable) {
+                        result = DagHistory.insert(newState, history, config.actionName.bind(config));
+                    } else {
+                        result = DagHistory.replaceCurrentState(newState, history);
+                    }
+                    return result;
                 }
-                return result;
         }
     }
 
