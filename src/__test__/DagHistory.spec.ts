@@ -3,7 +3,10 @@ import * as DagHistory from "../DagHistory";
 import DagGraph from "../DagGraph";
 const treeify = require("treeify");
 
-const stateNameById = (state: any, id: number) => `${id}`;
+const stateNameById = {
+    actionName: (state: any, id: number) => `${id}`,
+    branchName: (oldBranch: any, newBranch: any, actionName: string) => actionName,
+};
 const INITIAL_BRANCH = 1;
 
 describe("The DagHistory Module", () => {

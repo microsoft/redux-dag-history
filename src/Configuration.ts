@@ -1,5 +1,5 @@
 import * as ActionTypes from "./ActionTypes";
-import { IConfiguration, StateId, IDagHistory } from "./interfaces";
+import { IConfiguration, BranchId, StateId, IDagHistory } from "./interfaces";
 export const CLEAR = "DAG_HISTORY_CLEAR";
 export const UNDO = "DAG_HISTORY_UNDO";
 export const REDO = "DAG_HISTORY_REDO";
@@ -20,6 +20,14 @@ export default class Configuation implements IConfiguration {
         } else {
             return `State ${id}`;
         };
+    }
+
+    public branchName(oldBranch: BranchId, newBranch: BranchId, actionName: string) {
+        return actionName;
+    }
+
+    public bookmarkName(stateId: StateId, actionName: string) {
+        return actionName;
     }
 
     public canHandleAction(action: any): boolean {

@@ -239,10 +239,6 @@ export default class DagGraph {
         }
     }
 
-    public newBranchName(oldBranch: BranchId, newBranch: BranchId, label: string): string {
-        return `${newBranch} (${oldBranch}): ${label}`;
-    }
-
     private remove(commit: StateId) {
         this.graph = this.graph.deleteIn(["states", `${commit}`]);
     }

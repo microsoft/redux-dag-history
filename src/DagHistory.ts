@@ -4,6 +4,7 @@ import {
     StateNameGenerator,
     StateId,
     BranchId,
+    IConfiguration,
 } from "./interfaces";
 import * as Immutable from "immutable";
 import DagGraph from "./DagGraph";
@@ -38,10 +39,10 @@ export function createHistory(
             },
             branches: {
                 [currentBranchId]: {
-                latest: currentStateId,
-                name: initialBranchName,
-                first: currentStateId,
-                committed: currentStateId,
+                    latest: currentStateId,
+                    name: initialBranchName,
+                    first: currentStateId,
+                    committed: currentStateId,
                 },
             },
             states: {
@@ -56,7 +57,7 @@ export function createHistory(
     });
 }
 
-export function insert(state: any, history: IDagHistory, getStateName: StateNameGenerator): IDagHistory {
+export function insert(state: any, history: IDagHistory, config: IConfiguration): IDagHistory {
     log("inserting new history state");
     const { graph, lastBranchId } = history;
     if (!graph) {
@@ -66,7 +67,7 @@ export function insert(state: any, history: IDagHistory, getStateName: StateName
     const parentStateId = reader.currentStateId;
     const currentBranchId = reader.currentBranch;
     const newStateId = history.lastStateId + 1;
-    const newStateName = getStateName(state, newStateId);
+    const newStateName = config.actionName(state, newStateId);
 
     const cousins = reader.childrenOf(parentStateId);
     const isBranching = cousins.length > 0 || lastBranchId > currentBranchId;
@@ -83,7 +84,7 @@ export function insert(state: any, history: IDagHistory, getStateName: StateName
                 .setCurrentStateId(newStateId);
 
             if (isBranching) {
-                const newBranch = dg.newBranchName(currentBranchId, newBranchId, newStateName);
+                const newBranch = config.branchName(currentBranchId, newBranchId, newStateName);
                 dg.setCurrentBranch(newBranchId)
                   .setBranchName(newBranchId, newBranch)
                   .setLatest(newBranchId, newStateId)
@@ -207,7 +208,6 @@ export function createBranch(branchName: string, history: IDagHistory) {
     log("creating branch %s", branchName);
     const { graph, current, lastBranchId } = history;
     const reader = new DagGraph(graph);
-
     const newBranchId = lastBranchId + 1;
 
     return Object.assign({}, history, {
@@ -261,12 +261,15 @@ export function renameState(stateId: StateId, name: string, history: IDagHistory
     });
 }
 
-export function addBookmark(stateId: StateId, history: IDagHistory) {
+export function addBookmark(stateId: StateId, history: IDagHistory, config: IConfiguration) {
     log("adding bookmark on state %s", stateId);
+    const { graph } = history;
+    const reader = new DagGraph(graph);
+    const stateName = reader.stateName(stateId);
     const result = Object.assign({}, history);
     result.bookmarks.push({
         stateId: stateId,
-        name: `Bookmark ${history.bookmarks.length + 1}`
+        name: config.bookmarkName(stateId, stateName),
     });
     return result;
 }

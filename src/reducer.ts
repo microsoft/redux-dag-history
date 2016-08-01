@@ -66,7 +66,7 @@ export default function trackHistory(reducer: Function, rawConfig = {}) {
                 return DagHistory.renameState(action.payload.stateId, action.payload.name as string, history);
 
             case config.addBookmarkActionType:
-                return DagHistory.addBookmark(action.payload, history);
+                return DagHistory.addBookmark(action.payload, history, config);
 
             case config.removeBookmarkActionType:
                 return DagHistory.removeBookmark(action.payload, history);
@@ -90,7 +90,7 @@ export default function trackHistory(reducer: Function, rawConfig = {}) {
                     log("is action insertable? %s", action.type, isActionInsertable);
 
                     if (isActionInsertable) {
-                        result = DagHistory.insert(newState, history, config.actionName.bind(config));
+                        result = DagHistory.insert(newState, history, config);
                     } else {
                         result = DagHistory.replaceCurrentState(newState, history);
                     }

@@ -5,6 +5,8 @@ export type BranchId = number;
 export interface IConfiguration {
     debug?: boolean;
     actionFilter?: (actionType: string) => boolean;
+
+    // Action Names
     loadActionType?: string;
     clearActionType?: string;
     undoActionType?: string;
@@ -21,7 +23,13 @@ export interface IConfiguration {
     initialBranchName?: string;
     initialStateName?: string;
     pinStateActionType?: string;
+
+    // State/Branch Naming
     actionName?: (state: any, stateId: StateId) => string;
+    branchName?: (oldBranch: BranchId, newBranch: BranchId, actionName: string) => string;
+    bookmarkName?: (stateId: StateId, actionName: string) => string;
+
+    // Custom Reducer Handlers
     canHandleAction?: (action: any) => boolean;
     handleAction?: (action: any, history: IDagHistory) => IDagHistory;
 }
