@@ -80,6 +80,12 @@ export default function trackHistory(reducer: Function, rawConfig = {}) {
             case config.pinStateActionType:
                 return DagHistory.pinState(action.payload, history);
 
+            case config.skipToStartActionType:
+                return DagHistory.skipToStart(history);
+
+            case config.skipToEndActionType:
+                return DagHistory.skipToEnd(history);
+
             default:
                 if (config.canHandleAction(action)) {
                     return config.handleAction(action, history);

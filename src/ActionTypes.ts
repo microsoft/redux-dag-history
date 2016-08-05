@@ -84,3 +84,6 @@ export const MOVE_BOOKMARK = action("move_bookmark");
  * Pin a state for successor browsing
  */
 export const PIN_STATE = action("pin_state");
+
+export const SKIP_TO_START = action("skip_to_start");
+export const SKIP_TO_END = action("skip_to_end");

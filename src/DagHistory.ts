@@ -210,6 +210,26 @@ export function redo(history: IDagHistory) {
     }
 }
 
+export function skipToStart(history: IDagHistory) {
+    const { graph } = history;
+    const reader = new DagGraph(graph);
+
+    let result = reader.currentStateId;
+    while (reader.parentOf(result) !== null) {
+        result = reader.parentOf(result);
+    }
+    return jumpToState(result, history);
+}
+
+export function skipToEnd(history: IDagHistory) {
+    const { graph } = history;
+    const reader = new DagGraph(graph);
+
+    const path = reader.branchCommitPath(reader.currentBranch);
+    const result = path[path.length - 1];
+    return jumpToState(result, history);
+}
+
 export function createBranch(branchName: string, history: IDagHistory) {
     log("creating branch %s", branchName);
     const { graph, current, lastBranchId } = history;

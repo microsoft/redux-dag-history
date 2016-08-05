@@ -102,6 +102,14 @@ export default class Configuation implements IConfiguration {
         return this._rawConfig.pinStateActionType || ActionTypes.PIN_STATE;
     }
 
+    public get skipToStartActionType() {
+        return this._rawConfig.skipToStartActionType || ActionTypes.SKIP_TO_START;
+    }
+
+    public get skipToEndActionType() {
+        return this._rawConfig.skipToEndActionType || ActionTypes.SKIP_TO_END;
+    }
+
     public get initialBranchName() {
         return this._rawConfig.initialBranchName || "Initial";
     }

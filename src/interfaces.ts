@@ -23,6 +23,8 @@ export interface IConfiguration {
     initialBranchName?: string;
     initialStateName?: string;
     pinStateActionType?: string;
+    skipToStartActionType?: string;
+    skipToEndActionType?: string;
 
     // State/Branch Naming
     actionName?: (state: any, stateId: StateId) => string;
