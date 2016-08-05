@@ -165,25 +165,28 @@ export function jumpToBranch(branch: BranchId, history: IDagHistory) {
 }
 
 export function undo(history: IDagHistory) {
-    log("undoing");
     const { graph } = history;
     const reader = new DagGraph(graph);
     const parentId = reader.parentOf(reader.currentStateId);
-
-    return Object.assign({}, history, {
-        current: unfreeze(reader.getState(parentId)),
-        graph: graph.withMutations(g => {
-            const writer = new DagGraph(g);
-                writer.setCurrentStateId(parentId);
-                if (reader.currentBranch) {
-                    writer.setCommitted(reader.currentBranch, parentId);
-                }
-        }),
-    });
+    if (parentId !== null && parentId !== undefined) {
+        log("undoing %s => %s", reader.currentStateId, parentId);
+        return Object.assign({}, history, {
+            current: unfreeze(reader.getState(parentId)),
+            graph: graph.withMutations(g => {
+                const writer = new DagGraph(g);
+                    writer.setCurrentStateId(parentId);
+                    if (reader.currentBranch) {
+                        writer.setCommitted(reader.currentBranch, parentId);
+                    }
+            }),
+        });
+    } else {
+        log("can't undo");
+        return history;
+    }
 }
 
 export function redo(history: IDagHistory) {
-    log("redoing");
     const { graph } = history;
     const reader = new DagGraph(graph);
     const children = reader
@@ -191,15 +194,18 @@ export function redo(history: IDagHistory) {
         .filter(child => reader.branchesOf(child).indexOf(reader.currentBranch) !== -1);
 
     if (children.length > 0) {
-        // TODO: throw an error or something if children.size > 1
-        const child = children[0];
+        const nextStateId = children[0];
+        log("redoing %s => %s", reader.currentStateId, nextStateId);
         return Object.assign({}, history, {
-            current: unfreeze(reader.getState(child)),
+            current: unfreeze(reader.getState(nextStateId)),
             graph: graph.withMutations(g => {
-                new DagGraph(g).setCommitted(reader.currentBranch, child);
+                new DagGraph(g)
+                    .setCurrentStateId(nextStateId)
+                    .setCommitted(reader.currentBranch, nextStateId);
             }),
         });
     } else {
+        log("can't redo");
         return history;
     }
 }
