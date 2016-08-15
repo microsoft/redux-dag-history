@@ -94,6 +94,10 @@ export default class Configuation implements IConfiguration {
         return this._rawConfig.renameBookmarkActionType || ActionTypes.RENAME_BOOKMARK;
     }
 
+    public get changeBookmarkActionType() {
+        return this._rawConfig.changeBookmarkActionType || ActionTypes.CHANGE_BOOKMARK;
+    }
+
     public get moveBookmarkActionType() {
         return this._rawConfig.moveBookmarkActionType || ActionTypes.MOVE_BOOKMARK;
     }
@@ -108,6 +112,26 @@ export default class Configuation implements IConfiguration {
 
     public get skipToEndActionType() {
         return this._rawConfig.skipToEndActionType || ActionTypes.SKIP_TO_END;
+    }
+
+    public get playBookmarkStoryActionType() {
+        return this._rawConfig.playBookmarkStoryActionType || ActionTypes.PLAY_BOOKMARK_STORY;
+    }
+
+    public get skipToFirstBookmarkActionType() {
+        return this._rawConfig.skipToFirstBookmarkActionType || ActionTypes.SKIP_TO_FIRST_BOOKMARK;
+    }
+
+    public get skipToLastBookmarkActionType() {
+        return this._rawConfig.skipToLastBookmarkActionType || ActionTypes.SKIP_TO_LAST_BOOKMARK;
+    }
+
+    public get nextBookmarkActionType() {
+        return this._rawConfig.nextBookmarkActionType || ActionTypes.NEXT_BOOKMARK;
+    }
+
+    public get previousBookmarkActionType() {
+        return this._rawConfig.previousBookmarkActionType || ActionTypes.PREVIOUS_BOOKMARK;
     }
 
     public get initialBranchName() {

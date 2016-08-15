@@ -90,7 +90,7 @@ describe("The DagHistory Module", () => {
             //   (init)    A -> B
             //   (init-1)    -> C*
             const stateC = insert();
-            expect(currentBranch).to.not.equal(INITIAL_BRANCH, "implicit branch should be created");
+            expect(currentBranch).to.not.equal(INITIAL_BRANCH, "implicit branch should be created (1)");
 
             /// graphD Contains all the states
             expect(graph.getState(stateA)).to.be.ok;
@@ -116,7 +116,7 @@ describe("The DagHistory Module", () => {
             //   (init)    A -> B
             //   (init-1)    -> C -> D
             const stateD = insert();
-            expect(currentBranch).to.not.equal(INITIAL_BRANCH, "implicit branch should be created");
+            expect(currentBranch).to.not.equal(INITIAL_BRANCH, "implicit branch should be created (2)");
             expect(graph.branchStartDepth(currentBranch)).to.equal(1, "start depth should be 1");
             expect(graph.branchEndDepth(currentBranch)).to.equal(2, "end depth should be 2");
             expect(graph.maxDepth).to.equal(2, "max depth should be 2");
@@ -179,7 +179,6 @@ describe("The DagHistory Module", () => {
 
             expect(graphE.commitPath(graphE.currentStateId)).to.deep.equal([graphA.currentStateId, graphE.currentStateId]);
             expect(graphE.commitPath(graphB.currentStateId)).to.deep.equal([graphA.currentStateId, graphB.currentStateId]);
-
         });
 
         it("will create a new branch on the current active node", () => {

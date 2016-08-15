@@ -5,6 +5,7 @@ import {
     StateId,
     RenameBookmarkPayload,
     MoveBookmarkPayload,
+    ChangeBookmarkPayload,
 } from "./interfaces";
 
 export const load = createAction<any>(ActionTypes.LOAD);
@@ -20,5 +21,11 @@ export const squash = createAction<void>(ActionTypes.SQUASH);
 export const addBookmark = createAction<StateId>(ActionTypes.ADD_BOOKMARK);
 export const removeBookmark = createAction<StateId>(ActionTypes.REMOVE_BOOKMARK);
 export const renameBookmark = createAction<RenameBookmarkPayload>(ActionTypes.RENAME_BOOKMARK);
+export const changeBookmark = createAction<ChangeBookmarkPayload>(ActionTypes.CHANGE_BOOKMARK);
 export const moveBookmark = createAction<MoveBookmarkPayload>(ActionTypes.MOVE_BOOKMARK);
 export const pinState = createAction<StateId>(ActionTypes.PIN_STATE);
+export const playBookmarkStory = createAction<void>(ActionTypes.PLAY_BOOKMARK_STORY);
+export const skipToFirstBookmark = createAction<void>(ActionTypes.SKIP_TO_FIRST_BOOKMARK);
+export const skipToLastBookmark = createAction<void>(ActionTypes.SKIP_TO_LAST_BOOKMARK);
+export const nextBookmark = createAction<void>(ActionTypes.NEXT_BOOKMARK);
+export const previousBookmark = createAction<void>(ActionTypes.PREVIOUS_BOOKMARK);

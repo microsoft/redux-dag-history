@@ -37,72 +37,146 @@ export default function trackHistory(reducer: Function, rawConfig = {}) {
             return result;
         }
 
+        let isHistoryHandled = false;
+
         switch (action.type) {
             case config.loadActionType:
-                return DagHistory.load(action.payload);
+                history = DagHistory.load(action.payload);
+                isHistoryHandled = true;
+                break;
 
             case config.clearActionType:
-                return DagHistory.clear(history);
+                history = DagHistory.clear(history);
+                isHistoryHandled = true;
+                break;
 
             case config.undoActionType:
-                return DagHistory.undo(history);
+                history = DagHistory.undo(history);
+                isHistoryHandled = true;
+                break;
 
             case config.redoActionType:
-                return DagHistory.redo(history);
+                history = DagHistory.redo(history);
+                isHistoryHandled = true;
+                break;
 
             case config.jumpToStateActionType:
-                return DagHistory.jumpToState(action.payload, history);
+                history = DagHistory.jumpToState(action.payload, history);
+                isHistoryHandled = true;
+                break;
 
             case config.jumpToBranchActionType:
-                return DagHistory.jumpToBranch(action.payload, history);
+                history = DagHistory.jumpToBranch(action.payload, history);
+                isHistoryHandled = true;
+                break;
 
             case config.createBranchActionType:
-                return DagHistory.createBranch(action.payload, history);
+                history = DagHistory.createBranch(action.payload, history);
+                isHistoryHandled = true;
+                break;
 
             case config.squashActionType:
-                return DagHistory.squash(history);
+                history = DagHistory.squash(history);
+                isHistoryHandled = true;
+                break;
 
             case config.renameStateActionType:
-                return DagHistory.renameState(action.payload.stateId, action.payload.name as string, history);
+                history = DagHistory.renameState(action.payload.stateId, action.payload.name as string, history);
+                isHistoryHandled = true;
+                break;
 
             case config.addBookmarkActionType:
-                return DagHistory.addBookmark(action.payload, history, config);
+                history = DagHistory.addBookmark(action.payload, history, config);
+                isHistoryHandled = true;
+                break;
 
             case config.removeBookmarkActionType:
-                return DagHistory.removeBookmark(action.payload, history);
+                history = DagHistory.removeBookmark(action.payload, history);
+                isHistoryHandled = true;
+                break;
 
             case config.renameBookmarkActionType:
-                return DagHistory.renameBookmark(action.payload.bookmark, action.payload.name, history);
+                history = DagHistory.renameBookmark(action.payload.bookmark, action.payload.name, history);
+                isHistoryHandled = true;
+                break;
+
+            case config.changeBookmarkActionType:
+                history = DagHistory.changeBookmark(action.payload.bookmark, action.payload.name, action.payload.data, history);
+                isHistoryHandled = true;
+                break;
 
             case config.moveBookmarkActionType:
-                return DagHistory.moveBookmark(action.payload.from, action.payload.to, history);
+                history = DagHistory.moveBookmark(action.payload.from, action.payload.to, history);
+                isHistoryHandled = true;
+                break;
 
             case config.pinStateActionType:
-                return DagHistory.pinState(action.payload, history);
+                history = DagHistory.pinState(action.payload, history);
+                isHistoryHandled = true;
+                break;
 
             case config.skipToStartActionType:
-                return DagHistory.skipToStart(history);
+                history = DagHistory.skipToStart(history);
+                isHistoryHandled = true;
+                break;
 
             case config.skipToEndActionType:
-                return DagHistory.skipToEnd(history);
+                history = DagHistory.skipToEnd(history);
+                isHistoryHandled = true;
+                break;
+
+            case config.playBookmarkStoryActionType:
+                history = DagHistory.playBookmarkStory(history);
+                isHistoryHandled = true;
+                break;
+
+            case config.skipToFirstBookmarkActionType:
+                history = DagHistory.skipToFirstBookmark(history);
+                isHistoryHandled = true;
+                break;
+
+            case config.skipToLastBookmarkActionType:
+                history = DagHistory.skipToLastBookmark(history);
+                isHistoryHandled = true;
+                break;
+
+            case config.nextBookmarkActionType:
+                history = DagHistory.nextBookmark(history);
+                isHistoryHandled = true;
+                break;
+
+            case config.previousBookmarkActionType:
+                history = DagHistory.previousBookmark(history);
+                isHistoryHandled = true;
+                break;
 
             default:
                 if (config.canHandleAction(action)) {
-                    return config.handleAction(action, history);
-                } else {
-                    const newState = reducer(history.current, action);
-                    let result: IDagHistory;
-                    const isActionInsertable = config.actionFilter(action.type);
-                    log("is action insertable? %s", action.type, isActionInsertable);
-
-                    if (isActionInsertable) {
-                        result = DagHistory.insert(newState, history, config);
-                    } else {
-                        result = DagHistory.replaceCurrentState(newState, history);
-                    }
-                    return result;
+                    history = config.handleAction(action, history);
+                    isHistoryHandled = true;
                 }
         }
+
+        //
+        // Pass the event to the inner reducer. They may be interested in DagHistory events
+        // so propaget those to the inner reducer as well.
+        //
+        const newState = reducer(history.current, action);
+        let result: IDagHistory;
+        const isActionAllowed = config.actionFilter(action.type);
+        const isInsertable  = isActionAllowed && !isHistoryHandled;
+        log("is action [%s] insertable? %s; allowed=%s, historyHandled=%s",
+            action.type,
+            isInsertable,
+            isActionAllowed,
+            isHistoryHandled
+        );
+        if (!isHistoryHandled && isActionAllowed) {
+            result = DagHistory.insert(newState, history, config);
+        } else {
+            result = DagHistory.replaceCurrentState(newState, history);
+        }
+        return result;
     }
 
     return config.debug ? logGraphActions(trackHistoryReducer) : trackHistoryReducer;

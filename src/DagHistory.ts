@@ -32,6 +32,7 @@ export function createHistory(
         lastBranchId: currentBranchId,
         pinnedStateId: null,
         bookmarks: [],
+        bookmarkPlaybackIndex: null,
         graph: {
             current: {
                 state: currentStateId,
@@ -78,6 +79,7 @@ export function insert(state: any, history: IDagHistory, config: IConfiguration)
         pinnedStateId: null,
         lastStateId: newStateId,
         lastBranchId: newBranchId,
+        bookmarkPlaybackIndex: null,
         graph: graph.withMutations(g => {
             let dg = new DagGraph(g)
                 .insertState(newStateId, parentStateId, state, newStateName)
@@ -100,28 +102,41 @@ export function insert(state: any, history: IDagHistory, config: IConfiguration)
     });
 }
 
+//
+// Provides state jumping without special rules applied. This allows us to share common state-jumping code.
+//
+function jump(stateId: StateId, history: IDagHistory, assignObj = {}, callback: ((g: DagGraph) => void) = () => ({})) {
+    const { graph } = history;
+    const reader = new DagGraph(graph);
+    const targetState = reader.getState(stateId);
+
+    return Object.assign({}, history, assignObj, {
+        current: unfreeze(targetState),
+        graph: graph.withMutations(g => {
+            const writer = new DagGraph(g)
+                .setCurrentStateId(stateId);
+            callback(writer);
+        }),
+    });
+}
+
 export function jumpToState(stateId: StateId, history: IDagHistory) {
     log("jumping to state %s", stateId);
     const { graph } = history;
     const reader = new DagGraph(graph);
     const branches = reader.branchesOf(stateId);
     const branch = reader.currentBranch;
-    const targetState = reader.getState(stateId);
-
-    return Object.assign({}, history, {
-        current: unfreeze(targetState),
+    const updateObj: any = {
         pinnedStateId: null,
-        graph: graph.withMutations(g => {
-            const writer = new DagGraph(g)
-                .setCurrentStateId(stateId);
-
-            if (branches.indexOf(branch) === -1) {
-                log("current branch %s is not present on commit %s, available are [%s] - setting current branch to null", branch, stateId, branches.join(", "));
-                writer.setCurrentBranch(null);
-            } else {
-                writer.setCommitted(branch, stateId);
-            }
-        }),
+        bookmarkPlaybackIndex: null,
+    };
+    return jump(stateId, history, updateObj, writer => {
+        if (branches.indexOf(branch) === -1) {
+            log("current branch %s is not present on commit %s, available are [%s] - setting current branch to null", branch, stateId, branches.join(", "));
+            writer.setCurrentBranch(null);
+        } else {
+            writer.setCommitted(branch, stateId);
+        }
     });
 }
 
@@ -131,6 +146,15 @@ export function jumpToBranch(branch: BranchId, history: IDagHistory) {
     const reader = new DagGraph(graph);
     const branches = reader.branches;
 
+    const jumpTo = (state: StateId) => (
+        jump(
+            state,
+            history,
+            { bookmarkPlaybackIndex: null },
+            writer => writer.setCurrentBranch(branch)
+        )
+    );
+
     if (branches.indexOf(branch) === -1) {
         return this.createBranch(branch, history);
     } else if (pinnedStateId) {
@@ -138,30 +162,12 @@ export function jumpToBranch(branch: BranchId, history: IDagHistory) {
         const branchPath = reader.branchCommitPath(branch);
         const childStateIds = branchPath.filter(state => reader.parentOf(state) === pinnedStateId);
         const childStateId = childStateIds.length > 0 ? childStateIds[0] : null;
-        const current = reader.getState(childStateId);
-
         if (childStateId) {
-            return Object.assign({}, history, {
-                current: unfreeze(current),
-                graph: graph.withMutations(g => {
-                    new DagGraph(g)
-                        .setCurrentStateId(childStateId)
-                        .setCurrentBranch(branch);
-                }),
-            });
+            return jumpTo(childStateId);
         }
     }
 
-    const branchCommitId = reader.committedOn(branch);
-    const branchState = reader.getState(branchCommitId);
-    return Object.assign({}, history, {
-        current: unfreeze(branchState),
-        graph: graph.withMutations(g => {
-            new DagGraph(g)
-                .setCurrentStateId(branchCommitId)
-                .setCurrentBranch(branch);
-        }),
-    });
+    return jumpTo(reader.committedOn(branch));
 }
 
 export function undo(history: IDagHistory) {
@@ -170,16 +176,7 @@ export function undo(history: IDagHistory) {
     const parentId = reader.parentOf(reader.currentStateId);
     if (parentId !== null && parentId !== undefined) {
         log("undoing %s => %s", reader.currentStateId, parentId);
-        return Object.assign({}, history, {
-            current: unfreeze(reader.getState(parentId)),
-            graph: graph.withMutations(g => {
-                const writer = new DagGraph(g);
-                    writer.setCurrentStateId(parentId);
-                    if (reader.currentBranch) {
-                        writer.setCommitted(reader.currentBranch, parentId);
-                    }
-            }),
-        });
+        return jumpToState(parentId, history);
     } else {
         log("can't undo");
         return history;
@@ -195,15 +192,7 @@ export function redo(history: IDagHistory) {
 
     if (children.length > 0) {
         const nextStateId = children[0];
-        log("redoing %s => %s", reader.currentStateId, nextStateId);
-        return Object.assign({}, history, {
-            current: unfreeze(reader.getState(nextStateId)),
-            graph: graph.withMutations(g => {
-                new DagGraph(g)
-                    .setCurrentStateId(nextStateId)
-                    .setCommitted(reader.currentBranch, nextStateId);
-            }),
-        });
+        return jumpToState(nextStateId, history);
     } else {
         log("can't redo");
         return history;
@@ -240,6 +229,7 @@ export function createBranch(branchName: string, history: IDagHistory) {
         current,
         lastBranchId: newBranchId,
         pinnedStateId: null,
+        bookmarkPlaybackIndex: null,
         graph: graph.withMutations(g => {
             new DagGraph(g)
                 .setCurrentBranch(newBranchId)
@@ -262,6 +252,8 @@ export function squash(history: IDagHistory) {
     const { graph, current } = history;
     return Object.assign({}, history, {
         current,
+        bookmarkPlaybackIndex: null,
+        pinnedStateId: null,
         graph: graph.withMutations(g => new DagGraph(g).squashCurrentBranch()),
     });
 }
@@ -272,7 +264,6 @@ export function replaceCurrentState(state: any, history: IDagHistory) {
     const reader = new DagGraph(graph);
     const currentStateId = reader.currentStateId;
     return Object.assign({}, history, {
-        pinnedStateId: null,
         current: state,
         graph: graph.withMutations(g => new DagGraph(g).replaceState(currentStateId, state)),
     });
@@ -296,6 +287,7 @@ export function addBookmark(stateId: StateId, history: IDagHistory, config: ICon
     result.bookmarks.push({
         stateId: stateId,
         name: config.bookmarkName(stateId, stateName),
+        data: {},
     });
     return result;
 }
@@ -308,11 +300,23 @@ export function removeBookmark(stateId: StateId, history: IDagHistory) {
 }
 
 export function renameBookmark(bookmarkId: StateId, name: string, history: IDagHistory) {
-    log("renaming bookmark %s", bookmarkId);
+    log("renaming bookmark %s => %s", bookmarkId, name);
     const result = Object.assign({}, history);
     result.bookmarks.forEach(b => {
         if (b.stateId === bookmarkId) {
             b.name = name;
+        }
+    });
+    return result;
+}
+
+export function changeBookmark(bookmarkId: StateId, name: string, data: any, history: IDagHistory) {
+    log("changing bookmark data %s", bookmarkId, name, data);
+    const result = Object.assign({}, history);
+    result.bookmarks.forEach(b => {
+        if (b.stateId === bookmarkId) {
+            b.name = name;
+            b.data = data;
         }
     });
     return result;
@@ -331,12 +335,14 @@ export function moveBookmark(from: number, to: number, history: IDagHistory) {
 export function pinState(stateId: StateId, history: IDagHistory) {
     // Set the pinned state ID
     // set the current state to the pinned state's child in the current branch
-    log(`pinning state ${stateId}`);
     const { graph, pinnedStateId } = history;
     if (pinnedStateId === stateId) {
+        log(`unpinning state ${stateId}`);
         // Unpin State
         return Object.assign({}, history, { pinnedStateId: null });
     }
+
+    log(`pinning state:: ${stateId}`);
 
     const reader = new DagGraph(graph);
     const { currentBranch } = reader;
@@ -366,4 +372,46 @@ export function pinState(stateId: StateId, history: IDagHistory) {
             }
         }),
     });
+}
+
+function playBackBookmark(rawIndex: number, history: IDagHistory) {
+    if (history.bookmarks.length === 0) {
+        return history;
+    }
+
+    let index = Math.min(
+        history.bookmarks.length - 1,
+        Math.max(0, rawIndex)
+    );
+    const stateId = history.bookmarks[index].stateId;
+    return jump(stateId, history, {
+        pinnedStateId: null,
+        bookmarkPlaybackIndex: index,
+    });
+}
+
+export function playBookmarkStory(history: IDagHistory) {
+    return playBackBookmark(0, history);
+}
+
+export function skipToFirstBookmark(history: IDagHistory) {
+    return playBookmarkStory(history);
+}
+
+export function skipToLastBookmark(history: IDagHistory) {
+    return playBackBookmark(history.bookmarks.length - 1, history);
+}
+
+export function nextBookmark(history: IDagHistory) {
+    if (!Number.isInteger(history.bookmarkPlaybackIndex)) {
+        return history;
+    }
+    return playBackBookmark(history.bookmarkPlaybackIndex + 1, history);
+}
+
+export function previousBookmark(history: IDagHistory) {
+    if (!Number.isInteger(history.bookmarkPlaybackIndex)) {
+        return history;
+    }
+    return playBackBookmark(history.bookmarkPlaybackIndex - 1, history);
 }

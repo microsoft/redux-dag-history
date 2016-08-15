@@ -25,6 +25,12 @@ export interface IConfiguration {
     pinStateActionType?: string;
     skipToStartActionType?: string;
     skipToEndActionType?: string;
+    changeBookmarkActionType?: string;
+    playBookmarkStoryActionType?: string;
+    skipToFirstBookmarkActionType?: string;
+    skipToLastBookmarkActionType?: string;
+    nextBookmarkActionType?: string;
+    previousBookmarkActionType?: string;
 
     // State/Branch Naming
     actionName?: (state: any, stateId: StateId) => string;
@@ -46,12 +52,19 @@ export interface IDagHistory {
      */
     current: any;
     lastStateId: StateId;
-    pinnedStateId: StateId;
     lastBranchId: BranchId;
+
+    // Special States
+    pinnedStateId?: StateId;
+    bookmarkPlaybackIndex?: number;
+
+    // Bookmark Data
     bookmarks: Array<{
         stateId: StateId;
         name: string;
+        data: any;
     }>;
+
     /**
      * The explored state space, represented as a graph (future and past)
      */
@@ -111,4 +124,10 @@ export interface RenameBookmarkPayload {
 export interface MoveBookmarkPayload {
     from: number;
     to: number;
+}
+
+export interface ChangeBookmarkPayload {
+    bookmark: StateId;
+    name: string;
+    data: any;
 }

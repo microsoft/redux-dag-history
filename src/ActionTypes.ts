@@ -76,6 +76,11 @@ export const REMOVE_BOOKMARK = action("remove_bookmark");
 export const RENAME_BOOKMARK = action("rename_bookmark");
 
 /**
+ * Change a state bookmark
+ */
+export const CHANGE_BOOKMARK = action("change_bookmark");
+
+/**
  * Move a bookmark to a different position
  */
 export const MOVE_BOOKMARK = action("move_bookmark");
@@ -85,5 +90,37 @@ export const MOVE_BOOKMARK = action("move_bookmark");
  */
 export const PIN_STATE = action("pin_state");
 
+/**
+ * Skips to the beginning of the current history line
+ */
 export const SKIP_TO_START = action("skip_to_start");
+
+/**
+ * Skips to the end of the current history line
+ */
 export const SKIP_TO_END = action("skip_to_end");
+
+/**
+ * Plays back a bookmark story
+ */
+export const PLAY_BOOKMARK_STORY = action("play_bookmark_story");
+
+/**
+ * Skips to the beginning of the current history line
+ */
+export const SKIP_TO_FIRST_BOOKMARK = action("skip_to_first_bookmark");
+
+/**
+ * Skips to the end of the current history line
+ */
+export const SKIP_TO_LAST_BOOKMARK = action("skip_to_last_bookmark");
+
+/**
+ * Skips to the beginning of the current history line
+ */
+export const NEXT_BOOKMARK = action("next_bookmark");
+
+/**
+ * Skips to the end of the current history line
+ */
+export const PREVIOUS_BOOKMARK = action("previous_bookmark");
