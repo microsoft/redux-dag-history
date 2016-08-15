@@ -391,11 +391,15 @@ function playBackBookmark(rawIndex: number, history: IDagHistory) {
 }
 
 export function playBookmarkStory(history: IDagHistory) {
-    return playBackBookmark(0, history);
+    if (!Number.isInteger(history.bookmarkPlaybackIndex)) {
+        return playBackBookmark(0, history);
+    } else {
+        return Object.assign({}, history, { bookmarkPlaybackIndex: null });
+    }
 }
 
 export function skipToFirstBookmark(history: IDagHistory) {
-    return playBookmarkStory(history);
+    return playBackBookmark(0, history);
 }
 
 export function skipToLastBookmark(history: IDagHistory) {
