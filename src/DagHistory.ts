@@ -419,3 +419,8 @@ export function previousBookmark(history: IDagHistory) {
     }
     return playBackBookmark(history.bookmarkPlaybackIndex - 1, history);
 }
+
+export function isCurrentStateBookmarked(history: IDagHistory) {
+    const currentStateId = new DagGraph(history.graph).currentStateId;
+    return history.bookmarks.some(e => e.stateId === currentStateId);
+}
