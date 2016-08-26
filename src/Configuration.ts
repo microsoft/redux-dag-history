@@ -23,7 +23,7 @@ export default class Configuation implements IConfiguration {
     }
 
     public branchName(oldBranch: BranchId, newBranch: BranchId, actionName: string) {
-        return actionName;
+        return `${newBranch}`;
     }
 
     public bookmarkName(stateId: StateId, actionName: string) {
@@ -135,7 +135,7 @@ export default class Configuation implements IConfiguration {
     }
 
     public get initialBranchName() {
-        return this._rawConfig.initialBranchName || "Initial";
+        return this._rawConfig.initialBranchName || "1";
     }
 
     public get initialStateName() {

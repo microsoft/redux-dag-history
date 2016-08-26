@@ -220,7 +220,7 @@ describe("The DagHistory Module", () => {
         it("will collapse parent states that have a single ancestor", () => {
             let history = DagHistory.createHistory({x: 0});
 
-            // Create a Branch and a Commit
+            // Create a Branch and a Commired
             //  (init)  I
             //  (A)       -> A0*
             history = DagHistory.createBranch("A", history);
@@ -252,7 +252,7 @@ describe("The DagHistory Module", () => {
         it("will collapse a linear chain into a single root", () => {
             // Set up a flat linear chain
             // (init)  I -> A -> B -> C*
-            let history = DagHistory.createHistory({x: 0})
+            let history = DagHistory.createHistory({x: 0});
             history = DagHistory.insert({x: 1}, history, stateNameById);
             history = DagHistory.insert({x: 2}, history, stateNameById);
             history = DagHistory.insert({x: 3}, history, stateNameById);
