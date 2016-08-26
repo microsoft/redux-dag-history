@@ -19,7 +19,7 @@ export function load(history: any) {
 
 export function createHistory(
     initialState = {},
-    initialBranchName: string = "1",
+    initialBranchName: string = "Branch 1",
     initialStateName: string = "Initial"
 ): IDagHistory {
     log("creating history");
