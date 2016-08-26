@@ -75,6 +75,11 @@ export default function trackHistory(reducer: Function, rawConfig = {}) {
                 isHistoryHandled = true;
                 break;
 
+            case config.renameBranchActionType:
+                history = DagHistory.renameBranch(action.payload.branch, action.payload.name, history);
+                isHistoryHandled = true;
+                break;
+
             case config.squashActionType:
                 history = DagHistory.squash(history);
                 isHistoryHandled = true;

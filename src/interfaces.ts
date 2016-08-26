@@ -14,6 +14,7 @@ export interface IConfiguration {
     jumpToStateActionType?: string;
     jumpToBranchActionType?: string;
     createBranchActionType?: string;
+    renameBranchActionType?: string;
     renameStateActionType?: string;
     squashActionType?: string;
     addBookmarkActionType?: string;
@@ -118,6 +119,11 @@ export interface StateNameGenerator {
 
 export interface RenameBookmarkPayload {
     bookmark: StateId;
+    name: string;
+}
+
+export interface RenameBranchPayload {
+    branch: BranchId;
     name: string;
 }
 

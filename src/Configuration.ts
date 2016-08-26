@@ -23,10 +23,16 @@ export default class Configuation implements IConfiguration {
     }
 
     public branchName(oldBranch: BranchId, newBranch: BranchId, actionName: string) {
-        return `Branch ${newBranch}`;
+        if (this._rawConfig.branchName) {
+            return this._rawConfig.branchName(oldBranch, newBranch, actionName);
+        }
+        return `${newBranch}: ${actionName}`;
     }
 
     public bookmarkName(stateId: StateId, actionName: string) {
+        if (this._rawConfig.bookmarkName) {
+            return this._rawConfig.bookmarkName(stateId, actionName);
+        }
         return actionName;
     }
 
@@ -72,6 +78,10 @@ export default class Configuation implements IConfiguration {
 
     public get createBranchActionType() {
         return this._rawConfig.createBranchActionType || ActionTypes.CREATE_BRANCH;
+    }
+
+    public get renameBranchActionType() {
+        return this._rawConfig.renameBranchActionType || ActionTypes.RENAME_BRANCH;
     }
 
     public get squashActionType() {

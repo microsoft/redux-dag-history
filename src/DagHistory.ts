@@ -19,7 +19,7 @@ export function load(history: any) {
 
 export function createHistory(
     initialState = {},
-    initialBranchName: string = "Branch 1",
+    initialBranchName: string = "Initial",
     initialStateName: string = "Initial"
 ): IDagHistory {
     log("creating history");
@@ -237,6 +237,16 @@ export function createBranch(branchName: string, history: IDagHistory) {
                 .setCommitted(newBranchId, reader.currentStateId)
                 .setFirst(newBranchId, reader.currentStateId)
                 .setLatest(newBranchId, reader.currentStateId);
+        }),
+    });
+}
+
+export function renameBranch(branchId: BranchId, branchName: string, history: IDagHistory) {
+    const { graph } = history;
+    log("renaming branch %s: '%s'", branchId, branchName);
+    return Object.assign({}, history, {
+        graph: graph.withMutations(g => {
+            new DagGraph(g).setBranchName(branchId, branchName);
         }),
     });
 }

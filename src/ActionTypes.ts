@@ -48,6 +48,11 @@ export const JUMP_TO_BRANCH = action("jump_to_branch");
 export const CREATE_BRANCH = action("create_branch");
 
 /**
+ * Renames a branch
+ */
+export const RENAME_BRANCH = action("rename_branch");
+
+/**
  * Squashes the ancestors of the current state that do not support multiple branches.
  * e.g.    b                                b
  *     a <               will turn into  a <
