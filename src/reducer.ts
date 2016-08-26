@@ -169,11 +169,9 @@ export default function trackHistory(reducer: Function, rawConfig = {}) {
         const newState = reducer(history.current, action);
         let result: IDagHistory;
         const isActionAllowed = config.actionFilter(action.type);
-        const isCurrentStateBookmarked = DagHistory.isCurrentStateBookmarked(history);
-        const isInsertable  = !isHistoryHandled && (isCurrentStateBookmarked || isActionAllowed);
-        log("is action [%s] insertable? %s; currentBookmarked=% allowed=%s, historyHandled=%s",
+        const isInsertable  = !isHistoryHandled && isActionAllowed; // (isCurrentStateBookmarked || isActionAllowed);
+        log("is action [%s] insertable? %s; allowed=%s, historyHandled=%s",
             action.type,
-            isCurrentStateBookmarked,
             isInsertable,
             isActionAllowed,
             isHistoryHandled
