@@ -409,15 +409,41 @@ export function playBookmarkStory(history: IDagHistory) {
 }
 
 export function skipToFirstBookmark(history: IDagHistory) {
-    return playBackBookmark(0, history);
+    if (history.bookmarkPlaybackIndex !== null) {
+        return playBackBookmark(0, history);
+    } else if (history.bookmarks.length > 0) {
+        return jumpToState(history.bookmarks[0].stateId, history);
+    }
 }
 
 export function skipToLastBookmark(history: IDagHistory) {
-    return playBackBookmark(history.bookmarks.length - 1, history);
+    if (history.bookmarkPlaybackIndex !== null) {
+        return playBackBookmark(history.bookmarks.length - 1, history);
+    } else if (history.bookmarks.length > 0) {
+        return jumpToState(history.bookmarks[history.bookmarks.length - 1].stateId, history);
+    }
+}
+
+function getCurrentBookmarkIndex(history: IDagHistory) {
+    const reader = new DagGraph(history.graph);
+    const currentStateId = reader.currentStateId;
+    let currentBookmarkIndex = -1;
+    for (let i = 0; i < history.bookmarks.length; i++) {
+        const bookmark = history.bookmarks[i];
+        if (bookmark.stateId === currentStateId) {
+            currentBookmarkIndex = i;
+            break;
+        }
+    }
+    return currentBookmarkIndex;
 }
 
 export function nextBookmark(history: IDagHistory) {
     if (!Number.isInteger(history.bookmarkPlaybackIndex)) {
+        let currentBookmarkIndex = getCurrentBookmarkIndex(history);
+        if (currentBookmarkIndex >= 0 && currentBookmarkIndex < history.bookmarks.length - 1) {
+            return jumpToState(history.bookmarks[currentBookmarkIndex + 1].stateId, history);
+        }
         return history;
     }
     return playBackBookmark(history.bookmarkPlaybackIndex + 1, history);
@@ -425,6 +451,10 @@ export function nextBookmark(history: IDagHistory) {
 
 export function previousBookmark(history: IDagHistory) {
     if (!Number.isInteger(history.bookmarkPlaybackIndex)) {
+        let currentBookmarkIndex = getCurrentBookmarkIndex(history);
+        if (currentBookmarkIndex > 0 && currentBookmarkIndex < history.bookmarks.length) {
+            return jumpToState(history.bookmarks[currentBookmarkIndex - 1].stateId, history);
+        }
         return history;
     }
     return playBackBookmark(history.bookmarkPlaybackIndex - 1, history);
