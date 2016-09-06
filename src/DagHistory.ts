@@ -125,15 +125,18 @@ export function jumpToState(stateId: StateId, history: IDagHistory) {
     const { graph } = history;
     const reader = new DagGraph(graph);
     const branches = reader.branchesOf(stateId);
+    const stateBranch = reader.branchOf(stateId);
     const branch = reader.currentBranch;
+
     const updateObj: any = {
         pinnedStateId: null,
         bookmarkPlaybackIndex: null,
     };
+
     return jump(stateId, history, updateObj, writer => {
         if (branches.indexOf(branch) === -1) {
             log("current branch %s is not present on commit %s, available are [%s] - setting current branch to null", branch, stateId, branches.join(", "));
-            writer.setCurrentBranch(null);
+            writer.setCurrentBranch(stateBranch);
         } else {
             writer.setCommitted(branch, stateId);
         }
