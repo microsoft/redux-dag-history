@@ -4,12 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "installtypes": "typings install",
     "mocha": "mocha lib/__test__",
     "lint:ts": "ts-npm-lint --fix-typings",
     "lint:src": "tslint src/*.ts test/*.ts",
     "lint": "npm-run-all --parallel lint:*",
     "compile": "tsc",
-    "test": "npm-run-all compile lint mocha",
+    "test": "npm-run-all installtypes compile lint mocha",
     "watch:mocha": "npm run mocha -- --watch",
     "watch:ts": "tsc -w",
     "develop": "npm-run-all --parallel watch:*"
