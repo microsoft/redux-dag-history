@@ -22,6 +22,7 @@
     "files": [
       "src/index.ts",
       "src/__test__/DagHistory.spec.ts",
+      "src/__test__/DagGraph.spec.ts",
       "typings/index.d.ts"
     ],
     "compileOnSave": true,

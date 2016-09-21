@@ -9,7 +9,7 @@ export default class DagGraph {
             throw new Error("'graph' parameter must be defined");
         }
         if (!graph.getIn) {
-            throw new Error("'graph' appears to not be an immutablejs instance");
+            throw new Error("'graph' must be an immutablejs instance");
         }
     }
 

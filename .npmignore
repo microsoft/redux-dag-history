@@ -6,3 +6,4 @@ typings/
 .editorconfig
 tsconfig.json
 typings.json
+coverage/

@@ -1,0 +1,4 @@
+instrumentation:
+    root: lib
+    excludes: [__test__/**/*]
+    variable: __coverage__

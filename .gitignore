@@ -4,3 +4,4 @@ node_modules/
 lib/
 *.d.ts
 typings/
+coverage/

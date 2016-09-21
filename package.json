@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "installtypes": "typings install",
-    "mocha": "mocha lib/__test__",
+    "mocha": "istanbul cover _mocha lib/__test__",
     "lint:ts": "ts-npm-lint --fix-typings",
     "lint:src": "tslint src/*.ts test/*.ts",
     "lint": "npm-run-all --parallel lint:*",
@@ -13,29 +13,26 @@
     "test": "npm-run-all installtypes compile lint mocha",
     "watch:mocha": "npm run mocha -- --watch",
     "watch:ts": "tsc -w",
-    "develop": "npm-run-all --parallel watch:*"
+    "develop": "npm-run-all --parallel watch:*",
+    "start": "npm run develop"
   },
   "author": "",
   "typings": "lib/index",
   "license": "MIT",
   "devDependencies": {
     "chai": "^3.5.0",
-    "immutable": "^3.8.1",
+    "istanbul": "^0.4.5",
     "mocha": "^2.5.3",
     "npm-run-all": "^2.1.2",
-    "redux-actions": "^0.10.0",
-    "treeify": "^1.0.1",
     "ts-npm-lint": "^0.1.0",
     "tslint": "^3.11.0",
     "typescript": "^1.8.10",
     "typings": "^1.2.0"
   },
-  "peerDependencies": {
-    "redux-actions": "*",
-    "immutable": "*",
-    "treeify": "^1.0.1"
-  },
   "dependencies": {
-    "debug": "^2.2.0"
+    "debug": "^2.2.0",
+    "redux-actions": "^0.10.0",
+    "immutable": "^3.8.1",
+    "treeify": "^1.0.1"
   }
 }
