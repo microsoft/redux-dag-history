@@ -1,6 +1,7 @@
+/// <reference path="../node_modules/typescript/lib/lib.es7.d.ts" />
 import { expect } from "chai";
-import * as DagHistory from "../DagHistory";
-import DagGraph from "../DagGraph";
+import * as DagHistory from "../src/DagHistory";
+import DagGraph from "../src/DagGraph";
 const treeify = require("treeify");
 
 const stateNameById = {

@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "installtypes": "typings install",
-    "mocha": "istanbul cover _mocha lib/__test__",
+    "mocha": "istanbul cover _mocha",
     "lint:ts": "ts-npm-lint --fix-typings",
     "lint:src": "tslint src/*.ts test/*.ts",
     "lint": "npm-run-all --parallel lint:*",
@@ -16,7 +16,7 @@
     "develop": "npm-run-all --parallel watch:*",
     "start": "npm run develop"
   },
-  "author": "",
+  "author": "Chris Trevino <darthtrevino@gmail.com>",
   "typings": "lib/index",
   "license": "MIT",
   "devDependencies": {
@@ -24,6 +24,8 @@
     "istanbul": "^0.4.5",
     "mocha": "^2.5.3",
     "npm-run-all": "^2.1.2",
+    "nyc": "^8.3.0",
+    "ts-node": "^1.3.0",
     "ts-npm-lint": "^0.1.0",
     "tslint": "^3.11.0",
     "typescript": "^1.8.10",
