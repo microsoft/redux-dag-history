@@ -22,7 +22,6 @@
     "@types/chai": "^3.4.33",
     "@types/mocha": "^2.2.32",
     "@types/node": "^6.0.40",
-    "@types/redux-actions": "^0.8.30",
     "chai": "^3.5.0",
     "istanbul": "^0.4.5",
     "mocha": "^2.5.3",
@@ -34,6 +33,7 @@
     "typescript": "^2.0.0"
   },
   "dependencies": {
+    "@types/redux-actions": "^0.8.30",
     "debug": "^2.2.0",
     "immutable": "^3.8.1",
     "redux-actions": "^0.10.0",
