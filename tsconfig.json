@@ -7,7 +7,6 @@
         "jsx": "react",
         "experimentalDecorators": true,
         "emitDecoratorMetadata": true,
-        "declaration": true,
         "noImplicitAny": true,
         "noImplicitUseStrict": false,
         "removeComments": true,
@@ -20,8 +19,7 @@
         "node_modules"
     ],
     "files": [
-      "src/index.ts",
-      "typings/index.d.ts"
+      "src/index.ts"
     ],
     "compileOnSave": true,
     "buildOnSave": false,

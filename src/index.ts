@@ -1,4 +1,4 @@
-/// <reference path="../node_modules/typescript/lib/lib.es7.d.ts" />
+/// <reference path="../node_modules/typescript/lib/lib.es2017.d.ts" />
 import * as ActionCreators from "./ActionCreators";
 import * as ActionTypes from "./ActionTypes";
 import Configuration from "./Configuration";
