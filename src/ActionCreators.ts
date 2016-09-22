@@ -1,5 +1,5 @@
 import * as ActionTypes from "./ActionTypes";
-import { createAction } from "redux-actions";
+import { createAction, Action } from "redux-actions";
 import {
     BranchId,
     StateId,
