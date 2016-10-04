@@ -10,6 +10,11 @@ const stateNameById = {
 };
 const INITIAL_BRANCH = 1;
 
+interface IBasicState {
+    x: number;
+    y?: number;
+}
+
 describe("The DagHistory Module", () => {
     describe("createHistory", () => {
         it("can create a new history object", () => {
@@ -25,7 +30,7 @@ describe("The DagHistory Module", () => {
         });
 
         it("can create a new history object with an initial state", () => {
-            const history = DagHistory.createHistory({x: 1, y: 2});
+            const history = DagHistory.createHistory<IBasicState>({x: 1, y: 2});
             expect(history).to.be.ok;
             expect(history.current).to.deep.equal({x: 1, y: 2});
             expect(history.graph).to.be.ok;
@@ -34,7 +39,7 @@ describe("The DagHistory Module", () => {
 
     describe("insert", () => {
         it("will insert a new state into the history", () => {
-            const historyA = DagHistory.createHistory();
+            const historyA = DagHistory.createHistory<IBasicState>();
             const historyB = DagHistory.insert({x: 1}, historyA, stateNameById);
 
             const graphA = new DagGraph(historyA.graph);
@@ -46,7 +51,7 @@ describe("The DagHistory Module", () => {
         });
 
         it("will not cull children of the parent state that are associated with branches", () => {
-            const historyA = DagHistory.createHistory();
+            const historyA = DagHistory.createHistory<IBasicState>();
             const graphA = new DagGraph(historyA.graph);
 
             const historyB = DagHistory.insert({x: 1}, historyA, stateNameById);
@@ -61,7 +66,7 @@ describe("The DagHistory Module", () => {
         });
 
         it("will cull children of the parent state that are not associated with branches", () => {
-            let history = DagHistory.createHistory();
+            let history = DagHistory.createHistory<IBasicState>();
             let graph = new DagGraph(history.graph);
             let currentBranch = graph.currentBranch;
 
@@ -126,7 +131,7 @@ describe("The DagHistory Module", () => {
 
     describe("undo/redo", () => {
         it("undo will move the committed state back, leaving latest in place", () => {
-            const historyA = DagHistory.createHistory();
+            const historyA = DagHistory.createHistory<IBasicState>();
             const graphA = new DagGraph(historyA.graph);
 
             const historyB = DagHistory.insert({x: 1}, historyA, stateNameById);
@@ -139,7 +144,7 @@ describe("The DagHistory Module", () => {
         });
 
         it("redo will move the committed state forward", () => {
-            const historyA = DagHistory.createHistory();
+            const historyA = DagHistory.createHistory<IBasicState>();
             const graphA = new DagGraph(historyA.graph);
 
             const historyB = DagHistory.insert({x: 1}, historyA, stateNameById);
@@ -158,7 +163,7 @@ describe("The DagHistory Module", () => {
         it("will create a new branch on the current active with a common ancestor", () => {
             // a -> b <master>
             //   -> e <derp>
-            const historyA = DagHistory.createHistory();
+            const historyA = DagHistory.createHistory<IBasicState>();
             const graphA = new DagGraph(historyA.graph);
 
             const historyB = DagHistory.insert({x: 1}, historyA, stateNameById);
@@ -185,7 +190,7 @@ describe("The DagHistory Module", () => {
         it("will create a new branch on the current active node", () => {
             // a -> b <master>
             //        -> e <derp>
-            const historyA = DagHistory.createHistory();
+            const historyA = DagHistory.createHistory<IBasicState>();
             const graphA = new DagGraph(historyA.graph);
 
             const historyB = DagHistory.insert({x: 1}, historyA, stateNameById);
@@ -209,7 +214,7 @@ describe("The DagHistory Module", () => {
 
     describe("clear", () => {
         it("can clear the history", () => {
-            const historyA = DagHistory.createHistory();
+            const historyA = DagHistory.createHistory<IBasicState>();
             const historyB = DagHistory.insert({x: 1}, historyA, stateNameById);
 
             const historyC = DagHistory.clear(historyB);
@@ -219,7 +224,7 @@ describe("The DagHistory Module", () => {
 
     describe("squash", () => {
         it("will collapse parent states that have a single ancestor", () => {
-            let history = DagHistory.createHistory({x: 0});
+            let history = DagHistory.createHistory<IBasicState>({x: 0});
 
             // Create a Branch and a Commired
             //  (init)  I
@@ -253,7 +258,7 @@ describe("The DagHistory Module", () => {
         it("will collapse a linear chain into a single root", () => {
             // Set up a flat linear chain
             // (init)  I -> A -> B -> C*
-            let history = DagHistory.createHistory({x: 0});
+            let history = DagHistory.createHistory<IBasicState>({x: 0});
             history = DagHistory.insert({x: 1}, history, stateNameById);
             history = DagHistory.insert({x: 2}, history, stateNameById);
             history = DagHistory.insert({x: 3}, history, stateNameById);

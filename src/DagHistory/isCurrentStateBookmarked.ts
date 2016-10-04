@@ -1,4 +1,4 @@
-import DagGraph from '../DagGraph';
+import DagGraph from "../DagGraph";
 import {
     IDagHistory,
     StateId,
@@ -6,7 +6,7 @@ import {
     IConfiguration,
 } from "../interfaces";
 
-export default function isCurrentStateBookmarked(history: IDagHistory) {
+export default function isCurrentStateBookmarked<T>(history: IDagHistory<T>) {
     const currentStateId = new DagGraph(history.graph).currentStateId;
     return history.bookmarks.some(e => e.stateId === currentStateId);
 }

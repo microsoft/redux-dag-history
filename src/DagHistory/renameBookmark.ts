@@ -1,5 +1,5 @@
 const log = require("debug")("redux-dag-history:DagHistory");
-import DagGraph from '../DagGraph';
+import DagGraph from "../DagGraph";
 import {
     IDagHistory,
     StateId,
@@ -7,7 +7,7 @@ import {
     IConfiguration,
 } from "../interfaces";
 
-export default function renameBookmark(bookmarkId: StateId, name: string, history: IDagHistory) {
+export default function renameBookmark<T>(bookmarkId: StateId, name: string, history: IDagHistory<T>) {
     log("renaming bookmark %s => %s", bookmarkId, name);
     const result = Object.assign({}, history);
     result.bookmarks.forEach(b => {

@@ -7,10 +7,10 @@ import {
     IConfiguration,
 } from "../interfaces";
 import DagGraph from "../DagGraph";
-import jumpToState from './jumpToState';
-import * as Immutable from 'immutable';
+import jumpToState from "./jumpToState";
+import * as Immutable from "immutable";
 
-export default function undo(history: IDagHistory) {
+export default function undo<T>(history: IDagHistory<T>) {
     const { graph } = history;
     const reader = new DagGraph(graph);
     const parentId = reader.parentOf(reader.currentStateId);
@@ -18,7 +18,7 @@ export default function undo(history: IDagHistory) {
         log("undoing %s => %s", reader.currentStateId, parentId);
         return jumpToState(parentId, history);
     } else {
-        log("can't undo");
+        log("cannot undo");
         return history;
     }
 }

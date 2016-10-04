@@ -7,10 +7,10 @@ import {
     IConfiguration,
 } from "../interfaces";
 import DagGraph from "../DagGraph";
-import jumpToState from './jumpToState';
-import * as Immutable from 'immutable';
+import jumpToState from "./jumpToState";
+import * as Immutable from "immutable";
 
-export default function redo(history: IDagHistory) {
+export default function redo<T>(history: IDagHistory<T>) {
     const { graph } = history;
     const reader = new DagGraph(graph);
     const children = reader
@@ -21,7 +21,7 @@ export default function redo(history: IDagHistory) {
         const nextStateId = children[0];
         return jumpToState(nextStateId, history);
     } else {
-        log("can't redo");
+        log("cannot redo");
         return history;
     }
 }

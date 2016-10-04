@@ -4,9 +4,9 @@ import {
     BranchId,
     IConfiguration,
 } from "../interfaces";
-import playBackBookmark from './playBackBookmark';
+import playBackBookmark from "./playBackBookmark";
 
-export default function playBookmarkStory(history: IDagHistory) {
+export default function playBookmarkStory<T>(history: IDagHistory<T>) {
     if (!Number.isInteger(history.bookmarkPlaybackIndex)) {
         return playBackBookmark(0, history);
     } else {

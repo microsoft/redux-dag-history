@@ -1,5 +1,5 @@
 const log = require("debug")("redux-dag-history:DagHistory");
-import DagGraph from '../DagGraph';
+import DagGraph from "../DagGraph";
 import {
     IDagHistory,
     StateId,
@@ -7,7 +7,7 @@ import {
     IConfiguration,
 } from "../interfaces";
 
-export default function getCurrentBookmarkIndex(history: IDagHistory) {
+export default function getCurrentBookmarkIndex<T>(history: IDagHistory<T>) {
     const reader = new DagGraph(history.graph);
     const currentStateId = reader.currentStateId;
     let currentBookmarkIndex = -1;

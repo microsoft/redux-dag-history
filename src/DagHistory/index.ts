@@ -1,57 +1,59 @@
-import load from './load';
-import createHistory from './createHistory';
-import insert from './insert';
-import jumpToState from './jumpToState';
-import jumpToBranch from './jumpToBranch';
-import undo from './undo';
-import redo from './redo';
-import skipToStart from './skipToStart'; 
-import skipToEnd from './skipToEnd';
-import createBranch from './createBranch';
-import renameBranch from './renameBranch';
-import clear from './clear';
-import squash from './squash';
-import replaceCurrentState from './replaceCurrentState';
-import renameState from './renameState';
-import addBookmark from './addBookmark';
-import removeBookmark from './removeBookmark';
-import renameBookmark from './renameBookmark';
-import changeBookmark from './changeBookmark';
-import moveBookmark from './moveBookmark';
-import pinState from './pinState';
-import playBookmarkStory from './playBookmarkStory';
-import skipToFirstBookmark from './skipToFirstBookmark';
-import skipToLastBookmark from './skipToLastBookmark';
-import nextBookmark from './nextBookmark';
-import previousBookmark from './previousBookmark';
-import isCurrentStateBookmarked from './isCurrentStateBookmarked';
+import addBookmark from "./addBookmark";
+import changeBookmark from "./changeBookmark";
+import clear from "./clear";
+import createBranch from "./createBranch";
+import createHistory from "./createHistory";
+import getExistingState from "./getExistingState";
+import insert from "./insert";
+import isCurrentStateBookmarked from "./isCurrentStateBookmarked";
+import jumpToBranch from "./jumpToBranch";
+import jumpToState from "./jumpToState";
+import load from "./load";
+import moveBookmark from "./moveBookmark";
+import nextBookmark from "./nextBookmark";
+import pinState from "./pinState";
+import playBookmarkStory from "./playBookmarkStory";
+import previousBookmark from "./previousBookmark";
+import redo from "./redo";
+import removeBookmark from "./removeBookmark";
+import renameBookmark from "./renameBookmark";
+import renameBranch from "./renameBranch";
+import renameState from "./renameState";
+import replaceCurrentState from "./replaceCurrentState";
+import skipToEnd from "./skipToEnd";
+import skipToFirstBookmark from "./skipToFirstBookmark";
+import skipToLastBookmark from "./skipToLastBookmark";
+import skipToStart from "./skipToStart";
+import squash from "./squash";
+import undo from "./undo";
 
-export { 
-    createHistory, 
-    load, 
-    insert, 
-    jumpToState,
-    jumpToBranch,
-    undo,
-    redo, 
-    skipToStart,
-    skipToEnd,
-    createBranch,
-    renameBranch,
-    clear,
-    squash,
-    replaceCurrentState,
-    renameState,
+export {
     addBookmark,
-    removeBookmark,
-    renameBookmark,
     changeBookmark,
+    clear,
+    createBranch,
+    createHistory,
+    getExistingState,
+    insert,
+    isCurrentStateBookmarked,
+    jumpToBranch,
+    jumpToState,
+    load,
     moveBookmark,
+    nextBookmark,
     pinState,
     playBookmarkStory,
+    previousBookmark,
+    redo,
+    removeBookmark,
+    renameBookmark,
+    renameBranch,
+    renameState,
+    replaceCurrentState,
+    skipToEnd,
     skipToFirstBookmark,
     skipToLastBookmark,
-    nextBookmark,
-    previousBookmark,
-    isCurrentStateBookmarked,
+    skipToStart,
+    squash,
+    undo,
 };

@@ -1,5 +1,5 @@
 const log = require("debug")("redux-dag-history:DagHistory");
-import DagGraph from '../DagGraph';
+import DagGraph from "../DagGraph";
 import {
     IDagHistory,
     StateId,
@@ -7,7 +7,7 @@ import {
     IConfiguration,
 } from "../interfaces";
 
-export default function moveBookmark(from: number, to: number, history: IDagHistory) {
+export default function moveBookmark<T>(from: number, to: number, history: IDagHistory<T>) {
     log("moving bookmark at %s to %s", from, to);
     const result = Object.assign({}, history);
     if (from < to) {

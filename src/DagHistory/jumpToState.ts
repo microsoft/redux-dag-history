@@ -6,9 +6,9 @@ import {
 } from "../interfaces";
 import DagGraph from "../DagGraph";
 import jump from "./jump";
-import * as Immutable from 'immutable';
+import * as Immutable from "immutable";
 
-export default function jumpToState(stateId: StateId, history: IDagHistory) {
+export default function jumpToState<T>(stateId: StateId, history: IDagHistory<T>) {
     log("jumping to state %s", stateId);
     const { graph } = history;
     const reader = new DagGraph(graph);

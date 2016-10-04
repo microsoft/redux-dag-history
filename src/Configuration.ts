@@ -10,11 +10,19 @@ export const SQUASH = "DAG_HISTORY_SQUASH";
 
 const DEFAULT_ACTION_FILTER = () => true;
 
-export default class Configuation implements IConfiguration {
-    constructor(private _rawConfig: IConfiguration) {
+export default class Configuation<T> implements IConfiguration<T> {
+    constructor(private _rawConfig: IConfiguration<T>) {
     }
 
-    public actionName(state: any, id: StateId) {
+    public get stateEqualityPredicate() {
+        return this._rawConfig.stateEqualityPredicate;
+    }
+
+    public get stateKeyGenerator() {
+        return this._rawConfig.stateKeyGenerator;
+    }
+
+    public actionName(state: T, id: StateId) {
         if (this._rawConfig.actionName) {
             return this._rawConfig.actionName(state, id);
         } else {
@@ -40,7 +48,7 @@ export default class Configuation implements IConfiguration {
         return this._rawConfig.canHandleAction && this._rawConfig.canHandleAction(action);
     }
 
-    public handleAction(action: any, history: IDagHistory): IDagHistory {
+    public handleAction(action: any, history: IDagHistory<T>): IDagHistory<T> {
         return this._rawConfig.handleAction(action, history);
     }
 

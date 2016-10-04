@@ -6,7 +6,7 @@
   "scripts": {
     "mocha": "istanbul cover _mocha",
     "lint:ts": "ts-npm-lint --fix-typings",
-    "lint:src": "tslint src/*.ts test/*.ts",
+    "lint:src": "tslint src/**/*.ts test/*.ts",
     "lint": "npm-run-all --parallel lint:*",
     "compile": "tsc",
     "test": "npm-run-all compile lint mocha",

@@ -8,7 +8,10 @@ import {
 } from "../interfaces";
 import DagGraph from "../DagGraph";
 
-export default function insert(state: any, history: IDagHistory, config: IConfiguration): IDagHistory {
+/**
+ * Inserts a new state into the history
+ */
+export default function insert<T>(state: T, history: IDagHistory<T>, config: IConfiguration<T>): IDagHistory<T> {
     log("inserting new history state");
     const { graph, lastBranchId } = history;
     if (!graph) {
@@ -19,10 +22,16 @@ export default function insert(state: any, history: IDagHistory, config: IConfig
     const currentBranchId = reader.currentBranch;
     const newStateId = history.lastStateId + 1;
     const newStateName = config.actionName(state, newStateId);
-
     const cousins = reader.childrenOf(parentStateId);
     const isBranching = cousins.length > 0 || lastBranchId > currentBranchId;
     const newBranchId = isBranching ? lastBranchId + 1 : lastBranchId;
+
+    // If the state has a hash code, register the state
+    if (config.stateKeyGenerator) {
+        const stateHash = config.stateKeyGenerator(state);
+        log("inserting state with key", stateHash);
+        history.stateHash.set(stateHash, newStateId);
+    }
 
     return Object.assign({}, history, {
         current: state,

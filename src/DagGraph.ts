@@ -1,9 +1,10 @@
+/// <reference path="../node_modules/typescript/lib/lib.es2017.d.ts" />
 const log = require("debug")("redux-dag-history:DagGraph");
 import { BranchId, StateId } from "./interfaces";
 import * as Immutable from "immutable";
 const treeify = require("treeify");
 
-export default class DagGraph {
+export default class DagGraph<T> {
     constructor(public graph: Immutable.Map<any, any>) {
         if (!graph) {
             throw new Error("'graph' parameter must be defined");
@@ -13,14 +14,18 @@ export default class DagGraph {
         }
     }
 
-    public print() {
+    public print(): string {
         const graph = this.graph.toJS();
         let root: any = null;
         const states = {};
         const getOrCreateState = (stateId: StateId) => {
             let result = states[stateId];
             if (!result) {
-                result = {id: stateId, name: this.stateName(stateId), children: [] as any};
+                result = {
+                    id: stateId,
+                    name: this.stateName(stateId),
+                    children: [] as StateId[],
+                };
                 states[stateId] = result;
             }
             return result;
@@ -140,7 +145,7 @@ export default class DagGraph {
         return this.graph.getIn(["states", `${commit}`, "name"]);
     }
 
-    public getBranchName(branch: BranchId) {
+    public getBranchName(branch: BranchId): string {
         return this.graph.getIn(["branches", `${branch}`, "name"]);
     }
 
@@ -149,17 +154,16 @@ export default class DagGraph {
         return this;
     }
 
-    public getState(commit: StateId) {
+    public getState(commit: StateId): T {
         return this.graph.getIn(["states", `${commit}`, "state"]);
     }
 
-    public insertState(commit: StateId, parent: StateId, state: any, name: string) {
+    public insertState(commit: StateId, parent: StateId, state: T, name: string) {
         log("Inserting new commit", commit);
         const newState = Immutable.fromJS({
-            state,
             name,
             parent,
-        });
+        }).set("state", state);
         if (this.graph.getIn(["states", `${commit}`])) {
             log("Commit %s is already present", this.getState(commit));
         }
@@ -180,7 +184,7 @@ export default class DagGraph {
         return this.graph.getIn(["states", `${commit}`, "parent"]);
     }
 
-    public replaceState(commit: StateId, state: any) {
+    public replaceState(commit: StateId, state: T) {
         this.graph = this.graph.setIn(["states", `${commit}`, "state"], state);
         return this;
     }

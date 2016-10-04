@@ -6,11 +6,11 @@ import {
 } from "../interfaces";
 import load from "./load";
 
-export default function createHistory(
-    initialState = {},
+export default function createHistory<T>(
+    initialState: T = {} as T,
     initialBranchName: string = "Initial",
     initialStateName: string = "Initial"
-): IDagHistory {
+): IDagHistory<T> {
     log("creating history");
     const currentStateId = 1;
     const currentBranchId = 1;
@@ -22,6 +22,7 @@ export default function createHistory(
         pinnedStateId: null,
         bookmarks: [],
         bookmarkPlaybackIndex: null,
+        stateHash: new Map<number, any>(),
         graph: {
             current: {
                 state: currentStateId,

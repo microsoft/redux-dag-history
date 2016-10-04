@@ -1,5 +1,5 @@
 const log = require("debug")("redux-dag-history:DagHistory");
-import DagGraph from '../DagGraph';
+import DagGraph from "../DagGraph";
 import {
     IDagHistory,
     StateId,
@@ -7,7 +7,7 @@ import {
     IConfiguration,
 } from "../interfaces";
 
-export default function addBookmark(stateId: StateId, history: IDagHistory, config: IConfiguration) {
+export default function addBookmark<T>(stateId: StateId, history: IDagHistory<T>, config: IConfiguration<T>) {
     log("adding bookmark on state %s", stateId);
     const { graph } = history;
     const reader = new DagGraph(graph);

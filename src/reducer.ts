@@ -15,8 +15,8 @@ const EMPTY_ACTION = {
 /**
  * A redux higher-order Reducer for tracking the user's history.
  */
-export default function trackHistory(reducer: Function, rawConfig = {}) {
-    const config = new Configuration(rawConfig);
+export default function trackHistory<T>(reducer: Function, rawConfig = {}) {
+    const config = new Configuration<T>(rawConfig);
 
     function logGraphActions(reducer: any) {
         return (state: any, action: Action<any>) => {
@@ -28,7 +28,7 @@ export default function trackHistory(reducer: Function, rawConfig = {}) {
     }
 
     function trackHistoryReducer(state: any, action: Action<any> = EMPTY_ACTION) {
-        let history: IDagHistory = state;
+        let history: IDagHistory<T> = state;
         if (!history || !history.graph) {
             // State is either blank or a non-history object
             state = reducer(undefined, action);
@@ -167,19 +167,26 @@ export default function trackHistory(reducer: Function, rawConfig = {}) {
         // so propaget those to the inner reducer as well.
         //
         const newState = reducer(history.current, action);
-        let result: IDagHistory;
+        let result: IDagHistory<T>;
         const isActionAllowed = config.actionFilter(action.type);
-        const isInsertable  = !isHistoryHandled && isActionAllowed; // (isCurrentStateBookmarked || isActionAllowed);
-        log("is action [%s] insertable? %s; allowed=%s, historyHandled=%s",
+        const isReplacement = isHistoryHandled || !isActionAllowed;
+        log("is action [%s] replacement? %s; allowed=%s, historyHandled=%s",
             action.type,
-            isInsertable,
+            isReplacement,
             isActionAllowed,
             isHistoryHandled
         );
-        if (isInsertable) {
-            result = DagHistory.insert(newState, history, config);
-        } else {
+        if (isReplacement) {
             result = DagHistory.replaceCurrentState(newState, history);
+        } else {
+            // If this is a state we've seen previously, then jump to it.
+            // NOTE: This could have really bad performance implications.
+            const existingState = DagHistory.getExistingState(newState, history, config);
+            if (existingState) {
+                result = DagHistory.jumpToState(existingState, history);
+            } else {
+                result = DagHistory.insert(newState, history, config);
+            }
         }
         return result;
     }

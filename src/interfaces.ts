@@ -2,11 +2,32 @@ import * as Immutable from "immutable";
 export type StateId = number;
 export type BranchId = number;
 
-export interface IConfiguration {
+export interface IConfiguration<T> {
+    /**
+     * A flag indicating whether or not to print per-action debug information
+     */
     debug?: boolean;
+
+    /**
+     * A Predicate filter to determine whether an action is insertable into the history view.
+     * If an action is not insertable, then the new state as the result of the action will replace
+     * the current state
+     */
     actionFilter?: (actionType: string) => boolean;
 
-    // Action Names
+    /**
+     * A predicate for determining whether two states are equal
+     */
+    stateEqualityPredicate?: (s1: T, s2: T) => boolean;
+
+    /**
+     * A function for generating map keys for states
+     */
+    stateKeyGenerator?: (state: T) => number;
+
+    /**
+     * Action Names
+     */
     loadActionType?: string;
     clearActionType?: string;
     undoActionType?: string;
@@ -33,25 +54,27 @@ export interface IConfiguration {
     nextBookmarkActionType?: string;
     previousBookmarkActionType?: string;
 
-    // State/Branch Naming
+    /**
+     * State, Branch, Bookmark Naming
+     */
     actionName?: (state: any, stateId: StateId) => string;
     branchName?: (oldBranch: BranchId, newBranch: BranchId, actionName: string) => string;
     bookmarkName?: (stateId: StateId, actionName: string) => string;
 
-    // Custom Reducer Handlers
+    // CustomHandlers
     canHandleAction?: (action: any) => boolean;
-    handleAction?: (action: any, history: IDagHistory) => IDagHistory;
+    handleAction?: (action: any, history: IDagHistory<T>) => IDagHistory<T>;
 }
 
 /**
  * This interface represents the state shape of the DAG history in the Redux
  * state tree.
  */
-export interface IDagHistory {
+export interface IDagHistory<T> {
     /**
      * The current application state
      */
-    current: any;
+    current: T;
     lastStateId: StateId;
     lastBranchId: BranchId;
 
@@ -65,6 +88,11 @@ export interface IDagHistory {
         name: string;
         data: any;
     }>;
+
+    /**
+     * A weak mapping of hash-codes to state, for efficient duplicate state lookup
+     */
+    stateHash: WeakMap<number, StateId>;
 
     /**
      * The explored state space, represented as a graph (future and past)

@@ -8,7 +8,7 @@ import {
 import DagGraph from "../DagGraph";
 import jump from "./jump";
 
-export default function jumpToBranch(branch: BranchId, history: IDagHistory) {
+export default function jumpToBranch<T>(branch: BranchId, history: IDagHistory<T>) {
     log("jumping to branch %s", branch);
     const { pinnedStateId, graph } = history;
     const reader = new DagGraph(graph);

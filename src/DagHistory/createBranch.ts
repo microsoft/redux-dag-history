@@ -1,14 +1,14 @@
 const log = require("debug")("redux-dag-history:DagHistory");
-import DagGraph from '../DagGraph';
+import DagGraph from "../DagGraph";
 import {
     IDagHistory,
     StateId,
     BranchId,
     IConfiguration,
 } from "../interfaces";
-import * as Immutable from 'immutable';
+import * as Immutable from "immutable";
 
-export default function createBranch(branchName: string, history: IDagHistory) {
+export default function createBranch<T>(branchName: string, history: IDagHistory<T>) {
     log("creating branch %s", branchName);
     const { graph, current, lastBranchId } = history;
     const reader = new DagGraph(graph);

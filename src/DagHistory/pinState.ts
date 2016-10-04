@@ -1,16 +1,16 @@
 const log = require("debug")("redux-dag-history:DagHistory");
-import DagGraph from '../DagGraph';
+import DagGraph from "../DagGraph";
 import {
     IDagHistory,
     StateId,
     BranchId,
     IConfiguration,
 } from "../interfaces";
-import unfreeze from './unfreeze';
+import unfreeze from "./unfreeze";
 
-export default function pinState(stateId: StateId, history: IDagHistory) {
+export default function pinState<T>(stateId: StateId, history: IDagHistory<T>) {
     // Set the pinned state ID
-    // set the current state to the pinned state's child in the current branch
+    // set the current state to the pinned state"s child in the current branch
     const { graph, pinnedStateId } = history;
     if (pinnedStateId === stateId) {
         log(`unpinning state ${stateId}`);

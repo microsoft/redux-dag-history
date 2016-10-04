@@ -4,10 +4,10 @@ import {
     BranchId,
     IConfiguration,
 } from "../interfaces";
-import playBackBookmark from './playBackBookmark';
-import jumpToState from './jumpToState';
+import playBackBookmark from "./playBackBookmark";
+import jumpToState from "./jumpToState";
 
-export default function skipToFirstBookmark(history: IDagHistory) {
+export default function skipToFirstBookmark<T>(history: IDagHistory<T>) {
     if (history.bookmarkPlaybackIndex !== null) {
         return playBackBookmark(0, history);
     } else if (history.bookmarks.length > 0) {

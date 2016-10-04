@@ -9,12 +9,17 @@ import {
 } from "../interfaces";
 import * as Immutable from "immutable";
 import DagGraph from "../DagGraph";
-import unfreeze from './unfreeze';
+import unfreeze from "./unfreeze";
 
 //
 // Provides state jumping without special rules applied. This allows us to share common state-jumping code.
 //
-export default function jump(stateId: StateId, history: IDagHistory, assignObj = {}, callback: ((g: DagGraph) => void) = () => ({})) {
+export default function jump<T>(
+    stateId: StateId,
+    history: IDagHistory<T>,
+    assignObj = {},
+    callback: ((g: DagGraph<T>) => void
+) = () => ({})) {
     const { graph } = history;
     const reader = new DagGraph(graph);
     const targetState = reader.getState(stateId);
@@ -22,8 +27,7 @@ export default function jump(stateId: StateId, history: IDagHistory, assignObj =
     return Object.assign({}, history, assignObj, {
         current: unfreeze(targetState),
         graph: graph.withMutations(g => {
-            const writer = new DagGraph(g)
-                .setCurrentStateId(stateId);
+            const writer = new DagGraph<T>(g).setCurrentStateId(stateId);
             callback(writer);
         }),
     });

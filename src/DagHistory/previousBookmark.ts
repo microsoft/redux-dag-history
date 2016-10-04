@@ -4,12 +4,12 @@ import {
     BranchId,
     IConfiguration,
 } from "../interfaces";
-import getCurrentBookmarkIndex from './getCurrentBookmarkIndex';
-import jumpToState from './jumpToState';
-import playBackBookmark from './playBackBookmark';
-import * as Immutable from 'immutable';
+import getCurrentBookmarkIndex from "./getCurrentBookmarkIndex";
+import jumpToState from "./jumpToState";
+import playBackBookmark from "./playBackBookmark";
+import * as Immutable from "immutable";
 
-export default function previousBookmark(history: IDagHistory) {
+export default function previousBookmark<T>(history: IDagHistory<T>) {
     if (!Number.isInteger(history.bookmarkPlaybackIndex)) {
         let currentBookmarkIndex = getCurrentBookmarkIndex(history);
         if (currentBookmarkIndex > 0 && currentBookmarkIndex < history.bookmarks.length) {

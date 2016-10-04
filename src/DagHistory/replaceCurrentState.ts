@@ -1,14 +1,14 @@
 const log = require("debug")("redux-dag-history:DagHistory");
-import DagGraph from '../DagGraph';
+import DagGraph from "../DagGraph";
 import {
     IDagHistory,
     StateId,
     BranchId,
     IConfiguration,
 } from "../interfaces";
-import * as Immutable from 'immutable';
+import * as Immutable from "immutable";
 
-export default function replaceCurrentState(state: any, history: IDagHistory) {
+export default function replaceCurrentState<T>(state: any, history: IDagHistory<T>) {
     log("replace current state");
     const { graph } = history;
     const reader = new DagGraph(graph);
