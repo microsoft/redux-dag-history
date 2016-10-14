@@ -84,6 +84,10 @@ export default class Configuation<T> implements IConfiguration<T> {
         return this._rawConfig.jumpToBranchActionType || ActionTypes.JUMP_TO_BRANCH;
     }
 
+    public get jumpToLatestOnBranchActionType() {
+        return this._rawConfig.jumpToLatestOnBranchActionType || ActionTypes.JUMP_TO_LATEST_ON_BRANCH;
+    }
+
     public get createBranchActionType() {
         return this._rawConfig.createBranchActionType || ActionTypes.CREATE_BRANCH;
     }

@@ -70,6 +70,11 @@ export default function trackHistory<T>(reducer: Function, rawConfig = {}) {
                 isHistoryHandled = true;
                 break;
 
+            case config.jumpToLatestOnBranchActionType:
+                history = DagHistory.jumpToLatestOnBranch(action.payload, history);
+                isHistoryHandled = true;
+                break;
+
             case config.createBranchActionType:
                 history = DagHistory.createBranch(action.payload, history);
                 isHistoryHandled = true;

@@ -7,6 +7,7 @@ import getExistingState from "./getExistingState";
 import insert from "./insert";
 import isCurrentStateBookmarked from "./isCurrentStateBookmarked";
 import jumpToBranch from "./jumpToBranch";
+import jumpToLatestOnBranch from "./jumpToLatestOnBranch";
 import jumpToState from "./jumpToState";
 import load from "./load";
 import moveBookmark from "./moveBookmark";
@@ -37,6 +38,7 @@ export {
     insert,
     isCurrentStateBookmarked,
     jumpToBranch,
+    jumpToLatestOnBranch,
     jumpToState,
     load,
     moveBookmark,

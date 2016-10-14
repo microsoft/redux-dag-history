@@ -34,6 +34,7 @@ export interface IConfiguration<T> {
     redoActionType?: string;
     jumpToStateActionType?: string;
     jumpToBranchActionType?: string;
+    jumpToLatestOnBranchActionType?: string;
     createBranchActionType?: string;
     renameBranchActionType?: string;
     renameStateActionType?: string;

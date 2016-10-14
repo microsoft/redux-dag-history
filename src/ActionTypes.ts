@@ -43,6 +43,11 @@ export const JUMP_TO_STATE = action("jump_to_state");
 export const JUMP_TO_BRANCH = action("jump_to_branch");
 
 /**
+ * Jumps to the latest state in a branch.
+ */
+export const JUMP_TO_LATEST_ON_BRANCH = action("jump_to_latest_on_branch");
+
+/**
  * Creates a new branch. Points the new branch to the current state.
  */
 export const CREATE_BRANCH = action("create_branch");
