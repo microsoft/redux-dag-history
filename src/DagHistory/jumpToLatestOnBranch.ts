@@ -26,7 +26,6 @@ export default function jumpToLatestOnBranch<T>(branch: BranchId, history: IDagH
     if (branches.indexOf(branch) === -1) {
         return this.createBranch(branch, history);
     } else if (pinnedStateId) {
-        console.log('PINNED STATE', pinnedStateId);
         // If a state is pinned, navigate to its successor
         const branchPath = reader.branchCommitPath(branch);
         const childStateIds = branchPath.filter(state => reader.parentOf(state) === pinnedStateId);
