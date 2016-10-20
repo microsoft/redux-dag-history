@@ -4,7 +4,7 @@ import {
     BranchId,
     IConfiguration,
 } from "../interfaces";
-import jump from "./jump";
+import {jump} from "./jump";
 
 export default function playBackBookmark<T>(rawIndex: number, history: IDagHistory<T>) {
     if (history.bookmarks.length === 0) {

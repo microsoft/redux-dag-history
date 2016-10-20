@@ -6,7 +6,7 @@ import {
     BranchId,
 } from "../interfaces";
 import DagGraph from "../DagGraph";
-import jump from "./jump";
+import {jump} from "./jump";
 
 export default function jumpToBranch<T>(branch: BranchId, history: IDagHistory<T>) {
     log("jumping to branch %s", branch);

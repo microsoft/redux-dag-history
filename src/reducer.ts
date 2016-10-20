@@ -188,7 +188,7 @@ export default function trackHistory<T>(reducer: Function, rawConfig = {}) {
             // NOTE: This could have really bad performance implications.
             const existingState = DagHistory.getExistingState(newState, history, config);
             if (existingState) {
-                result = DagHistory.jumpToState(existingState, history);
+                result = DagHistory.jumpToStateLogged(existingState, history);
             } else {
                 result = DagHistory.insert(newState, history, config);
             }

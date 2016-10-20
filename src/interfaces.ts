@@ -96,6 +96,11 @@ export interface IDagHistory<T> {
     stateHash: WeakMap<number, StateId>;
 
     /**
+     * A chronological log of states visited in the application
+     */
+    chronologicalStates: StateId[];
+
+    /**
      * The explored state space, represented as a graph (future and past)
      */
     graph: Immutable.Map<any, any>; // {

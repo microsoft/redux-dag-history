@@ -14,7 +14,20 @@ import unfreeze from "./unfreeze";
 //
 // Provides state jumping without special rules applied. This allows us to share common state-jumping code.
 //
-export default function jump<T>(
+export function jumpLog<T>(
+    stateId: StateId,
+    history: IDagHistory<T>,
+    assignObj = {},
+    callback: ((g: DagGraph<T>) => void
+) = () => ({})) {
+    const { chronologicalStates } = history;
+    const result = jump(stateId, history, assignObj, callback);
+    return Object.assign(result, {
+        chronologicalStates: [...chronologicalStates, stateId],
+    });
+}
+
+export function jump<T>(
     stateId: StateId,
     history: IDagHistory<T>,
     assignObj = {},

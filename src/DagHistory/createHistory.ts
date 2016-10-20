@@ -23,6 +23,7 @@ export default function createHistory<T>(
         bookmarks: [],
         bookmarkPlaybackIndex: null,
         stateHash: new Map<number, any>(),
+        chronologicalStates: [currentStateId],
         graph: {
             current: {
                 state: currentStateId,

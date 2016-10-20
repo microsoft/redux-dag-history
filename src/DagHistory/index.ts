@@ -9,6 +9,7 @@ import isCurrentStateBookmarked from "./isCurrentStateBookmarked";
 import jumpToBranch from "./jumpToBranch";
 import jumpToLatestOnBranch from "./jumpToLatestOnBranch";
 import jumpToState from "./jumpToState";
+import jumpToStateLogged from "./jumpToStateLogged";
 import load from "./load";
 import moveBookmark from "./moveBookmark";
 import nextBookmark from "./nextBookmark";
@@ -40,6 +41,7 @@ export {
     jumpToBranch,
     jumpToLatestOnBranch,
     jumpToState,
+    jumpToStateLogged,
     load,
     moveBookmark,
     nextBookmark,

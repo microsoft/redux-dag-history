@@ -13,7 +13,7 @@ import DagGraph from "../DagGraph";
  */
 export default function insert<T>(state: T, history: IDagHistory<T>, config: IConfiguration<T>): IDagHistory<T> {
     log("inserting new history state");
-    const { graph, lastBranchId } = history;
+    const { graph, lastBranchId, chronologicalStates } = history;
     if (!graph) {
         throw new Error("History graph is not defined");
     }
@@ -39,6 +39,7 @@ export default function insert<T>(state: T, history: IDagHistory<T>, config: ICo
         lastStateId: newStateId,
         lastBranchId: newBranchId,
         bookmarkPlaybackIndex: null,
+        chronologicalStates: [...chronologicalStates, newStateId],
         graph: graph.withMutations(g => {
             let dg = new DagGraph(g)
                 .insertState(newStateId, parentStateId, state, newStateName)

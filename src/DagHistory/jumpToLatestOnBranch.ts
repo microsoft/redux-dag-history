@@ -6,7 +6,7 @@ import {
     BranchId,
 } from "../interfaces";
 import DagGraph from "../DagGraph";
-import jump from "./jump";
+import {jump} from "./jump";
 
 export default function jumpToLatestOnBranch<T>(branch: BranchId, history: IDagHistory<T>) {
     log("jumping to latest on branch %s", branch);
