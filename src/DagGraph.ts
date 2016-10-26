@@ -1,11 +1,11 @@
 /// <reference path="../node_modules/typescript/lib/lib.es2017.d.ts" />
-const log = require("debug")("redux-dag-history:DagGraph");
 import { BranchId, StateId } from "./interfaces";
-import * as Immutable from "immutable";
+import { Map as ImmutableMap, fromJS as ImmutableFromJS } from "immutable";
+const log = require("debug")("redux-dag-history:DagGraph");
 const treeify = require("treeify");
 
 export default class DagGraph<T> {
-    constructor(public graph: Immutable.Map<any, any>) {
+    constructor(public graph: ImmutableMap<any, any>) {
         if (!graph) {
             throw new Error("'graph' parameter must be defined");
         }
@@ -160,7 +160,7 @@ export default class DagGraph<T> {
 
     public insertState(commit: StateId, parent: StateId, state: T, name: string) {
         log("Inserting new commit", commit);
-        const newState = Immutable.fromJS({
+        const newState = ImmutableFromJS({
             name,
             parent,
         }).set("state", state);
@@ -175,8 +175,8 @@ export default class DagGraph<T> {
         const states = this.graph.get("states");
 
         return states.toSeq()
-            .filter((state: Immutable.Map<any, any>) => state.get("parent") === commit)
-            .map((state: Immutable.Map<any, any>, key: string) => key)
+            .filter((state: ImmutableMap<any, any>) => state.get("parent") === commit)
+            .map((state: ImmutableMap<any, any>, key: string) => key)
             .toList().toJS().map((s: string) => parseInt(s, 10));
     }
 

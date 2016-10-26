@@ -1,4 +1,4 @@
-import * as Immutable from "immutable";
+import { Map as ImmutableMap } from "immutable";
 export type StateId = number;
 export type BranchId = number;
 
@@ -103,7 +103,7 @@ export interface IDagHistory<T> {
     /**
      * The explored state space, represented as a graph (future and past)
      */
-    graph: Immutable.Map<any, any>; // {
+    graph: ImmutableMap<any, any>; // {
         /*
         current: {
 

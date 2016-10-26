@@ -1,10 +1,10 @@
 /// <reference path="../node_modules/typescript/lib/lib.es2017.d.ts" />
 import DagGraph from "../src/DagGraph";
 import { expect } from "chai";
-import * as Immutable from "immutable";
+import { fromJS } from "immutable";
 
 function makeGraph() {
-  return new DagGraph(Immutable.fromJS({
+  return new DagGraph(fromJS({
     current: {
       state: 1,
       branch: 1,
