@@ -182,7 +182,7 @@ export default function trackHistory<T>(reducer: Function, rawConfig = {}) {
             isHistoryHandled
         );
         if (isReplacement) {
-            result = DagHistory.replaceCurrentState(newState, history);
+            result = DagHistory.replaceCurrentState(newState, history, config);
         } else {
             // If this is a state we've seen previously, then jump to it.
             // NOTE: This could have really bad performance implications.

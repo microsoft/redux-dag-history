@@ -8,13 +8,23 @@ import {
 } from "../interfaces";
 import * as Immutable from "immutable";
 
-export default function replaceCurrentState<T>(state: any, history: IDagHistory<T>) {
+export default function replaceCurrentState<T>(state: any, history: IDagHistory<T>, config: IConfiguration<T>) {
     log("replace current state");
-    const { graph } = history;
+    const { graph, stateHash } = history;
     const reader = new DagGraph(graph);
     const currentStateId = reader.currentStateId;
+
+    // If the state has a hash code, register the state
+    if (config.stateKeyGenerator) {
+        const stateHash = config.stateKeyGenerator(state);
+
+        log("inserting state with key", stateHash);
+        history.stateHash.set(stateHash, currentStateId);
+    }
+
     return Object.assign({}, history, {
         current: state,
+        stateHash,
         graph: graph.withMutations(g => new DagGraph(g).replaceState(currentStateId, state)),
     });
 }
