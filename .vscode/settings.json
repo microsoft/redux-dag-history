@@ -7,4 +7,6 @@
     "**/*~": true,
     "**/#*": true,
     "lib/": true
+  },
+  "typescript.tsdk": "./node_modules/typescript/lib"
 }

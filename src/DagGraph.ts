@@ -1,4 +1,3 @@
-/// <reference path="../node_modules/typescript/lib/lib.es2017.d.ts" />
 import { BranchId, StateId } from "./interfaces";
 import { Map as ImmutableMap, fromJS as ImmutableFromJS } from "immutable";
 const log = require("debug")("redux-dag-history:DagGraph");

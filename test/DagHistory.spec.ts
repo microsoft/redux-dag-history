@@ -1,4 +1,3 @@
-/// <reference path="../node_modules/typescript/lib/lib.es2017.d.ts" />
 import { expect } from "chai";
 import * as DagHistory from "../src/DagHistory";
 import DagGraph from "../src/DagGraph";

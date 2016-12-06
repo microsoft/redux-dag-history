@@ -1,4 +1,3 @@
-/// <reference path="../node_modules/typescript/lib/lib.es2017.d.ts" />
 import DagGraph from "../src/DagGraph";
 import { expect } from "chai";
 import { fromJS } from "immutable";

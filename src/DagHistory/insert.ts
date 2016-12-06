@@ -1,4 +1,3 @@
-/// <reference path="../../node_modules/typescript/lib/lib.es2017.d.ts" />
 const log = require("debug")("redux-dag-history:DagHistory");
 import {
     IDagHistory,
