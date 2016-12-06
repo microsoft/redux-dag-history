@@ -32,7 +32,8 @@ export default function insert<T>(state: T, history: IDagHistory<T>, config: ICo
         history.stateHash.set(stateHash, newStateId);
     }
 
-    return Object.assign({}, history, {
+    return {
+        ...history,
         current: state,
         pinnedStateId: null,
         lastStateId: newStateId,
@@ -58,5 +59,5 @@ export default function insert<T>(state: T, history: IDagHistory<T>, config: ICo
                   .markStateForBranch(newStateId, currentBranchId);
             }
         }),
-    });
+    };
 }

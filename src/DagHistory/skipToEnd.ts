@@ -9,7 +9,7 @@ import {
 import jumpToState from "./jumpToState";
 import * as Immutable from "immutable";
 
-export default function skipToEnd<T>(history: IDagHistory<T>) {
+export default function skipToEnd<T>(history: IDagHistory<T>): IDagHistory<T> {
     const { graph } = history;
     const reader = new DagGraph(graph);
 

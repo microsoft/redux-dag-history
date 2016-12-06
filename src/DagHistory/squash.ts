@@ -8,13 +8,14 @@ import {
 } from "../interfaces";
 import * as Immutable from "immutable";
 
-export default function squash<T>(history: IDagHistory<T>) {
+export default function squash<T>(history: IDagHistory<T>): IDagHistory<T> {
     log("squashing history");
     const { graph, current } = history;
-    return Object.assign({}, history, {
+    return {
+        ...history,
         current,
         bookmarkPlaybackIndex: null,
         pinnedStateId: null,
         graph: graph.withMutations(g => new DagGraph(g).squashCurrentBranch()),
-    });
+    };
 }

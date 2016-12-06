@@ -7,14 +7,17 @@ import {
     IConfiguration,
 } from "../interfaces";
 
-export default function changeBookmark<T>(bookmarkId: StateId, name: string, data: any, history: IDagHistory<T>) {
+export default function changeBookmark<T>(bookmarkId: StateId, name: string, data: any, history: IDagHistory<T>): IDagHistory<T> {
     log("changing bookmark data %s", bookmarkId, name, data);
-    const result = Object.assign({}, history);
-    result.bookmarks.forEach(b => {
-        if (b.stateId === bookmarkId) {
-            b.name = name;
-            b.data = data;
-        }
-    });
-    return result;
+    return {
+        ...history,
+        bookmarks: history.bookmarks.map(b => {
+            const isTargetBookmark = b.stateId === bookmarkId;
+            return {
+                ...b,
+                name: isTargetBookmark ? name : b.name,
+                data: isTargetBookmark ? data : b.data,
+            };
+        }),
+    };
 }

@@ -1,4 +1,5 @@
 const log = require("debug")("redux-dag-history:DagHistory");
+import * as Immutable from "immutable";
 import DagGraph from "../DagGraph";
 import {
     IDagHistory,
@@ -6,15 +7,15 @@ import {
     BranchId,
     IConfiguration,
 } from "../interfaces";
-import * as Immutable from "immutable";
 
-export default function createBranch<T>(branchName: string, history: IDagHistory<T>) {
+export default function createBranch<T>(branchName: string, history: IDagHistory<T>): IDagHistory<T> {
     log("creating branch %s", branchName);
     const { graph, current, lastBranchId } = history;
     const reader = new DagGraph(graph);
     const newBranchId = lastBranchId + 1;
 
-    return Object.assign({}, history, {
+    return {
+        ...history,
         current,
         lastBranchId: newBranchId,
         pinnedStateId: null,
@@ -27,5 +28,5 @@ export default function createBranch<T>(branchName: string, history: IDagHistory
                 .setFirst(newBranchId, reader.currentStateId)
                 .setLatest(newBranchId, reader.currentStateId);
         }),
-    });
+    };
 }

@@ -7,7 +7,7 @@ import {
 import playBackBookmark from "./playBackBookmark";
 import jumpToState from "./jumpToState";
 
-export default function skipToLastBookmark<T>(history: IDagHistory<T>) {
+export default function skipToLastBookmark<T>(history: IDagHistory<T>): IDagHistory<T> {
     if (history.bookmarkPlaybackIndex !== null) {
         return playBackBookmark(history.bookmarks.length - 1, history);
     } else if (history.bookmarks.length > 0) {

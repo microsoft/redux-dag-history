@@ -8,7 +8,7 @@ import {
 } from "../interfaces";
 import createHistory from "./createHistory";
 
-export default function clear<T>(history: IDagHistory<T>) {
+export default function clear<T>(history: IDagHistory<T>): IDagHistory<T> {
     log("clearing history");
     const { graph, current } = history;
     return createHistory(current);

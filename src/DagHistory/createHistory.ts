@@ -15,7 +15,7 @@ export default function createHistory<T>(
     const currentStateId = 1;
     const currentBranchId = 1;
     const currentBookmarkId = 0;
-    return load({
+    return load<T>({
         current: initialState,
         lastStateId: currentStateId,
         lastBranchId: currentBranchId,
@@ -42,7 +42,7 @@ export default function createHistory<T>(
                     state: initialState,
                     name: initialStateName,
                     branch: 1,
-                    parent: null
+                    parent: null,
                 },
             },
         },

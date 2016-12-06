@@ -6,7 +6,7 @@ import {
     IConfiguration,
 } from "../interfaces";
 
-export default function isCurrentStateBookmarked<T>(history: IDagHistory<T>) {
+export default function isCurrentStateBookmarked<T>(history: IDagHistory<T>): boolean {
     const currentStateId = new DagGraph(history.graph).currentStateId;
     return history.bookmarks.some(e => e.stateId === currentStateId);
 }

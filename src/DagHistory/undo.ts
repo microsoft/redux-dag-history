@@ -10,7 +10,7 @@ import DagGraph from "../DagGraph";
 import jumpToState from "./jumpToState";
 import * as Immutable from "immutable";
 
-export default function undo<T>(history: IDagHistory<T>) {
+export default function undo<T>(history: IDagHistory<T>): IDagHistory<T> {
     const { graph } = history;
     const reader = new DagGraph(graph);
     const parentId = reader.parentOf(reader.currentStateId);
