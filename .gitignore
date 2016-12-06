@@ -5,3 +5,4 @@ lib/
 *.d.ts
 typings/
 coverage/
+.nyc_output/
