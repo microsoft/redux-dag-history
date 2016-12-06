@@ -6,7 +6,7 @@ import {
 } from "../interfaces";
 import {jump} from "./jump";
 
-export default function playBackBookmark<T>(rawIndex: number, history: IDagHistory<T>) {
+export default function playBackBookmark<T>(rawIndex: number, history: IDagHistory<T>): IDagHistory<T> {
     if (history.bookmarks.length === 0) {
         return history;
     }

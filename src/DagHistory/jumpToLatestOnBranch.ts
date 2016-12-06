@@ -8,7 +8,7 @@ import {
 import DagGraph from "../DagGraph";
 import {jump} from "./jump";
 
-export default function jumpToLatestOnBranch<T>(branch: BranchId, history: IDagHistory<T>) {
+export default function jumpToLatestOnBranch<T>(branch: BranchId, history: IDagHistory<T>): IDagHistory<T> {
     log("jumping to latest on branch %s", branch);
     const { pinnedStateId, graph } = history;
     const reader = new DagGraph(graph);

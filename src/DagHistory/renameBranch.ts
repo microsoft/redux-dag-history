@@ -8,12 +8,13 @@ import {
 } from "../interfaces";
 import * as Immutable from "immutable";
 
-export default function renameBranch<T>(branchId: BranchId, branchName: string, history: IDagHistory<T>) {
+export default function renameBranch<T>(branchId: BranchId, branchName: string, history: IDagHistory<T>): IDagHistory<T> {
     const { graph } = history;
     log("renaming branch %s => %s", branchId, branchName);
-    return Object.assign({}, history, {
+    return {
+        ...history,
         graph: graph.withMutations(g => {
             new DagGraph(g).setBranchName(branchId, branchName);
         }),
-    });
+    };
 }

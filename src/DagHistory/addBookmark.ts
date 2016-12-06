@@ -1,4 +1,6 @@
 const log = require("debug")("redux-dag-history:DagHistory");
+import * as Immutable from "immutable";
+
 import DagGraph from "../DagGraph";
 import {
     IDagHistory,
@@ -7,16 +9,19 @@ import {
     IConfiguration,
 } from "../interfaces";
 
-export default function addBookmark<T>(stateId: StateId, history: IDagHistory<T>, config: IConfiguration<T>) {
+export default function addBookmark<T>(stateId: StateId, history: IDagHistory<T>, config: IConfiguration<T>): IDagHistory<T> {
     log("adding bookmark on state %s", stateId);
     const { graph } = history;
     const reader = new DagGraph(graph);
     const stateName = reader.stateName(stateId);
-    const result = Object.assign({}, history);
-    result.bookmarks.push({
-        stateId: stateId,
-        name: config.bookmarkName(stateId, stateName),
-        data: {},
-    });
-    return result;
+    return {
+        ...history,
+        bookmarks: [
+            ...history.bookmarks, {
+                stateId: stateId,
+                name: config.bookmarkName(stateId, stateName),
+                data: {},
+            },
+        ]
+    };
 }

@@ -41,7 +41,7 @@ export default function trackHistory<T>(reducer: Function, rawConfig = {}) {
 
         switch (action.type) {
             case config.loadActionType:
-                history = DagHistory.load(action.payload);
+                history = DagHistory.load<T>(action.payload);
                 isHistoryHandled = true;
                 break;
 

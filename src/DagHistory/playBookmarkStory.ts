@@ -6,10 +6,13 @@ import {
 } from "../interfaces";
 import playBackBookmark from "./playBackBookmark";
 
-export default function playBookmarkStory<T>(history: IDagHistory<T>) {
+export default function playBookmarkStory<T>(history: IDagHistory<T>): IDagHistory<T> {
     if (!Number.isInteger(history.bookmarkPlaybackIndex)) {
         return playBackBookmark(0, history);
     } else {
-        return Object.assign({}, history, { bookmarkPlaybackIndex: null });
+        return {
+            ...history,
+            bookmarkPlaybackIndex: null,
+        };
     }
 }

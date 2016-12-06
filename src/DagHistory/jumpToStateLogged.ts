@@ -8,7 +8,7 @@ import DagGraph from "../DagGraph";
 import {jumpLog} from "./jump";
 import * as Immutable from "immutable";
 
-export default function jumpToStateLogged<T>(stateId: StateId, history: IDagHistory<T>) {
+export default function jumpToStateLogged<T>(stateId: StateId, history: IDagHistory<T>): IDagHistory<T> {
     log("jumping w/log to state %s", stateId);
     const { graph } = history;
     const reader = new DagGraph(graph);

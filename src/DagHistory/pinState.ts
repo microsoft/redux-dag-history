@@ -8,14 +8,17 @@ import {
 } from "../interfaces";
 import unfreeze from "./unfreeze";
 
-export default function pinState<T>(stateId: StateId, history: IDagHistory<T>) {
+export default function pinState<T>(stateId: StateId, history: IDagHistory<T>): IDagHistory<T> {
     // Set the pinned state ID
     // set the current state to the pinned state"s child in the current branch
     const { graph, pinnedStateId } = history;
     if (pinnedStateId === stateId) {
         log(`unpinning state ${stateId}`);
         // Unpin State
-        return Object.assign({}, history, { pinnedStateId: null });
+        return {
+            ...history,
+            pinnedStateId: null,
+        };
     }
 
     log(`pinning state:: ${stateId}`);
@@ -35,7 +38,8 @@ export default function pinState<T>(stateId: StateId, history: IDagHistory<T>) {
     const branch = reader.currentBranch;
     const targetState = reader.getState(targetStateId);
 
-    return Object.assign({}, history, {
+    return {
+        ...history,
         pinnedStateId: stateId,
         current: unfreeze(targetState),
         graph: graph.withMutations(g => {
@@ -47,5 +51,5 @@ export default function pinState<T>(stateId: StateId, history: IDagHistory<T>) {
                 writer.setCurrentBranch(null);
             }
         }),
-    });
+    };
 }

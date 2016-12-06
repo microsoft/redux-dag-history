@@ -29,7 +29,7 @@
     "ts-node": "^1.3.0",
     "ts-npm-lint": "^0.1.0",
     "tslint": "^3.11.0",
-    "typescript": "^2.0.0"
+    "typescript": "^2.1.4-insiders.20161206"
   },
   "dependencies": {
     "@types/redux-actions": "^0.8.30",

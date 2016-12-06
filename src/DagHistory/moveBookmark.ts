@@ -7,9 +7,9 @@ import {
     IConfiguration,
 } from "../interfaces";
 
-export default function moveBookmark<T>(from: number, to: number, history: IDagHistory<T>) {
+export default function moveBookmark<T>(from: number, to: number, history: IDagHistory<T>): IDagHistory<T> {
     log("moving bookmark at %s to %s", from, to);
-    const result = Object.assign({}, history);
+    const result = { ...history };
     if (from < to) {
         to--;
     }

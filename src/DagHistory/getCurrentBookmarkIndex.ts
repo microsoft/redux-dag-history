@@ -7,7 +7,7 @@ import {
     IConfiguration,
 } from "../interfaces";
 
-export default function getCurrentBookmarkIndex<T>(history: IDagHistory<T>) {
+export default function getCurrentBookmarkIndex<T>(history: IDagHistory<T>): number {
     const reader = new DagGraph(history.graph);
     const currentStateId = reader.currentStateId;
     let currentBookmarkIndex = -1;
