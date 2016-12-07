@@ -1,12 +1,12 @@
-import * as ActionTypes from "./ActionTypes";
-import { IConfiguration, BranchId, StateId, IDagHistory } from "./interfaces";
-export const CLEAR = "DAG_HISTORY_CLEAR";
-export const UNDO = "DAG_HISTORY_UNDO";
-export const REDO = "DAG_HISTORY_REDO";
-export const JUMP_TO_STATE = "DAG_HISTORY_JUMP_TO_STATE";
-export const JUMP_TO_BRANCH = "DAG_HISTORY_JUMP_TO_BRANCH";
-export const CREATE_BRANCH = "DAG_HISTORY_CREATE_BRANCH";
-export const SQUASH = "DAG_HISTORY_SQUASH";
+import * as ActionTypes from './ActionTypes';
+import { IConfiguration, BranchId, StateId, IDagHistory } from './interfaces';
+export const CLEAR = 'DAG_HISTORY_CLEAR';
+export const UNDO = 'DAG_HISTORY_UNDO';
+export const REDO = 'DAG_HISTORY_REDO';
+export const JUMP_TO_STATE = 'DAG_HISTORY_JUMP_TO_STATE';
+export const JUMP_TO_BRANCH = 'DAG_HISTORY_JUMP_TO_BRANCH';
+export const CREATE_BRANCH = 'DAG_HISTORY_CREATE_BRANCH';
+export const SQUASH = 'DAG_HISTORY_SQUASH';
 
 const DEFAULT_ACTION_FILTER = () => true;
 
@@ -136,31 +136,11 @@ export default class Configuation<T> implements IConfiguration<T> {
         return this._rawConfig.skipToEndActionType || ActionTypes.SKIP_TO_END;
     }
 
-    public get playBookmarkStoryActionType() {
-        return this._rawConfig.playBookmarkStoryActionType || ActionTypes.PLAY_BOOKMARK_STORY;
-    }
-
-    public get skipToFirstBookmarkActionType() {
-        return this._rawConfig.skipToFirstBookmarkActionType || ActionTypes.SKIP_TO_FIRST_BOOKMARK;
-    }
-
-    public get skipToLastBookmarkActionType() {
-        return this._rawConfig.skipToLastBookmarkActionType || ActionTypes.SKIP_TO_LAST_BOOKMARK;
-    }
-
-    public get nextBookmarkActionType() {
-        return this._rawConfig.nextBookmarkActionType || ActionTypes.NEXT_BOOKMARK;
-    }
-
-    public get previousBookmarkActionType() {
-        return this._rawConfig.previousBookmarkActionType || ActionTypes.PREVIOUS_BOOKMARK;
-    }
-
     public get initialBranchName() {
-        return this._rawConfig.initialBranchName || "Branch 1";
+        return this._rawConfig.initialBranchName || 'Branch 1';
     }
 
     public get initialStateName() {
-        return this._rawConfig.initialStateName || "Initial";
+        return this._rawConfig.initialStateName || 'Initial';
     }
 }

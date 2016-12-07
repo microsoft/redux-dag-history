@@ -1,31 +1,36 @@
-const log = require("debug")("redux-dag-history:DagHistory");
-import DagGraph from "../DagGraph";
+import * as Immutable from 'immutable';
+import DagGraph from '../DagGraph';
 import {
-    IDagHistory,
-    StateId,
-    BranchId,
-    IConfiguration,
-} from "../interfaces";
-import * as Immutable from "immutable";
+  IDagHistory,
+  StateId,
+  BranchId,
+  IConfiguration,
+} from '../interfaces';
 
-export default function replaceCurrentState<T>(state: any, history: IDagHistory<T>, config: IConfiguration<T>): IDagHistory<T> {
-    log("replace current state");
-    const { graph, stateHash } = history;
-    const reader = new DagGraph(graph);
-    const currentStateId = reader.currentStateId;
+const log = require('debug')('redux-dag-history:DagHistory');
 
-    // If the state has a hash code, register the state
-    if (config.stateKeyGenerator) {
-        const stateHash = config.stateKeyGenerator(state);
+export default function replaceCurrentState<T>(
+  state: any,
+  history: IDagHistory<T>,
+  config: IConfiguration<T>,
+): IDagHistory<T> {
+  log('replace current state');
+  const { graph, stateHash } = history;
+  const reader = new DagGraph(graph);
+  const currentStateId = reader.currentStateId;
 
-        log("inserting state with key", stateHash);
-        history.stateHash.set(stateHash, currentStateId);
-    }
+  // If the state has a hash code, register the state
+  if (config.stateKeyGenerator) {
+    const hash = config.stateKeyGenerator(state);
 
-    return {
-        ...history,
-        current: state,
-        stateHash,
-        graph: graph.withMutations(g => new DagGraph(g).replaceState(currentStateId, state)),
-    };
+    log('inserting state with key', hash);
+    history.stateHash.set(hash, currentStateId);
+  }
+
+  return {
+    ...history,
+    current: state,
+    stateHash,
+    graph: graph.withMutations(g => new DagGraph(g).replaceState(currentStateId, state)),
+  };
 }
