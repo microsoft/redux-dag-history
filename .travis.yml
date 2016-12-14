@@ -1,7 +1,0 @@
-language: node_js
-node_js:
-  # LTS Versions
-  - "4"
-  - "6"
-  # Latest
-  - "node"

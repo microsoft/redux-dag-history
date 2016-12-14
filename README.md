@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.com/Microsoft/redux-dag-history.svg?token=Zp5ok23F9QzZUVfCEpU5&branch=master)](https://travis-ci.com/Microsoft/redux-dag-history)
+[![CircleCI](https://circleci.com/gh/Microsoft/redux-dag-history/tree/master.svg?style=svg)](https://circleci.com/gh/Microsoft/redux-dag-history/tree/master)
 
 # Redux DAG History
 
