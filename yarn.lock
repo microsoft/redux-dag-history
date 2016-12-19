@@ -2022,9 +2022,9 @@ typescript-eslint-parser@^1.0.0:
     lodash.unescape "4.0.0"
     object-assign "^4.0.1"
 
-typescript@^2.1.4-insiders.20161206:
-  version "2.1.4-insiders.20161206"
-  resolved "http://essex-private-npm.westus.cloudapp.azure.com:4873/typescript/-/typescript-2.1.4-insiders.20161206.tgz#9f816358519f4f40d6d35d0220085e77afd979cb"
+typescript@^2.1.4:
+  version "2.1.4"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.1.4.tgz#b53b69fb841126acb1dd4b397d21daba87572251"
 
 uglify-js@^2.6:
   version "2.7.3"
