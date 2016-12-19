@@ -13,3 +13,5 @@ scripts/
 .vscode/
 test-results.xml
 circle.yml
+.npmignore
+.eslintrc
