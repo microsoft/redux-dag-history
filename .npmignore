@@ -7,3 +7,9 @@ typings/
 tsconfig.json
 typings.json
 coverage/
+test/
+scripts/
+.nyc_output/
+.vscode/
+test-results.xml
+circle.yml
