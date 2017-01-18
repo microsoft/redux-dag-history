@@ -71,31 +71,6 @@ export const SQUASH = action('squash');
 export const RENAME_STATE = action('rename_state');
 
 /**
- * Add a new state bookmark
- */
-export const ADD_BOOKMARK = action('add_bookmark');
-
-/**
- * Remove a state bookmark
- */
-export const REMOVE_BOOKMARK = action('remove_bookmark');
-
-/**
- * Rename a state bookmark
- */
-export const RENAME_BOOKMARK = action('rename_bookmark');
-
-/**
- * Change a state bookmark
- */
-export const CHANGE_BOOKMARK = action('change_bookmark');
-
-/**
- * Move a bookmark to a different position
- */
-export const MOVE_BOOKMARK = action('move_bookmark');
-
-/**
  * Pin a state for successor browsing
  */
 export const PIN_STATE = action('pin_state');

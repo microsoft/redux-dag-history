@@ -3,9 +3,6 @@ import { createAction, Action } from 'redux-actions';
 import {
   BranchId,
   StateId,
-  RenameBookmarkPayload,
-  MoveBookmarkPayload,
-  ChangeBookmarkPayload,
   RenameBranchPayload,
 } from './interfaces';
 
@@ -21,9 +18,4 @@ export const jumpToLatestOnBranch = createAction<BranchId>(ActionTypes.JUMP_TO_L
 export const renameBranch = createAction<RenameBranchPayload>(ActionTypes.RENAME_BRANCH);
 export const createBranch = createAction<string>(ActionTypes.CREATE_BRANCH);
 export const squash = createAction<void>(ActionTypes.SQUASH);
-export const addBookmark = createAction<StateId>(ActionTypes.ADD_BOOKMARK);
-export const removeBookmark = createAction<StateId>(ActionTypes.REMOVE_BOOKMARK);
-export const renameBookmark = createAction<RenameBookmarkPayload>(ActionTypes.RENAME_BOOKMARK);
-export const changeBookmark = createAction<ChangeBookmarkPayload>(ActionTypes.CHANGE_BOOKMARK);
-export const moveBookmark = createAction<MoveBookmarkPayload>(ActionTypes.MOVE_BOOKMARK);
 export const pinState = createAction<StateId>(ActionTypes.PIN_STATE);

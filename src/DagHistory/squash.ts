@@ -15,7 +15,6 @@ export default function squash<T>(history: IDagHistory<T>): IDagHistory<T> {
   return {
     ...history,
     current,
-    bookmarkPlaybackIndex: null,
     pinnedStateId: null,
     graph: graph.withMutations(g => new DagGraph(g).squashCurrentBranch()),
   };

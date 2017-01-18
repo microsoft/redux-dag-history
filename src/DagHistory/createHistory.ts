@@ -15,13 +15,11 @@ export default function createHistory<T>(
   log('creating history');
   const currentStateId = 1;
   const currentBranchId = 1;
-  const currentBookmarkId = 0;
   return load<T>({
     current: initialState,
     lastStateId: currentStateId,
     lastBranchId: currentBranchId,
     pinnedStateId: null,
-    bookmarks: [],
     stateHash: new Map<string, any>(), // eslint-disable-line new-parens
     chronologicalStates: [currentStateId],
     graph: {
