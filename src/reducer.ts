@@ -84,26 +84,6 @@ export default function trackHistory<T>(reducer: Function, rawConfig = {}) {
         history = DagHistory.renameState(action.payload.stateId, action.payload.name as string, history);
         break;
 
-      case config.addBookmarkActionType:
-        history = DagHistory.addBookmark(action.payload, history, config);
-        break;
-
-      case config.removeBookmarkActionType:
-        history = DagHistory.removeBookmark(action.payload, history);
-        break;
-
-      case config.renameBookmarkActionType:
-        history = DagHistory.renameBookmark(action.payload.bookmark, action.payload.name, history);
-        break;
-
-      case config.changeBookmarkActionType:
-        history = DagHistory.changeBookmark(action.payload.bookmark, action.payload.name, action.payload.data, history);
-        break;
-
-      case config.moveBookmarkActionType:
-        history = DagHistory.moveBookmark(action.payload.from, action.payload.to, history);
-        break;
-
       case config.pinStateActionType:
         history = DagHistory.pinState(action.payload, history);
         break;

@@ -39,30 +39,19 @@ export interface IConfiguration<T> {
   renameBranchActionType?: string;
   renameStateActionType?: string;
   squashActionType?: string;
-  addBookmarkActionType?: string;
-  removeBookmarkActionType?: string;
-  renameBookmarkActionType?: string;
-  moveBookmarkActionType?: string;
   initialBranchName?: string;
   initialStateName?: string;
   pinStateActionType?: string;
   skipToStartActionType?: string;
   skipToEndActionType?: string;
-  changeBookmarkActionType?: string;
-  playBookmarkStoryActionType?: string;
-  skipToFirstBookmarkActionType?: string;
-  skipToLastBookmarkActionType?: string;
-  nextBookmarkActionType?: string;
-  previousBookmarkActionType?: string;
 
   /**
-   * State, Branch, Bookmark Naming
+   * State and Branch Naming
    */
   actionName?: (state: any, stateId: StateId) => string;
   branchName?: (oldBranch: BranchId, newBranch: BranchId, actionName: string) => string;
-  bookmarkName?: (stateId: StateId, actionName: string) => string;
 
-  // CustomHandlers
+  // Custom Handlers
   canHandleAction?: (action: any) => boolean;
   handleAction?: (action: any, history: IDagHistory<T>) => IDagHistory<T>;
 }
@@ -81,14 +70,6 @@ export interface IDagHistory<T> {
 
   // Special States
   pinnedStateId?: StateId;
-  bookmarkPlaybackIndex?: number;
-
-  // Bookmark Data
-  bookmarks: Array<{
-    stateId: StateId;
-    name: string;
-    data: any;
-  }>;
 
   /**
    * A weak mapping of hash-codes to state, for efficient duplicate state lookup
@@ -151,23 +132,7 @@ export interface StateNameGenerator {
   (state: any, id: StateId): string;
 }
 
-export interface RenameBookmarkPayload {
-  bookmark: StateId;
-  name: string;
-}
-
 export interface RenameBranchPayload {
   branch: BranchId;
   name: string;
-}
-
-export interface MoveBookmarkPayload {
-  from: number;
-  to: number;
-}
-
-export interface ChangeBookmarkPayload {
-  bookmark: StateId;
-  name: string;
-  data: any;
 }

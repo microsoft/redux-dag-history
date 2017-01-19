@@ -37,13 +37,6 @@ export default class Configuation<T> implements IConfiguration<T> {
         return `${newBranch}: ${actionName}`;
     }
 
-    public bookmarkName(stateId: StateId, actionName: string) {
-        if (this._rawConfig.bookmarkName) {
-            return this._rawConfig.bookmarkName(stateId, actionName);
-        }
-        return actionName;
-    }
-
     public canHandleAction(action: any): boolean {
         return this._rawConfig.canHandleAction && this._rawConfig.canHandleAction(action);
     }
@@ -102,26 +95,6 @@ export default class Configuation<T> implements IConfiguration<T> {
 
     public get renameStateActionType() {
         return this._rawConfig.renameStateActionType || ActionTypes.RENAME_STATE;
-    }
-
-    public get addBookmarkActionType() {
-        return this._rawConfig.addBookmarkActionType || ActionTypes.ADD_BOOKMARK;
-    }
-
-    public get removeBookmarkActionType() {
-        return this._rawConfig.removeBookmarkActionType || ActionTypes.REMOVE_BOOKMARK;
-    }
-
-    public get renameBookmarkActionType() {
-        return this._rawConfig.renameBookmarkActionType || ActionTypes.RENAME_BOOKMARK;
-    }
-
-    public get changeBookmarkActionType() {
-        return this._rawConfig.changeBookmarkActionType || ActionTypes.CHANGE_BOOKMARK;
-    }
-
-    public get moveBookmarkActionType() {
-        return this._rawConfig.moveBookmarkActionType || ActionTypes.MOVE_BOOKMARK;
     }
 
     public get pinStateActionType() {
