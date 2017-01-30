@@ -10,7 +10,7 @@ export const SQUASH = 'DAG_HISTORY_SQUASH';
 
 const DEFAULT_ACTION_FILTER = () => true;
 
-export default class Configuation<T> implements IConfiguration<T> {
+export default class Configuration<T> implements IConfiguration<T> {
     constructor(private _rawConfig: IConfiguration<T>) {
     }
 
