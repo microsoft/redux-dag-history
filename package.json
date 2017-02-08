@@ -10,7 +10,7 @@
     "lint:src": "eslint src/**/*.ts test/*.ts",
     "lint": "npm-run-all --parallel lint:*",
     "compile": "tsc",
-    "test": "npm-run-all compile lint jest:coverage",
+    "test": "npm-run-all --parallel compile lint jest:coverage",
     "watch:jest": "jest --watch",
     "watch:ts": "tsc -w",
     "develop": "npm-run-all --parallel watch:*",
