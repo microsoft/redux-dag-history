@@ -7,7 +7,7 @@
     "jest": "jest",
     "jest:coverage": "jest --coverage",
     "lint:ts": "ts-npm-lint --fix-typings",
-    "lint:src": "eslint src/**/*.ts test/*.ts",
+    "lint:src": "eslint .",
     "lint": "npm-run-all --parallel lint:*",
     "compile": "tsc",
     "test": "npm-run-all --parallel compile lint jest:coverage",

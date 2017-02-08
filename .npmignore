@@ -1,5 +1,6 @@
 .editorconfig
 .eslintrc
+.eslintignore
 .npmignore
 .gitignore
 .travis.yml
