@@ -11,109 +11,109 @@ export const SQUASH = 'DAG_HISTORY_SQUASH';
 const DEFAULT_ACTION_FILTER = () => true;
 
 export default class Configuration<T> implements IConfiguration<T> {
-    constructor(private _rawConfig: IConfiguration<T>) {
+    constructor(protected rawConfig: IConfiguration<T>) {
     }
 
     public get stateEqualityPredicate() {
-        return this._rawConfig.stateEqualityPredicate;
+        return this.rawConfig.stateEqualityPredicate;
     }
 
     public get stateKeyGenerator() {
-        return this._rawConfig.stateKeyGenerator;
+        return this.rawConfig.stateKeyGenerator;
     }
 
     public actionName(state: T, id: StateId) {
-        if (this._rawConfig.actionName) {
-            return this._rawConfig.actionName(state, id);
+        if (this.rawConfig.actionName) {
+            return this.rawConfig.actionName(state, id);
         } else {
             return `State ${id}`;
         };
     }
 
     public branchName(oldBranch: BranchId, newBranch: BranchId, actionName: string) {
-        if (this._rawConfig.branchName) {
-            return this._rawConfig.branchName(oldBranch, newBranch, actionName);
+        if (this.rawConfig.branchName) {
+            return this.rawConfig.branchName(oldBranch, newBranch, actionName);
         }
         return `${newBranch}: ${actionName}`;
     }
 
     public canHandleAction(action: any): boolean {
-        return this._rawConfig.canHandleAction && this._rawConfig.canHandleAction(action);
+        return this.rawConfig.canHandleAction && this.rawConfig.canHandleAction(action);
     }
 
     public handleAction(action: any, history: IDagHistory<T>): IDagHistory<T> {
-        return this._rawConfig.handleAction(action, history);
+        return this.rawConfig.handleAction(action, history);
     }
 
     public get debug() {
-        return this._rawConfig.debug || false;
+        return this.rawConfig.debug || false;
     }
 
     public get actionFilter() {
-        return this._rawConfig.actionFilter || DEFAULT_ACTION_FILTER;
+        return this.rawConfig.actionFilter || DEFAULT_ACTION_FILTER;
     }
 
     public get loadActionType() {
-        return this._rawConfig.loadActionType || ActionTypes.LOAD;
+        return this.rawConfig.loadActionType || ActionTypes.LOAD;
     }
 
     public get clearActionType() {
-        return this._rawConfig.clearActionType || ActionTypes.CLEAR;
+        return this.rawConfig.clearActionType || ActionTypes.CLEAR;
     }
 
     public get undoActionType() {
-        return this._rawConfig.undoActionType || ActionTypes.UNDO;
+        return this.rawConfig.undoActionType || ActionTypes.UNDO;
     }
 
     public get redoActionType() {
-        return this._rawConfig.redoActionType || ActionTypes.REDO;
+        return this.rawConfig.redoActionType || ActionTypes.REDO;
     }
 
     public get jumpToStateActionType() {
-        return this._rawConfig.jumpToStateActionType || ActionTypes.JUMP_TO_STATE;
+        return this.rawConfig.jumpToStateActionType || ActionTypes.JUMP_TO_STATE;
     }
 
     public get jumpToBranchActionType() {
-        return this._rawConfig.jumpToBranchActionType || ActionTypes.JUMP_TO_BRANCH;
+        return this.rawConfig.jumpToBranchActionType || ActionTypes.JUMP_TO_BRANCH;
     }
 
     public get jumpToLatestOnBranchActionType() {
-        return this._rawConfig.jumpToLatestOnBranchActionType || ActionTypes.JUMP_TO_LATEST_ON_BRANCH;
+        return this.rawConfig.jumpToLatestOnBranchActionType || ActionTypes.JUMP_TO_LATEST_ON_BRANCH;
     }
 
     public get createBranchActionType() {
-        return this._rawConfig.createBranchActionType || ActionTypes.CREATE_BRANCH;
+        return this.rawConfig.createBranchActionType || ActionTypes.CREATE_BRANCH;
     }
 
     public get renameBranchActionType() {
-        return this._rawConfig.renameBranchActionType || ActionTypes.RENAME_BRANCH;
+        return this.rawConfig.renameBranchActionType || ActionTypes.RENAME_BRANCH;
     }
 
     public get squashActionType() {
-        return this._rawConfig.squashActionType || ActionTypes.SQUASH;
+        return this.rawConfig.squashActionType || ActionTypes.SQUASH;
     }
 
     public get renameStateActionType() {
-        return this._rawConfig.renameStateActionType || ActionTypes.RENAME_STATE;
+        return this.rawConfig.renameStateActionType || ActionTypes.RENAME_STATE;
     }
 
     public get pinStateActionType() {
-        return this._rawConfig.pinStateActionType || ActionTypes.PIN_STATE;
+        return this.rawConfig.pinStateActionType || ActionTypes.PIN_STATE;
     }
 
     public get skipToStartActionType() {
-        return this._rawConfig.skipToStartActionType || ActionTypes.SKIP_TO_START;
+        return this.rawConfig.skipToStartActionType || ActionTypes.SKIP_TO_START;
     }
 
     public get skipToEndActionType() {
-        return this._rawConfig.skipToEndActionType || ActionTypes.SKIP_TO_END;
+        return this.rawConfig.skipToEndActionType || ActionTypes.SKIP_TO_END;
     }
 
     public get initialBranchName() {
-        return this._rawConfig.initialBranchName || 'Branch 1';
+        return this.rawConfig.initialBranchName || 'Branch 1';
     }
 
     public get initialStateName() {
-        return this._rawConfig.initialStateName || 'Initial';
+        return this.rawConfig.initialStateName || 'Initial';
     }
 }
