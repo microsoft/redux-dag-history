@@ -1,0 +1,17 @@
+.show-docked-under-enter {
+  transform: translate(0%, 100%);
+}
+
+.show-docked-under-enter.show-docked-under-enter-active {
+  transform: translate(0%, 0%);
+  transition: transform 250ms ease-in-out;
+}
+
+.show-docked-under-leave {
+  transform: translate(0%, 0%);
+}
+
+.show-docked-under-leave.show-docked-under-leave-active {
+  transform: translate(0%, 100%);
+  transition: transform 250ms ease-in-out;
+}

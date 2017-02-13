@@ -1,0 +1,21 @@
+{
+  "name": "@essex/redux-dag-history",
+  "version": "2.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "clean": "rimraf lib",
+    "build": "tsc",
+    "start": "tsc -w"
+  },
+  "author": "Chris Trevino <darthtrevino@gmail.com>",
+  "typings": "lib/index",
+  "license": "MIT",
+  "dependencies": {
+    "@types/redux-actions": "^1.2.2",
+    "debug": "^2.6.0",
+    "immutable": "^3.8.1",
+    "redux-actions": "^1.2.1",
+    "treeify": "^1.0.1"
+  }
+}

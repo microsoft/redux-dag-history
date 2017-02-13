@@ -1,0 +1,18 @@
+.playback-pane {
+  display: flex;
+  flex: 1;
+  justify-content: left;
+  padding: 10px;
+}
+
+.playback-pane-paged {
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+}
+
+.playback-pane-container {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
