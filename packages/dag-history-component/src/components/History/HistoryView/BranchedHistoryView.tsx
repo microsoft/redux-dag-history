@@ -102,7 +102,7 @@ export default connect<IBranchedHistoryViewStateProps, IBranchedHistoryViewDispa
     onBranchSelect: DagHistoryActions.jumpToBranch,
     onRemoveBookmark: DagComponentActions.removeBookmark,
     onToggleBranchContainer: DagComponentActions.toggleBranchContainer,
-    onHighlightSuccessors: DagHistoryActions.pinState,
+    onHighlightSuccessors: DagComponentActions.pinState,
     onRenameBranch: DagHistoryActions.renameBranch,
   }, dispatch)
 )(BranchedHistoryView);

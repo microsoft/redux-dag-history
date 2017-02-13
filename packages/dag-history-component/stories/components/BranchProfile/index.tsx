@@ -69,49 +69,4 @@ storiesOf('BranchProfile', module)
     activeStateIndex={9}
     type="legacy"
   />
-))
-.add('Legacy With Pinned State', () => (
-  <BranchProfile
-    start={0}
-    end={10}
-    max={10}
-    branchStart={0}
-    branchEnd={5}
-    pinnedStateIndex={5}
-    type="legacy"
-  />
-))
-.add('Active With Pinned State', () => (
-  <BranchProfile
-    start={0}
-    end={10}
-    max={10}
-    branchStart={0}
-    branchEnd={5}
-    pinnedStateIndex={5}
-    type="current"
-  />
-))
-.add('Active With Pinned State and Successor State', () => (
-  <BranchProfile
-    start={0}
-    end={10}
-    max={10}
-    branchStart={0}
-    branchEnd={5}
-    pinnedStateIndex={5}
-    successorStateIndex={6}
-    type="current"
-  />
-))
-.add('Active With Successor State', () => (
-  <BranchProfile
-    start={0}
-    end={10}
-    max={10}
-    branchStart={0}
-    branchEnd={5}
-    successorStateIndex={6}
-    type="current"
-  />
 ));

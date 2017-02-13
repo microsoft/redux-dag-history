@@ -41,7 +41,6 @@ export interface IConfiguration<T> {
   squashActionType?: string;
   initialBranchName?: string;
   initialStateName?: string;
-  pinStateActionType?: string;
   skipToStartActionType?: string;
   skipToEndActionType?: string;
 
@@ -67,9 +66,6 @@ export interface IDagHistory<T> {
   current: T;
   lastStateId: StateId;
   lastBranchId: BranchId;
-
-  // Special States
-  pinnedStateId?: StateId;
 
   /**
    * A weak mapping of hash-codes to state, for efficient duplicate state lookup

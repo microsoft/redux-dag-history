@@ -22,7 +22,6 @@ export default function createBranch<T>(
     ...history,
     current,
     lastBranchId: newBranchId,
-    pinnedStateId: null,
     graph: graph.withMutations((g) => {
       new DagGraph(g)
         .setCurrentBranch(newBranchId)

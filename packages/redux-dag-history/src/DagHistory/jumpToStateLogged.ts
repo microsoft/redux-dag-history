@@ -18,10 +18,7 @@ export default function jumpToStateLogged<T>(
   const reader = new DagGraph(graph);
   const branches = reader.branchesOf(stateId);
   const branch = reader.currentBranch;
-
-  const updateObj: any = {
-    pinnedStateId: null,
-  };
+  const updateObj: any = {};
 
   return jumpLog(stateId, history, updateObj, (writer) => {
     if (branches.indexOf(branch) === -1) {

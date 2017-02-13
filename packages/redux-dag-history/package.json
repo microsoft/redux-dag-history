@@ -17,17 +17,5 @@
     "immutable": "^3.8.1",
     "redux-actions": "^1.2.1",
     "treeify": "^1.0.1"
-  },
-  "jest": {
-    "collectCoverageFrom": "src/**/*.ts",
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js"
-    ],
-    "transform": {
-      "^.+\\.(ts|tsx)$": "<rootDir>/scripts/preprocessor.js"
-    },
-    "testRegex": "test/.*\\.spec\\.(ts|tsx|js)$"
   }
 }

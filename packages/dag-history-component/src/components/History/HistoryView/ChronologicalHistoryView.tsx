@@ -91,7 +91,7 @@ export default connect<IChronologicalHistoryViewStateProps, IChronologicalHistor
     onSkipToStart: DagHistoryActions.skipToStart,
     onSkipToEnd: DagHistoryActions.skipToEnd,
     onRenameBranch: DagHistoryActions.renameBranch,
-    onHighlightSuccessors: DagHistoryActions.pinState,
+    onHighlightSuccessors: DagComponentActions.pinState,
     onToggleBranchContainer: DagComponentActions.toggleBranchContainer,
   }, dispatch)
 )(ChronologicalHistoryView);

@@ -19,7 +19,6 @@ export default function createHistory<T>(
     current: initialState,
     lastStateId: currentStateId,
     lastBranchId: currentBranchId,
-    pinnedStateId: null,
     stateHash: new Map<string, any>(), // eslint-disable-line new-parens
     chronologicalStates: [currentStateId],
     graph: {

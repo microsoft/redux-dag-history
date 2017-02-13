@@ -97,10 +97,6 @@ export default class Configuration<T> implements IConfiguration<T> {
         return this.rawConfig.renameStateActionType || ActionTypes.RENAME_STATE;
     }
 
-    public get pinStateActionType() {
-        return this.rawConfig.pinStateActionType || ActionTypes.PIN_STATE;
-    }
-
     public get skipToStartActionType() {
         return this.rawConfig.skipToStartActionType || ActionTypes.SKIP_TO_START;
     }

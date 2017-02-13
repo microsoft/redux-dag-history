@@ -18,4 +18,3 @@ export const jumpToLatestOnBranch = createAction<BranchId>(ActionTypes.JUMP_TO_L
 export const renameBranch = createAction<RenameBranchPayload>(ActionTypes.RENAME_BRANCH);
 export const createBranch = createAction<string>(ActionTypes.CREATE_BRANCH);
 export const squash = createAction<void>(ActionTypes.SQUASH);
-export const pinState = createAction<StateId>(ActionTypes.PIN_STATE);

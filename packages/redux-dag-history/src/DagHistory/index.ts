@@ -8,7 +8,6 @@ import jumpToLatestOnBranch from './jumpToLatestOnBranch';
 import jumpToState from './jumpToState';
 import jumpToStateLogged from './jumpToStateLogged';
 import load from './load';
-import pinState from './pinState';
 import redo from './redo';
 import renameBranch from './renameBranch';
 import renameState from './renameState';
@@ -29,7 +28,6 @@ export {
   jumpToState,
   jumpToStateLogged,
   load,
-  pinState,
   redo,
   renameBranch,
   renameState,

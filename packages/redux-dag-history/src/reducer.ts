@@ -84,10 +84,6 @@ export default function trackHistory<T>(reducer: Function, rawConfig = {}) {
         history = DagHistory.renameState(action.payload.stateId, action.payload.name as string, history);
         break;
 
-      case config.pinStateActionType:
-        history = DagHistory.pinState(action.payload, history);
-        break;
-
       case config.skipToStartActionType:
         history = DagHistory.skipToStart(history);
         break;

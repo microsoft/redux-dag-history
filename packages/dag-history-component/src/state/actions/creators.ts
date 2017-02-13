@@ -21,6 +21,7 @@ export const removeBookmark = createAction<StateId>(Types.REMOVE_BOOKMARK);
 export const renameBookmark = createAction<RenameBookmarkPayload>(Types.RENAME_BOOKMARK);
 export const changeBookmark = createAction<ChangeBookmarkPayload>(Types.CHANGE_BOOKMARK);
 export const moveBookmark = createAction<MoveBookmarkPayload>(Types.MOVE_BOOKMARK);
+export const pinState = createAction<StateId>(Types.PIN_STATE);
 
 // Composite Action Creators
 export function bookmarkDragDrop(payload: BookmarkDragDropPayload) {

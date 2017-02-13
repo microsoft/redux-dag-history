@@ -13,6 +13,11 @@ export const BOOKMARK_DRAG_DROP = action('BOOKMARK_DRAG_DROP');
 export const BOOKMARK_DRAG_CANCEL = action('BOOKMARK_DRAG_CANCEL');
 
 /**
+ * Pin a state to navigate successors
+ */
+export const PIN_STATE = action('PIN_STATE');
+
+/**
  * Add a new state bookmark
  */
 export const ADD_BOOKMARK = action('add_bookmark');

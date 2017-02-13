@@ -40,7 +40,6 @@ export default function insert<T>(
   return {
     ...history,
     current: state,
-    pinnedStateId: null,
     lastStateId: newStateId,
     lastBranchId: newBranchId,
     chronologicalStates: [...chronologicalStates, newStateId],

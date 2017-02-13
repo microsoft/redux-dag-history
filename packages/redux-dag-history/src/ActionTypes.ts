@@ -71,11 +71,6 @@ export const SQUASH = action('squash');
 export const RENAME_STATE = action('rename_state');
 
 /**
- * Pin a state for successor browsing
- */
-export const PIN_STATE = action('pin_state');
-
-/**
  * Skips to the beginning of the current history line
  */
 export const SKIP_TO_START = action('skip_to_start');

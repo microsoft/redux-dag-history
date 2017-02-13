@@ -69,7 +69,7 @@ export default function createHistoryContainer(getMiddlewareState: Function, get
     return {
       // State from the redux-dag-history middleware
       history: middleware,
-      highlightSuccessorsOf: middleware.pinnedStateId,
+      highlightSuccessorsOf: component.pinnedState.id,
 
       // State from the dag-history-component
       bookmarks: component.bookmarks,
