@@ -2,6 +2,8 @@ language: node_js
 node_js:
   - "6"
   - "node"
+before_script:
+  - lerna bootstrap
 cache:
   yarn: true
   directories:
