@@ -1,0 +1,53 @@
+{
+  "name": "@essex/dag-history-component",
+  "version": "0.8.0",
+  "description": "A React Component for Dag-History Visualization",
+  "main": "lib/index.js",
+  "scripts": {
+    "clean": "rimraf lib/ storybook-static/",
+    "serve:webpack": "webpack-dev-server --host 0.0.0.0 --hot --inline --history-api-fallback",
+    "serve:storybook": "start-storybook -p 6006",
+    "build:tsc": "tsc",
+    "build:sass": "node-sass src/daghistory.scss --output lib",
+    "build:assets": "cpx 'src/**/*.scss' lib",
+    "build:storybook": "build-storybook",
+    "build": "npm-run-all --parallel 'build:*'",
+    "watch:sass": "npm run build:sass -- --watch",
+    "watch:copysass": "npm run build:assets -- --watch",
+    "watch:tsc": "tsc -w",
+    "start": "npm-run-all --parallel 'serve:*' 'watch:*'"
+  },
+  "author": "Chris Trevino <chris.trevino@atsid.com>",
+  "license": "MIT",
+  "files": [
+    "package.json",
+    "README.md",
+    "LICENSE",
+    "lib/"
+  ],
+  "devDependencies": {},
+  "dependencies": {
+    "@essex/redux-dag-history": "^2.0.1",
+    "@types/classnames": "^0.0.32",
+    "@types/react": "^15.0.8",
+    "@types/react-addons-css-transition-group": "^15.0.1",
+    "@types/react-dnd": "^2.0.32",
+    "@types/react-redux": "^4.4.36",
+    "@types/react-tabs": "^0.5.22",
+    "@types/redux": "^3.6.31",
+    "@types/redux-actions": "^1.2.2",
+    "classnames": "^2.2.5",
+    "debug": "^2.6.0",
+    "lodash": "^4.17.4",
+    "react": "^15.4.2",
+    "react-addons-css-transition-group": "^15.4.2",
+    "react-dnd": "^2.2.3",
+    "react-icons": "^2.2.3",
+    "react-keydown": "^1.6.2",
+    "react-redux": "^5.0.2",
+    "react-simple-dropdown": "^1.1.4",
+    "react-tabs": "^0.8.2",
+    "redux": "^3.3.1",
+    "redux-actions": "^1.2.1"
+  }
+}

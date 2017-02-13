@@ -1,0 +1,7 @@
+{
+  "rules": {
+    // test assertions trigger this rule
+    "no-unused-expressions": "off",
+    "import/no-named-default": "off"
+  }
+}

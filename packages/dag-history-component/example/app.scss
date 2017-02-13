@@ -1,0 +1,63 @@
+html {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  -ms-overflow-style: none;
+}
+::-webkit-scrollbar {
+  display: none;
+}
+
+body {
+  display: flex;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  padding: 0;
+}
+
+.app-root {
+  display: flex;
+  flex: 1;
+  padding: 10;
+}
+
+.visual-a {
+  flex: 1;
+  padding: 30px;
+}
+
+.visual-b {
+  flex: 1;
+  padding: 30px;
+}
+
+.history-viz-container {
+  display: flex;
+  flex: 1;
+}
+
+.app-container {
+  height: 100%;
+  width: 100%;
+  position: absolute;
+}
+
+.dashboard {
+  display: flex;
+  flex: 1;
+  flex-direction: row;
+  height: 100%;
+  width: 100%;
+
+  .visual-pane {
+    display: flex;
+    flex: 3;
+    flex-direction: column;
+  }
+
+  .history-pane {
+    display: flex;
+    flex: 1;
+  }
+}

@@ -2,16 +2,18 @@
     "compilerOptions": {
         "target": "es5",
         "module": "commonjs",
-        "jsx": "react",
         "moduleResolution": "node",
         "isolatedModules": false,
+        "declaration": true,
         "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
         "noImplicitAny": true,
         "noImplicitUseStrict": false,
+        "removeComments": true,
         "noLib": false,
         "preserveConstEnums": true,
         "suppressImplicitAnyIndexErrors": true,
-        "noEmit": true,
+        "outDir": "lib/",
         "lib": [
           "es2017",
           "dom"
@@ -19,6 +21,9 @@
     },
     "exclude": [
         "node_modules"
+    ],
+    "files": [
+      "src/index.ts"
     ],
     "compileOnSave": true,
     "buildOnSave": false,

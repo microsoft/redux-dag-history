@@ -1,0 +1,17 @@
+.show-state-enter {
+  transform: translate(100%);
+}
+
+.show-state-enter.show-state-enter-active {
+  transform: translate(0%);
+  transition: transform 250ms ease-in-out;
+}
+
+.show-state-leave {
+  transform: translate(0%);
+}
+
+.show-state-leave.show-state-leave-active {
+  transform: translate(100%);
+  transition: transform 250ms ease-in-out;
+}

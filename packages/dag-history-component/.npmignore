@@ -1,0 +1,14 @@
+.eslintrc
+.babelrc
+.npmignore
+node_modules/
+src/
+test/
+dist/
+variations/
+scripts/
+storybook-static/
+coverage/
+webpack.conf.js
+gulpfile.babel.js
+server.js
