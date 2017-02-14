@@ -19,6 +19,7 @@ export interface IBranchListContainerProps {
   pinnedStateId: number;
   onRenameBranch: Function;
   onBranchSelect: (id: number) => void;
+  style?: any;
 }
 
 export interface IBranchListContainerState {
@@ -30,6 +31,7 @@ export default class BranchListContainer extends React.Component<IBranchListCont
     pinnedStateId: PropTypes.number,
     onBranchSelect: PropTypes.func,
     onRenameBranch: PropTypes.func,
+    style: PropTypes.object,
   };
 
   getBranchList(historyGraph, commitPath) {
@@ -137,6 +139,7 @@ export default class BranchListContainer extends React.Component<IBranchListCont
       history: {
         graph,
       },
+      style,
     } = this.props;
     const historyGraph = new DagGraph(graph);
     const commitPath = getCurrentCommitPath(historyGraph);
@@ -146,6 +149,7 @@ export default class BranchListContainer extends React.Component<IBranchListCont
     const branchList = this.getBranchList(historyGraph, commitPath);
     return (
       <BranchList
+        style={style}
         activeBranch={currentBranch}
         branches={branchList}
         onBranchClick={onBranchSelect}

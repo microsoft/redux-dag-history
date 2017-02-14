@@ -38,11 +38,19 @@ function getStateList(
     if (isSuccessor && !isCurrentBranchSuccessor) {
       branchType = 'unrelated';
     }
+    const numChildren = historyGraph.childrenOf(id).length;
+    const label = historyGraph.stateName(id);
+    const state = historyGraph.getState(id);
     const pinned = pinnedStateId === id;
     const active = currentStateId === id;
+    const source = getSourceFromState(state);
 
     return {
       id,
+      state,
+      numChildren,
+      label,
+      source,
       bookmarked: isBookmarked(id),
       successor: isSuccessor,
       pinned,
@@ -124,6 +132,7 @@ const StateListContainer: React.StatelessComponent<IStateListContainerProps> = (
     log('bookmarked?', bookmarked);
     return bookmarked ? onRemoveBookmark(id) : onAddBookmark({ stateId: id, name: historyGraph.stateName(id) });
   };
+
   const stateList = getStateList(
     historyGraph,
     commitPathtoUse,

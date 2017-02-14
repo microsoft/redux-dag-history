@@ -1,11 +1,11 @@
 import * as React from 'react';
 import State from '../State';
 import isNumber from '../../util/isNumber';
-import { IExpandableStateProps } from '../State/interfaces';
-import * as ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import { IStateProps } from '../State/interfaces';
+import { TransitionMotion, spring, presets } from 'react-motion';
 
 export interface IStateListProps {
-  states: IExpandableStateProps[];
+  states: IStateProps[];
   activeStateId?: number;
   onStateClick?: Function;
   onStateContinuationClick?: Function;
@@ -15,6 +15,9 @@ export interface IStateListProps {
 
 export interface IStateListState {
 }
+
+const FULL_HEIGHT = 30;
+const springConfig = presets.stiff;
 
 export default class StateList extends React.Component<IStateListProps, IStateListState> {
   private containerDiv: HTMLDivElement;
@@ -60,30 +63,66 @@ export default class StateList extends React.Component<IStateListProps, IStateLi
       }
     };
 
-    const stateViews = states.map((s, index) => (
-      <State
-        {...s}
-        {...{ renderBookmarks }}
-        key={s.id}
-        active={isNumber(activeStateId) && s.id === activeStateId}
-        onClick={(id) => handleClick(id)}
-        onContinuationClick={(id) => handleContinuationClick(id)}
-        onBookmarkClick={(id) => handleBookmarkClick(id)}
-      />
-    ));
+    const stateWillEnter = () => ({
+      height: 0,
+      opacity: 1,
+    });
+
+    const stateWillLeave = (leaving) => {
+      if (!leaving.data.startLeave) {
+        leaving.data.startLeave = Date.now();
+      } else if (Date.now() - leaving.data.startLeave >= 200) {
+        return null;
+      }
+      return {
+        opacity: spring(0, springConfig),
+        height: spring(0, springConfig),
+      };
+    };
+
+    const getDefaultStyles = () => states.map(s => ({
+      key: `${s.id}`,
+      data: s,
+      style: {
+        height: 0,
+        opacity: 1,
+      }
+    }));
+    const getStyles = () => states.map(s => ({
+      key: `${s.id}`,
+      data: s,
+      style: {
+        height: spring(FULL_HEIGHT, springConfig),
+        opacity: spring(1, springConfig),
+      },
+    }));
     return (
-      <div
-        ref={(e) => (this.containerDiv = e)}
-        className="state-list-container"
+      <TransitionMotion
+        willEnter={stateWillEnter}
+        willLeave={stateWillLeave}
+        defaultStyles={getDefaultStyles()}
+        styles={getStyles()}
       >
-        <ReactCSSTransitionGroup
-          transitionName="state-entry"
-          transitionEnterTimeout={250}
-          transitionLeaveTimeout={250}
-        >
-          {stateViews}
-        </ReactCSSTransitionGroup>
-      </div>
+        {interpolatedStyles => (
+          <div ref={(e) => (this.containerDiv = e)} className="state-list-container">
+            {interpolatedStyles.map(config => {
+              const s = config.data;
+              return (
+                <State
+                  {...s}
+                  {...{ renderBookmarks }}
+                  style={{ ...config.style }}
+                  key={config.key}
+                  active={isNumber(activeStateId) && s.id === activeStateId}
+                  onClick={(id) => handleClick(id)}
+                  onContinuationClick={(id) => handleContinuationClick(id)}
+                  onBookmarkClick={(id) => handleBookmarkClick(id)}
+                />
+              );
+            })}
+          </div>
+        )}
+      </TransitionMotion>
     );
   }
 }
