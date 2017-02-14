@@ -9,7 +9,8 @@ export interface IBaseStateProps {
   active?: boolean;
   renderBookmarks?: boolean;
   pinned?: boolean;
-  branchType?: 'current' | 'legacy';
+  successor?: boolean;
+  branchType?: 'current' | 'legacy' | 'unrelated';
   onBookmarkClick?: (state: StateId) => void;
   onClick?: (state: StateId) => void;
   onContinuationClick?: (state: StateId) => void;
@@ -18,7 +19,8 @@ export interface IBaseStateProps {
 export interface IExpandableStateProps extends IBaseStateProps {
   historyGraph: DagGraph<any>;
   getSourceFromState: Function;
-  isBookmarked: (state: StateId) => boolean;
+  successor: boolean;
+  bookmarked: boolean;
 }
 
 export interface IStateProps extends IBaseStateProps {

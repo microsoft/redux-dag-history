@@ -81,7 +81,7 @@ HistoryView.propTypes = {
   mainView: PropTypes.string.isRequired,
   getSourceFromState: PropTypes.func.isRequired,
   branchContainerExpanded: PropTypes.bool,
-  highlightSuccessorsOf: PropTypes.number,
+  pinnedStateId: PropTypes.number,
 
   // Redux-injected
   onSelectHistoryType: PropTypes.func,

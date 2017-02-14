@@ -22,7 +22,7 @@ export interface IBranchedHistoryViewDispatchProps {
   onBranchSelect: (id: number) => void;
   onRemoveBookmark: Function;
   onToggleBranchContainer: Function;
-  onHighlightSuccessors: Function;
+  onPinState: Function;
   onRenameBranch: Function;
 }
 
@@ -76,7 +76,7 @@ BranchedHistoryView.propTypes = {
   history: PropTypes.object.isRequired,
   getSourceFromState: PropTypes.func.isRequired,
   branchContainerExpanded: PropTypes.bool,
-  highlightSuccessorsOf: PropTypes.number,
+  pinnedStateId: PropTypes.number,
 
   /**
    * User Interaction Handlers - loaded by redux
@@ -86,7 +86,7 @@ BranchedHistoryView.propTypes = {
   onAddBookmark: PropTypes.func,
   onRemoveBookmark: PropTypes.func,
   onToggleBranchContainer: PropTypes.func,
-  onHighlightSuccessors: PropTypes.func,
+  onPinState: PropTypes.func,
   onRenameBranch: PropTypes.func,
 
   /**
@@ -102,7 +102,7 @@ export default connect<IBranchedHistoryViewStateProps, IBranchedHistoryViewDispa
     onBranchSelect: DagHistoryActions.jumpToBranch,
     onRemoveBookmark: DagComponentActions.removeBookmark,
     onToggleBranchContainer: DagComponentActions.toggleBranchContainer,
-    onHighlightSuccessors: DagComponentActions.pinState,
+    onPinState: DagComponentActions.pinState,
     onRenameBranch: DagHistoryActions.renameBranch,
   }, dispatch)
 )(BranchedHistoryView);

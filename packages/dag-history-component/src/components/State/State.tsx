@@ -17,6 +17,10 @@ const coloring = {
     active: colors.LEGACY_ACTIVE,
     nonactive: colors.ANCESTOR,
   },
+  unrelated: {
+    active: colors.UNRELATED,
+    nonactive: colors.UNRELATED_UNIQUE,
+  }
 };
 
 function getBackgroundColor(branchType, active) {
@@ -47,7 +51,7 @@ const State: React.StatelessComponent<IStateProps> = ({
   onClick,
   onContinuationClick,
   onBookmarkClick,
-  showContinuation,
+  successor,
   pinned,
 }) => {
   const backgroundColor = getBackgroundColor(branchType, active);
@@ -70,17 +74,29 @@ const State: React.StatelessComponent<IStateProps> = ({
     }
   };
 
+  const continuation = !successor ? (
+    <Continuation
+      count={numChildren}
+      color={continuationColor(active, pinned)}
+      onClick={(e) => handleContinuationClick(e)}
+    />
+  ) : null;
+
+  const bookmark = renderBookmarks ? (
+    <Bookmark
+      size={25}
+      color={bookmarked ? 'gold' : 'white'}
+      onClick={e => handleBookmarkClick(e)}
+    />
+  ) : null;
+
   return (
     <div
-      className="history-state"
+      className={classnames('history-state', { successor })}
       style={{ backgroundColor }}
       onClick={e => handleClick(e)}
     >
-      <Continuation
-        count={numChildren}
-        color={continuationColor(active, pinned)}
-        onClick={(e) => handleContinuationClick(e)}
-      />
+      {continuation}
       <div className="state-detail">
         <div className={classnames('state-source', { active })}>
           {source || ''}
@@ -89,14 +105,7 @@ const State: React.StatelessComponent<IStateProps> = ({
           {label || ''}
         </div>
       </div>
-      {
-        renderBookmarks &&
-          <Bookmark
-            size={25}
-            color={bookmarked ? 'gold' : 'white'}
-            onClick={e => handleBookmarkClick(e)}
-          />
-      }
+      {bookmark}
     </div>
   );
 };
@@ -110,7 +119,7 @@ State.propTypes = {
   bookmarked: PropTypes.bool,
   renderBookmarks: PropTypes.bool,
   numChildren: PropTypes.number,
-  branchType: PropTypes.oneOf(['current', 'legacy']),
+  branchType: PropTypes.oneOf(['current', 'legacy', 'unrelated']),
   onBookmarkClick: PropTypes.func,
   onClick: PropTypes.func,
   onContinuationClick: PropTypes.func,

@@ -18,7 +18,7 @@ export interface IChronologicalHistoryViewDispatchProps {
   onAddBookmark: Function;
   onRemoveBookmark: Function;
   onToggleBranchContainer: Function;
-  onHighlightSuccessors: Function;
+  onPinState: Function;
   onUndo: Function;
   onRedo: Function;
   onSkipToStart: Function;
@@ -56,7 +56,7 @@ ChronologicalHistoryView.propTypes = {
   historyType: PropTypes.string.isRequired,
   getSourceFromState: PropTypes.func.isRequired,
   branchContainerExpanded: PropTypes.bool,
-  highlightSuccessorsOf: PropTypes.number,
+  pinnedStateId: PropTypes.number,
 
   /**
    * User Interaction Handlers - loaded by redux
@@ -66,7 +66,7 @@ ChronologicalHistoryView.propTypes = {
   onAddBookmark: PropTypes.func,
   onRemoveBookmark: PropTypes.func,
   onToggleBranchContainer: PropTypes.func,
-  onHighlightSuccessors: PropTypes.func,
+  onPinState: PropTypes.func,
   onUndo: PropTypes.func,
   onRedo: PropTypes.func,
   onSkipToStart: PropTypes.func,
@@ -91,7 +91,7 @@ export default connect<IChronologicalHistoryViewStateProps, IChronologicalHistor
     onSkipToStart: DagHistoryActions.skipToStart,
     onSkipToEnd: DagHistoryActions.skipToEnd,
     onRenameBranch: DagHistoryActions.renameBranch,
-    onHighlightSuccessors: DagComponentActions.pinState,
+    onPinState: DagComponentActions.pinState,
     onToggleBranchContainer: DagComponentActions.toggleBranchContainer,
   }, dispatch)
 )(ChronologicalHistoryView);

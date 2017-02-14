@@ -3,7 +3,7 @@ import { IBookmark } from '../../interfaces';
 
 export interface IHistoryContainerSharedProps {
   history: IDagHistory<any>;
-  highlightSuccessorsOf?: number;
+  pinnedStateId?: number;
   mainView: string;
   historyType: string;
   dragIndex?: number;

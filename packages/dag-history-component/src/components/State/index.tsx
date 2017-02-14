@@ -1,7 +1,6 @@
 import * as React from 'react';
 import State from './State';
 import { IExpandableStateProps } from './interfaces';
-import StateWithSuccessors from './StateWithSuccessors';
 import { IContinuationProps } from '../Continuation';
 import * as ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
@@ -10,7 +9,7 @@ const ExpandableState: React.StatelessComponent<IExpandableStateProps> = (props)
     id,
     pinned,
     active,
-    isBookmarked,
+    bookmarked,
     branchType,
     historyGraph,
     getSourceFromState,
@@ -18,6 +17,7 @@ const ExpandableState: React.StatelessComponent<IExpandableStateProps> = (props)
     onContinuationClick,
     onBookmarkClick,
     renderBookmarks,
+    successor,
   } = props;
 
   const children = historyGraph.childrenOf(id);
@@ -28,24 +28,12 @@ const ExpandableState: React.StatelessComponent<IExpandableStateProps> = (props)
     return { source, label };
   };
 
-  const isExpanded = pinned && children.length > 1;
-  const childStates = isExpanded ? children.map(id => ({
-    id,
-    bookmarked: isBookmarked(id),
-    numChildren: historyGraph.childrenOf(id).length,
-    onClick,
-    onContinuationClick,
-    onBookmarkClick,
-    renderBookmarks,
-    showContinuation: false,
-    ...getSourceAndLabel(id),
-  })) : [];
-
   const stateProps = {
     id,
     pinned,
     active,
-    bookmarked: isBookmarked(id),
+    bookmarked,
+    successor,
     branchType,
     onClick,
     onContinuationClick,
@@ -53,8 +41,7 @@ const ExpandableState: React.StatelessComponent<IExpandableStateProps> = (props)
     numChildren: children.length,
     renderBookmarks,
     ...getSourceAndLabel(id),
-    childStates,
   };
-  return (<StateWithSuccessors {...stateProps} />);
+  return (<State {...stateProps} />);
 };
 export default ExpandableState;

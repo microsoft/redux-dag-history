@@ -77,7 +77,7 @@ export default class StateList extends React.Component<IStateListProps, IStateLi
         className="state-list-container"
       >
         <ReactCSSTransitionGroup
-          transitionName="show-state"
+          transitionName="state-entry"
           transitionEnterTimeout={250}
           transitionLeaveTimeout={250}
         >

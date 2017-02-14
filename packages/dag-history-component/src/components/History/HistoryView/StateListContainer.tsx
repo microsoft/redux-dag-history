@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { StateId } from '@essex/redux-dag-history/lib/interfaces';
 import DagGraph from '@essex/redux-dag-history/lib/DagGraph';
 import { IDagHistory } from '@essex/redux-dag-history/lib/interfaces';
 import StateList from '../../StateList';
@@ -16,11 +17,11 @@ function getCurrentCommitPath(historyGraph) {
 }
 
 function getStateList(
-  historyGraph,
-  commitPath,
-  bookmarks,
-  highlightSuccessorsOf,
-  getSourceFromState
+  historyGraph: DagGraph<any>,
+  commitPath: StateId[],
+  bookmarks: any[],
+  pinnedStateId: StateId,
+  getSourceFromState: Function,
 ) {
   const {
     currentBranch,
@@ -28,24 +29,49 @@ function getStateList(
   } = historyGraph;
   const activeBranchStartsAt = historyGraph.branchStartDepth(currentBranch);
   const isBookmarked = (id) => bookmarks.map(b => b.stateId).includes(id);
-  return commitPath.map((id, index) => {
-    const branchType = index < activeBranchStartsAt ? 'legacy' : 'current';
-    const pinned = highlightSuccessorsOf === id;
+
+  //
+  // Transform state-ids into data that is used to render the states in the StateList view
+  //
+  const getStateData = (id, index, isSuccessor?: boolean, isCurrentBranchSuccessor?: boolean) => {
+    let branchType = index < activeBranchStartsAt ? 'legacy' : 'current';
+    if (isSuccessor && !isCurrentBranchSuccessor) {
+      branchType = 'unrelated';
+    }
+    const pinned = pinnedStateId === id;
     const active = currentStateId === id;
-    const successor = isNumber(highlightSuccessorsOf) &&
-      historyGraph.parentOf(id) === highlightSuccessorsOf;
 
     return {
       id,
-      isBookmarked,
+      bookmarked: isBookmarked(id),
+      successor: isSuccessor,
       pinned,
       active,
-      successor,
       branchType,
       historyGraph,
       getSourceFromState,
-    };
-  });
+    } as any;
+  };
+
+  //
+  // If a state has been "pinned", then want to view it's successors. We will insert them after the pinned state ID, and
+  // remove the current branch successor.
+  //
+  const commitPathData = commitPath.map((id, index) => getStateData(id, index));
+  if (pinnedStateId !== undefined) {
+    // If the pinned state doesn't have any children, don't bother
+    const pinnedStateIndex = commitPath.indexOf(pinnedStateId);
+    if (pinnedStateIndex < commitPath.length - 1) {
+      // Get data for the children of the pinned state.
+      const currentBranchSuccessor: StateId = commitPath[pinnedStateIndex + 1];
+      const pinnedChildren = pinnedStateId ? historyGraph.childrenOf(pinnedStateId) : [];
+      const pinnedChildrenData = pinnedChildren.map((id, index) => getStateData(id, pinnedStateIndex + 1, true, currentBranchSuccessor === id));
+
+      // Remove the natural child in the current branch's commit path, since it will be presented as a child of the current state.
+      commitPathData.splice(pinnedStateIndex + 1, 1, ...pinnedChildrenData);
+    }
+  }
+  return commitPathData;
 }
 
 export interface IStateListContainerProps {
@@ -53,7 +79,7 @@ export interface IStateListContainerProps {
   commitPath?: number[];
   getSourceFromState: Function;
   branchContainerExpanded?: boolean;
-  highlightSuccessorsOf: number;
+  pinnedStateId: number;
   bookmarksEnabled?: boolean;
   branchTypeOverride?: string;
   bookmarks: IBookmark[];
@@ -64,7 +90,7 @@ export interface IStateListContainerProps {
   onStateSelect: Function;
   onAddBookmark: Function;
   onRemoveBookmark: Function;
-  onHighlightSuccessors: Function;
+  onPinState: Function;
 }
 
 const StateListContainer: React.StatelessComponent<IStateListContainerProps> = ({
@@ -73,12 +99,12 @@ const StateListContainer: React.StatelessComponent<IStateListContainerProps> = (
   },
   bookmarks,
   commitPath,
-  onHighlightSuccessors,
+  onPinState,
   onRemoveBookmark,
   onAddBookmark,
   onStateSelect,
   bookmarksEnabled,
-  highlightSuccessorsOf,
+  pinnedStateId,
   getSourceFromState,
   branchTypeOverride,
 }) => {
@@ -86,7 +112,7 @@ const StateListContainer: React.StatelessComponent<IStateListContainerProps> = (
   const commitPathtoUse = commitPath || getCurrentCommitPath(historyGraph);
   const { currentStateId } = historyGraph;
 
-  const onStateContinuationClick = id => onHighlightSuccessors(id);
+  const onStateContinuationClick = id => onPinState(id);
   const onStateBookmarkClick = (id) => {
     log('bookmarking state %s',
       id,
@@ -102,7 +128,7 @@ const StateListContainer: React.StatelessComponent<IStateListContainerProps> = (
     historyGraph,
     commitPathtoUse,
     bookmarks,
-    highlightSuccessorsOf,
+    pinnedStateId,
     getSourceFromState
   );
 
@@ -129,7 +155,7 @@ StateListContainer.propTypes = {
   commitPath: PropTypes.arrayOf(PropTypes.number),
   getSourceFromState: PropTypes.func.isRequired,
   branchContainerExpanded: PropTypes.bool,
-  highlightSuccessorsOf: PropTypes.number,
+  pinnedStateId: PropTypes.number,
   bookmarksEnabled: PropTypes.bool,
   branchTypeOverride: PropTypes.string,
 
@@ -139,7 +165,7 @@ StateListContainer.propTypes = {
   onStateSelect: PropTypes.func,
   onAddBookmark: PropTypes.func,
   onRemoveBookmark: PropTypes.func,
-  onHighlightSuccessors: PropTypes.func,
+  onPinState: PropTypes.func,
 };
 
 export default StateListContainer;

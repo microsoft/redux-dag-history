@@ -50,7 +50,7 @@ export default class History extends React.Component<IHistoryProps, {}> {
     historyType: PropTypes.string.isRequired,
     getSourceFromState: PropTypes.func.isRequired,
     branchContainerExpanded: PropTypes.bool,
-    highlightSuccessorsOf: PropTypes.number,
+    pinnedStateId: PropTypes.number,
     selectedBookmark: PropTypes.number,
     selectedBookmarkDepth: PropTypes.number,
 
