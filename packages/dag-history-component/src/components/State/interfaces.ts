@@ -4,31 +4,21 @@ import {
   IDagHistory, // eslint-disable-line no-unused-vars
 } from '@essex/redux-dag-history/lib/interfaces';
 
-export interface IBaseStateProps {
+export interface IStateProps {
   id: number;
   active?: boolean;
   renderBookmarks?: boolean;
   pinned?: boolean;
-  branchType?: 'current' | 'legacy';
-  onBookmarkClick?: (state: StateId) => void;
-  onClick?: (state: StateId) => void;
-  onContinuationClick?: (state: StateId) => void;
-}
-
-export interface IExpandableStateProps extends IBaseStateProps {
-  historyGraph: DagGraph<any>;
-  getSourceFromState: Function;
-  isBookmarked: (state: StateId) => boolean;
-}
-
-export interface IStateProps extends IBaseStateProps {
+  successor?: boolean;
+  state?: any;
   source?: string;
   label: string;
   numChildren?: number;
   bookmarked?: boolean;
   showContinuation?: boolean;
-}
-
-export interface IStateWithSuccessorsProps extends IStateProps {
-  childStates: IStateProps[];
+  branchType?: 'current' | 'legacy' | 'unrelated';
+  onBookmarkClick?: (state: StateId) => void;
+  onClick?: (state: StateId) => void;
+  onContinuationClick?: (state: StateId) => void;
+  style?: any;
 }

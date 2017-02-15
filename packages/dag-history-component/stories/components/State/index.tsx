@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { storiesOf, action } from '@kadira/storybook';
-import State from '../../../src/components/State/State';
+import State from '../../../src/components/State';
 
 storiesOf('State', module)
 .add('Current, Active', () => (

@@ -3,16 +3,6 @@ $highlight: #f93;
 $black: #000;
 $charcoal: #5d6d7e;
 
-.successor-state-container {
-  list-style: none;
-  margin-left: 30px;
-  margin-bottom: 0px;
-  li {
-    margin: 0;
-    padding: 0;
-  }
-}
-
 .history-state {
   font-family: sans-serif;
   align-items: center;
@@ -21,11 +11,15 @@ $charcoal: #5d6d7e;
   cursor: pointer;
   display: flex;
   height: 30px;
-  min-height: 30px;
   min-width: 250px;
   padding: 8px;
   position: relative;
   overflow: hidden;
+  transition: all 250ms ease;
+
+  &.successor {
+    margin-left: 35px;
+  }
 
   &:not(:hover) {
     border-right: 3px solid transparent;

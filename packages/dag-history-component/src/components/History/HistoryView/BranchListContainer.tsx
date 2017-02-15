@@ -16,9 +16,10 @@ function getCurrentCommitPath(historyGraph) {
 
 export interface IBranchListContainerProps {
   history: IDagHistory<any>;
-  highlightSuccessorsOf: number;
+  pinnedStateId: number;
   onRenameBranch: Function;
   onBranchSelect: (id: number) => void;
+  style?: any;
 }
 
 export interface IBranchListContainerState {
@@ -27,9 +28,10 @@ export interface IBranchListContainerState {
 export default class BranchListContainer extends React.Component<IBranchListContainerProps, IBranchListContainerState> {
   public static propTypes = {
     history: PropTypes.object.isRequired,
-    highlightSuccessorsOf: PropTypes.number,
+    pinnedStateId: PropTypes.number,
     onBranchSelect: PropTypes.func,
     onRenameBranch: PropTypes.func,
+    style: PropTypes.object,
   };
 
   getBranchList(historyGraph, commitPath) {
@@ -39,7 +41,7 @@ export default class BranchListContainer extends React.Component<IBranchListCont
       currentStateId,
     } = historyGraph;
     const {
-      highlightSuccessorsOf: pinnedState,
+      pinnedStateId: pinnedState,
       onRenameBranch,
     } = this.props;
     const pinnedStateBranch = historyGraph.branchOf(pinnedState);
@@ -137,6 +139,7 @@ export default class BranchListContainer extends React.Component<IBranchListCont
       history: {
         graph,
       },
+      style,
     } = this.props;
     const historyGraph = new DagGraph(graph);
     const commitPath = getCurrentCommitPath(historyGraph);
@@ -146,6 +149,7 @@ export default class BranchListContainer extends React.Component<IBranchListCont
     const branchList = this.getBranchList(historyGraph, commitPath);
     return (
       <BranchList
+        style={style}
         activeBranch={currentBranch}
         branches={branchList}
         onBranchClick={onBranchSelect}

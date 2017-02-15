@@ -14,7 +14,7 @@ export interface IHistoryContainerStateProps {
   mainView?: string;
   historyType?: string;
   branchContainerExpanded?: boolean;
-  highlightSuccessorsOf?: number;
+  pinnedStateId?: number;
   selectedBookmark?: number;
   selectedBookmarkDepth?: number;
   bookmarks?: IBookmark[];
@@ -69,7 +69,7 @@ export default function createHistoryContainer(getMiddlewareState: Function, get
     return {
       // State from the redux-dag-history middleware
       history: middleware,
-      highlightSuccessorsOf: component.pinnedState.id,
+      pinnedStateId: component.pinnedState.id,
 
       // State from the dag-history-component
       bookmarks: component.bookmarks,

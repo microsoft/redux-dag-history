@@ -2,7 +2,7 @@ import * as React from 'react';
 import { mount } from 'enzyme';
 import { expect } from 'chai';
 
-import State from '../../../src/components/State/State';
+import State from '../../../src/components/State';
 import Continuation from '../../../src/components/Continuation';
 const Bookmark = require('react-icons/lib/io/bookmark');
 
