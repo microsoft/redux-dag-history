@@ -44,6 +44,7 @@ export default class StateList extends React.Component<IStateListProps, IStateLi
       renderBookmarks,
       onStateBookmarkClick,
     } = this.props;
+    const containerWidth = this.containerDiv ? this.containerDiv.clientWidth : 0;
 
     const handleClick = (id) => {
       if (onStateClick) {
@@ -66,6 +67,7 @@ export default class StateList extends React.Component<IStateListProps, IStateLi
     const stateWillEnter = () => ({
       height: 0,
       opacity: 1,
+      left: 0,
     });
 
     const stateWillLeave = (leaving) => {
@@ -77,6 +79,7 @@ export default class StateList extends React.Component<IStateListProps, IStateLi
       return {
         opacity: spring(0, springConfig),
         height: spring(0, springConfig),
+        left: spring(containerWidth, springConfig),
       };
     };
 
@@ -85,14 +88,16 @@ export default class StateList extends React.Component<IStateListProps, IStateLi
       data: s,
       style: {
         height: 0,
+        left: 0,
         opacity: 1,
-      }
+      },
     }));
     const getStyles = () => states.map(s => ({
       key: `${s.id}`,
       data: s,
       style: {
         height: spring(FULL_HEIGHT, springConfig),
+        left: 0,
         opacity: spring(1, springConfig),
       },
     }));
