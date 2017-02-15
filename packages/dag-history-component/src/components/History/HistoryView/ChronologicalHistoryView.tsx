@@ -40,6 +40,7 @@ const ChronologicalHistoryView: React.StatelessComponent<IChronologicalHistoryVi
   <div className="history-container" style={{flex: 1}}>
     <StateListContainer
       {...props}
+      chronological
       branchTypeOverride={'current'}
       commitPath={props.history.chronologicalStates}
     />

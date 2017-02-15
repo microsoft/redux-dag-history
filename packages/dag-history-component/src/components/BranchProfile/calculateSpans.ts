@@ -34,5 +34,11 @@ export default function calculateSpans(
     spans = insertSpan(spans, span);
   }
 
+  if (isNumber(activeIndex)) {
+    const color = isCurrent ? 'CURRENT_ACTIVE' : 'LEGACY_ACTIVE';
+    const span = new Span(activeIndex, activeIndex + 1, color);
+    spans = insertSpan(spans, span);
+  }
+
   return spans;
 }

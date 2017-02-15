@@ -84,6 +84,7 @@ export default class State extends React.PureComponent<IStateProps, IStateState>
       onBookmarkClick,
       successor,
       pinned,
+      showContinuation,
     } = this.props;
 
     const backgroundColor = getBackgroundColor(branchType, active);
@@ -106,7 +107,7 @@ export default class State extends React.PureComponent<IStateProps, IStateState>
       }
     };
 
-    const continuation = !successor ? (
+    const continuation = showContinuation ? (
       <div style={{overflow: 'hidden', display: 'flex', justifyContent: 'center'}}>
         <Continuation
           count={numChildren}
