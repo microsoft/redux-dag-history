@@ -15,6 +15,7 @@ $charcoal: #5d6d7e;
   padding: 8px;
   position: relative;
   overflow: hidden;
+  transition: all 250ms ease;
 
   &.successor {
     margin-left: 35px;

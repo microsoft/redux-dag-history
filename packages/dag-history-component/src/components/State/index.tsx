@@ -4,7 +4,7 @@ import Continuation from '../Continuation';
 import colors from '../../palette';
 import './State.scss';
 import { IStateProps } from './interfaces';
-import { Motion, spring } from 'react-motion';
+import * as ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 const Bookmark = require('react-icons/lib/io/bookmark');
 const { PropTypes } = React;
@@ -107,11 +107,13 @@ export default class State extends React.PureComponent<IStateProps, IStateState>
     };
 
     const continuation = !successor ? (
-      <Continuation
-        count={numChildren}
-        color={continuationColor(active, pinned)}
-        onClick={(e) => handleContinuationClick(e)}
-      />
+      <div style={{overflow: 'hidden', display: 'flex', justifyContent: 'center'}}>
+        <Continuation
+          count={numChildren}
+          color={continuationColor(active, pinned)}
+          onClick={(e) => handleContinuationClick(e)}
+        />
+      </div>
     ) : null;
 
     const bookmark = renderBookmarks ? (
@@ -125,30 +127,31 @@ export default class State extends React.PureComponent<IStateProps, IStateState>
     const marginLeftValue = successor ? 30 : 0;
 
     return (
-      <Motion style={{marginLeft: spring(marginLeftValue)}}>
-        {interpolatingStyle => (
-          <div
-            className={classnames('history-state', { successor })}
-            style={{
-              ...this.props.style,
-              backgroundColor,
-              marginLeft: interpolatingStyle.marginLeft
-            }}
-            onClick={e => handleClick(e)}
-          >
-            {continuation}
-            <div className="state-detail">
-              <div className={classnames('state-source', { active })}>
-                {source || ''}
-              </div>
-              <div className={classnames('state-name', { active })}>
-                {label || ''}
-              </div>
-            </div>
-            {bookmark}
+      <div
+        className={classnames('history-state', { successor })}
+        style={{
+          ...this.props.style,
+          backgroundColor,
+        }}
+        onClick={e => handleClick(e)}
+      >
+        <ReactCSSTransitionGroup
+          transitionName="continuation-dissolve"
+          transitionEnterTimeout={250}
+          transitionLeaveTimeout={250}
+        >
+          {continuation}
+        </ReactCSSTransitionGroup>
+        <div className="state-detail">
+          <div className={classnames('state-source', { active })}>
+            {source || ''}
           </div>
-        )}
-      </Motion>
+          <div className={classnames('state-name', { active })}>
+            {label || ''}
+          </div>
+        </div>
+        {bookmark}
+      </div>
     );
   }
 }

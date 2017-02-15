@@ -1,3 +1,6 @@
+/**
+ * State Entry Animation
+ */
 .state-entry-enter {
   opacity: 0;
   transform: translate(0, 50%);
@@ -18,4 +21,31 @@
   opacity: 0;
   transform: translate(100%, 0%);
   transition: transform 250ms ease-in-out, opacity 250ms ease-in-out;
+}
+
+/**
+ * Continuation Dissolve Animation
+ */
+.continuation-dissolve-enter {
+  opacity: 0;
+  width: 0;
+  transition: opacity 250ms ease-in-out, width 250ms ease-in-out;
+}
+
+.continuation-dissolve-enter.continuation-dissolve-enter-active {
+  opacity: 1;
+  width: 14px;
+  transition: opacity 250ms ease-in-out, width 250ms ease-in-out;
+}
+
+.continuation-dissolve-leave {
+  opacity: 1;
+  width: 14px;
+  transition: opacity 250ms ease-in-out, width 250ms ease-in-out;
+}
+
+.continuation-dissolve-leave.continuation-dissolve-leave-active {
+  opacity: 0;
+  width: 0px;
+  transition: opacity 250ms ease-in-out, width 250ms ease-in-out;
 }
