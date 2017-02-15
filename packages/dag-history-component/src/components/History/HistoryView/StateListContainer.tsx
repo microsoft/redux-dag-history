@@ -22,6 +22,7 @@ function getStateList(
   bookmarks: any[],
   pinnedStateId: StateId,
   getSourceFromState: Function,
+  chronological: boolean,
 ) {
   const {
     currentBranch,
@@ -53,6 +54,7 @@ function getStateList(
       source,
       bookmarked: isBookmarked(id),
       successor: isSuccessor,
+      showContinuation: !chronological && !isSuccessor,
       pinned,
       active,
       branchType,
@@ -91,6 +93,7 @@ export interface IStateListContainerProps {
   bookmarksEnabled?: boolean;
   branchTypeOverride?: string;
   bookmarks: IBookmark[];
+  chronological?: boolean;
 
   /**
    * User Interaction Handlers - loaded by redux
@@ -115,6 +118,7 @@ const StateListContainer: React.StatelessComponent<IStateListContainerProps> = (
   pinnedStateId,
   getSourceFromState,
   branchTypeOverride,
+  chronological,
 }) => {
   const historyGraph = new DagGraph(graph);
   const commitPathtoUse = commitPath || getCurrentCommitPath(historyGraph);
@@ -138,7 +142,8 @@ const StateListContainer: React.StatelessComponent<IStateListContainerProps> = (
     commitPathtoUse,
     bookmarks,
     pinnedStateId,
-    getSourceFromState
+    getSourceFromState,
+    chronological,
   );
 
   if (branchTypeOverride) {
@@ -175,6 +180,7 @@ StateListContainer.propTypes = {
   onAddBookmark: PropTypes.func,
   onRemoveBookmark: PropTypes.func,
   onPinState: PropTypes.func,
+  chronological: PropTypes.bool,
 };
 
 export default StateListContainer;

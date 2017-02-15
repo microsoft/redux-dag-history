@@ -11,6 +11,6 @@ const colors = {
   // Continuation Cloors
   CONT_ACTIVE: '#D5F5E3',
   CONT_BLANK: 'white',
-  CONT_PINNED: '#FFB300',
+  CONT_PINNED: '#97E6BA',
 };
 export default colors;
