@@ -1,4 +1,4 @@
-import Configuration from '@essex/redux-dag-history/lib/configuration';
+import Configuration from '@essex/redux-dag-history/lib/Configuration';
 import { IComponentConfiguration } from './interfaces';  // eslint-disable-line no-unused-vars
 
 export default class ComponentConfiguration<T>
