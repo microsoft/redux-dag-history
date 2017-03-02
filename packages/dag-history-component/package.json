@@ -1,6 +1,6 @@
 {
   "name": "@essex/dag-history-component",
-  "version": "0.8.1",
+  "version": "0.9.0",
   "description": "A React Component for Dag-History Visualization",
   "main": "lib/index.js",
   "scripts": {
@@ -27,7 +27,7 @@
   ],
   "devDependencies": {},
   "dependencies": {
-    "@essex/redux-dag-history": "^2.0.1",
+    "@essex/redux-dag-history": "^3.0.0",
     "@types/classnames": "^0.0.32",
     "@types/react": "^15.0.8",
     "@types/react-addons-css-transition-group": "^15.0.1",
