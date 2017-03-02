@@ -5,10 +5,10 @@ import BranchList from '../../../src/components/BranchList';
 storiesOf('BranchList', module)
 .add('Basic example', () => (
   <BranchList
-    activeBranch={1}
+    activeBranch="1"
     branches={[
       {
-        id: 0,
+        id: '0',
         label: 'delta-1',
         startsAt: 5,
         endsAt: 10,
@@ -16,7 +16,7 @@ storiesOf('BranchList', module)
         branchType: 'current',
       },
       {
-        id: 1,
+        id: '1',
         activeStateIndex: 3,
         label: 'master',
         startsAt: 0,

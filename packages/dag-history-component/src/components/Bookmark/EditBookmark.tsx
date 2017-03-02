@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { StateId } from '@essex/redux-dag-history/lib/interfaces';
 import './Bookmark.scss';
 import * as classnames from 'classnames';
 const { PropTypes } = React;
@@ -16,10 +17,9 @@ export interface IEditBookmarkProps {
   active?: boolean;
   onClick?: Function;
   onBookmarkChange?: Function;
-  commitPathLength?: number;
   focusOn?: string;
   onDoneEditing?: Function;
-  shortestCommitPath?: number[];
+  shortestCommitPath?: StateId[];
   selectedDepth: number;
   onDiscoveryTrailIndexClicked?: Function;
   onSelectBookmarkDepth?: Function;
@@ -114,16 +114,16 @@ export default class EditBookmark extends React.Component<IEditBookmarkProps, IE
       active,
       onClick,
       shortestCommitPath,
-      commitPathLength,
       selectedDepth,
       numLeadInStates,
       onDiscoveryTrailIndexClicked,
     } = this.props;
 
+    const commitPathLength = shortestCommitPath.length;
     const leadInStatesValue = numLeadInStates !== undefined ? `${numLeadInStates}` : 'all';
     const isIntroSet = numLeadInStates !== undefined;
 
-    log('rendering commitPathLength=%s, selectedDepth=%s', this.props.commitPathLength, this.props.selectedDepth);
+    log('rendering commitPathLength=%s, selectedDepth=%s', commitPathLength, selectedDepth);
     return (
       <div
         className={`history-bookmark ${active ? 'selected' : ''}`}
@@ -159,7 +159,7 @@ export default class EditBookmark extends React.Component<IEditBookmarkProps, IE
                 className="discovery-trail-intro-button"
                 style={{marginLeft: 5}}
                 tabIndex={3}
-                onClick={(e) => this.onLeadInSet(this.props.commitPathLength - this.props.selectedDepth)}
+                onClick={(e) => this.onLeadInSet(commitPathLength - selectedDepth)}
               >
                 Set intro
               </button>

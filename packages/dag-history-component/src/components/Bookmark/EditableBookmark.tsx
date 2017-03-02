@@ -1,5 +1,6 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
+import { StateId } from '@essex/redux-dag-history/lib/interfaces';
 import './Bookmark.scss';
 import EditBookmark from './EditBookmark';
 import {default as Bookmark, IBookmarkProps } from './Bookmark';
@@ -10,7 +11,7 @@ export interface IEditableBookmarkProps extends IBookmarkProps {
   index: number;
   numLeadInStates?: number;
   onBookmarkChange?: Function;
-  shortestCommitPath?: number[];
+  shortestCommitPath?: StateId[];
   selectedDepth?: number;
   onSelectBookmarkDepth?: Function;
 }
@@ -30,7 +31,7 @@ export default class EditableBookmark extends React.PureComponent<IEditableBookm
     onClick: PropTypes.func,
     onBookmarkChange: PropTypes.func,
     onDiscoveryTrailIndexClicked: PropTypes.func,
-    shortestCommitPath: PropTypes.arrayOf(PropTypes.number),
+    shortestCommitPath: PropTypes.arrayOf(PropTypes.string),
     selectedDepth: PropTypes.number,
     onSelectBookmarkDepth: PropTypes.func,
   };

@@ -37,7 +37,7 @@ export default class DagGraph<T> {
 
     Object.keys(graph.states || {}).forEach(stateId => {
       const parentId = graph.states[stateId].parent;
-      const state = getOrCreateState(parseInt(stateId, 10));
+      const state = getOrCreateState(stateId);
       if (!parentId) {
         root = state;
       }
@@ -181,7 +181,7 @@ export default class DagGraph<T> {
     return states.toSeq()
         .filter((state: ImmutableMap<any, any>) => state.get('parent') === commit)
         .map((state: ImmutableMap<any, any>, key: string) => key)
-        .toList().toJS().map((s: string) => parseInt(s, 10));
+        .toList().toJS();
   }
 
   public parentOf(commit: StateId): StateId {
@@ -217,6 +217,10 @@ export default class DagGraph<T> {
   }
 
   public commitPath(commit: StateId): StateId[] {
+    if (commit === undefined) {
+      return [];
+    }
+
     const path: StateId[] = [commit];
     let current = commit;
     do {
@@ -230,6 +234,9 @@ export default class DagGraph<T> {
   }
 
   public shortestCommitPath(commit: StateId): StateId[] {
+    if (commit === undefined) {
+      return [];
+    }
     const path: StateId[] = [commit];
     let current = commit;
     do {
@@ -243,6 +250,9 @@ export default class DagGraph<T> {
   }
 
   public branchCommitPath(branch: BranchId): StateId[] {
+    if (branch === undefined) {
+      return [];
+    }
     const latest = this.latestOn(branch);
     const path = this.commitPath(latest);
     const firstCommitOnBranch = this.firstOn(branch);
@@ -269,7 +279,7 @@ export default class DagGraph<T> {
 
   public get branches(): BranchId[] {
     const branches = this.graph.get('branches');
-    return Array.from(branches.keys()).map((branch: string) => parseInt(branch, 10));
+    return Array.from(branches.keys()) as BranchId[];
   }
 
   public branchOf(commit: StateId): BranchId {

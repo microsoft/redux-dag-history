@@ -42,7 +42,7 @@ function hashString(str) {
 function stateKeyGenerator(state) {
   const { color, value } = state.visuals;
   const stateString = `${color}:${value}`;
-  return hashString(stateString);
+  return '' + hashString(stateString);
 }
 
 const DAG_HISTORY_CONFIG = new Configuration({
@@ -55,7 +55,7 @@ const DAG_HISTORY_CONFIG = new Configuration({
 
   // UI Config
   initialViewState: {
-    branchContainerExpanded: false,
+    branchContainerExpanded: true,
   },
 });
 

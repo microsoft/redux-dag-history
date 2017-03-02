@@ -2,6 +2,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import * as DagHistoryActions from '@essex/redux-dag-history/lib/ActionCreators';
+import { StateId, BranchId } from '@essex/redux-dag-history/lib/interfaces';
 import * as DagComponentActions from '../../../state/actions/creators';
 import ExpandCollapseToggle from '../../ExpandCollapseToggle';
 import Transport from '../../Transport';
@@ -17,9 +18,9 @@ export interface IBranchedHistoryViewStateProps {
 }
 
 export interface IBranchedHistoryViewDispatchProps {
-  onStateSelect: (id: number) => void;
+  onStateSelect: (id: StateId) => void;
   onAddBookmark: Function;
-  onBranchSelect: (id: number) => void;
+  onBranchSelect: (id: BranchId) => void;
   onRemoveBookmark: Function;
   onToggleBranchContainer: Function;
   onPinState: Function;
@@ -76,7 +77,7 @@ BranchedHistoryView.propTypes = {
   history: PropTypes.object.isRequired,
   getSourceFromState: PropTypes.func.isRequired,
   branchContainerExpanded: PropTypes.bool,
-  pinnedStateId: PropTypes.number,
+  pinnedStateId: PropTypes.string,
 
   /**
    * User Interaction Handlers - loaded by redux

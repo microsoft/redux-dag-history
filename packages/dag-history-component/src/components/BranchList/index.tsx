@@ -1,13 +1,14 @@
 import * as React from 'react';
 import Branch, { IBranchProps } from '../Branch';
+import { BranchId } from '@essex/redux-dag-history/lib/interfaces';
 import './BranchList.scss';
 
 const { PropTypes } = React;
 
 export interface IBranchListProps {
-  activeBranch?: number;
+  activeBranch?: BranchId;
   branches: IBranchProps[];
-  onBranchClick?: (branchId: number) => void;
+  onBranchClick?: (branchId: BranchId) => void;
   style?: any;
 }
 
@@ -35,7 +36,7 @@ const BranchList: React.StatelessComponent<IBranchListProps> = ({
 };
 
 BranchList.propTypes = {
-  activeBranch: React.PropTypes.number,
+  activeBranch: React.PropTypes.string,
   branches: React.PropTypes.arrayOf(React.PropTypes.shape(Branch.propTypes)),
   onBranchClick: React.PropTypes.func,
   style: React.PropTypes.object,

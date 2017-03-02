@@ -4,6 +4,7 @@ import {
   BranchId,
   IConfiguration,
 } from '../interfaces';
+import nextId from '../nextId';
 import DagGraph from '../DagGraph';
 
 const log = require('debug')('redux-dag-history:DagHistory');
@@ -21,18 +22,19 @@ export default function insert<T>(
   if (!graph) {
     throw new Error('History graph is not defined');
   }
+
   const reader = new DagGraph(graph);
   const parentStateId = reader.currentStateId;
   const currentBranchId = reader.currentBranch;
-  const newStateId = history.lastStateId + 1;
+  const newStateId = nextId(history.lastStateId);
   const newStateName = config.actionName(state, newStateId);
   const cousins = reader.childrenOf(parentStateId);
-  const isBranching = cousins.length > 0 || lastBranchId > currentBranchId;
-  const newBranchId = isBranching ? lastBranchId + 1 : lastBranchId;
+  const isBranching = cousins.length > 0 || lastBranchId > currentBranchId || currentBranchId === undefined;
+  const newBranchId = isBranching ? nextId(lastBranchId) : lastBranchId;
 
   // If the state has a hash code, register the state
   if (config.stateKeyGenerator) {
-    const stateHash = config.stateKeyGenerator(state);
+    const stateHash = '' + config.stateKeyGenerator(state);
     log('inserting state with key', stateHash);
     history.stateHash.set(stateHash, newStateId);
   }

@@ -24,6 +24,7 @@ export interface IHistoryContainerProps {
   historyView: JSX.Element;
   storyboardingView: JSX.Element;
   bookmarksEnabled?: boolean;
+  controlBarEnabled?: boolean;
   onSaveClicked: Function;
   onClearClicked: Function;
   onLoadClicked: Function;
@@ -34,14 +35,17 @@ const HistoryContainer: React.StatelessComponent<IHistoryContainerProps> = ({
   selectedTab,
   historyView,
   storyboardingView,
+  controlBarEnabled,
   bookmarksEnabled,
   onSaveClicked,
   onLoadClicked,
   onClearClicked,
-}) => (
-  bookmarksEnabled ? (
-    <div className="history-container">
-      <div className="history-option-menu">
+}) => {
+  if (!bookmarksEnabled) {
+    return historyView;
+  }
+  const controlBar = controlBarEnabled && (
+    <div className="history-option-menu">
         <OptionDropdown
           contentClass="view-options-dropdown"
           options={[
@@ -51,6 +55,11 @@ const HistoryContainer: React.StatelessComponent<IHistoryContainerProps> = ({
           ]}
         />
       </div>
+  );
+
+  return (
+    <div className="history-container">
+      {controlBar}
       <Tabs
         onSelect={handleTabSelector(onTabSelect)}
         selectedIndex={viewNameToIndex[selectedTab]}
@@ -67,9 +76,8 @@ const HistoryContainer: React.StatelessComponent<IHistoryContainerProps> = ({
         </TabPanel>
       </Tabs>
     </div>
-  ) :
-  historyView
-);
+  );
+};
 
 HistoryContainer.propTypes = {
   selectedTab: PropTypes.string.isRequired,

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import DagGraph from '@essex/redux-dag-history/lib/DagGraph';
-import { IDagHistory } from '@essex/redux-dag-history/lib/interfaces';
+import { IDagHistory, StateId, BranchId } from '@essex/redux-dag-history/lib/interfaces';
 import BranchList from '../../BranchList';
 import isNumber from '../../../util/isNumber';
 
@@ -16,9 +16,9 @@ function getCurrentCommitPath(historyGraph) {
 
 export interface IBranchListContainerProps {
   history: IDagHistory<any>;
-  pinnedStateId: number;
+  pinnedStateId: StateId;
   onRenameBranch: Function;
-  onBranchSelect: (id: number) => void;
+  onBranchSelect: (id: BranchId) => void;
   style?: any;
 }
 
@@ -28,7 +28,7 @@ export interface IBranchListContainerState {
 export default class BranchListContainer extends React.Component<IBranchListContainerProps, IBranchListContainerState> {
   public static propTypes = {
     history: PropTypes.object.isRequired,
-    pinnedStateId: PropTypes.number,
+    pinnedStateId: PropTypes.string,
     onBranchSelect: PropTypes.func,
     onRenameBranch: PropTypes.func,
     style: PropTypes.object,

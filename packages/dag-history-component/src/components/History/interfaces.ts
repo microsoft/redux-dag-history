@@ -1,9 +1,9 @@
-import { IDagHistory } from '@essex/redux-dag-history/lib/interfaces';
+import { IDagHistory, StateId, BranchId } from '@essex/redux-dag-history/lib/interfaces';
 import { IBookmark } from '../../interfaces';
 
 export interface IHistoryContainerSharedProps {
   history: IDagHistory<any>;
-  pinnedStateId?: number;
+  pinnedStateId?: StateId;
   mainView: string;
   historyType: string;
   dragIndex?: number;
@@ -16,6 +16,8 @@ export interface IHistoryContainerSharedProps {
 
   getSourceFromState: Function;
   bookmarksEnabled?: boolean;
+
+  controlBarEnabled?: boolean;
 
   /**
    * ControlBar Configuration Properties

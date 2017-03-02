@@ -28,6 +28,7 @@ function getStateList(
     currentBranch,
     currentStateId,
   } = historyGraph;
+
   const activeBranchStartsAt = historyGraph.branchStartDepth(currentBranch);
   const isBookmarked = (id) => bookmarks.map(b => b.stateId).includes(id);
 
@@ -86,10 +87,10 @@ function getStateList(
 
 export interface IStateListContainerProps {
   history: IDagHistory<any>;
-  commitPath?: number[];
+  commitPath?: StateId[];
   getSourceFromState: Function;
   branchContainerExpanded?: boolean;
-  pinnedStateId: number;
+  pinnedStateId: StateId;
   bookmarksEnabled?: boolean;
   branchTypeOverride?: string;
   bookmarks: IBookmark[];
@@ -126,12 +127,7 @@ const StateListContainer: React.StatelessComponent<IStateListContainerProps> = (
 
   const onStateContinuationClick = id => onPinState(id);
   const onStateBookmarkClick = (id) => {
-    log('bookmarking state %s',
-      id,
-      bookmarks,
-      bookmarks.map(b => b.stateId),
-      bookmarks.map(b => b.stateId).includes(id)
-    );
+    log('bookmarking state %s', id);
     const bookmarked = bookmarks.map(b => b.stateId).includes(id);
     log('bookmarked?', bookmarked);
     return bookmarked ? onRemoveBookmark(id) : onAddBookmark({ stateId: id, name: historyGraph.stateName(id) });
@@ -145,7 +141,6 @@ const StateListContainer: React.StatelessComponent<IStateListContainerProps> = (
     getSourceFromState,
     chronological,
   );
-
   if (branchTypeOverride) {
     stateList.forEach(s => s.branchType = branchTypeOverride);
   }
@@ -166,10 +161,10 @@ StateListContainer.propTypes = {
    * The Dag-History Object
    */
   history: PropTypes.object.isRequired,
-  commitPath: PropTypes.arrayOf(PropTypes.number),
+  commitPath: PropTypes.arrayOf(PropTypes.string),
   getSourceFromState: PropTypes.func.isRequired,
   branchContainerExpanded: PropTypes.bool,
-  pinnedStateId: PropTypes.number,
+  pinnedStateId: PropTypes.string,
   bookmarksEnabled: PropTypes.bool,
   branchTypeOverride: PropTypes.string,
 
