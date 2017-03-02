@@ -38,7 +38,7 @@ export default class History extends React.Component<IHistoryProps, {}> {
   public static propTypes = {
     bookmarks: PropTypes.array.isRequired,
     dragIndex: PropTypes.number,
-    dragKey: PropTypes.number,
+    dragKey: PropTypes.string,
     hoverIndex: PropTypes.number,
     isPlayingBack: PropTypes.bool,
 

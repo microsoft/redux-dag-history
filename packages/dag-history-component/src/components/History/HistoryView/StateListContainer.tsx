@@ -127,12 +127,7 @@ const StateListContainer: React.StatelessComponent<IStateListContainerProps> = (
 
   const onStateContinuationClick = id => onPinState(id);
   const onStateBookmarkClick = (id) => {
-    log('bookmarking state %s',
-      id,
-      bookmarks,
-      bookmarks.map(b => b.stateId),
-      bookmarks.map(b => b.stateId).includes(id)
-    );
+    log('bookmarking state %s', id);
     const bookmarked = bookmarks.map(b => b.stateId).includes(id);
     log('bookmarked?', bookmarked);
     return bookmarked ? onRemoveBookmark(id) : onAddBookmark({ stateId: id, name: historyGraph.stateName(id) });

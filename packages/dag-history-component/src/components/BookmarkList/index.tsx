@@ -15,7 +15,7 @@ export interface IBookmarkListProps {
 
   dragIndex?: number;
   hoverIndex?: number;
-  dragKey?: number;
+  dragKey?: string;
 }
 
 export default class BookmarkList extends React.PureComponent<IBookmarkListProps, {}> {
