@@ -1,10 +1,11 @@
 import * as React from 'react';
 import * as classnames from 'classnames';
+import { BranchId } from '@essex/redux-dag-history/lib/interfaces';
 import BranchProfile from '../BranchProfile';
 import './Branch.scss';
 
 export interface IBranchProps {
-  id?: number;
+  id?: BranchId;
   label: string;
   branchType: 'current' | 'legacy';
   startsAt: number;
@@ -50,7 +51,7 @@ const Branch: React.StatelessComponent<IBranchProps> = ({
 );
 
 Branch.propTypes = {
-  id: React.PropTypes.number,
+  id: React.PropTypes.string,
   label: React.PropTypes.string.isRequired,
   branchType: React.PropTypes.string.isRequired,
   startsAt: React.PropTypes.number.isRequired,

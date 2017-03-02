@@ -13,35 +13,21 @@ export default function createHistory<T>(
   initialStateName: string = 'Initial',
 ): IDagHistory<T> {
   log('creating history');
-  const currentStateId = 1;
-  const currentBranchId = 1;
+  const currentStateId: StateId = undefined;
+  const currentBranchId: BranchId = undefined;
   return load<T>({
     current: initialState,
-    lastStateId: currentStateId,
-    lastBranchId: currentBranchId,
-    stateHash: new Map<string, any>(), // eslint-disable-line new-parens
-    chronologicalStates: [currentStateId],
+    lastStateId: 0,
+    lastBranchId: 0,
+    stateHash: new Map<StateId, any>(), // eslint-disable-line new-parens
+    chronologicalStates: [],
     graph: {
       current: {
         state: currentStateId,
         branch: currentBranchId,
       },
-      branches: {
-        [currentBranchId]: {
-          latest: currentStateId,
-          name: initialBranchName,
-          first: currentStateId,
-          committed: currentStateId,
-        },
-      },
-      states: {
-        [currentStateId]: {
-          state: initialState,
-          name: initialStateName,
-          branch: 1,
-          parent: null,
-        },
-      },
+      branches: {},
+      states: {},
     },
   });
 }

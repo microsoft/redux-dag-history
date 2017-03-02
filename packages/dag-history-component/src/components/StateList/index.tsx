@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { StateId } from '@essex/redux-dag-history/lib/interfaces';
 import State from '../State';
 import isNumber from '../../util/isNumber';
 import { IStateProps } from '../State/interfaces';
@@ -6,7 +7,7 @@ import * as ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 export interface IStateListProps {
   states: IStateProps[];
-  activeStateId?: number;
+  activeStateId?: StateId;
   onStateClick?: Function;
   onStateContinuationClick?: Function;
   renderBookmarks?: boolean;
@@ -21,7 +22,7 @@ export default class StateList extends React.Component<IStateListProps, IStateLi
 
   static propTypes = {
     states: React.PropTypes.arrayOf(React.PropTypes.shape(State.propTypes)).isRequired,
-    activeStateId: React.PropTypes.number,
+    activeStateId: React.PropTypes.string,
     onStateClick: React.PropTypes.func,
     onStateContinuationClick: React.PropTypes.func,
     renderBookmarks: React.PropTypes.bool,
@@ -65,7 +66,6 @@ export default class StateList extends React.Component<IStateListProps, IStateLi
         {...s}
         {...{ renderBookmarks }}
         key={s.id}
-        active={isNumber(activeStateId) && s.id === activeStateId}
         onClick={(id) => handleClick(id)}
         onContinuationClick={(id) => handleContinuationClick(id)}
         onBookmarkClick={(id) => handleBookmarkClick(id)}

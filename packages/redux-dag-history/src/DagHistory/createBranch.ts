@@ -1,5 +1,6 @@
 import * as Immutable from 'immutable';
 import DagGraph from '../DagGraph';
+import nextId from '../nextId';
 import {
   IDagHistory,
   StateId,
@@ -16,7 +17,7 @@ export default function createBranch<T>(
   log('creating branch %s', branchName);
   const { graph, current, lastBranchId } = history;
   const reader = new DagGraph(graph);
-  const newBranchId = lastBranchId + 1;
+  const newBranchId = nextId(lastBranchId);
 
   return {
     ...history,

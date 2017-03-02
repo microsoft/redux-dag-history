@@ -1,6 +1,7 @@
 import { Map as ImmutableMap } from 'immutable';
-export type StateId = number;
-export type BranchId = number;
+export type StateId = KeyType;
+export type BranchId = KeyType;
+export type StateHash = string;
 
 export interface IConfiguration<T> {
   /**
@@ -23,7 +24,7 @@ export interface IConfiguration<T> {
   /**
    * A function for generating map keys for states
    */
-  stateKeyGenerator?: (state: T) => number;
+  stateKeyGenerator?: (state: T) => StateHash;
 
   /**
    * Action Names
@@ -70,7 +71,7 @@ export interface IDagHistory<T> {
   /**
    * A weak mapping of hash-codes to state, for efficient duplicate state lookup
    */
-  stateHash: WeakMap<number, StateId>;
+  stateHash: WeakMap<StateHash, StateId>;
 
   /**
    * A chronological log of states visited in the application

@@ -5,7 +5,7 @@ import {
 } from '@essex/redux-dag-history/lib/interfaces';
 
 export interface IStateProps {
-  id: number;
+  id: StateId;
   active?: boolean;
   renderBookmarks?: boolean;
   pinned?: boolean;

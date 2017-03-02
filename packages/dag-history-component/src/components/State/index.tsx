@@ -44,7 +44,7 @@ export interface IStateState {}
 
 export default class State extends React.PureComponent<IStateProps, IStateState> {
   static propTypes = {
-    id: PropTypes.number.isRequired,
+    id: PropTypes.string.isRequired,
     source: PropTypes.string,
     label: PropTypes.string.isRequired,
     active: PropTypes.bool,
@@ -86,7 +86,6 @@ export default class State extends React.PureComponent<IStateProps, IStateState>
       pinned,
       showContinuation,
     } = this.props;
-
     const backgroundColor = getBackgroundColor(branchType, active);
 
     const handleClick = (e) => {

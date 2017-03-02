@@ -3,6 +3,7 @@ import { save, load } from '../persister';
 import { IBookmark } from '../../src/interfaces';
 import '../../src/daghistory.scss';
 import createHistoryContainer from '../../src/components/createHistoryContainer';
+import { get } from 'lodash';
 
 const HistoryContainer = createHistoryContainer(state => state.app, state => state.component);
 
@@ -10,21 +11,18 @@ const { PropTypes } = React;
 
 const HistoryPresenter: React.StatelessComponent<void> = (props) => {
   return (
-    <div className='history-viz-container'>
+    <div className="history-viz-container">
       <HistoryContainer
         bookmarksEnabled
-        getSourceFromState={state => (
-          state.toJS ?
-          state.toJS().metadata.source :
-          state.metadata.source
-        )}
+        controlBarEnabled
+        getSourceFromState={state => get(state, 'metadata.source')}
         controlBar={{
           onSaveHistory: save,
           onLoadHistory: load,
           onConfirmClear: () => Promise.resolve(true),
         }}
       />
-      <input id='pickFileInput' type='file' name='pickFileInput' style={{ display: 'none' }} />
+      <input id="pickFileInput" type="file" name="pickFileInput" style={{ display: 'none' }} />
     </div>
   );
 };

@@ -5,7 +5,7 @@ import State from '../../../src/components/State';
 storiesOf('State', module)
 .add('Current, Active', () => (
   <State
-    id={1}
+    id="1"
     source="Search Widget"
     label="Added Search Criteria"
     branchType="current"
@@ -17,7 +17,7 @@ storiesOf('State', module)
 ))
 .add('Current, Inactive', () => (
   <State
-    id={1}
+    id="1"
     source="Search Widget"
     label="Added Search Criteria"
     branchType="current"
@@ -28,7 +28,7 @@ storiesOf('State', module)
 ))
 .add('Legacy, Active', () => (
   <State
-    id={1}
+    id="1"
     source="Search Widget"
     label="Added Search Criteria"
     branchType="legacy"
@@ -40,7 +40,7 @@ storiesOf('State', module)
 ))
 .add('Legacy, Inactive', () => (
   <State
-    id={1}
+    id="1"
     source="Search Widget"
     label="Added Search Criteria"
     branchType="legacy"
@@ -51,7 +51,7 @@ storiesOf('State', module)
 ))
 .add('Current, Unbookmarked', () => (
   <State
-    id={1}
+    id="1"
     source="Search Widget"
     label="Added Search Criteria"
     branchType="current"
@@ -63,7 +63,7 @@ storiesOf('State', module)
 ))
 .add('Legacy, Unbookmarked', () => (
   <State
-    id={1}
+    id="1"
     source="Search Widget"
     label="Added Search Criteria"
     branchType="legacy"
@@ -75,7 +75,7 @@ storiesOf('State', module)
 ))
 .add('Current, Bookmarked', () => (
   <State
-    id={1}
+    id="1"
     source="Search Widget"
     label="Added Search Criteria"
     branchType="current"
@@ -88,7 +88,7 @@ storiesOf('State', module)
 ))
 .add('Legacy, Bookmarked', () => (
   <State
-    id={1}
+    id="1"
     source="Search Widget"
     label="Added Search Criteria"
     branchType="legacy"
@@ -101,7 +101,7 @@ storiesOf('State', module)
 ))
 .add('Pinned', () => (
   <State
-    id={1}
+    id="1"
     source="Search Widget"
     label="Added Search Criteria"
     branchType="current"

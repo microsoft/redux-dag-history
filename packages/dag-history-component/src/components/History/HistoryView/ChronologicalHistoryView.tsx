@@ -57,7 +57,7 @@ ChronologicalHistoryView.propTypes = {
   historyType: PropTypes.string.isRequired,
   getSourceFromState: PropTypes.func.isRequired,
   branchContainerExpanded: PropTypes.bool,
-  pinnedStateId: PropTypes.number,
+  pinnedStateId: PropTypes.string,
 
   /**
    * User Interaction Handlers - loaded by redux

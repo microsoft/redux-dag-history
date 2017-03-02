@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { StateId } from '@essex/redux-dag-history/lib/interfaces';
 import { IBookmark } from '../interfaces';
 import {default as HistoryComponent, IHistoryOwnProps, IHistoryDispatchProps } from './History';
 import '../daghistory.scss';
@@ -14,7 +15,7 @@ export interface IHistoryContainerStateProps {
   mainView?: string;
   historyType?: string;
   branchContainerExpanded?: boolean;
-  pinnedStateId?: number;
+  pinnedStateId?: StateId;
   selectedBookmark?: number;
   selectedBookmarkDepth?: number;
   bookmarks?: IBookmark[];
@@ -25,6 +26,7 @@ export interface IHistoryContainerDispatchProps extends IHistoryDispatchProps {
 
 export interface IHistoryContainerOwnProps {
   bookmarksEnabled?: boolean;
+  controlBarEnabled?: boolean;
 
   /**
    * ControlBar Configuration Properties
