@@ -13,8 +13,8 @@
     "lerna:run": "env PATH=$PATH:./node_modules/.bin lerna run",
     "start:middleware": "npm run lerna:exec -- --scope @essex/redux-dag-history -- npm run start",
     "start:component": "npm run lerna:exec -- --scope @essex/dag-history-component -- npm run start",
-    "packages:test": "npm run lerna:run -- test",
-    "packages:build": "npm run lerna:run -- build",
+    "packages:test": "npm run lerna:run -- test --stream",
+    "packages:build": "npm run lerna:run -- build --stream",
     "packages:clean": "npm run lerna:run -- clean",
     "test": "npm-run-all packages:clean lint packages:build jest:coverage",
     "start": "npm-run-all --parallel start:*"
