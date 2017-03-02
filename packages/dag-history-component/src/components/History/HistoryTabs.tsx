@@ -77,7 +77,7 @@ const HistoryContainer: React.StatelessComponent<IHistoryContainerProps> = ({
       </Tabs>
     </div>
   );
-}
+};
 
 HistoryContainer.propTypes = {
   selectedTab: PropTypes.string.isRequired,

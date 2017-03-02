@@ -96,6 +96,6 @@ export default class Bookmark {
       return depth;
     }
     const { commitPathLength } = this;
-    return commitPathLength;
+    return commitPathLength - 1;
   }
 }
