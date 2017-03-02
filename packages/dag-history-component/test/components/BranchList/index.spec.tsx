@@ -18,10 +18,10 @@ describe('The BranchList component', () => {
     let clickedId = null;
     const rendered = mount(
       <BranchList
-        activeBranch={5}
+        activeBranch="5"
         branches={[
         {
-          id: 5,
+          id: '5',
           label: 'delta-1',
           startsAt: 5,
           endsAt: 10,
@@ -35,16 +35,16 @@ describe('The BranchList component', () => {
     expect(rendered).to.be.ok;
     rendered.find('.history-branch').get(0);
     rendered.find('.history-branch').simulate('click');
-    expect(clickedId).to.equal(5);
+    expect(clickedId).to.equal('5');
   });
 
   it('will not throw an error when an branch is clicked without an onClick handler defined', () => {
     const rendered = mount(
       <BranchList
-        activeBranch={5}
+        activeBranch="5"
         branches={[
         {
-          id: 5,
+          id: '5',
           label: 'delta-1',
           startsAt: 5,
           endsAt: 10,
