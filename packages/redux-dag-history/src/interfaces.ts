@@ -71,7 +71,7 @@ export interface IDagHistory<T> {
   /**
    * A weak mapping of hash-codes to state, for efficient duplicate state lookup
    */
-  stateHash: WeakMap<StateHash, StateId>;
+  stateHash: Map<StateHash, StateId>;
 
   /**
    * A chronological log of states visited in the application
