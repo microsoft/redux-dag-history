@@ -131,7 +131,8 @@ export default class BranchListContainer extends React.Component<IBranchListCont
       !pinnedState ||
       branch.active ||
       isNumber(branch.successorDepth)
-    ));
+    ))
+    .reverse();
   }
 
   render() {
