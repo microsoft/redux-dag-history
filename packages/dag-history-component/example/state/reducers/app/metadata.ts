@@ -1,7 +1,7 @@
 import * as Actions from '../../Actions';
 
 const DEFAULT_STATE = {
-  name: 'INIT',
+  name: 'Initial',
   historyIndex: 0,
   source: null,
 };

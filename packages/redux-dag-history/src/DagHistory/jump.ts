@@ -22,15 +22,12 @@ const log = require('debug')('redux-dag-history:DagHistory');
 export function jump<T>(
   stateId: StateId,
   history: IDagHistory<T>,
-  assignObj = {},
   callback: ((g: DagGraph<T>) => void
 ) = () => ({})): IDagHistory<T> {
   const { graph } = history;
   const reader = new DagGraph(graph);
   const targetState = reader.getState(stateId);
   return {
-    ...history,
-    ...assignObj,
     current: unfreeze(targetState),
     graph: graph.withMutations((g) => {
       const writer = new DagGraph<T>(g) // eslint-disable-line new-parens
@@ -46,26 +43,16 @@ export function jump<T>(
 export function jumpLog<T>(
   stateId: StateId,
   history: IDagHistory<T>,
-  assignObj = {},
   callback: ((g: DagGraph<T>) => void
 ) = () => ({})): IDagHistory<T> {
-  const { graph, chronologicalStates } = history;
+  const { graph } = history;
   const { currentStateId: alternateParent } = new DagGraph(graph);
 
-  const result = jump(
+  return jump(
     stateId,
     history,
-    assignObj,
     (writer) => {
       writer.setAlternateParent(stateId, alternateParent);
       callback(writer);
     });
-
-  return {
-    ...result,
-    chronologicalStates: [
-      ...chronologicalStates,
-      stateId,
-    ],
-  };
 }

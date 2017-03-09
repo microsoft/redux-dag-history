@@ -2,32 +2,90 @@ import {
   IDagHistory,
   StateId,
   BranchId,
+  IConfiguration,
 } from '../interfaces';
 import load from './load';
+import nextId from '../nextId';
 
 const log = require('debug')('redux-dag-history:DagHistory');
 
 export default function createHistory<T>(
   initialState: T = {} as T,
-  initialBranchName: string = 'Initial',
-  initialStateName: string = 'Initial',
+  config: IConfiguration<T>,
 ): IDagHistory<T> {
   log('creating history');
-  const currentStateId: StateId = undefined;
-  const currentBranchId: BranchId = undefined;
+  const stateId: StateId = nextId();
+  const branchId: BranchId = nextId();
+  const {
+    initialStateName,
+    initialBranchName,
+  } = config;
+
+  // We may need to insert the initial hash into the state data, so construct it here
+  const initialStateData = {
+    state: initialState,
+    name: initialStateName,
+    branch: 1,
+  };
+
+  // If possible, hash the initial state
+  let stateHash = {};
+  if (config.stateKeyGenerator) {
+    const initialHash = config.stateKeyGenerator(initialState);
+    stateHash[initialHash] = stateId;
+    initialStateData['hash'] = initialHash;
+  }
+
   return load<T>({
     current: initialState,
-    lastStateId: 0,
-    lastBranchId: 0,
-    stateHash: new Map<StateId, any>(), // eslint-disable-line new-parens
-    chronologicalStates: [],
     graph: {
+      /**
+       * The last used state id
+       */
+      lastStateId: stateId,
+
+      /**
+       * The last used branch id
+       */
+      lastBranchId: branchId,
+
+      /**
+       * A map of hash-code strings to state IDs. If a has function is defined in
+       * the configuration file, then these will be inserted.
+       */
+      stateHash,
+
+      /**
+       * A chronological listing of visited states
+       */
+      chronologicalStates: [stateId],
+
+      /**
+       * The current state and branch
+       */
       current: {
-        state: currentStateId,
-        branch: currentBranchId,
+        state: stateId,
+        branch: branchId,
       },
-      branches: {},
-      states: {},
+
+      /**
+       * A map of branch-ids to branch data
+       */
+      branches: {
+        [branchId]: {
+          latest: stateId,
+          name: initialBranchName,
+          first: stateId,
+          committed: stateId,
+        },
+      },
+
+      /**
+       * A map of state-ids to state data
+       */
+      states: {
+        [stateId]: initialStateData,
+      },
     },
   });
 }

@@ -159,13 +159,13 @@ export default class EditBookmark extends React.Component<IEditBookmarkProps, IE
                 className="discovery-trail-intro-button"
                 style={{marginLeft: 5}}
                 tabIndex={3}
-                onClick={(e) => this.onLeadInSet(commitPathLength - selectedDepth)}
+                onClick={(e) => this.onLeadInSet(commitPathLength - selectedDepth - 1)}
               >
                 Set intro
               </button>
             </div>
             <DiscoveryTrail
-              depth={commitPathLength}
+              depth={commitPathLength - 1}
               highlight={selectedDepth}
               leadIn={numLeadInStates}
               active={active}

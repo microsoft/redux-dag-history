@@ -55,14 +55,17 @@ const StoryboardingView: React.StatelessComponent<IStoryboardingViewProps & IBoo
     handleStepBackUnbounded,
   } = makeActions(selectedBookmark, selectedBookmarkDepth, history, bookmarks, onSelectBookmarkDepth);
 
-  const initialDepth = new Bookmark(bookmarks[0], new DagGraph(history.graph)).startingDepth();
+  const bookmark = new Bookmark(bookmarks[0], new DagGraph(history.graph));
+  const initialDepth = bookmark.startingDepth();
+  const stateId = bookmark.commitPath[bookmark.sanitizeDepth(initialDepth)];
+
   return (
     <div className="history-container">
       <BookmarkListContainer {...props} />
       <Transport
         onBack={handleStepBack}
         onForward={handleStepForward}
-        onPlay={() => onStartPlayback({ initialDepth })}
+        onPlay={() => onStartPlayback({ initialDepth, stateId })}
         onStop={onStopPlayback}
         onStepBack={handleStepBack}
         onStepForward={handleStepForward}

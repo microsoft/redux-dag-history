@@ -59,9 +59,11 @@ export const RENAME_BRANCH = action('rename_branch');
 
 /**
  * Squashes the ancestors of the current state that do not support multiple branches.
- * e.g.    b                                b
- *     a <               will turn into  a <
- **        c -> d -> [e                     [e]
+ * e.g. squashing [e] will result in
+ *
+ *        b                                b
+ *     a <                   ==>        a <
+ *         c -> d -> [e]                   [e]
  */
 export const SQUASH = action('squash');
 

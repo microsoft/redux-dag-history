@@ -42,7 +42,7 @@ const ChronologicalHistoryView: React.StatelessComponent<IChronologicalHistoryVi
       {...props}
       chronological
       branchTypeOverride={'current'}
-      commitPath={props.history.chronologicalStates}
+      commitPath={props.history.graph.get('chronologicalStates').toJS()}
     />
   </div>
 );

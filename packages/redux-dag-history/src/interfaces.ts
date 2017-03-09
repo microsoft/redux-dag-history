@@ -37,9 +37,9 @@ export interface IConfiguration<T> {
   jumpToBranchActionType?: string;
   jumpToLatestOnBranchActionType?: string;
   createBranchActionType?: string;
+  squashActionType?: string;
   renameBranchActionType?: string;
   renameStateActionType?: string;
-  squashActionType?: string;
   initialBranchName?: string;
   initialStateName?: string;
   skipToStartActionType?: string;
@@ -65,60 +65,12 @@ export interface IDagHistory<T> {
    * The current application state
    */
   current: T;
-  lastStateId: StateId;
-  lastBranchId: BranchId;
 
   /**
-   * A weak mapping of hash-codes to state, for efficient duplicate state lookup
+   * The explored state space, represented as a graph (future and past).
+   * See DagGraph.ts and createHistory.ts for more details on the structure of this
    */
-  stateHash: Map<StateHash, StateId>;
-
-  /**
-   * A chronological log of states visited in the application
-   */
-  chronologicalStates: StateId[];
-
-  /**
-   * The explored state space, represented as a graph (future and past)
-   */
-  graph: ImmutableMap<any, any>; // {
-      /*
-      current: {
-
-          state: StateId,
-
-          /**
-           * The current branch being used
-          branch: BranchId,
-      },
-
-      /**
-       * Branches are Pointers to State Tracks
-      branches: {
-          [id: string]: { // BranchId
-              latest: StateId;
-              committed: StateId;
-          };
-      };
-
-      /**
-       * A hash of states by ID
-      states: {
-          [id: string]: { // StateId
-              /**
-               * The application state for this state node
-              state: any;
-
-              /**
-               * The child states of this state
-              children: StateId[];
-
-              /**
-               * The parent state ID. If this is null, then this state has no parent.
-              parent?: StateId;
-          };
-      };
-  };*/
+  graph: ImmutableMap<any, any>;
 };
 
 export interface StateIdGenerator {

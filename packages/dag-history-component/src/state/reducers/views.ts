@@ -6,6 +6,7 @@ import {
   SELECT_HISTORY_TYPE,
   TOGGLE_BRANCH_CONTAINER,
 } from '../actions/types';
+import isHistoryAction from './isHistoryAction';
 
 export const INITIAL_STATE = {
   mainView: 'history',
@@ -35,7 +36,7 @@ export default function makeReducer<T>(config: IComponentConfiguration<T>) {
         ...state,
         branchContainerExpanded: !state.branchContainerExpanded,
       };
-    } else if (action.type.indexOf('DAG_HISTORY_') !== 0 && config.actionFilter(action.type)) {
+    } else if (!isHistoryAction(action) && config.actionFilter(action.type)) {
       // Insertable actions clear the pinned state
       result = {
         ...state,

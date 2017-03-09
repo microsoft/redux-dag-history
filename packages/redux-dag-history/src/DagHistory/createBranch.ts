@@ -15,17 +15,18 @@ export default function createBranch<T>(
   history: IDagHistory<T>
 ): IDagHistory<T> {
   log('creating branch %s', branchName);
-  const { graph, current, lastBranchId } = history;
+  const { graph, current } = history;
   const reader = new DagGraph(graph);
-  const newBranchId = nextId(lastBranchId);
 
   return {
-    ...history,
     current,
-    lastBranchId: newBranchId,
     graph: graph.withMutations((g) => {
-      new DagGraph(g)
+      const reader = new DagGraph(graph);
+      const { lastBranchId } = reader;
+      const newBranchId = nextId(lastBranchId);
+      return reader
         .setCurrentBranch(newBranchId)
+        .setLastBranchId(newBranchId)
         .setBranchName(newBranchId, branchName)
         .setCommitted(newBranchId, reader.currentStateId)
         .setFirst(newBranchId, reader.currentStateId)

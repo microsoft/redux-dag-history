@@ -98,12 +98,12 @@ export default class History extends React.Component<IHistoryProps, {}> {
 
   onSaveClicked() {
     const { history, controlBar: { onSaveHistory }, bookmarks } = this.props;
-    const { current, lastBranchId, lastStateId, graph } = history;
+    const { current, graph } = history;
     // Pass the plain history up to the client to save
     onSaveHistory({
       current,
-      lastBranchId,
-      lastStateId,
+      lastBranchId: graph.get('lastBranchId'),
+      lastStateId: graph.get('lastStateId'),
       bookmarks,
       graph: graph.toJS(),
     });

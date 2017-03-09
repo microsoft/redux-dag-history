@@ -8,10 +8,10 @@ const { createAction } = ReduxActions;
 // Simple Action Creators
 const doSelectBookmarkDepth = createAction<BookmarkDepthSelection>(Types.SELECT_BOOKMARK_DEPTH);
 const doBookmarkDragDrop = createAction<void>(Types.BOOKMARK_DRAG_DROP);
+export const doStartPlayback = createAction<StartPlaybackPayload>(Types.START_PLAYBACK);
 export const selectMainView = createAction(Types.SELECT_MAIN_VIEW);
 export const selectHistoryType = createAction<string>(Types.SELECT_HISTORY_TYPE);
 export const toggleBranchContainer = createAction<void>(Types.TOGGLE_BRANCH_CONTAINER);
-export const startPlayback = createAction<StartPlaybackPayload>(Types.START_PLAYBACK);
 export const stopPlayback = createAction<void>(Types.STOP_PLAYBACK);
 export const bookmarkDragStart = createAction<BookmarkDragStartPayload>(Types.BOOKMARK_DRAG_START);
 export const bookmarkDragHover = createAction<BookmarkDragHoverPayload>(Types.BOOKMARK_DRAG_HOVER);
@@ -24,6 +24,13 @@ export const moveBookmark = createAction<MoveBookmarkPayload>(Types.MOVE_BOOKMAR
 export const pinState = createAction<StateId>(Types.PIN_STATE);
 
 // Composite Action Creators
+export function startPlayback(payload: StartPlaybackPayload) {
+  return (dispatch) => {
+    dispatch(DagHistoryActions.jumpToState(payload.stateId));
+    dispatch(doStartPlayback(payload));
+  };
+}
+
 export function bookmarkDragDrop(payload: BookmarkDragDropPayload) {
   return (dispatch) => {
     dispatch(doBookmarkDragDrop());
@@ -58,6 +65,7 @@ export const selectBookmark = (bookmarkIndex: number, state: StateId) => (
 
 export interface StartPlaybackPayload {
   initialDepth: number;
+  stateId: StateId;
 }
 
 export interface AddBookmarkPayload {

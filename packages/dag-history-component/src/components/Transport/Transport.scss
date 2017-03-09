@@ -3,4 +3,9 @@
   display: flex;
   flex-direction: row;
   justify-content: space-around;
+
+  /**
+   * Remove the blue focus-outline
+   */
+  outline: none;
 }
