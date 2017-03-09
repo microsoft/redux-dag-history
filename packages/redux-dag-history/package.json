@@ -2,7 +2,7 @@
   "name": "@essex/redux-dag-history",
   "version": "3.0.1",
   "description": "",
-  "main": "index.js",
+  "main": "lib/index.js",
   "scripts": {
     "clean": "../../node_modules/.bin/rimraf lib",
     "build": "../../node_modules/.bin/tsc",

@@ -37,9 +37,9 @@ export interface IConfiguration<T> {
   jumpToBranchActionType?: string;
   jumpToLatestOnBranchActionType?: string;
   createBranchActionType?: string;
+  squashActionType?: string;
   renameBranchActionType?: string;
   renameStateActionType?: string;
-  squashActionType?: string;
   initialBranchName?: string;
   initialStateName?: string;
   skipToStartActionType?: string;
@@ -69,22 +69,15 @@ export interface IDagHistory<T> {
   lastBranchId: BranchId;
 
   /**
-   * A weak mapping of hash-codes to state, for efficient duplicate state lookup
-   */
-  stateHash: Map<StateHash, StateId>;
-
-  /**
-   * A chronological log of states visited in the application
-   */
-  chronologicalStates: StateId[];
-
-  /**
    * The explored state space, represented as a graph (future and past)
    */
   graph: ImmutableMap<any, any>; // {
-      /*
-      current: {
+    /*
+      stateHash: Map<StateHash, StateId>;
 
+      // A chronological log of states visited in the application
+      chronologicalStates: StateId[];
+      current: {
           state: StateId,
 
           /**

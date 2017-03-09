@@ -45,7 +45,7 @@ export default function trackHistory<T>(reducer: Function, rawConfig = {}) {
         break;
 
       case config.clearActionType:
-        history = DagHistory.clear(history);
+        history = DagHistory.clear(history, config);
         break;
 
       case config.undoActionType:
@@ -72,12 +72,12 @@ export default function trackHistory<T>(reducer: Function, rawConfig = {}) {
         history = DagHistory.createBranch(action.payload, history);
         break;
 
+      case config.squashActionType:
+         history = DagHistory.squash(history);
+         break;
+
       case config.renameBranchActionType:
         history = DagHistory.renameBranch(action.payload.branch, action.payload.name, history);
-        break;
-
-      case config.squashActionType:
-        history = DagHistory.squash(history);
         break;
 
       case config.renameStateActionType:
@@ -105,7 +105,7 @@ export default function trackHistory<T>(reducer: Function, rawConfig = {}) {
   function handleBlankState(action: Action<any>) {
     // State is either blank or a non-history object
     const state = reducer(undefined, action);
-    const result = DagHistory.createHistory(state, config.initialBranchName, config.initialStateName);
+    const result = DagHistory.createHistory(state, config);
     log('creating new history with initial state', state, result);
     return result;
   }

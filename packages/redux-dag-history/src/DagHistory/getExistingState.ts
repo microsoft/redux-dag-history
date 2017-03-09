@@ -19,8 +19,10 @@ export default function getExistingState<T>(
   config: IConfiguration<T>,
 ): StateId {
   if (config.stateKeyGenerator && config.stateEqualityPredicate) {
+    const dagGraph = new DagGraph(history.graph);
     const hash = config.stateKeyGenerator(newState);
-    const found = history.stateHash.get(hash);
+    const found = dagGraph.getStateForHash(hash);
+
     if (found) {
       const existingState = new DagGraph<T>(history.graph) // eslint-disable-line new-parens
         .getState(found);

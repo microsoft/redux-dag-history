@@ -49,10 +49,10 @@ export function jumpLog<T>(
   assignObj = {},
   callback: ((g: DagGraph<T>) => void
 ) = () => ({})): IDagHistory<T> {
-  const { graph, chronologicalStates } = history;
+  const { graph } = history;
   const { currentStateId: alternateParent } = new DagGraph(graph);
 
-  const result = jump(
+  return jump(
     stateId,
     history,
     assignObj,
@@ -60,12 +60,4 @@ export function jumpLog<T>(
       writer.setAlternateParent(stateId, alternateParent);
       callback(writer);
     });
-
-  return {
-    ...result,
-    chronologicalStates: [
-      ...chronologicalStates,
-      stateId,
-    ],
-  };
 }

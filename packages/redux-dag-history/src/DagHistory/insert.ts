@@ -18,7 +18,7 @@ export default function insert<T>(
   config: IConfiguration<T>,
 ): IDagHistory<T> {
   log('inserting new history state');
-  const { graph, lastBranchId, chronologicalStates } = history;
+  const { graph, lastBranchId } = history;
   if (!graph) {
     throw new Error('History graph is not defined');
   }
@@ -32,23 +32,22 @@ export default function insert<T>(
   const isBranching = cousins.length > 0 || lastBranchId > currentBranchId || currentBranchId === undefined;
   const newBranchId = isBranching ? nextId(lastBranchId) : lastBranchId;
 
-  // If the state has a hash code, register the state
-  if (config.stateKeyGenerator) {
-    const stateHash = '' + config.stateKeyGenerator(state);
-    log('inserting state with key', stateHash);
-    history.stateHash.set(stateHash, newStateId);
-  }
-
   return {
     ...history,
     current: state,
     lastStateId: newStateId,
     lastBranchId: newBranchId,
-    chronologicalStates: [...chronologicalStates, newStateId],
     graph: graph.withMutations((g) => {
       const dg = new DagGraph(g)
         .insertState(newStateId, parentStateId, state, newStateName)
         .setCurrentStateId(newStateId);
+
+      // If the state has a hash code, register the state
+      if (config.stateKeyGenerator) {
+        const stateHash = config.stateKeyGenerator(state);
+        log('inserting state with key', stateHash);
+        dg.setHashForState(stateHash, newStateId);
+      }
 
       if (isBranching) {
         const newBranch = config.branchName(currentBranchId, newBranchId, newStateName);

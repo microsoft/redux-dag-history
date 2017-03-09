@@ -15,22 +15,24 @@ export default function replaceCurrentState<T>(
   config: IConfiguration<T>,
 ): IDagHistory<T> {
   log('replace current state');
-  const { graph, stateHash } = history;
+  const { graph } = history;
   const reader = new DagGraph(graph);
   const currentStateId = reader.currentStateId;
-
-  // If the state has a hash code, register the state
-  if (config.stateKeyGenerator) {
-    const hash = config.stateKeyGenerator(state);
-
-    log('inserting state with key', hash);
-    history.stateHash.set(hash, currentStateId);
-  }
 
   return {
     ...history,
     current: state,
-    stateHash,
-    graph: graph.withMutations(g => new DagGraph(g).replaceState(currentStateId, state)),
+    graph: graph.withMutations(g => {
+      const graph = new DagGraph(g);
+
+      // If the state has a hash code, register the state
+      if (config.stateKeyGenerator) {
+        const hash = config.stateKeyGenerator(state);
+        log('inserting state with key', hash);
+        graph.setHashForState(hash, currentStateId);
+      }
+
+      return graph.replaceState(currentStateId, state);
+    }),
   };
 }
