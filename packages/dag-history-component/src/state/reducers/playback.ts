@@ -6,6 +6,7 @@ import {
   START_PLAYBACK,
   STOP_PLAYBACK,
 } from '../actions/types';
+import isHistoryAction from './isHistoryAction';
 
 export const INITIAL_STATE = {
   isPlayingBack: false,
@@ -33,10 +34,11 @@ export default function (config: IConfiguration<any>) {
         bookmark: bookmarkIndex === undefined ? state.bookmark : bookmarkIndex,
         depth,
       };
-    } else if (action.type.indexOf('DAG_HISTORY_') !== 0 && config.actionFilter(action.type)) {
+    } else if (!isHistoryAction(action) && config.actionFilter(action.type)) {
       // Insertable actions clear the pinned state
       result = {
         ...state,
+        isPlayingBack: false,
         bookmark: undefined,
         depth: undefined,
       };

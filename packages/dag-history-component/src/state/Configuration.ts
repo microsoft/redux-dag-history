@@ -4,7 +4,7 @@ import { IComponentConfiguration } from './interfaces';  // eslint-disable-line 
 export default class ComponentConfiguration<T>
   extends Configuration<T>
   implements IComponentConfiguration<T> {
-  constructor(rawConfig: IComponentConfiguration<T>) {
+  constructor(rawConfig: IComponentConfiguration<T> = {}) {
     super(rawConfig);
   }
 

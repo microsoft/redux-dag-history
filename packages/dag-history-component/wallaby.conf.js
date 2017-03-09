@@ -3,17 +3,17 @@ const wallabyWebpack = require('wallaby-webpack'); // eslint-disable-line import
 module.exports = function configureWallaby(wallaby) {
   const webpackPostprocessor = wallabyWebpack({
     resolve: {
-      extensions: ['', '.js', '.jsx'],
+      extensions: ['.js', '.jsx'],
       alias: {
         sinon: 'sinon/pkg/sinon',
       },
     },
     module: {
-      loaders: [
-          { test: /\.html$/, loader: 'file-loader?name=[name].[ext]' },
-          { test: /\.css$/, loader: 'style-loader!css-loader' },
-          { test: /\.json$/, loader: 'json-loader' },
-          { test: /\.s(a|c)ss$/, loader: 'style-loader!css-loader!sass-loader' },
+      rules: [
+          { test: /\.html$/, use: 'file-loader?name=[name].[ext]' },
+          { test: /\.css$/, use: 'style-loader!css-loader' },
+          { test: /\.json$/, use: 'json-loader' },
+          { test: /\.s(a|c)ss$/, use: 'style-loader!css-loader!sass-loader' },
       ],
     },
   });
@@ -37,6 +37,7 @@ module.exports = function configureWallaby(wallaby) {
     },
     env: {
       kind: 'electron',
+      runner: '../../node_modules/.bin/electron'
     },
   };
 };

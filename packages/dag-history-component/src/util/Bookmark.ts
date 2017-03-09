@@ -6,7 +6,7 @@ import DagGraph from '@essex/redux-dag-history/lib/DagGraph'; // eslint-disable-
 export default class Bookmark {
   /**
    * Constructs a bookmark
-   * @param bookmark - The bookmark item in the history graph
+   * @param bookmark - The bookmark item in state
    * @param graph - The source graph for the bookmark
    */
   constructor( // eslint-disable-line

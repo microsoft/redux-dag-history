@@ -2,7 +2,7 @@ import { expect } from 'chai';
 import { default as makeReducer, INITIAL_STATE } from '../../../src/state/reducers/playback';
 
 import {
-  startPlayback,
+  doStartPlayback,
   stopPlayback,
 } from '../../../src/state/actions/creators';
 import * as types from '../../../src/state/actions/types';
@@ -21,7 +21,7 @@ describe('The Playback reducer', () => {
     let state;
     const reduce = makeReducer(defaultConfig);
     state = reduce(state, { type: 'derp' });
-    state = reduce(state, startPlayback({ initialDepth: 3 }));
+    state = reduce(state, doStartPlayback({ initialDepth: 3, stateId: '1' }));
     expect(state).to.deep.equal({
       isPlayingBack: true,
       bookmark: 0,
@@ -33,7 +33,7 @@ describe('The Playback reducer', () => {
     let state;
     const reduce = makeReducer(defaultConfig);
     state = reduce(state, { type: 'derp' });
-    state = reduce(state, startPlayback({ initialDepth: 3 }));
+    state = reduce(state, doStartPlayback({ initialDepth: 3, stateId: '1' }));
     state = reduce(state, stopPlayback());
     expect(state).to.deep.equal(INITIAL_STATE);
   });
@@ -42,7 +42,7 @@ describe('The Playback reducer', () => {
     let state;
     const reduce = makeReducer(defaultConfig);
     state = reduce(state, { type: 'derp' });
-    state = reduce(state, startPlayback({ initialDepth: 3 }));
+    state = reduce(state, doStartPlayback({ initialDepth: 3, stateId: '1' }));
 
     state = reduce(state, {
       type: types.SELECT_BOOKMARK_DEPTH,

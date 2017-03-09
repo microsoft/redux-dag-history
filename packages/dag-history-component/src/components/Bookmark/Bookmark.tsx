@@ -12,6 +12,7 @@ export interface IBookmarkProps {
   onClick?: Function;
   onClickEdit?: Function;
   annotation: string;
+  commitPathLength: number;
   onDiscoveryTrailIndexClicked?: (index: number) => void;
 }
 
@@ -32,19 +33,20 @@ const Bookmark: React.StatelessComponent<IBookmarkProps> = (props) => {
     onDiscoveryTrailIndexClicked,
     numLeadInStates,
     annotation,
+    commitPathLength,
   } = props;
   const highlight = determineHighlight(props);
   const isDiscoveryTrailVisible = active && numLeadInStates > 0;
-    const discoveryTrail = isDiscoveryTrailVisible ? (
-      <DiscoveryTrail
-        fullWidth
-        depth={this.commitPathLength - 1}
-        highlight={highlight}
-        leadIn={numLeadInStates}
-        active={active}
-        onIndexClicked={idx => onDiscoveryTrailIndexClicked(idx)}
-      />
-    ) : null;
+  const discoveryTrail = isDiscoveryTrailVisible ? (
+    <DiscoveryTrail
+      fullWidth
+      depth={commitPathLength - 1}
+      highlight={highlight}
+      leadIn={numLeadInStates}
+      active={active}
+      onIndexClicked={idx => onDiscoveryTrailIndexClicked(idx)}
+    />
+  ) : null;
   return (
     <div
       className={`history-bookmark ${active ? 'selected' : ''}`}
@@ -54,13 +56,13 @@ const Bookmark: React.StatelessComponent<IBookmarkProps> = (props) => {
           <div
             className={classnames('bookmark-title', { active })}
             onClick={() => onClickEdit('title')}
-            >
+          >
             {name}
           </div>
           <div
             className="bookmark-annotation"
             onClick={() => onClickEdit('annotation')}
-            >
+          >
             {annotation}
           </div>
         </div>

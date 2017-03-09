@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import * as Promise from 'bluebird';
 import * as dagHistory from '@essex/redux-dag-history/lib/DagHistory';
 import History from '../../../src/components/History';
-
+import Configuration from '../../../src/state/Configuration';
 import { createStore } from 'redux';
 
 // It's kind of cheap, but rendering the top-level component
@@ -13,7 +13,7 @@ import { createStore } from 'redux';
 describe('The History Component', () => {
   it('can be rendered in branched mode', () => {
     const store = createStore(() => ({}));
-    const history = dagHistory.createHistory({}, 'initialBranch', 'initialState');
+    const history = dagHistory.createHistory({}, new Configuration());
     const rendered = mount(
       <Provider store={store}>
         <History
@@ -38,7 +38,7 @@ describe('The History Component', () => {
 
   it('can be rendered in chronological mode', () => {
     const store = createStore(() => ({}));
-    const history = dagHistory.createHistory({}, 'initialBranch', 'initialState');
+    const history = dagHistory.createHistory({}, new Configuration());
     const rendered = mount(
       <Provider store={store}>
         <History
@@ -62,7 +62,7 @@ describe('The History Component', () => {
 
   xit('can be rendered in storyboarding mode', () => {
     const store = createStore(() => ({}));
-    const history = dagHistory.createHistory({}, 'initialBranch', 'initialState');
+    const history = dagHistory.createHistory({}, new Configuration());
     const rendered = mount(
       <Provider store={store}>
         <History
@@ -86,7 +86,7 @@ describe('The History Component', () => {
 
   xit('can be rendered in playback mode', () => {
     const store = createStore(() => ({}));
-    const history = dagHistory.createHistory({}, 'initialBranch', 'initialState');
+    const history = dagHistory.createHistory({}, new Configuration());
 
     const rendered = mount(
       <Provider store={store}>

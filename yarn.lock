@@ -2015,7 +2015,7 @@ debug@0.7.4:
   version "0.7.4"
   resolved "https://registry.yarnpkg.com/debug/-/debug-0.7.4.tgz#06e1ea8082c2cb14e39806e22e2f6f757f92af39"
 
-debug@^2.1.1, debug@^2.1.3, debug@^2.2.0, debug@^2.3.3:
+debug@^2.1.1, debug@^2.1.3, debug@^2.2.0:
   version "2.6.1"
   resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.1.tgz#79855090ba2c4e3115cc7d8769491d58f0491351"
   dependencies:
@@ -2227,9 +2227,9 @@ electron-to-chromium@^1.2.2:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.2.2.tgz#e41bc9488c88e3cfa1e94bde28e8420d7d47c47c"
 
-electron@^1.4.15:
-  version "1.6.0"
-  resolved "https://registry.yarnpkg.com/electron/-/electron-1.6.0.tgz#d1d12024fe4e8d14128eb9c73b8a5253324ced06"
+electron@^1.6.2:
+  version "1.6.2"
+  resolved "https://registry.yarnpkg.com/electron/-/electron-1.6.2.tgz#b0ccd7703f86d09c4d2a7273455c3f993f158994"
   dependencies:
     electron-download "^3.0.1"
     extract-zip "^1.0.3"
@@ -3786,16 +3786,6 @@ levn@~0.3.0:
     prelude-ls "~1.1.2"
     type-check "~0.3.2"
 
-linklocal@^2.8.0:
-  version "2.8.0"
-  resolved "https://registry.yarnpkg.com/linklocal/-/linklocal-2.8.0.tgz#77b97af16fff13da34dbb9fd3b53784c3d5baceb"
-  dependencies:
-    commander "^2.9.0"
-    debug "^2.3.3"
-    map-limit "0.0.1"
-    mkdirp "^0.5.1"
-    rimraf "^2.5.4"
-
 load-json-file@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/load-json-file/-/load-json-file-1.1.0.tgz#956905708d58b4bab4c2261b04f59f31c99374c0"
@@ -4046,12 +4036,6 @@ mantra-core@^1.7.0:
     babel-runtime "6.x.x"
     react-komposer "^1.9.0"
     react-simple-di "^1.2.0"
-
-map-limit@0.0.1:
-  version "0.0.1"
-  resolved "https://registry.yarnpkg.com/map-limit/-/map-limit-0.0.1.tgz#eb7961031c0f0e8d001bf2d56fab685d58822f38"
-  dependencies:
-    once "~1.3.0"
 
 map-obj@^1.0.0, map-obj@^1.0.1:
   version "1.0.1"
@@ -4570,7 +4554,7 @@ once@^1.3.0, once@^1.4.0:
   dependencies:
     wrappy "1"
 
-once@~1.3.0, once@~1.3.3:
+once@~1.3.3:
   version "1.3.3"
   resolved "https://registry.yarnpkg.com/once/-/once-1.3.3.tgz#b2e261557ce4c314ec8304f3fa82663e4297ca20"
   dependencies:
