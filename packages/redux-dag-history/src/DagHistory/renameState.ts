@@ -17,7 +17,6 @@ export default function renameState<T>(
   log('rename state %s => %s', stateId, name);
   const { graph } = history;
   return {
-    ...history,
     current: history.current,
     graph: graph.withMutations(g => new DagGraph(g).renameState(stateId, name)),
   };

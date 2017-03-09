@@ -22,7 +22,6 @@ export default function jumpToLatestOnBranch<T>(
     jump(
       state,
       history,
-      {},
       writer => writer.setCurrentBranch(branch),
     )
   );

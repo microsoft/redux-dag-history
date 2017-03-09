@@ -19,7 +19,6 @@ export default function jumpToBranch<T>(branch: BranchId, history: IDagHistory<T
     jump(
       state,
       history,
-      {},
       writer => writer.setCurrentBranch(branch),
     )
   );

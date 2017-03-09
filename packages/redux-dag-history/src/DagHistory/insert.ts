@@ -31,17 +31,14 @@ export default function insert<T>(
   const newStateName = config.actionName(state, newStateId);
   const cousins = reader.childrenOf(parentStateId);
   const isBranching = cousins.length > 0 || lastBranchId > currentBranchId || currentBranchId === undefined;
-  const newBranchId = isBranching ? nextId(lastBranchId) : lastBranchId;
 
   return {
-    ...history,
     current: state,
     graph: graph.withMutations((g) => {
       const dg = new DagGraph(g)
         .insertState(newStateId, parentStateId, state, newStateName)
         .setCurrentStateId(newStateId)
-        .setLastStateId(newStateId)
-        .setLastBranchId(newBranchId);
+        .setLastStateId(newStateId);
 
       // If the state has a hash code, register the state
       if (config.stateKeyGenerator) {
@@ -51,8 +48,10 @@ export default function insert<T>(
       }
 
       if (isBranching) {
+        const newBranchId = nextId(lastBranchId);
         const newBranch = config.branchName(currentBranchId, newBranchId, newStateName);
         dg.setCurrentBranch(newBranchId)
+          .setLastBranchId(newBranchId)
           .setBranchName(newBranchId, newBranch)
           .setLatest(newBranchId, newStateId)
           .setFirst(newBranchId, newStateId)

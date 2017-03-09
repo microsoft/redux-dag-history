@@ -20,7 +20,6 @@ export default function replaceCurrentState<T>(
   const currentStateId = reader.currentStateId;
 
   return {
-    ...history,
     current: state,
     graph: graph.withMutations(g => {
       const graph = new DagGraph(g);

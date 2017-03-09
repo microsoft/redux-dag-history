@@ -13,7 +13,6 @@ export default function squash<T>(history: IDagHistory<T>): IDagHistory<T> {
   log('squashing history');
   const { graph, current } = history;
   return {
-    ...history,
     current,
     graph: graph.withMutations(g => new DagGraph(g).squashCurrentBranch()),
   };

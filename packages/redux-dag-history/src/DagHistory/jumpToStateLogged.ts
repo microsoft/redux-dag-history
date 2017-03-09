@@ -18,9 +18,8 @@ export default function jumpToStateLogged<T>(
   const reader = new DagGraph(graph);
   const branches = reader.branchesOf(stateId);
   const branch = reader.currentBranch;
-  const updateObj: any = {};
 
-  return jumpLog(stateId, history, updateObj, (writer) => {
+  return jumpLog(stateId, history, (writer) => {
     if (branches.indexOf(branch) === -1) {
       const stateBranch = reader.branchOf(stateId);
       log('current branch %s is not present on commit %s, available are [%s] - setting current branch to %s', branch, stateId, branches.join(', '), stateBranch);

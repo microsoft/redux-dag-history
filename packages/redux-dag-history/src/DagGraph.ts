@@ -172,7 +172,7 @@ export default class DagGraph<T> {
    * Get the last-generated branch id
    */
   public get lastBranchId(): StateId {
-    return this.graph.get('lastStateId');
+    return this.graph.get('lastBranchId');
   }
 
   /**

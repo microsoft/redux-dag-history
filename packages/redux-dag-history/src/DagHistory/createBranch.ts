@@ -19,7 +19,6 @@ export default function createBranch<T>(
   const reader = new DagGraph(graph);
 
   return {
-    ...history,
     current,
     graph: graph.withMutations((g) => {
       const reader = new DagGraph(graph);
@@ -27,11 +26,11 @@ export default function createBranch<T>(
       const newBranchId = nextId(lastBranchId);
       return reader
         .setCurrentBranch(newBranchId)
+        .setLastBranchId(newBranchId)
         .setBranchName(newBranchId, branchName)
         .setCommitted(newBranchId, reader.currentStateId)
         .setFirst(newBranchId, reader.currentStateId)
-        .setLatest(newBranchId, reader.currentStateId)
-        .setLastBranchId(newBranchId);
+        .setLatest(newBranchId, reader.currentStateId);
     }),
   };
 }
