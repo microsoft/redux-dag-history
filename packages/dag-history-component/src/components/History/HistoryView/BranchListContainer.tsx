@@ -59,7 +59,7 @@ export default class BranchListContainer extends React.Component<IBranchListCont
 
     // This is a hash of branchId -> stateId
     const selectedSuccessorsByBranch = {};
-    if (isNumber(pinnedState)) {
+    if (pinnedState !== undefined) {
       historyGraph.childrenOf(pinnedState).forEach((child) => {
         const branch = historyGraph.branchOf(child);
         selectedSuccessorsByBranch[branch] = child;
@@ -74,7 +74,7 @@ export default class BranchListContainer extends React.Component<IBranchListCont
     };
 
     const getPinnedStateDepth = (branch) => {
-      if (!isNumber(pinnedState) || pinnedStateBranch !== branch) {
+      if (pinnedState !== undefined || pinnedStateBranch !== branch) {
         return null;
       }
       return historyGraph.depthIndexOf(branch, pinnedState);
@@ -107,10 +107,11 @@ export default class BranchListContainer extends React.Component<IBranchListCont
       const myBranchPath = branchPaths[branch];
       const currentBranchStart = myBranchPath ? myBranchPath.start : null;
       const currentBranchEnd = myBranchPath ? myBranchPath.end : null;
-      const successorDepth = !isNumber(pinnedState) ?
-        null :
+      const successorDepth = pinnedState === undefined ?
+        undefined :
         getSuccessorDepth(branch);
       const pinnedStateIndex = getPinnedStateDepth(branch);
+
       return {
         id: branch,
         active: currentBranch === branch,
