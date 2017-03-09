@@ -38,17 +38,17 @@ export default function createHistory<T>(
 
   return load<T>({
     current: initialState,
-    /**
-     * The last used state id
-     */
-    lastStateId: stateId,
-
-    /**
-     * The last used branch id
-     */
-    lastBranchId: branchId,
-
     graph: {
+      /**
+       * The last used state id
+       */
+      lastStateId: stateId,
+
+      /**
+       * The last used branch id
+       */
+      lastBranchId: branchId,
+
       /**
        * A map of hash-code strings to state IDs. If a has function is defined in
        * the configuration file, then these will be inserted.

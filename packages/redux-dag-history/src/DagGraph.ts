@@ -154,6 +154,36 @@ export default class DagGraph<T> {
   }
 
   /**
+   * Get the last-generated state id
+   */
+  public get lastStateId(): StateId {
+    return this.graph.get('lastStateId');
+  }
+
+  /**
+   * Set the last-generated state id
+   */
+  public setLastStateId(value: StateId) {
+    this.graph = this.graph.set('lastStateId', value);
+    return this;
+  }
+
+  /**
+   * Get the last-generated branch id
+   */
+  public get lastBranchId(): StateId {
+    return this.graph.get('lastStateId');
+  }
+
+  /**
+   * Set the last-generated branch id
+   */
+  public setLastBranchId(value: BranchId) {
+    this.graph = this.graph.set('lastBranchId', value);
+    return this;
+  }
+
+  /**
    * Mutate the current branch id
    * @param branchId The new branch id
    */
