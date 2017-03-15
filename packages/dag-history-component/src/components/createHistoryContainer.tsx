@@ -80,6 +80,7 @@ export default function createHistoryContainer(getMiddlewareState: Function, get
       dragIndex: component.dragDrop.sourceIndex,
       dragKey: component.dragDrop.sourceKey,
       hoverIndex: component.dragDrop.hoverIndex,
+      bookmarkEditIndex: component.bookmarkEdit.editIndex,
       branchContainerExpanded: component.views.branchContainerExpanded,
       selectedBookmark: component.playback.bookmark,
       selectedBookmarkDepth: component.playback.depth,

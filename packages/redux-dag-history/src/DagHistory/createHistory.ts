@@ -23,7 +23,6 @@ export default function createHistory<T>(
 
   // We may need to insert the initial hash into the state data, so construct it here
   const initialStateData = {
-    state: initialState,
     name: initialStateName,
     branch: 1,
   };
@@ -81,10 +80,17 @@ export default function createHistory<T>(
       },
 
       /**
-       * A map of state-ids to state data
+       * A map of state-ids to state metadata
        */
       states: {
         [stateId]: initialStateData,
+      },
+
+      /**
+       * A map of state ids to physical states
+       */
+      physicalStates: {
+        [stateId]: initialState,
       },
     },
   });

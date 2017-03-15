@@ -19,11 +19,20 @@ export const bookmarkDragCancel = createAction<void>(Types.BOOKMARK_DRAG_CANCEL)
 export const addBookmark = createAction<AddBookmarkPayload>(Types.ADD_BOOKMARK);
 export const removeBookmark = createAction<StateId>(Types.REMOVE_BOOKMARK);
 export const renameBookmark = createAction<RenameBookmarkPayload>(Types.RENAME_BOOKMARK);
-export const changeBookmark = createAction<ChangeBookmarkPayload>(Types.CHANGE_BOOKMARK);
+export const doChangeBookmark = createAction<ChangeBookmarkPayload>(Types.CHANGE_BOOKMARK);
 export const moveBookmark = createAction<MoveBookmarkPayload>(Types.MOVE_BOOKMARK);
 export const pinState = createAction<StateId>(Types.PIN_STATE);
+export const bookmarkEdit = createAction<number>(Types.BOOKMARK_EDIT);
+export const bookmarkEditDone = createAction(Types.BOOKMARK_EDIT_DONE);
 
 // Composite Action Creators
+export function changeBookmark(payload: ChangeBookmarkPayload) {
+  return (dispatch) => {
+    dispatch(doChangeBookmark(payload));
+    dispatch(bookmarkEditDone());
+  };
+}
+
 export function startPlayback(payload: StartPlaybackPayload) {
   return (dispatch) => {
     dispatch(DagHistoryActions.jumpToState(payload.stateId));

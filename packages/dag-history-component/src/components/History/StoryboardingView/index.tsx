@@ -26,6 +26,7 @@ export interface IStoryboardingViewOwnProps {
   bookmarks: IBookmark[];
   dragIndex?: number;
   hoverIndex?: number;
+  bookmarkEditIndex?: number;
 }
 
 export interface IStoryboardingViewProps extends
@@ -45,6 +46,7 @@ const StoryboardingView: React.StatelessComponent<IStoryboardingViewProps & IBoo
     onSelectBookmarkDepth,
     dragIndex,
     hoverIndex,
+    bookmarkEditIndex,
   } = props;
 
   const {
