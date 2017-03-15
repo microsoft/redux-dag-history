@@ -1,6 +1,6 @@
 {
   "name": "@essex/dag-history-component",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "A React Component for Dag-History Visualization",
   "main": "lib/index.js",
   "scripts": {
