@@ -98,7 +98,6 @@ export default class EditBookmark extends React.Component<IEditBookmarkProps, IE
       onSelectBookmarkDepth,
       shortestCommitPath,
     } = this.props;
-
     if (onSelectBookmarkDepth) {
       const state = shortestCommitPath[depth || shortestCommitPath.length - 1];
       onSelectBookmarkDepth({ bookmarkIndex, depth, state });
@@ -148,7 +147,6 @@ export default class EditBookmark extends React.Component<IEditBookmarkProps, IE
             rows={5}
             placeholder="Enter caption for presentation"
             defaultValue={annotation}
-            onFocus={() => onClick()}
             onBlur={() => this.onDoneEditing()}
           />
           <div>
