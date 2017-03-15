@@ -25,12 +25,12 @@ const dragSource = {
     return { index };
   },
   endDrag(props: IDragDropBookmarkProps, monitor, component) {
-    const { dispatch } = props;
+    const { dispatch, hoverIndex, dragIndex } = props;
     const item = monitor.getItem();
-    // TODO: use key instead for this?
+    const droppedOn = hoverIndex < dragIndex ? hoverIndex : hoverIndex - 1;
     dispatch(bookmarkDragDrop({
       index: item.index,
-      droppedOn: props.hoverIndex,
+      droppedOn,
     }));
   },
 };

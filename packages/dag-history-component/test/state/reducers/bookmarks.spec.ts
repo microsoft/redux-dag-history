@@ -4,7 +4,7 @@ import {
   addBookmark,
   removeBookmark,
   renameBookmark,
-  changeBookmark,
+  doChangeBookmark,
   moveBookmark,
 } from '../../../src/state/actions/creators';
 
@@ -54,25 +54,31 @@ describe('The bookmarks reducer', () => {
 
   it('can change a bookmark', () => {
     let state;
-    state = reduce(state, addBookmark({ stateId: 1, name: 'state1' }));
-    state = reduce(state, addBookmark({ stateId: 2, name: 'state2' }));
-    state = reduce(state, addBookmark({ stateId: 3, name: 'state3' }));
+    state = reduce(state, addBookmark({ stateId: '1', name: 'state1' }));
+    state = reduce(state, addBookmark({ stateId: '2', name: 'state2' }));
+    state = reduce(state, addBookmark({ stateId: '3', name: 'state3' }));
 
-    state = reduce(state, changeBookmark({ stateId: 2, name: 'newName', data: { x: 1 } }));
+    state = reduce(state, doChangeBookmark({ stateId: '2', name: 'newName', data: { x: 1 } }));
     expect(state[1].name).to.equal('newName');
     expect(state[1].data).to.deep.equal({ x: 1 });
   });
 
   it('can move a bookmark', () => {
     let state;
-    state = reduce(state, addBookmark({ stateId: 1, name: 'state1' }));
-    state = reduce(state, addBookmark({ stateId: 2, name: 'state2' }));
-    state = reduce(state, addBookmark({ stateId: 3, name: 'state3' }));
+    state = reduce(state, addBookmark({ stateId: '1', name: 'state1' }));
+    state = reduce(state, addBookmark({ stateId: '2', name: 'state2' }));
+    state = reduce(state, addBookmark({ stateId: '3', name: 'state3' }));
 
     state = reduce(state, moveBookmark({ from: 0, to: 2 }));
-    expect(fan(state)).to.deep.equal([2, 3, 1]);
+    expect(fan(state)).to.deep.equal(['2', '3', '1']);
+
+    state = reduce(state, moveBookmark({ from: 0, to: 1 }));
+    expect(fan(state)).to.deep.equal(['3', '2', '1']);
+
+    state = reduce(state, moveBookmark({ from: 2, to: 1 }));
+    expect(fan(state)).to.deep.equal(['3', '1', '2']);
 
     state = reduce(state, moveBookmark({ from: 2, to: 0 }));
-    expect(fan(state)).to.deep.equal([1, 2, 3]);
+    expect(fan(state)).to.deep.equal(['2', '3', '1']);
   });
 });

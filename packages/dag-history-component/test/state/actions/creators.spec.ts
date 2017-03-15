@@ -44,7 +44,7 @@ describe('The Action Creators Module', () => {
     it('will emit bookmark selection and jump events', () => {
       const bookmarkIndex = 5;
       const depth = 7;
-      const state = 10;
+      const state = '10';
 
       const dispatch = sinon.spy();
       ActionCreators.selectBookmarkDepth({ bookmarkIndex, depth, state })(dispatch);
@@ -63,7 +63,7 @@ describe('The Action Creators Module', () => {
   describe('the selectBookmark action', () => {
     it('will emit bookmark selection and jump events', () => {
       const bookmarkIndex = 3;
-      const state = 7;
+      const state = '7';
       const dispatch = sinon.spy();
       ActionCreators.selectBookmark(bookmarkIndex, state)(dispatch);
 

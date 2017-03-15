@@ -47,8 +47,7 @@ export default function reduce(state = INITIAL_STATE, action) {
       const moved = bookmarks[from];
       if (from !== to) {
         bookmarks.splice(from, 1);
-        // adjust the insertion index
-        bookmarks.splice(from < to ? to - 1 : to, 0, moved);
+        bookmarks.splice(to, 0, moved);
       }
       return bookmarks;
     }
