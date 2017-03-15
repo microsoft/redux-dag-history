@@ -90,7 +90,6 @@ export default class History extends React.Component<IHistoryProps, {}> {
      * Bookbark Configuration Properties
      */
     bookmarksEnabled: PropTypes.bool,
-    controlBarEnabled: PropTypes.bool,
   };
 
   shouldComponentUpdate(nextProps) {
@@ -200,13 +199,13 @@ export default class History extends React.Component<IHistoryProps, {}> {
       mainView,
       onSelectMainView,
       bookmarksEnabled,
-      controlBarEnabled,
       isPlayingBack,
+      controlBar,
     } = this.props;
     return isPlayingBack ? this.renderPlayback() : (
       <HistoryTabs
         bookmarksEnabled={bookmarksEnabled}
-        controlBarEnabled={controlBarEnabled}
+        controlBarEnabled={!!controlBar}
         selectedTab={mainView}
         onTabSelect={onSelectMainView}
         historyView={<HistoryView {...this.props} />}

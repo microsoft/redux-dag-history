@@ -18,10 +18,10 @@ export interface IHistoryContainerSharedProps {
   getSourceFromState: Function;
   bookmarksEnabled?: boolean;
 
-  controlBarEnabled?: boolean;
-
   /**
    * ControlBar Configuration Properties
+   *
+   * If the controlBar property is undefined, the control bar will be disabled.
    */
   controlBar?: {
     /**

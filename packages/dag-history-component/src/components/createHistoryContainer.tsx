@@ -27,7 +27,6 @@ export interface IHistoryContainerDispatchProps extends IHistoryDispatchProps {
 
 export interface IHistoryContainerOwnProps {
   bookmarksEnabled?: boolean;
-  controlBarEnabled?: boolean;
 
   /**
    * ControlBar Configuration Properties
