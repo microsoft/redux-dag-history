@@ -5,3 +5,4 @@ import './components/BranchProfile';
 import './components/Continuation';
 import './components/State';
 import './components/DiscoveryTrail';
+import './components/History';
