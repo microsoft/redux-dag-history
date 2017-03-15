@@ -12,6 +12,9 @@ export interface IBookmarkListProps {
   onBookmarkClick?: Function;
   onSelectState?: Function;
   onSelectBookmarkDepth?: Function;
+  bookmarkEditIndex: number;
+  onBookmarkEdit: Function;
+  onBookmarkEditDone: Function;
 
   dragIndex?: number;
   hoverIndex?: number;
@@ -43,16 +46,22 @@ export default class BookmarkList extends React.PureComponent<IBookmarkListProps
       dragIndex,
       hoverIndex,
       dragKey,
+      onBookmarkEdit,
+      onBookmarkEditDone,
+      bookmarkEditIndex,
     } = this.props;
 
     let bookmarkViews = bookmarks.map((s, index) => (
       <Bookmark
         {...s}
+        editMode={index === bookmarkEditIndex}
         hoverIndex={hoverIndex}
         dragIndex={dragIndex}
         dragKey={dragKey}
         key={`bookmark::${s.stateId}`}
         index={index}
+        onBookmarkEdit={onBookmarkEdit}
+        onBookmarkEditDone={onBookmarkEditDone}
         stateId={s.stateId}
         onSelectBookmarkDepth={onSelectBookmarkDepth}
         onClick={() => this.onBookmarkClick(index, s.stateId)}

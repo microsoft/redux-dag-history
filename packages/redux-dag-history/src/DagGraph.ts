@@ -298,11 +298,11 @@ export default class DagGraph<T> {
    * @param commit The state id to get the physical state of
    */
   public getState(commit: StateId): T {
-    return this.graph.getIn(['states', `${commit}`, 'state']);
+    return this.graph.getIn(['physicalStates', `${commit}`]);
   }
 
   /**
-   * Inserts a nem tstate
+   * Inserts a new state
    * @param commit The new state id
    * @param parent The parent state id
    * @param state The physical state
@@ -310,12 +310,13 @@ export default class DagGraph<T> {
    */
   public insertState(commit: StateId, parent: StateId, state: T, name: string) {
     log('Inserting new commit', commit);
-    const newState = ImmutableFromJS({ name, parent }).set('state', state);
     if (this.graph.getIn(['states', `${commit}`])) {
       log('Commit %s is already present', this.getState(commit));
     }
 
-    this.graph = this.graph.setIn(['states', `${commit}`], newState);
+    this.graph = this.graph
+      .setIn(['states', `${commit}`], ImmutableFromJS({name, parent}))
+      .setIn(['physicalStates', `${commit}`], state);
     return this;
   }
 
@@ -400,7 +401,7 @@ export default class DagGraph<T> {
    * @param state The new state
    */
   public replaceState(commit: StateId, state: T) {
-    this.graph = this.graph.setIn(['states', `${commit}`, 'state'], state);
+    this.graph = this.graph.setIn(['physicalStates', `${commit}`], state);
     return this;
   }
 
@@ -538,7 +539,9 @@ export default class DagGraph<T> {
   private remove(commit: StateId) {
     // TODO: we should remove this from the branch list and other metadata as well.
     // This will be how we keep the DAG pruned to a fixed size.
-    this.graph = this.graph.deleteIn(['states', `${commit}`]);
+    this.graph = this.graph
+      .deleteIn(['states', `${commit}`])
+      .deleteIn(['physicalStates', `${commit}`]);
   }
 
   /**

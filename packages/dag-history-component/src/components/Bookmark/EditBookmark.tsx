@@ -17,7 +17,6 @@ export interface IEditBookmarkProps {
   active?: boolean;
   onClick?: Function;
   onBookmarkChange?: Function;
-  focusOn?: string;
   onDoneEditing?: Function;
   shortestCommitPath?: StateId[];
   selectedDepth: number;

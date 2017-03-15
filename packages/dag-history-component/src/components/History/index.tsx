@@ -40,6 +40,7 @@ export default class History extends React.Component<IHistoryProps, {}> {
     dragIndex: PropTypes.number,
     dragKey: PropTypes.string,
     hoverIndex: PropTypes.number,
+    bookmarkEditIndex: PropTypes.number,
     isPlayingBack: PropTypes.bool,
 
     /**
@@ -128,11 +129,6 @@ export default class History extends React.Component<IHistoryProps, {}> {
     const doConfirm = onConfirmClear || (() => true);
     const confirmed = await doConfirm();
     return confirmed && onClear();
-  }
-
-  onUnderViewClicked(underView) {
-    log('underview clicked', underView);
-    this.setState({ ...this.state, underView });
   }
 
   renderPlayback() {

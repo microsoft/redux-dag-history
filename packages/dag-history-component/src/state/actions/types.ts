@@ -11,6 +11,8 @@ export const BOOKMARK_DRAG_START = action('BOOKMARK_DRAG_START');
 export const BOOKMARK_DRAG_HOVER = action('BOOKMARK_DRAG_HOVER');
 export const BOOKMARK_DRAG_DROP = action('BOOKMARK_DRAG_DROP');
 export const BOOKMARK_DRAG_CANCEL = action('BOOKMARK_DRAG_CANCEL');
+export const BOOKMARK_EDIT = action('BOOKMARK_EDIT');
+export const BOOKMARK_EDIT_DONE = action('BOOKMARK_EDIT_DONE');
 
 /**
  * Pin a state to navigate successors

@@ -7,6 +7,7 @@ const { PropTypes } = React;
 
 export interface IBookmarkProps {
   name: string;
+  index: number;
   active?: boolean;
   numLeadInStates?: number;
   onClick?: Function;
@@ -27,6 +28,7 @@ const determineHighlight = (props) => {
 const Bookmark: React.StatelessComponent<IBookmarkProps> = (props) => {
   const {
     name,
+    index,
     active,
     onClick,
     onClickEdit,
@@ -55,13 +57,13 @@ const Bookmark: React.StatelessComponent<IBookmarkProps> = (props) => {
         <div className="bookmark-details" onClick={onClick ? () => onClick() : undefined}>
           <div
             className={classnames('bookmark-title', { active })}
-            onClick={() => onClickEdit('title')}
+            onClick={() => onClickEdit(index)}
           >
             {name}
           </div>
           <div
             className="bookmark-annotation"
-            onClick={() => onClickEdit('annotation')}
+            onClick={() => onClickEdit(index)}
           >
             {annotation}
           </div>

@@ -8,6 +8,7 @@ export interface IHistoryContainerSharedProps {
   historyType: string;
   dragIndex?: number;
   hoverIndex?: number;
+  bookmarkEditIndex?: number;
   branchContainerExpanded?: boolean;
   selectedBookmark?: number;
   selectedBookmarkDepth?: number;

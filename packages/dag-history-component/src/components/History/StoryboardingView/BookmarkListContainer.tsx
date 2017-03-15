@@ -14,6 +14,7 @@ export interface IBookmarkListContainerStateProps {
   dragIndex?: number;
   hoverIndex?: number;
   dragKey?: string;
+  bookmarkEditIndex?: number;
 }
 
 export interface IBookmarkListContainerDispatchProps {
@@ -21,6 +22,8 @@ export interface IBookmarkListContainerDispatchProps {
   onBookmarkChange: Function;
   onSelectState: Function;
   onSelectBookmarkDepth: Function;
+  onBookmarkEdit: Function;
+  onBookmarkEditDone: Function;
 }
 
 export interface IBookmarkListContainerOwnProps {
@@ -46,6 +49,9 @@ const BookmarkListContainer: React.StatelessComponent<IBookmarkListContainerProp
     onBookmarkChange,
     onSelectState,
     onSelectBookmarkDepth,
+    onBookmarkEdit,
+    onBookmarkEditDone,
+    bookmarkEditIndex,
     selectedBookmark: selectedBookmarkIndex,
     selectedBookmarkDepth: selectedBookmarkDepthIndex,
     dragIndex,
@@ -82,6 +88,9 @@ const BookmarkListContainer: React.StatelessComponent<IBookmarkListContainerProp
   });
   return (
     <BookmarkList
+      onBookmarkEdit={onBookmarkEdit}
+      onBookmarkEditDone={onBookmarkEditDone}
+      bookmarkEditIndex={bookmarkEditIndex}
       dragIndex={dragIndex}
       hoverIndex={hoverIndex}
       dragKey={dragKey}
@@ -103,6 +112,7 @@ BookmarkListContainer.propTypes = {
   dragIndex: React.PropTypes.number,
   hoverIndex: React.PropTypes.number,
   dragKey: React.PropTypes.string,
+  bookmarkEditIndex: React.PropTypes.number,
 };
 
 export default connect<IBookmarkListContainerStateProps, IBookmarkListContainerDispatchProps, IBookmarkListContainerOwnProps>(
@@ -112,5 +122,7 @@ export default connect<IBookmarkListContainerStateProps, IBookmarkListContainerD
     onBookmarkChange: Actions.changeBookmark,
     onSelectState: DagHistoryActions.jumpToState,
     onSelectBookmarkDepth: Actions.selectBookmarkDepth,
+    onBookmarkEdit: Actions.bookmarkEdit,
+    onBookmarkEditDone: Actions.bookmarkEditDone,
   }, dispatch)
 )(BookmarkListContainer);
