@@ -101,5 +101,9 @@
       "^.+\\.(ts|tsx)$": "<rootDir>/scripts/preprocessor.js"
     },
     "testRegex": ".*/packages/.*/test/.*/.*\\.spec\\.(ts|tsx|js)$"
+  },
+  "devDependencies": {
+    "@types/redux-logger": "^2.6.34",
+    "redux-logger": "^2.8.2"
   }
 }
