@@ -19,6 +19,7 @@ export interface IHistoryContainerStateProps {
   selectedBookmark?: number;
   selectedBookmarkDepth?: number;
   bookmarks?: IBookmark[];
+  getSourceFromState: Function;
 }
 
 export interface IHistoryContainerDispatchProps extends IHistoryDispatchProps {
@@ -47,8 +48,6 @@ export interface IHistoryContainerOwnProps {
      */
     onConfirmClear: Function;
   };
-
-  getSourceFromState: Function;
 }
 
 export interface IHistoryContainerProps extends
@@ -64,11 +63,13 @@ HistoryContainer.propTypes = {
   ...HistoryComponent.propTypes,
 };
 
-export default function createHistoryContainer(getMiddlewareState: Function, getComponentState: Function) {
+export default function createHistoryContainer(getMiddlewareState: Function, getComponentState: Function, getSourceFromState: Function) {
   const mapStateToProps = (state) => {
     const middleware = getMiddlewareState(state);
     const component = getComponentState(state);
     return {
+      getSourceFromState,
+
       // State from the redux-dag-history middleware
       history: middleware,
       pinnedStateId: component.pinnedState.id,

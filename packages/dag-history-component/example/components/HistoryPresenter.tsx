@@ -5,7 +5,11 @@ import '../../src/daghistory.scss';
 import createHistoryContainer from '../../src/components/createHistoryContainer';
 import { get } from 'lodash';
 
-const HistoryContainer = createHistoryContainer(state => state.app, state => state.component);
+const HistoryContainer = createHistoryContainer(
+  state => state.app,
+  state => state.component,
+  state => get(state, 'metadata.source')
+);
 
 const { PropTypes } = React;
 
@@ -15,7 +19,6 @@ const HistoryPresenter: React.StatelessComponent<void> = (props) => {
       <HistoryContainer
         bookmarksEnabled
         controlBarEnabled
-        getSourceFromState={state => get(state, 'metadata.source')}
         controlBar={{
           onSaveHistory: save,
           onLoadHistory: load,
