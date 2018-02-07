@@ -1,4 +1,5 @@
 import * as React from 'react'
+
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import {
@@ -7,19 +8,17 @@ import {
 	pickRandomColor as doPickRandomColor,
 } from '../../state/Actions'
 
-const { PropTypes } = React
-
-interface IVisualAStateProps {
+interface VisualAStateProps {
 	backgroundColor: string
 }
-interface IVisualADispatchProps {
+interface VisualADispatchProps {
 	actions: {
-		pickRandomColor: Function,
+		pickRandomColor: Function
 	}
 }
-interface IVisualAProps extends IVisualAStateProps, IVisualADispatchProps {}
+interface VisualAProps extends VisualAStateProps, VisualADispatchProps {}
 
-const RawVisualA: React.StatelessComponent<IVisualAProps> = ({
+const RawVisualA: React.StatelessComponent<VisualAProps> = ({
 	backgroundColor,
 	actions: { pickRandomColor },
 }) => (
@@ -31,14 +30,8 @@ const RawVisualA: React.StatelessComponent<IVisualAProps> = ({
 		<h1>Color: {backgroundColor}</h1>
 	</div>
 )
-RawVisualA.propTypes = {
-	backgroundColor: PropTypes.string,
-	actions: PropTypes.shape({
-		pickRandomColor: PropTypes.func,
-	}),
-}
 
-export default connect<IVisualAStateProps, IVisualADispatchProps, {}>(
+export default connect<VisualAStateProps, VisualADispatchProps, {}>(
 	({ app: { current: { visuals: { color: backgroundColor } } } }) => ({
 		backgroundColor,
 	}),

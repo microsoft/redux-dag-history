@@ -3,9 +3,9 @@ import {
 	DagHistory,
 	StateId,
 } from '@essex/redux-dag-history/lib/interfaces'
-import { IBookmark } from '../../interfaces'
+import { Bookmark } from '../../interfaces'
 
-export interface IHistoryContainerSharedProps {
+export interface HistoryContainerSharedProps {
 	history: DagHistory<any>
 	pinnedStateId?: StateId
 	mainView: string
@@ -17,7 +17,7 @@ export interface IHistoryContainerSharedProps {
 	selectedBookmark?: number
 	selectedBookmarkDepth?: number
 	isPlayingBack?: boolean
-	bookmarks: IBookmark[]
+	bookmarks: Bookmark[]
 
 	getSourceFromState: Function
 	bookmarksEnabled?: boolean
@@ -41,6 +41,6 @@ export interface IHistoryContainerSharedProps {
 		/**
 		 * A function that emits a Promise<boolean> that confirms the clear-history operation.
 		 */
-		onConfirmClear: Function,
+		onConfirmClear: Function
 	}
 }

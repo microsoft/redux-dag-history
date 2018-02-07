@@ -9,23 +9,21 @@ const { createAction } = ReduxActions
 const doSelectBookmarkDepth = createAction<BookmarkDepthSelection>(
 	Types.SELECT_BOOKMARK_DEPTH,
 )
-const doBookmarkDragDrop = createAction<void>(Types.BOOKMARK_DRAG_DROP)
+const doBookmarkDragDrop = createAction(Types.BOOKMARK_DRAG_DROP)
 export const doStartPlayback = createAction<StartPlaybackPayload>(
 	Types.START_PLAYBACK,
 )
 export const selectMainView = createAction(Types.SELECT_MAIN_VIEW)
 export const selectHistoryType = createAction<string>(Types.SELECT_HISTORY_TYPE)
-export const toggleBranchContainer = createAction<void>(
-	Types.TOGGLE_BRANCH_CONTAINER,
-)
-export const stopPlayback = createAction<void>(Types.STOP_PLAYBACK)
+export const toggleBranchContainer = createAction(Types.TOGGLE_BRANCH_CONTAINER)
+export const stopPlayback = createAction(Types.STOP_PLAYBACK)
 export const bookmarkDragStart = createAction<BookmarkDragStartPayload>(
 	Types.BOOKMARK_DRAG_START,
 )
 export const bookmarkDragHover = createAction<BookmarkDragHoverPayload>(
 	Types.BOOKMARK_DRAG_HOVER,
 )
-export const bookmarkDragCancel = createAction<void>(Types.BOOKMARK_DRAG_CANCEL)
+export const bookmarkDragCancel = createAction(Types.BOOKMARK_DRAG_CANCEL)
 export const addBookmark = createAction<AddBookmarkPayload>(Types.ADD_BOOKMARK)
 export const removeBookmark = createAction<StateId>(Types.REMOVE_BOOKMARK)
 export const renameBookmark = createAction<RenameBookmarkPayload>(

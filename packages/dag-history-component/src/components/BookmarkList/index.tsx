@@ -1,15 +1,13 @@
 import * as debug from 'debug'
 import * as React from 'react'
 
-const { DropTarget } = require('react-dnd')
 import Bookmark from '../Bookmark'
 import './BookmarkList.scss'
-
-const { PropTypes } = React
+const { DropTarget } = require('react-dnd')
 
 const log = debug('@essex/redux-dag-history:BookmarkList')
 
-export interface IBookmarkListProps {
+export interface BookmarkListProps {
 	bookmarks: any[]
 	onBookmarkClick?: Function
 	onSelectState?: Function
@@ -24,17 +22,9 @@ export interface IBookmarkListProps {
 }
 
 export default class BookmarkList extends React.PureComponent<
-	IBookmarkListProps,
+	BookmarkListProps,
 	{}
 > {
-	public static propTypes = {
-		onBookmarkClick: PropTypes.func,
-		onBookmarkMove: PropTypes.func,
-		onSelectState: PropTypes.func,
-		bookmarks: PropTypes.arrayOf(React.PropTypes.shape(Bookmark.propTypes))
-			.isRequired,
-	}
-
 	public onBookmarkClick(index, stateId) {
 		if (this.props.onBookmarkClick) {
 			this.props.onBookmarkClick(index, stateId)

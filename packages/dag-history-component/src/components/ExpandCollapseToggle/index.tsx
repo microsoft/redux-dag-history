@@ -1,23 +1,20 @@
+
 import * as React from 'react'
 const MdExpandMore = require('react-icons/lib/md/expand-more')
 const MdExpandLess = require('react-icons/lib/md/expand-less')
-const { PropTypes } = React
 
-export interface IExpandCollapseToggleProps {
+export interface ExpandCollapseToggleProps {
 	isExpanded?: boolean
-	onClick: Function
+	onClick: () => void
 }
 
 const ExpandCollapseToggle: React.StatelessComponent<
-	IExpandCollapseToggleProps
+	ExpandCollapseToggleProps
 > = ({ isExpanded, onClick }) =>
 	isExpanded ? (
 		<MdExpandLess onClick={onClick} />
 	) : (
 		<MdExpandMore onClick={onClick} />
 	)
-ExpandCollapseToggle.propTypes = {
-	isExpanded: PropTypes.bool,
-	onClick: PropTypes.func.isRequired,
-}
+
 export default ExpandCollapseToggle

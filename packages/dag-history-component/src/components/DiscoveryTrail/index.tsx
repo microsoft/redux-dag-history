@@ -1,7 +1,7 @@
 import * as classnames from 'classnames'
 import * as debug from 'debug'
-import * as React from 'react'
 
+import * as React from 'react'
 import calculateSpans from './calculateSpans'
 import './DiscoveryTrail.scss'
 
@@ -9,7 +9,7 @@ import calculateIndex from '../../util/calculateIndex'
 
 const log = debug('dag-history-component:components:DiscoveryTrail')
 
-export interface IDiscoveryTrailProps {
+export interface DiscoveryTrailProps {
 	/**
 	 * If true, renders in vertical mode
 	 */
@@ -52,19 +52,9 @@ export interface IDiscoveryTrailProps {
 }
 
 export default class DiscoveryTrail extends React.Component<
-	IDiscoveryTrailProps,
+	DiscoveryTrailProps,
 	{}
 > {
-	public static propTypes = {
-		vertical: React.PropTypes.bool,
-		active: React.PropTypes.bool,
-		depth: React.PropTypes.number.isRequired,
-		highlight: React.PropTypes.number,
-		leadIn: React.PropTypes.number,
-		fullWidth: React.PropTypes.bool,
-		onIndexClicked: React.PropTypes.func,
-	}
-
 	public static defaultProps = {
 		vertical: false,
 		active: false,

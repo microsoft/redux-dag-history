@@ -1,3 +1,4 @@
+
 import * as DagHistoryActions from '@essex/redux-dag-history/lib/ActionCreators'
 import DagGraph from '@essex/redux-dag-history/lib/DagGraph'
 import { DagHistory } from '@essex/redux-dag-history/lib/interfaces'
@@ -8,36 +9,32 @@ import * as Actions from '../../../state/actions/creators'
 import Transport from '../../Transport'
 import makeActions from '../BookmarkActions'
 import BookmarkListContainer, {
-	IBookmarkListContainerProps,
+	BookmarkListContainerProps,
 } from './BookmarkListContainer'
-const { PropTypes } = React
-import { IBookmark } from '../../../interfaces'
+import { Bookmark as BookmarkData } from '../../../interfaces'
 import Bookmark from '../../../util/Bookmark'
 
-export interface IStoryboardingViewStateProps {}
-
-export interface IStoryboardingViewDispatchProps {
+export interface StoryboardingViewDispatchProps {
 	onStartPlayback: Function
-	onStopPlayback: Function
+	onStopPlayback: () => void
 	onSelectBookmarkDepth: Function
 }
-export interface IStoryboardingViewOwnProps {
+export interface StoryboardingViewOwnProps {
 	history: DagHistory<any>
 	selectedBookmark?: number
 	selectedBookmarkDepth?: number
-	bookmarks: IBookmark[]
+	bookmarks: Bookmark[]
 	dragIndex?: number
 	hoverIndex?: number
 	bookmarkEditIndex?: number
 }
 
-export interface IStoryboardingViewProps
-	extends IStoryboardingViewStateProps,
-		IStoryboardingViewDispatchProps,
-		IStoryboardingViewOwnProps {}
+export interface StoryboardingViewProps
+	extends StoryboardingViewDispatchProps,
+		StoryboardingViewOwnProps {}
 
 const StoryboardingView: React.StatelessComponent<
-	IStoryboardingViewProps & IBookmarkListContainerProps
+	StoryboardingViewProps & BookmarkListContainerProps
 > = props => {
 	const {
 		history,
@@ -85,30 +82,10 @@ const StoryboardingView: React.StatelessComponent<
 	)
 }
 
-StoryboardingView.propTypes = {
-	/**
-	 * The Dag-History Object
-	 */
-	history: PropTypes.object.isRequired,
-	selectedBookmark: PropTypes.number,
-	selectedBookmarkDepth: PropTypes.number,
-	dragIndex: PropTypes.number,
-	hoverIndex: PropTypes.number,
-	dragKey: PropTypes.string,
-
-	/* User Interaction Handlers - loaded by redux */
-	onPlayBookmarkStory: PropTypes.func,
-	onSkipToFirstBookmark: PropTypes.func,
-	onSkipToLastBookmark: PropTypes.func,
-	onNextBookmark: PropTypes.func,
-	onPreviousBookmark: PropTypes.func,
-	onSelectBookmarkDepth: PropTypes.func,
-}
-
 export default connect<
-	IStoryboardingViewStateProps,
-	IStoryboardingViewDispatchProps,
-	IStoryboardingViewOwnProps
+	{},
+	StoryboardingViewDispatchProps,
+	StoryboardingViewOwnProps
 >(
 	() => ({}),
 	dispatch =>

@@ -1,3 +1,4 @@
+
 import DagGraph from '@essex/redux-dag-history/lib/DagGraph'
 import {
 	BranchId,
@@ -9,8 +10,6 @@ import * as React from 'react'
 import isNumber from '../../../util/isNumber'
 import BranchList from '../../BranchList'
 
-const { PropTypes } = React
-
 const log = debug('dag-history-component:components:HistoryView')
 
 function getCurrentCommitPath(historyGraph) {
@@ -19,7 +18,7 @@ function getCurrentCommitPath(historyGraph) {
 	return historyGraph.commitPath(latestCommitOnBranch)
 }
 
-export interface IBranchListContainerProps {
+export interface BranchListContainerProps {
 	history: DagHistory<any>
 	pinnedStateId: StateId
 	onRenameBranch: Function
@@ -27,20 +26,12 @@ export interface IBranchListContainerProps {
 	style?: any
 }
 
-export interface IBranchListContainerState {}
+export interface BranchListContainerState {}
 
 export default class BranchListContainer extends React.Component<
-	IBranchListContainerProps,
-	IBranchListContainerState
+	BranchListContainerProps,
+	BranchListContainerState
 > {
-	public static propTypes = {
-		history: PropTypes.object.isRequired,
-		pinnedStateId: PropTypes.string,
-		onBranchSelect: PropTypes.func,
-		onRenameBranch: PropTypes.func,
-		style: PropTypes.object,
-	}
-
 	public getBranchList(historyGraph, commitPath) {
 		const { branches, currentBranch, currentStateId } = historyGraph
 		const { pinnedStateId: pinnedState, onRenameBranch } = this.props

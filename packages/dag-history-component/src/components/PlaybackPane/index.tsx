@@ -1,14 +1,12 @@
+
 import * as debug from 'debug'
 import * as React from 'react'
-
 import './PlaybackPane.scss'
-
-const { PropTypes } = React
 import DiscoveryTrail from '../DiscoveryTrail'
 
 const log = debug('dag-history-component:components:PlaybackPane')
 
-export interface IPlaybackPaneProps {
+export interface PlaybackPaneProps {
 	text: string
 	depth: number
 	highlight: number
@@ -18,7 +16,7 @@ export interface IPlaybackPaneProps {
 	onDiscoveryTrailIndexClicked?: Function
 }
 
-const PlaybackPane: React.StatelessComponent<IPlaybackPaneProps> = props => {
+const PlaybackPane: React.StatelessComponent<PlaybackPaneProps> = props => {
 	const {
 		text,
 		depth,
@@ -53,20 +51,6 @@ const PlaybackPane: React.StatelessComponent<IPlaybackPaneProps> = props => {
 			/>
 		</div>
 	)
-}
-
-PlaybackPane.propTypes = {
-	text: PropTypes.string.isRequired,
-
-	// Props for the slide show
-	depth: PropTypes.number.isRequired,
-	highlight: PropTypes.number.isRequired,
-
-	// Props for the current bookmark
-	bookmarkDepth: PropTypes.number.isRequired,
-	bookmarkHighlight: PropTypes.number.isRequired,
-	bookmarkNumLeadInStates: PropTypes.number,
-	onDiscoveryTrailIndexClicked: PropTypes.func,
 }
 
 export default PlaybackPane

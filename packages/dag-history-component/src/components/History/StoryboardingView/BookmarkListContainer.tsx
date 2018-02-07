@@ -6,20 +6,20 @@ import * as debug from 'debug'
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { IBookmark } from '../../../interfaces'
+import { Bookmark } from '../../../interfaces'
 import * as Actions from '../../../state/actions/creators'
 import BookmarkList from '../../BookmarkList'
 
 const log = debug('dag-history-component:components:StoryboardingView')
 
-export interface IBookmarkListContainerStateProps {
+export interface BookmarkListContainerStateProps {
 	dragIndex?: number
 	hoverIndex?: number
 	dragKey?: string
 	bookmarkEditIndex?: number
 }
 
-export interface IBookmarkListContainerDispatchProps {
+export interface BookmarkListContainerDispatchProps {
 	onSelectBookmark: Function
 	onBookmarkChange: Function
 	onSelectState: Function
@@ -28,21 +28,21 @@ export interface IBookmarkListContainerDispatchProps {
 	onBookmarkEditDone: Function
 }
 
-export interface IBookmarkListContainerOwnProps {
+export interface BookmarkListContainerOwnProps {
 	history: DagHistory<any>
 	selectedBookmark?: number
 	selectedBookmarkDepth?: number
-	bookmarks: IBookmark[]
+	bookmarks: Bookmark[]
 }
 
-export interface IBookmarkListContainerProps
-	extends IBookmarkListContainerStateProps,
-		IBookmarkListContainerDispatchProps,
-		IBookmarkListContainerOwnProps {}
+export interface BookmarkListContainerProps
+	extends BookmarkListContainerStateProps,
+		BookmarkListContainerDispatchProps,
+		BookmarkListContainerOwnProps {}
 
 const BookmarkListContainer: React.StatelessComponent<
-	IBookmarkListContainerProps
-> = (props: IBookmarkListContainerProps) => {
+	BookmarkListContainerProps
+> = (props: BookmarkListContainerProps) => {
 	const {
 		history: { graph },
 		bookmarks,
@@ -105,24 +105,11 @@ const BookmarkListContainer: React.StatelessComponent<
 		/>
 	)
 }
-BookmarkListContainer.propTypes = {
-	bookmarks: React.PropTypes.array.isRequired,
-	history: React.PropTypes.object.isRequired,
-	onSelectBookmark: React.PropTypes.func.isRequired,
-	onBookmarkChange: React.PropTypes.func.isRequired,
-	onSelectState: React.PropTypes.func,
-	selectedBookmark: React.PropTypes.number,
-	selectedBookmarkDepth: React.PropTypes.number,
-	dragIndex: React.PropTypes.number,
-	hoverIndex: React.PropTypes.number,
-	dragKey: React.PropTypes.string,
-	bookmarkEditIndex: React.PropTypes.number,
-}
 
 export default connect<
-	IBookmarkListContainerStateProps,
-	IBookmarkListContainerDispatchProps,
-	IBookmarkListContainerOwnProps
+	BookmarkListContainerStateProps,
+	BookmarkListContainerDispatchProps,
+	BookmarkListContainerOwnProps
 >(
 	() => ({}),
 	dispatch =>

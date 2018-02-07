@@ -1,5 +1,5 @@
 import {
-	IConfiguration, // eslint-disable-line no-unused-vars
+	Configuration, // eslint-disable-line no-unused-vars
 } from '@essex/redux-dag-history/lib/interfaces'
 import {
 	SELECT_BOOKMARK_DEPTH,
@@ -14,7 +14,7 @@ export const INITIAL_STATE = {
 	depth: undefined,
 }
 
-export default function(config: IConfiguration<any>) {
+export default function(config: Configuration<any>) {
 	return function reduce(state = INITIAL_STATE, action) {
 		let result = state
 		if (action.type === START_PLAYBACK) {

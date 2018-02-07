@@ -6,9 +6,9 @@ import pinnedState from './pinnedState'
 import playback from './playback'
 import views from './views'
 
-import { IComponentConfiguration } from '../interfaces' // eslint-disable-line no-unused-vars
+import { ComponentConfiguration } from '../interfaces' // eslint-disable-line no-unused-vars
 
-export default function createReducer<T>(config: IComponentConfiguration<T>) {
+export default function createReducer<T>(config: ComponentConfiguration<T>) {
 	return redux.combineReducers({
 		bookmarkEdit: bookmarkEdit(config),
 		dragDrop: dragDrop(config),

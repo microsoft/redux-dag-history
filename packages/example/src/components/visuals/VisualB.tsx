@@ -1,4 +1,5 @@
 import * as React from 'react'
+
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import {
@@ -7,20 +8,18 @@ import {
 	pickRandomColor as doPickRandomColor,
 } from '../../state/Actions'
 
-const { PropTypes } = React
-
-interface IVisualBStateProps {
+interface VisualBStateProps {
 	value: number
 }
-interface IVisualBDispatchProps {
+interface VisualBDispatchProps {
 	actions: {
 		increment: Function
-		decrement: Function,
+		decrement: Function
 	}
 }
-interface IVisualBProps extends IVisualBStateProps, IVisualBDispatchProps {}
+interface VisualBProps extends VisualBStateProps, VisualBDispatchProps {}
 
-const RawVisualB: React.StatelessComponent<IVisualBProps> = ({
+const RawVisualB: React.StatelessComponent<VisualBProps> = ({
 	value,
 	actions: { increment, decrement },
 }) => (
@@ -34,15 +33,8 @@ const RawVisualB: React.StatelessComponent<IVisualBProps> = ({
 		</div>
 	</div>
 )
-RawVisualB.propTypes = {
-	value: PropTypes.number,
-	actions: PropTypes.shape({
-		increment: PropTypes.func,
-		decrement: PropTypes.func,
-	}),
-}
 
-export default connect<IVisualBStateProps, IVisualBDispatchProps, {}>(
+export default connect<VisualBStateProps, VisualBDispatchProps, {}>(
 	({ app: { current: { visuals: { value } } } }) => ({ value }),
 	dispatch => ({
 		actions: bindActionCreators(

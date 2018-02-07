@@ -1,12 +1,13 @@
 import { StateId } from '@essex/redux-dag-history/lib/interfaces'
+
 import * as React from 'react'
 import * as ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import isNumber from '../../util/isNumber'
 import State from '../State'
-import { IStateProps } from '../State/interfaces'
+import { StateProps } from '../State/interfaces'
 
-export interface IStateListProps {
-	states: IStateProps[]
+export interface StateListProps {
+	states: StateProps[]
 	activeStateId?: StateId
 	onStateClick?: Function
 	onStateContinuationClick?: Function
@@ -14,23 +15,13 @@ export interface IStateListProps {
 	onStateBookmarkClick?: Function
 }
 
-export interface IStateListState {}
+export interface StateListState {}
 
 export default class StateList extends React.Component<
-	IStateListProps,
-	IStateListState
+	StateListProps,
+	StateListState
 > {
 	private containerDiv: HTMLDivElement
-
-	public static propTypes = {
-		states: React.PropTypes.arrayOf(React.PropTypes.shape(State.propTypes))
-			.isRequired,
-		activeStateId: React.PropTypes.string,
-		onStateClick: React.PropTypes.func,
-		onStateContinuationClick: React.PropTypes.func,
-		renderBookmarks: React.PropTypes.bool,
-		onStateBookmarkClick: React.PropTypes.func,
-	}
 
 	public componentDidUpdate() {
 		this.containerDiv.scrollTop = this.containerDiv.scrollHeight

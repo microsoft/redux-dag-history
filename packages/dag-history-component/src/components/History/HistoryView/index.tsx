@@ -1,19 +1,18 @@
+
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { IBookmark } from '../../../interfaces'
+import { Bookmark } from '../../../interfaces'
 import { selectHistoryType } from '../../../state/actions/creators'
 import OptionDropdown from '../../OptionDropdown'
-import { IHistoryContainerSharedProps } from '../interfaces'
+import { HistoryContainerSharedProps } from '../interfaces'
 import BranchedHistoryView, {
-	IBranchedHistoryViewProps,
+	BranchedHistoryViewProps,
 } from './BranchedHistoryView'
 import ChronologicalHistoryView from './ChronologicalHistoryView'
 
 const BranchedIcon = require('react-icons/lib/go/git-branch')
 const ChronologicalIcon = require('react-icons/lib/go/three-bars')
-
-const { PropTypes } = React
 
 const viewLabels = {
 	branched: 'Branched',
@@ -25,22 +24,22 @@ const viewIcons = {
 	chronological: <ChronologicalIcon size={20} />,
 }
 
-export interface IHistoryViewStateProps {}
+export interface HistoryViewStateProps {}
 
-export interface IHistoryViewDispatchProps {
+export interface HistoryViewDispatchProps {
 	onSelectHistoryType: Function
 }
 
-export interface IHistoryViewOwnProps extends IHistoryContainerSharedProps {
-	bookmarks: IBookmark[]
+export interface HistoryViewOwnProps extends HistoryContainerSharedProps {
+	bookmarks: Bookmark[]
 }
 
-export interface IHistoryViewProps
-	extends IHistoryViewStateProps,
-		IHistoryViewDispatchProps,
-		IHistoryViewOwnProps {}
+export interface HistoryViewProps
+	extends HistoryViewStateProps,
+		HistoryViewDispatchProps,
+		HistoryViewOwnProps {}
 
-const HistoryView: React.StatelessComponent<IHistoryViewProps> = props => {
+const HistoryView: React.StatelessComponent<HistoryViewProps> = props => {
 	const { historyType, onSelectHistoryType } = props
 	const renderedHistory =
 		historyType === 'chronological' ? (
@@ -84,22 +83,11 @@ const HistoryView: React.StatelessComponent<IHistoryViewProps> = props => {
 		</div>
 	)
 }
-HistoryView.propTypes = {
-	historyType: PropTypes.string.isRequired,
-	bookmarksEnabled: PropTypes.bool,
-	mainView: PropTypes.string.isRequired,
-	getSourceFromState: PropTypes.func.isRequired,
-	branchContainerExpanded: PropTypes.bool,
-	pinnedStateId: PropTypes.string,
-
-	// Redux-injected
-	onSelectHistoryType: PropTypes.func,
-}
 
 export default connect<
-	IHistoryViewStateProps,
-	IHistoryViewDispatchProps,
-	IHistoryViewOwnProps
+	HistoryViewStateProps,
+	HistoryViewDispatchProps,
+	HistoryViewOwnProps
 >(
 	() => ({}),
 	dispatch =>

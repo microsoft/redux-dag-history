@@ -5,6 +5,12 @@ import * as ReactDOM from 'react-dom'
 import { connect } from 'react-redux'
 import * as state from '../../state'
 import {
+	DragSource,
+	DropTarget,
+	DragSourceMonitor,
+	DropTargetMonitor,
+} from 'react-dnd'
+import {
 	bookmarkDragCancel,
 	bookmarkDragDrop,
 	bookmarkDragHover,
@@ -12,28 +18,25 @@ import {
 } from '../../state/actions/creators'
 import {
 	default as DragDropBookmark,
-	IDragDropBookmarkProps,
+	DragDropBookmarkProps,
 } from './DragDropBookmark'
 
-const { DragSource, DropTarget } = require('react-dnd')
 const flow = require('lodash/flow')
 
 const dragSource = {
-	beginDrag(props: IDragDropBookmarkProps) {
+	beginDrag(props: DragDropBookmarkProps) {
 		const { index, dispatch, stateId } = props
 		dispatch(bookmarkDragStart({ index, key: stateId }))
 		return { index }
 	},
-	endDrag(props: IDragDropBookmarkProps, monitor, component) {
+	endDrag(props: DragDropBookmarkProps, monitor: DragSourceMonitor) {
 		const { dispatch, hoverIndex, dragIndex } = props
-		const item = monitor.getItem()
+		const item = monitor.getItem() as any
 		const droppedOn = hoverIndex < dragIndex ? hoverIndex : hoverIndex - 1
-		dispatch(
-			bookmarkDragDrop({
-				index: item.index,
-				droppedOn,
-			}),
-		)
+		dispatch(bookmarkDragDrop({
+			index: item.index,
+			droppedOn,
+		}) as any)
 	},
 }
 
@@ -42,11 +45,15 @@ const fireHoverEvent = debounce((dispatch, index) =>
 )
 
 const dropTargetSpec = {
-	drop(props: IDragDropBookmarkProps, monitor, component) {
+	drop(props: DragDropBookmarkProps, monitor: DragSourceMonitor) {
 		const { index } = props
 		return { index }
 	},
-	hover(props: IDragDropBookmarkProps, monitor, component) {
+	hover(
+		props: DragDropBookmarkProps,
+		monitor: DropTargetMonitor,
+		component: React.ReactInstance,
+	) {
 		if (!monitor.isOver()) {
 			return
 		}
@@ -68,17 +75,17 @@ const dropTargetSpec = {
 	},
 }
 
-const connectDragSource = (connect, monitor) => ({
-	connectDragSource: connect.dragSource(),
+const connectDragSource = (c, monitor) => ({
+	connectDragSource: c.dragSource(),
 	isDragging: monitor.isDragging(),
 })
 
-const connectDropTarget = (connect, monitor) => ({
-	connectDropTarget: connect.dropTarget(),
+const connectDropTarget = (c, monitor) => ({
+	connectDropTarget: c.dropTarget(),
 })
 
 export default flow(
 	DragSource('BOOKMARK', dragSource, connectDragSource),
-	DropTarget('BOOKMARK', dropTargetSpec, connectDropTarget),
+	DropTarget('BOOKMARK', dropTargetSpec as any, connectDropTarget),
 	connect(),
 )(DragDropBookmark)

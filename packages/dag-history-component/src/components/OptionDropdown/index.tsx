@@ -1,3 +1,4 @@
+
 import * as React from 'react'
 const MdMoreVert = require('react-icons/lib/md/more-vert')
 const {
@@ -7,46 +8,26 @@ const {
 } = require('react-simple-dropdown')
 import './OptionDropdown.scss'
 
-const { PropTypes } = React
-
-export interface IOptionDropdownProps {
+export interface OptionDropdownProps {
 	label?: string
 	icon?: JSX.Element
 	options?: Array<{
 		element?: JSX.Element
 		label?: string
-		onClick: Function,
+		onClick: Function
 	}>
 	triggerClass?: string
 	contentClass?: string
 }
 
-export interface IOptionDropdownState {}
-
 export default class OptionDropdown extends React.Component<
-	IOptionDropdownProps,
-	IOptionDropdownState
+	OptionDropdownProps
 > {
-	private dropdown: any
-
-	public static propTypes = {
-		trigger: PropTypes.element,
-		label: PropTypes.string,
-		icon: PropTypes.element,
-		triggerClass: PropTypes.string,
-		contentClass: PropTypes.string,
-		options: PropTypes.arrayOf(
-			PropTypes.shape({
-				element: PropTypes.element,
-				label: PropTypes.string,
-				onClick: PropTypes.func.isRequired,
-			}),
-		),
-	}
-
 	public static defaultProps = {
 		options: [],
 	}
+
+	private dropdown: any
 
 	public render() {
 		const { label, icon, options, triggerClass, contentClass } = this.props

@@ -1,28 +1,31 @@
 import * as React from 'react'
+import { Dispatch } from 'redux'
 import {
 	default as EditableBookmark,
-	IEditableBookmarkProps,
+	EditableBookmarkProps,
 } from './EditableBookmark'
 const flow = require('lodash/flow')
 
-export interface IDragDropBookmarkProps extends IEditableBookmarkProps {
+export interface DragDropBookmarkProps extends EditableBookmarkProps {
 	// Injected by React DnD:
 	isDragging?: boolean
-	connectDragSource?: Function
-	connectDropTarget?: Function
+	connectDragSource?: () => void
+	connectDropTarget?: () => void
 	dragIndex?: number
 	hoverIndex?: number
 	dragKey?: string
-	dispatch: Function
+	dispatch: Dispatch<any>
 	stateId: string
 }
 
-export interface IDragDropBookmarkState {}
-
 export default class DrapDropBookmark extends React.Component<
-	IDragDropBookmarkProps,
-	IDragDropBookmarkState
+	DragDropBookmarkProps
 > {
+	public render() {
+		const { connectDragSource, connectDropTarget } = this.props
+		return flow(connectDragSource, connectDropTarget)(this.renderBookmark())
+	}
+
 	private renderBookmark() {
 		if (this.props.isDragging) {
 			return <div className="bookmark-dragged" />
@@ -33,10 +36,5 @@ export default class DrapDropBookmark extends React.Component<
 				</div>
 			)
 		}
-	}
-
-	public render() {
-		const { connectDragSource, connectDropTarget } = this.props
-		return flow(connectDragSource, connectDropTarget)(this.renderBookmark())
 	}
 }

@@ -1,18 +1,17 @@
 import { BranchId } from '@essex/redux-dag-history/lib/interfaces'
+
 import * as React from 'react'
-import Branch, { IBranchProps } from '../Branch'
+import Branch, { BranchProps } from '../Branch'
 import './BranchList.scss'
 
-const { PropTypes } = React
-
-export interface IBranchListProps {
+export interface BranchListProps {
 	activeBranch?: BranchId
-	branches: IBranchProps[]
+	branches: BranchProps[]
 	onBranchClick?: (branchId: BranchId) => void
 	style?: any
 }
 
-const BranchList: React.StatelessComponent<IBranchListProps> = ({
+const BranchList: React.StatelessComponent<BranchListProps> = ({
 	activeBranch,
 	branches,
 	onBranchClick,
@@ -31,13 +30,6 @@ const BranchList: React.StatelessComponent<IBranchListProps> = ({
 			<div className="history-branch-list-inner">{branchViews}</div>
 		</div>
 	)
-}
-
-BranchList.propTypes = {
-	activeBranch: React.PropTypes.string,
-	branches: React.PropTypes.arrayOf(React.PropTypes.shape(Branch.propTypes)),
-	onBranchClick: React.PropTypes.func,
-	style: React.PropTypes.object,
 }
 
 export default BranchList

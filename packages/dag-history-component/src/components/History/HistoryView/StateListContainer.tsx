@@ -1,13 +1,12 @@
+
 import DagGraph from '@essex/redux-dag-history/lib/DagGraph'
 import { StateId } from '@essex/redux-dag-history/lib/interfaces'
 import { DagHistory } from '@essex/redux-dag-history/lib/interfaces'
 import * as debug from 'debug'
 import * as React from 'react'
-import { IBookmark } from '../../../interfaces'
+import { Bookmark } from '../../../interfaces'
 import isNumber from '../../../util/isNumber'
 import StateList from '../../StateList'
-
-const { PropTypes } = React
 
 const log = debug('dag-history-component:components:HistoryView')
 
@@ -97,7 +96,7 @@ function getStateList(
 	return commitPathData
 }
 
-export interface IStateListContainerProps {
+export interface StateListContainerProps {
 	history: DagHistory<any>
 	commitPath?: StateId[]
 	getSourceFromState: Function
@@ -105,7 +104,7 @@ export interface IStateListContainerProps {
 	pinnedStateId: StateId
 	bookmarksEnabled?: boolean
 	branchTypeOverride?: string
-	bookmarks: IBookmark[]
+	bookmarks: Bookmark[]
 	chronological?: boolean
 
 	/**
@@ -117,9 +116,7 @@ export interface IStateListContainerProps {
 	onPinState: Function
 }
 
-const StateListContainer: React.StatelessComponent<
-	IStateListContainerProps
-> = ({
+const StateListContainer: React.StatelessComponent<StateListContainerProps> = ({
 	history: { graph },
 	bookmarks,
 	commitPath,
@@ -169,27 +166,6 @@ const StateListContainer: React.StatelessComponent<
 			renderBookmarks={bookmarksEnabled}
 		/>
 	)
-}
-StateListContainer.propTypes = {
-	/**
-	 * The Dag-History Object
-	 */
-	history: PropTypes.object.isRequired,
-	commitPath: PropTypes.arrayOf(PropTypes.string),
-	getSourceFromState: PropTypes.func.isRequired,
-	branchContainerExpanded: PropTypes.bool,
-	pinnedStateId: PropTypes.string,
-	bookmarksEnabled: PropTypes.bool,
-	branchTypeOverride: PropTypes.string,
-
-	/**
-	 * User Interaction Handlers - loaded by redux
-	 */
-	onStateSelect: PropTypes.func,
-	onAddBookmark: PropTypes.func,
-	onRemoveBookmark: PropTypes.func,
-	onPinState: PropTypes.func,
-	chronological: PropTypes.bool,
 }
 
 export default StateListContainer

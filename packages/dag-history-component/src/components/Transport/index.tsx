@@ -1,3 +1,4 @@
+
 import * as React from 'react'
 const LeftIcon = require('react-icons/lib/md/keyboard-arrow-left')
 const RightIcon = require('react-icons/lib/md/keyboard-arrow-right')
@@ -7,12 +8,11 @@ const PlayIcon = require('react-icons/lib/md/play-arrow')
 const StopIcon = require('react-icons/lib/md/stop')
 import { debounce } from 'lodash'
 
-const { PropTypes } = React
 const DEFAULT_ICON_SIZE = 30
 
 import './Transport.scss'
 
-export interface ITransportCallbackProps {
+export interface TransportCallbackProps {
 	onPlay?: Function
 	onStop?: Function
 	onBack?: Function
@@ -21,7 +21,7 @@ export interface ITransportCallbackProps {
 	onStepBack?: Function
 }
 
-export interface ITransportProps extends ITransportCallbackProps {
+export interface TransportProps extends TransportCallbackProps {
 	iconSize?: number
 	playing?: boolean
 	showPlay?: boolean
@@ -32,8 +32,6 @@ export interface ITransportProps extends ITransportCallbackProps {
 	reverseVertical?: boolean
 }
 
-export interface ITransportState {}
-
 const keys = {
 	SPACE: 32,
 	ESC: 27,
@@ -43,26 +41,14 @@ const keys = {
 	RIGHT: 39,
 }
 
-class Transport extends React.Component<ITransportProps, ITransportState> {
-	public static propTypes = {
-		playing: PropTypes.bool,
-		showPlay: PropTypes.bool,
-		iconSize: PropTypes.number,
-		onBack: PropTypes.func,
-		onForward: PropTypes.func,
-		onStop: PropTypes.func,
-		onPlay: PropTypes.func,
-		onStepForward: PropTypes.func,
-		onStepBack: PropTypes.func,
-	}
-
+class Transport extends React.Component<TransportProps> {
 	public static defaultProps = {
 		iconSize: DEFAULT_ICON_SIZE,
 		playing: false,
 		showPlay: true,
 	}
 
-	private handlers: ITransportCallbackProps = null
+	private handlers: TransportCallbackProps = null
 
 	public play() {
 		if (this.handlers.onPlay) {
@@ -141,7 +127,7 @@ class Transport extends React.Component<ITransportProps, ITransportState> {
 			<div
 				className="history-transport-panel"
 				tabIndex={0}
-				onKeyPress={() => {}} // allows event bubbling
+				onKeyPress={() => undefined} // allows event bubbling
 			>
 				<div>
 					<LeftIcon size={iconSize} onClick={() => this.stepBack()} />

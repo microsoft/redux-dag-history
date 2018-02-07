@@ -1,5 +1,5 @@
 import {
-	IConfiguration, // eslint-disable-line no-unused-vars
+	Configuration, // eslint-disable-line no-unused-vars
 } from '@essex/redux-dag-history/lib/interfaces'
 import {
 	ADD_BOOKMARK,

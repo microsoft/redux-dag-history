@@ -4,7 +4,7 @@ import {
 	StateId, // eslint-disable-line no-unused-vars
 } from '@essex/redux-dag-history/lib/interfaces'
 
-export interface IStateProps {
+export interface StateProps {
 	id: StateId
 	active?: boolean
 	renderBookmarks?: boolean

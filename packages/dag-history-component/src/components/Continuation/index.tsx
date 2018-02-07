@@ -1,7 +1,6 @@
+
 import * as React from 'react'
 import './Continuation.scss'
-
-const { PropTypes } = React
 
 function getContinuationText(count) {
 	const sanecount = Math.abs(count || 0)
@@ -25,13 +24,13 @@ function handleClick(handler) {
 	}
 }
 
-export interface IContinuationProps {
+export interface ContinuationProps {
 	count?: number
 	color?: string
 	onClick?: Function
 }
 
-const Continuation: React.StatelessComponent<IContinuationProps> = ({
+const Continuation: React.StatelessComponent<ContinuationProps> = ({
 	count,
 	color,
 	onClick,
@@ -46,12 +45,6 @@ const Continuation: React.StatelessComponent<IContinuationProps> = ({
 			{continuationText}
 		</div>
 	)
-}
-
-Continuation.propTypes = {
-	count: PropTypes.number,
-	color: PropTypes.string,
-	onClick: PropTypes.func,
 }
 
 export default Continuation

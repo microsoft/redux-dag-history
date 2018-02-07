@@ -1,4 +1,6 @@
 import { get } from 'lodash'
+
+
 import * as React from 'react'
 import createHistoryContainer from '../../src/components/createHistoryContainer'
 import '../../src/daghistory.scss'
@@ -10,8 +12,6 @@ const HistoryContainer = createHistoryContainer(
 	state => state.component,
 	state => get(state, 'metadata.source'),
 )
-
-const { PropTypes } = React
 
 const HistoryPresenter: React.StatelessComponent<void> = props => {
 	return (

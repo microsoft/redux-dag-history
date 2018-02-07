@@ -1,17 +1,14 @@
+
 import * as DagHistoryActions from '@essex/redux-dag-history/lib/ActionCreators'
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { IBookmark } from '../../../interfaces'
+import { Bookmark } from '../../../interfaces'
 import * as DagComponentActions from '../../../state/actions/creators'
-import { IHistoryContainerSharedProps } from '../interfaces'
+import { HistoryContainerSharedProps } from '../interfaces'
 import StateListContainer from './StateListContainer'
 
-const { PropTypes } = React
-
-export interface IChronologicalHistoryViewStateProps {}
-
-export interface IChronologicalHistoryViewDispatchProps {
+export interface ChronologicalHistoryViewDispatchProps {
 	onBranchSelect: Function
 	onStateSelect: Function
 	onAddBookmark: Function
@@ -25,66 +22,32 @@ export interface IChronologicalHistoryViewDispatchProps {
 	onRenameBranch: Function
 }
 
-export interface IChronologicalHistoryViewOwnProps
-	extends IHistoryContainerSharedProps {
-	bookmarks: IBookmark[]
+export interface ChronologicalHistoryViewOwnProps
+	extends HistoryContainerSharedProps {
+	bookmarks: Bookmark[]
 }
 
-export interface IChronologicalHistoryViewProps
-	extends IChronologicalHistoryViewStateProps,
-		IChronologicalHistoryViewDispatchProps,
-		IChronologicalHistoryViewOwnProps {}
+export interface ChronologicalHistoryViewProps
+	extends ChronologicalHistoryViewDispatchProps,
+		ChronologicalHistoryViewOwnProps {}
 
 const ChronologicalHistoryView: React.StatelessComponent<
-	IChronologicalHistoryViewProps
+	ChronologicalHistoryViewProps
 > = props => (
 	<div className="history-container" style={{ flex: 1 }}>
 		<StateListContainer
 			{...props}
-			chronological
+			chronological={true}
 			branchTypeOverride={'current'}
 			commitPath={props.history.graph.get('chronologicalStates').toJS()}
 		/>
 	</div>
 )
-ChronologicalHistoryView.propTypes = {
-	bookmarks: PropTypes.array.isRequired,
-
-	/**
-	 * The Dag-History Object
-	 */
-	history: PropTypes.object.isRequired,
-	mainView: PropTypes.string.isRequired,
-	historyType: PropTypes.string.isRequired,
-	getSourceFromState: PropTypes.func.isRequired,
-	branchContainerExpanded: PropTypes.bool,
-	pinnedStateId: PropTypes.string,
-
-	/**
-	 * User Interaction Handlers - loaded by redux
-	 */
-	onBranchSelect: PropTypes.func,
-	onStateSelect: PropTypes.func,
-	onAddBookmark: PropTypes.func,
-	onRemoveBookmark: PropTypes.func,
-	onToggleBranchContainer: PropTypes.func,
-	onPinState: PropTypes.func,
-	onUndo: PropTypes.func,
-	onRedo: PropTypes.func,
-	onSkipToStart: PropTypes.func,
-	onSkipToEnd: PropTypes.func,
-	onRenameBranch: PropTypes.func,
-
-	/**
-	 * Bookmark Configuration Properties
-	 */
-	bookmarksEnabled: PropTypes.bool,
-}
 
 export default connect<
-	IChronologicalHistoryViewStateProps,
-	IChronologicalHistoryViewDispatchProps,
-	IChronologicalHistoryViewOwnProps
+	{},
+	ChronologicalHistoryViewDispatchProps,
+	ChronologicalHistoryViewOwnProps
 >(
 	() => ({}),
 	dispatch =>

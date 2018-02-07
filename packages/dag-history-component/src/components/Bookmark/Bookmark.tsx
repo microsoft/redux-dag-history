@@ -1,17 +1,16 @@
 import * as classnames from 'classnames'
+
 import * as React from 'react'
 import DiscoveryTrail from '../DiscoveryTrail'
 import './Bookmark.scss'
 
-const { PropTypes } = React
-
-export interface IBookmarkProps {
+export interface BookmarkProps {
 	name: string
 	index: number
 	active?: boolean
 	numLeadInStates?: number
-	onClick?: Function
-	onClickEdit?: Function
+	onClick?: () => void
+	onClickEdit?: () => void
 	annotation: string
 	commitPathLength: number
 	onDiscoveryTrailIndexClicked?: (index: number) => void
@@ -25,7 +24,9 @@ const determineHighlight = props => {
 	return selectedDepth
 }
 
-const Bookmark: React.StatelessComponent<IBookmarkProps> = props => {
+const Bookmark: React.StatelessComponent<BookmarkProps> = (
+	props: BookmarkProps,
+) => {
 	const {
 		name,
 		index,
@@ -41,7 +42,7 @@ const Bookmark: React.StatelessComponent<IBookmarkProps> = props => {
 	const isDiscoveryTrailVisible = active && numLeadInStates > 0
 	const discoveryTrail = isDiscoveryTrailVisible ? (
 		<DiscoveryTrail
-			fullWidth
+			fullWidth={true}
 			depth={commitPathLength - 1}
 			highlight={highlight}
 			leadIn={numLeadInStates}
@@ -58,14 +59,11 @@ const Bookmark: React.StatelessComponent<IBookmarkProps> = props => {
 				>
 					<div
 						className={classnames('bookmark-title', { active })}
-						onClick={() => onClickEdit(index)}
+						onClick={() => onClickEdit()}
 					>
 						{name}
 					</div>
-					<div
-						className="bookmark-annotation"
-						onClick={() => onClickEdit(index)}
-					>
+					<div className="bookmark-annotation" onClick={() => onClickEdit()}>
 						{annotation}
 					</div>
 				</div>

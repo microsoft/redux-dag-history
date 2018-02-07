@@ -1,21 +1,31 @@
-// you can use this file to add your custom webpack plugins, loaders and anything you like.
-// This is just the basic way to add addional webpack configurations.
-// For more information refer the docs: https://goo.gl/qPbSyX
+const path = require('path')
+const lodash = require('lodash')
+const get = lodash.get
 
-// IMPORTANT
-// When you add this file, we won't add the default configurations which is similar
-// to "React Create App". This only has babel loader to load JavaScript.
+const tsxRule = {
+	test: /\.ts(x|)/,
+	loaders: ['ts-loader'],
+}
+const cssRule = {
+	test: /\.css/,
+	loaders: ['style-loader', 'css-loader'],
+}
+const sassRule = {
+	test: /\.scss/,
+	loaders: ['style-loader', 'css-loader', 'sass-loader'],
+}
 
-module.exports = {
-	plugins: [],
-	module: {
-		loaders: [
-			{ test: /\.css$/, loader: 'style-loader!css-loader' },
-			{ test: /\.scss$/, loader: 'style-loader!css-loader!sass-loader' },
-			{ test: /\.ts(x|)$/, loaders: ['ts-loader'], exclude: /node_modules/ },
-		],
-	},
-	resolve: {
-		extensions: ['', '.js', '.jsx', '.ts', '.tsx'],
-	},
+module.exports = (baseConfig, env) => {
+	const rules = get(baseConfig, 'module.rules', [])
+	const extensions = get(baseConfig, 'resolve.extensions', ['.js'])
+
+	const config = Object.assign({}, baseConfig, {
+		resolve: Object.assign({}, get(baseConfig, 'resolve', {}), {
+			extensions: extensions.concat('.ts', '.tsx'),
+		}),
+		module: Object.assign({}, get(baseConfig, 'module', {}), {
+			rules: rules.concat(tsxRule, cssRule, sassRule),
+		}),
+	})
+	return config
 }

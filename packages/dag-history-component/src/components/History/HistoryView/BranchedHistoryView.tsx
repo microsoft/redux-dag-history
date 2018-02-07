@@ -1,26 +1,26 @@
+
 import * as DagHistoryActions from '@essex/redux-dag-history/lib/ActionCreators'
 import { BranchId, StateId } from '@essex/redux-dag-history/lib/interfaces'
 import * as React from 'react'
 import * as ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { IBookmark } from '../../../interfaces'
+import { Bookmark } from '../../../interfaces'
 import * as DagComponentActions from '../../../state/actions/creators'
 import ExpandCollapseToggle from '../../ExpandCollapseToggle'
 import Transport from '../../Transport'
-import { IHistoryContainerSharedProps } from '../interfaces'
+import { HistoryContainerSharedProps } from '../interfaces'
 import BranchListContainer, {
-	IBranchListContainerProps,
+	BranchListContainerProps,
 } from './BranchListContainer'
 import './show-branches-animation.scss'
 import StateListContainer, {
-	IStateListContainerProps,
+	StateListContainerProps,
 } from './StateListContainer'
-const { PropTypes } = React
 
-export interface IBranchedHistoryViewStateProps {}
+export interface BranchedHistoryViewStateProps {}
 
-export interface IBranchedHistoryViewDispatchProps {
+export interface BranchedHistoryViewDispatchProps {
 	onStateSelect: (id: StateId) => void
 	onAddBookmark: Function
 	onBranchSelect: (id: BranchId) => void
@@ -30,18 +30,18 @@ export interface IBranchedHistoryViewDispatchProps {
 	onRenameBranch: Function
 }
 
-export interface IBranchedHistoryViewOwnProps
-	extends IHistoryContainerSharedProps {}
+export interface BranchedHistoryViewOwnProps
+	extends HistoryContainerSharedProps {}
 
-export interface IBranchedHistoryViewProps
-	extends IBranchedHistoryViewStateProps,
-		IBranchedHistoryViewDispatchProps,
-		IBranchedHistoryViewOwnProps {
-	bookmarks: IBookmark[]
+export interface BranchedHistoryViewProps
+	extends BranchedHistoryViewStateProps,
+		BranchedHistoryViewDispatchProps,
+		BranchedHistoryViewOwnProps {
+	bookmarks: Bookmark[]
 }
 
 const BranchedHistoryView: React.StatelessComponent<
-	IBranchedHistoryViewProps
+	BranchedHistoryViewProps
 > = props => {
 	const { branchContainerExpanded, onToggleBranchContainer } = props
 	const branchList = branchContainerExpanded ? (
@@ -71,35 +71,10 @@ const BranchedHistoryView: React.StatelessComponent<
 	)
 }
 
-BranchedHistoryView.propTypes = {
-	/**
-	 * The Dag-History Object
-	 */
-	history: PropTypes.object.isRequired,
-	getSourceFromState: PropTypes.func.isRequired,
-	branchContainerExpanded: PropTypes.bool,
-	pinnedStateId: PropTypes.string,
-
-	/**
-	 * User Interaction Handlers - loaded by redux
-	 */
-	onBranchSelect: PropTypes.func,
-	onStateSelect: PropTypes.func,
-	onAddBookmark: PropTypes.func,
-	onRemoveBookmark: PropTypes.func,
-	onToggleBranchContainer: PropTypes.func,
-	onPinState: PropTypes.func,
-	onRenameBranch: PropTypes.func,
-
-	/**
-	 * Bookbark Configuration Properties
-	 */
-	bookmarksEnabled: PropTypes.bool,
-}
 export default connect<
-	IBranchedHistoryViewStateProps,
-	IBranchedHistoryViewDispatchProps,
-	IBranchedHistoryViewOwnProps
+	BranchedHistoryViewStateProps,
+	BranchedHistoryViewDispatchProps,
+	BranchedHistoryViewOwnProps
 >(
 	() => ({}),
 	dispatch =>

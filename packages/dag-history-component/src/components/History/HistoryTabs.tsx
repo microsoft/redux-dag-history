@@ -1,9 +1,8 @@
+
 import * as React from 'react'
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs'
 import OptionDropdown from '../OptionDropdown'
 import './Tabs.scss'
-
-const { PropTypes } = React
 
 const viewNameToIndex = {
 	history: 0,
@@ -11,13 +10,13 @@ const viewNameToIndex = {
 }
 const indexToViewName = ['history', 'storyboarding']
 
-function handleTabSelector(onTabSelect) {
+function handleTabSelector(onTabSelect: (view: string) => void) {
 	return index => onTabSelect(indexToViewName[index])
 }
 
-export interface IHistoryContainerProps {
+export interface HistoryContainerProps {
 	selectedTab: string
-	onTabSelect: Function
+	onTabSelect: (view: string) => void
 	historyView: JSX.Element
 	storyboardingView: JSX.Element
 	bookmarksEnabled?: boolean
@@ -27,7 +26,7 @@ export interface IHistoryContainerProps {
 	onLoadClicked: Function
 }
 
-const HistoryContainer: React.StatelessComponent<IHistoryContainerProps> = ({
+const HistoryContainer: React.StatelessComponent<HistoryContainerProps> = ({
 	onTabSelect,
 	selectedTab,
 	historyView,
@@ -70,17 +69,6 @@ const HistoryContainer: React.StatelessComponent<IHistoryContainerProps> = ({
 			</Tabs>
 		</div>
 	)
-}
-
-HistoryContainer.propTypes = {
-	selectedTab: PropTypes.string.isRequired,
-	onTabSelect: PropTypes.func.isRequired,
-	historyView: PropTypes.element.isRequired,
-	storyboardingView: PropTypes.element.isRequired,
-	bookmarksEnabled: PropTypes.bool,
-	onSaveClicked: PropTypes.func.isRequired,
-	onClearClicked: PropTypes.func.isRequired,
-	onLoadClicked: PropTypes.func.isRequired,
 }
 
 export default HistoryContainer

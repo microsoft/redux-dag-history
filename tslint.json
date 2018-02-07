@@ -1,25 +1,35 @@
 {
 	"extends": ["tslint:latest", "tslint-react"],
 	"rules": {
+		// Since prettier is automatically handling formatting, these rules do not need to be enabled
+		"eofline": false,
+		"quotemark": false,
+		"semicolon": false,
+		"indent": false,
+		"trailing-comma": false,
+
+		// Annoying rules, but may be worth re-enabling at some point
+		"ordered-imports": false,
+
+		// Ignoring this temporarily until we get the refactor up
+		"ban-types": false,
+
 		"ban": false,
 		"class-name": true,
-		"eofline": false,
 		"forin": true,
 		"arrow-parens": false,
 		"interface-name": [true, "never-prefix"],
+		"jsx-curly-spacing": false,
 		"jsdoc-format": true,
 		"jsx-no-lambda": false,
 		"jsx-no-multiline-js": false,
 		"jsx-wrap-multiline": false,
 		"label-position": true,
-		"jsx-curly-spacing": false,
-		"semicolon": false,
-		"quotemark": false,
-		"indent": false,
 		"object-literal-sort-keys": false,
+		"no-submodule-imports": false,
+		"no-var-requires": false,
 		"member-ordering": [
 			true,
-			"public-before-private",
 			"static-before-instance",
 			"variables-before-functions"
 		],
@@ -34,8 +44,6 @@
 		"no-shadowed-variable": true,
 		"no-string-literal": true,
 		"no-switch-case-fall-through": true,
-		// For tests; TODO: use jest assertions and re-enable this
-		"no-unused-expression": false,
 		"radix": true,
 		"switch-default": true,
 		"triple-equals": [true, "allow-null-check"],

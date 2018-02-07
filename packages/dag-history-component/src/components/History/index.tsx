@@ -1,8 +1,9 @@
+
 import DagGraph from '@essex/redux-dag-history/lib/DagGraph'
 import { DagHistory } from '@essex/redux-dag-history/lib/interfaces'
 import * as debug from 'debug'
 import * as React from 'react'
-import { IBookmark } from '../../interfaces'
+import { Bookmark as BookmarkPayload } from '../../interfaces'
 import Bookmark from '../../util/Bookmark'
 import isNumber from '../../util/isNumber'
 import PlaybackPane from '../PlaybackPane'
@@ -10,17 +11,15 @@ import Transport from '../Transport'
 import makeActions from './BookmarkActions'
 import HistoryTabs from './HistoryTabs'
 import HistoryView from './HistoryView'
-import { IHistoryContainerSharedProps } from './interfaces'
+import { HistoryContainerSharedProps } from './interfaces'
 import StoryboardingView from './StoryboardingView'
 
 import './History.scss'
 
-const { PropTypes } = React
-
 const log = debug('dag-history-component:components:History')
 
-export interface IHistoryStateProps {}
-export interface IHistoryDispatchProps {
+export interface HistoryStateProps {}
+export interface HistoryDispatchProps {
 	onLoad?: Function
 	onClear?: Function
 	onSelectMainView: Function
@@ -30,72 +29,15 @@ export interface IHistoryDispatchProps {
 	onSelectBookmarkDepth?: Function
 	onSelectState?: Function
 }
-export interface IHistoryOwnProps extends IHistoryContainerSharedProps {}
+export interface HistoryOwnProps extends HistoryContainerSharedProps {}
 
-export interface IHistoryProps
-	extends IHistoryStateProps,
-		IHistoryDispatchProps,
-		IHistoryOwnProps {}
+export interface HistoryProps
+	extends HistoryStateProps,
+		HistoryDispatchProps,
+		HistoryOwnProps {}
 
-export default class History extends React.Component<IHistoryProps, {}> {
-	public static propTypes = {
-		bookmarks: PropTypes.array.isRequired,
-		dragIndex: PropTypes.number,
-		dragKey: PropTypes.string,
-		hoverIndex: PropTypes.number,
-		bookmarkEditIndex: PropTypes.number,
-		isPlayingBack: PropTypes.bool,
-
-		/**
-		 * The Dag-History Object
-		 */
-		history: PropTypes.object.isRequired,
-		mainView: PropTypes.string.isRequired,
-		historyType: PropTypes.string.isRequired,
-		getSourceFromState: PropTypes.func.isRequired,
-		branchContainerExpanded: PropTypes.bool,
-		pinnedStateId: PropTypes.string,
-		selectedBookmark: PropTypes.number,
-		selectedBookmarkDepth: PropTypes.number,
-
-		/**
-		 * User Interaction Handlers - loaded by redux
-		 */
-		onLoad: PropTypes.func,
-		onClear: PropTypes.func,
-		onSelectMainView: PropTypes.func.isRequired,
-		onToggleBranchContainer: PropTypes.func,
-		onStartPlayback: PropTypes.func,
-		onStopPlayback: PropTypes.func,
-		onSelectState: PropTypes.func,
-
-		/**
-		 * ControlBar Configuration Properties
-		 */
-		controlBar: PropTypes.shape({
-			/**
-			 * A handler to save the history tree out. This is handled by clients.
-			 */
-			onSaveHistory: PropTypes.func,
-
-			/**
-			 * A handler to retrieve the history tree. This is handled by clients
-			 */
-			onLoadHistory: PropTypes.func,
-
-			/**
-			 * A function that emits a Promise<boolean> that confirms the clear-history operation.
-			 */
-			onConfirmClear: PropTypes.func,
-		}),
-
-		/**
-		 * Bookbark Configuration Properties
-		 */
-		bookmarksEnabled: PropTypes.bool,
-	}
-
-	public shouldComponentUpdate(nextProps) {
+export default class History extends React.Component<HistoryProps, {}> {
+	public shouldComponentUpdate(nextProps: HistoryProps) {
 		return this.props !== nextProps
 	}
 
@@ -200,7 +142,7 @@ export default class History extends React.Component<IHistoryProps, {}> {
 					}}
 				/>
 				<Transport
-					playing
+					playing={true}
 					onStepBack={handleStepBackUnbounded}
 					onStepForward={handleStepForward}
 					onBack={handleStepBack}

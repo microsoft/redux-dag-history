@@ -4,7 +4,7 @@ import {
 	TOGGLE_BRANCH_CONTAINER,
 } from '../actions/types'
 import {
-	IComponentConfiguration, // eslint-disable-line no-unused-vars
+	ComponentConfiguration, // eslint-disable-line no-unused-vars
 } from '../interfaces'
 import isHistoryAction from './isHistoryAction'
 
@@ -14,7 +14,7 @@ export const INITIAL_STATE = {
 	branchContainerExpanded: true,
 }
 
-export default function makeReducer<T>(config: IComponentConfiguration<T>) {
+export default function makeReducer<T>(config: ComponentConfiguration<T>) {
 	const initialState = {
 		...INITIAL_STATE,
 		...config.initialViewState,

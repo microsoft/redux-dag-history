@@ -1,20 +1,19 @@
 import * as DagHistoryActions from '@essex/redux-dag-history/lib/ActionCreators'
 import { StateId } from '@essex/redux-dag-history/lib/interfaces'
+
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import '../daghistory.scss'
-import { IBookmark } from '../interfaces'
+import { Bookmark } from '../interfaces'
 import * as Actions from '../state/actions/creators'
 import {
 	default as HistoryComponent,
-	IHistoryDispatchProps,
-	IHistoryOwnProps,
+	HistoryDispatchProps,
+	HistoryOwnProps,
 } from './History'
 
-const { PropTypes } = React
-
-export interface IHistoryContainerStateProps {
+export interface HistoryContainerStateProps {
 	history?: any
 	mainView?: string
 	historyType?: string
@@ -22,13 +21,11 @@ export interface IHistoryContainerStateProps {
 	pinnedStateId?: StateId
 	selectedBookmark?: number
 	selectedBookmarkDepth?: number
-	bookmarks?: IBookmark[]
+	bookmarks?: Bookmark[]
 	getSourceFromState: Function
 }
 
-export interface IHistoryContainerDispatchProps extends IHistoryDispatchProps {}
-
-export interface IHistoryContainerOwnProps {
+export interface HistoryContainerOwnProps {
 	bookmarksEnabled?: boolean
 
 	/**
@@ -48,22 +45,18 @@ export interface IHistoryContainerOwnProps {
 		/**
 		 * A function that emits a Promise<boolean> that confirms the clear-history operation.
 		 */
-		onConfirmClear: Function,
+		onConfirmClear: Function
 	}
 }
 
-export interface IHistoryContainerProps
-	extends IHistoryContainerStateProps,
-		IHistoryContainerDispatchProps,
-		IHistoryContainerOwnProps {}
+export interface HistoryContainerProps
+	extends HistoryContainerStateProps,
+		HistoryContainerOwnProps {}
 
 const HistoryContainer: React.StatelessComponent<
-	IHistoryContainerProps
+	HistoryContainerProps
 > = props => {
 	return <HistoryComponent {...props} />
-}
-HistoryContainer.propTypes = {
-	...HistoryComponent.propTypes,
 }
 
 export default function createHistoryContainer(
@@ -109,9 +102,8 @@ export default function createHistoryContainer(
 			},
 			dispatch,
 		)
-	return connect<
-		IHistoryContainerStateProps,
-		IHistoryContainerDispatchProps,
-		IHistoryContainerOwnProps
-	>(mapStateToProps, mapDispatchToProps)(HistoryContainer)
+	return connect<HistoryContainerStateProps, {}, HistoryContainerOwnProps>(
+		mapStateToProps,
+		mapDispatchToProps,
+	)(HistoryContainer)
 }

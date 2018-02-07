@@ -1,6 +1,6 @@
 import DagGraph from '@essex/redux-dag-history/lib/DagGraph'
 import * as debug from 'debug'
-import { IBookmark } from '../../interfaces' // eslint-disable-line no-unused-vars
+import { Bookmark as BookmarkData } from '../../interfaces' // eslint-disable-line no-unused-vars
 import Bookmark from '../../util/Bookmark'
 
 const log = debug('dag-history-component:BookmarkActions')
@@ -9,8 +9,14 @@ export default function makeActions(
 	rawSelectedBookmark: number,
 	rawSelectedBookmarkDepth: number,
 	history: any,
-	bookmarks: IBookmark[],
-	onSelectBookmarkDepth,
+	bookmarks: Bookmark[],
+	onSelectBookmarkDepth: (
+		data: {
+			bookmarkIndex: number
+			depth: number
+			state: string
+		},
+	) => void,
 ) {
 	const graph = new DagGraph(history.graph)
 	const { currentStateId } = graph
@@ -20,10 +26,10 @@ export default function makeActions(
 		}
 		return new Bookmark(bookmarks[index], graph)
 	}
-	const jump = (index: number, depth: number) => {
+	const jump = (index: number, jumpToDepth: number) => {
 		const target = bookmarkAt(index)
-		const state = target.getStateAtDepth(depth)
-		onSelectBookmarkDepth({ bookmarkIndex: index, depth, state })
+		const state = target.getStateAtDepth(jumpToDepth)
+		onSelectBookmarkDepth({ bookmarkIndex: index, depth: jumpToDepth, state })
 	}
 	const bookmarkIndex =
 		rawSelectedBookmark !== undefined

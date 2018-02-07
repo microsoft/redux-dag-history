@@ -1,13 +1,13 @@
 import * as classnames from 'classnames'
+
 import * as React from 'react'
 import * as ReactCSSTransitionGroup from 'react-addons-css-transition-group'
 import colors from '../../palette'
 import Continuation from '../Continuation'
-import { IStateProps } from './interfaces'
+import { StateProps } from './interfaces'
 import './State.scss'
 
 const Bookmark = require('react-icons/lib/io/bookmark')
-const { PropTypes } = React
 
 const coloring = {
 	current: {
@@ -40,29 +40,7 @@ function continuationColor(isActive, isPinned) {
 	return result
 }
 
-export interface IStateState {}
-
-export default class State extends React.PureComponent<
-	IStateProps,
-	IStateState
-> {
-	public static propTypes = {
-		id: PropTypes.string.isRequired,
-		source: PropTypes.string,
-		label: PropTypes.string.isRequired,
-		active: PropTypes.bool,
-		pinned: PropTypes.bool,
-		bookmarked: PropTypes.bool,
-		renderBookmarks: PropTypes.bool,
-		numChildren: PropTypes.number,
-		branchType: PropTypes.oneOf(['current', 'legacy', 'unrelated']),
-		onBookmarkClick: PropTypes.func,
-		onClick: PropTypes.func,
-		onContinuationClick: PropTypes.func,
-		showContinuation: PropTypes.bool,
-		style: PropTypes.any,
-	}
-
+export default class State extends React.PureComponent<StateProps> {
 	public static defaultProps = {
 		id: undefined,
 		source: undefined,

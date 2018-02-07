@@ -1,5 +1,5 @@
 import {
-	IConfiguration, // eslint-disable-line no-unused-vars
+	Configuration, // eslint-disable-line no-unused-vars
 } from '@essex/redux-dag-history/lib/interfaces'
 import * as Types from '../actions/types'
 import isHistoryAction from './isHistoryAction'
@@ -8,7 +8,7 @@ export const INITIAL_STATE = {
 	editIndex: undefined,
 }
 
-export default function makeReducer(config: IConfiguration<any>) {
+export default function makeReducer(config: Configuration<any>) {
 	return function reduce(state = INITIAL_STATE, action) {
 		if (action.type === Types.BOOKMARK_EDIT) {
 			// Edit a bookmark

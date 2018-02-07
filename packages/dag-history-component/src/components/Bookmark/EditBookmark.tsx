@@ -2,16 +2,16 @@ import * as debug from 'debug'
 
 import { StateId } from '@essex/redux-dag-history/lib/interfaces'
 import * as classnames from 'classnames'
+
 import * as React from 'react'
-import './Bookmark.scss'
-const { PropTypes } = React
 import DiscoveryTrail from '../DiscoveryTrail'
+import './Bookmark.scss'
 
 const CloseIcon = require('react-icons/lib/fa/caret-down')
 
 const log = debug('dag-history-component:components:Bookmark')
 
-export interface IEditBookmarkProps {
+export interface EditBookmarkProps {
 	name: string
 	annotation: string
 	index: number
@@ -21,19 +21,15 @@ export interface IEditBookmarkProps {
 	onBookmarkChange?: Function
 	onDoneEditing?: Function
 	shortestCommitPath?: StateId[]
-	selectedDepth: number
-	onDiscoveryTrailIndexClicked?: Function
+	selectedDepth?: number
+	onDiscoveryTrailIndexClicked?: (index: number) => void
 	onSelectBookmarkDepth?: Function
 
-	// Injected by React DnD:
+	// Injected by React DnD
 	isDragging?: boolean
 }
-export interface IEditBookmarkState {}
 
-export default class EditBookmark extends React.Component<
-	IEditBookmarkProps,
-	IEditBookmarkState
-> {
+export default class EditBookmark extends React.Component<EditBookmarkProps> {
 	private annotationComponent: HTMLTextAreaElement
 	private leadInComponent: HTMLSelectElement
 
@@ -46,11 +42,11 @@ export default class EditBookmark extends React.Component<
 		onDoneEditing()
 	}
 
-	private setAnnotationComponent(c) {
+	private setAnnotationComponent(c: HTMLTextAreaElement) {
 		this.annotationComponent = c
 	}
 
-	private setLeadInComponent(c) {
+	private setLeadInComponent(c: HTMLSelectElement) {
 		this.leadInComponent = c
 	}
 

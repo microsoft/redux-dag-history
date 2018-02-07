@@ -1,5 +1,5 @@
 import {
-	IConfiguration, // eslint-disable-line no-unused-vars
+	Configuration, // eslint-disable-line no-unused-vars
 } from '@essex/redux-dag-history/lib/interfaces'
 import {
 	BOOKMARK_DRAG_CANCEL,
@@ -14,7 +14,7 @@ export const INITIAL_STATE = {
 	hoverIndex: undefined,
 }
 
-export default function makeReducer(config: IConfiguration<any>) {
+export default function makeReducer(config: Configuration<any>) {
 	return function reduce(state = INITIAL_STATE, action) {
 		let result = state
 		if (action.type === BOOKMARK_DRAG_START) {

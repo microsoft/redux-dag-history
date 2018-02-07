@@ -1,21 +1,20 @@
+
 import * as React from 'react'
 import colors from '../../palette'
 import './BranchProfile.scss'
 import calculateSpans from './calculateSpans'
 
-const { PropTypes } = React
-
 /**
  * Gets styling for the branch-info spans
  */
-function infoSpanStyle(flex, backgroundColor) {
+function infoSpanStyle(flex: number, backgroundColor: string) {
 	if (flex === 0) {
 		return { display: 'none' }
 	}
 	return { backgroundColor, flex }
 }
 
-export interface IBranchProfileProps {
+export interface BranchProfileProps {
 	start: number
 	end: number
 	branchStart?: number
@@ -25,7 +24,7 @@ export interface IBranchProfileProps {
 	type: 'current' | 'legacy'
 }
 
-const BranchProfile: React.StatelessComponent<IBranchProfileProps> = ({
+const BranchProfile: React.StatelessComponent<BranchProfileProps> = ({
 	type,
 	start,
 	end,
@@ -48,16 +47,6 @@ const BranchProfile: React.StatelessComponent<IBranchProfileProps> = ({
 		.map((style, index) => <div key={`branchinfo:${index}`} style={style} />)
 
 	return <div className="history-branch-profile">{spanComponents}</div>
-}
-
-BranchProfile.propTypes = {
-	start: PropTypes.number.isRequired,
-	end: PropTypes.number.isRequired,
-	max: PropTypes.number.isRequired,
-	branchStart: PropTypes.number,
-	branchEnd: PropTypes.number,
-	activeStateIndex: PropTypes.number,
-	type: PropTypes.oneOf(['current', 'legacy']).isRequired,
 }
 
 export default BranchProfile
