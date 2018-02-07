@@ -10,7 +10,6 @@ import {
 } from './interfaces';
 
 const log = require('debug')('redux-dag-history:DagGraph');
-const treeify = require('treeify');
 
 /**
  * A convenient wrapper around the ImmutableJS-based Dag-History data structure
@@ -66,8 +65,7 @@ export default class DagGraph<T> {
       // states: graph.states,
       dag: root,
     };
-    const result = treeify.asTree(tree, true);
-    return result;
+    return JSON.stringify(tree, null, 4);
   }
 
   /**

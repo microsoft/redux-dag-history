@@ -4,20 +4,19 @@
   "description": "A React Component for Dag-History Visualization",
   "main": "lib/index.js",
   "scripts": {
-    "clean": "../../node_modules/.bin/rimraf lib/ storybook-static/",
+    "clean": "rimraf lib/ storybook-static/",
     "serve:webpack": "../../node_modules/.bin/webpack-dev-server --host 0.0.0.0 --hot --inline --history-api-fallback",
-    "serve:storybook": " ../../node_modules/.bin/start-storybook -p 6006",
-    "build:tsc": "../../node_modules/.bin/tsc",
-    "build:sass": "../../node_modules/.bin/node-sass src/daghistory.scss --output lib",
-    "build:assets": "../../node_modules/.bin/cpx 'src/**/*.scss' lib",
-    "build:storybook": "../../node_modules/.bin/build-storybook",
-    "build": "../../node_modules/.bin/npm-run-all --parallel 'build:*'",
+    "serve:storybook": "start-storybook -p 6006",
+    "build:tsc": "tsc",
+    "build:sass": "node-sass src/daghistory.scss --output lib",
+    "build:assets": "cpx 'src/**/*.scss' lib",
+    "build:storybook": "build-storybook",
+    "build": "run-p build:*",
     "watch:sass": "npm run build:sass -- --watch",
     "watch:copysass": "npm run build:assets -- --watch",
-    "watch:tsc": "../../node_modules/.bin/tsc -w",
-    "start": "npm-run-all --parallel 'serve:*' 'watch:*'"
+    "watch:tsc": "tsc -w",
+    "start": "run-p serve:* watch:*"
   },
-  "author": "Chris Trevino <chris.trevino@atsid.com>",
   "license": "MIT",
   "files": [
     "package.json",
@@ -25,7 +24,14 @@
     "LICENSE",
     "lib/"
   ],
-  "devDependencies": {},
+  "devDependencies": {
+    "@storybook/react": "^3.3.12",
+    "cpx": "^1.5.0",
+    "node-sass": "^4.7.2",
+    "npm-run-all": "^4.1.2",
+    "rimraf": "^2.6.2",
+    "typescript": "^2.7.1"
+  },
   "dependencies": {
     "@essex/redux-dag-history": "^5.0.0",
     "@types/classnames": "^0.0.32",

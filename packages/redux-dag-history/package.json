@@ -4,18 +4,22 @@
   "description": "",
   "main": "lib/index.js",
   "scripts": {
-    "clean": "../../node_modules/.bin/rimraf lib",
-    "build": "../../node_modules/.bin/tsc",
-    "start": "../../node_modules/.bin/tsc -w"
+    "clean": "rimraf lib",
+    "build": "tsc",
+    "start": "tsc -w"
   },
-  "author": "Chris Trevino <darthtrevino@gmail.com>",
+  "author": "Chris Trevino <chtrevin@microsoft.com>",
   "typings": "lib/index",
   "license": "MIT",
   "dependencies": {
-    "@types/redux-actions": "^1.2.2",
-    "debug": "^2.6.0",
-    "immutable": "^3.8.1",
-    "redux-actions": "^1.2.1",
-    "treeify": "^1.0.1"
+    "@types/node": "^9.4.1",
+    "@types/redux-actions": "^2.2.3",
+    "debug": "^3.1.0",
+    "immutable": "^3.8.2",
+    "redux-actions": "^2.2.1"
+  },
+  "devDependencies": {
+    "rimraf": "^2.6.2",
+    "typescript": "^2.7.1"
   }
 }
