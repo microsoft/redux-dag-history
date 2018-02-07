@@ -106,7 +106,7 @@ export default class DagGraph<T> {
 	 * @param branch The branch to qualify the commit
 	 * @param commit The commit to get the depth of
 	 */
-	public depthIndexOf(branch: BranchId, commit: StateId): number {
+	public depthIndexOf(branch: BranchId, commit: StateId): number | undefined {
 		const commits = this.branchCommitPath(branch)
 		const foundIndex = commits.indexOf(commit)
 		if (foundIndex === -1) {
@@ -384,16 +384,14 @@ export default class DagGraph<T> {
 	 * @param commit The state id to search on
 	 */
 	public shallowestParentOf(commit: StateId): StateId {
-		const allParents = [
-			this.parentOf(commit),
-			...this.alternateParentsOf(commit),
-		]
+		const depthOf = (t: BranchId) => this.depthIndexOf(this.branchOf(t), t)
 
-		let result: StateId
-		let minDepth: number
-		allParents.forEach(t => {
-			const depth = this.depthIndexOf(this.branchOf(t), t)
-			if (minDepth === undefined || depth < minDepth) {
+		let result: StateId = this.parentOf(commit)
+		let minDepth: number = depthOf(result) as number
+
+		this.alternateParentsOf(commit).forEach(t => {
+			const depth = depthOf(t)
+			if (depth !== undefined && depth < minDepth) {
 				minDepth = depth
 				result = t
 			}

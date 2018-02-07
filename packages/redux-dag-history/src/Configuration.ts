@@ -1,5 +1,12 @@
+import { Action } from 'redux-actions'
 import * as ActionTypes from './ActionTypes'
-import { BranchId, Configuration, DagHistory, StateId } from './interfaces'
+import {
+	BranchId,
+	Configuration,
+	DagHistory,
+	RawConfiguration,
+	StateId,
+} from './interfaces'
 export const CLEAR = 'DAG_HISTORY_CLEAR'
 export const UNDO = 'DAG_HISTORY_UNDO'
 export const REDO = 'DAG_HISTORY_REDO'
@@ -7,17 +14,23 @@ export const JUMP_TO_STATE = 'DAG_HISTORY_JUMP_TO_STATE'
 export const JUMP_TO_BRANCH = 'DAG_HISTORY_JUMP_TO_BRANCH'
 export const CREATE_BRANCH = 'DAG_HISTORY_CREATE_BRANCH'
 export const SQUASH = 'DAG_HISTORY_SQUASH'
-
 const DEFAULT_ACTION_FILTER = () => true
 
+function identityEquality<T>(s1: T, s2: T): boolean {
+	return s1 === s2
+}
+
 export default class ConfigurationImpl<T> implements Configuration<T> {
-	constructor(protected rawConfig: Configuration<T> = {}) {}
+	constructor(protected rawConfig: RawConfiguration<T> = {}) {}
 
 	public get stateEqualityPredicate() {
-		return this.rawConfig.stateEqualityPredicate
+		return this.rawConfig.stateEqualityPredicate || identityEquality
 	}
 
 	public get stateKeyGenerator() {
+		if (!this.rawConfig.stateKeyGenerator) {
+			throw new Error('config.stateKeyGenerator must be defined')
+		}
 		return this.rawConfig.stateKeyGenerator
 	}
 
@@ -40,14 +53,21 @@ export default class ConfigurationImpl<T> implements Configuration<T> {
 		return `${newBranch}: ${actionName}`
 	}
 
-	public canHandleAction(action: any): boolean {
-		return (
+	public canHandleAction(action: Action<any>): boolean {
+		return !!(
 			this.rawConfig.canHandleAction && this.rawConfig.canHandleAction(action)
 		)
 	}
 
-	public handleAction(action: any, history: DagHistory<T>): DagHistory<T> {
-		return this.rawConfig.handleAction(action, history)
+	public handleAction(
+		action: Action<any>,
+		history: DagHistory<T>,
+	): DagHistory<T> {
+		if (this.rawConfig.handleAction) {
+			return this.rawConfig.handleAction(action, history)
+		} else {
+			throw new Error('config.handleAction function must be defined')
+		}
 	}
 
 	public get debug() {

@@ -1,4 +1,4 @@
-import { Action, createAction } from 'redux-actions'
+import { Action, createAction, ActionFunction0 } from 'redux-actions'
 import * as ActionTypes from './ActionTypes'
 import { BranchId, RenameBranchPayload, StateId } from './interfaces'
 
@@ -17,4 +17,8 @@ export const renameBranch = createAction<RenameBranchPayload>(
 	ActionTypes.RENAME_BRANCH,
 )
 export const createBranch = createAction<string>(ActionTypes.CREATE_BRANCH)
-export const squash = createAction<void>(ActionTypes.SQUASH)
+
+// Explicitly type here because Action needs to be used to satisfy the compiler
+export const squash: ActionFunction0<Action<void>> = createAction(
+	ActionTypes.SQUASH,
+)

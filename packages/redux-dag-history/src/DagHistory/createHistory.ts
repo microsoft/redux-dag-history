@@ -7,7 +7,7 @@ const EMPTY_STATE: any = {}
 
 export default function createHistory<T>(
 	initialState: T = EMPTY_STATE,
-	config?: Configuration<T>,
+	config: Configuration<T>,
 ): DagHistory<T> {
 	log('creating history')
 	const stateId: StateId = nextId()

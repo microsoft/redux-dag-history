@@ -11,7 +11,7 @@ export default function getExistingState<T>(
 	newState: T,
 	history: DagHistory<T>,
 	config: Configuration<T>,
-): StateId {
+): StateId | null {
 	if (config.stateKeyGenerator && config.stateEqualityPredicate) {
 		const dagGraph = new DagGraph(history.graph)
 		const hash = config.stateKeyGenerator(newState)

@@ -7,57 +7,61 @@ export interface Configuration<T> {
 	/**
 	 * A flag indicating whether or not to print per-action debug information
 	 */
-	debug?: boolean
+	debug: boolean
 
 	/**
 	 * A Predicate filter to determine whether an action is insertable into the history view.
 	 * If an action is not insertable, then the new state as the result of the action will replace
 	 * the current state
 	 */
-	actionFilter?: (actionType: string) => boolean
+	actionFilter: (actionType: string) => boolean
 
 	/**
 	 * A predicate for determining whether two states are equal
 	 */
-	stateEqualityPredicate?: (s1: T, s2: T) => boolean
+	stateEqualityPredicate: (s1: T, s2: T) => boolean
 
 	/**
 	 * A function for generating map keys for states
 	 */
-	stateKeyGenerator?: (state: T) => StateHash
+	stateKeyGenerator: (state: T) => StateHash
 
 	/**
 	 * Action Names
 	 */
-	loadActionType?: string
-	clearActionType?: string
-	undoActionType?: string
-	redoActionType?: string
-	jumpToStateActionType?: string
-	jumpToBranchActionType?: string
-	jumpToLatestOnBranchActionType?: string
-	createBranchActionType?: string
-	squashActionType?: string
-	renameBranchActionType?: string
-	renameStateActionType?: string
-	initialBranchName?: string
-	initialStateName?: string
-	skipToStartActionType?: string
-	skipToEndActionType?: string
+	loadActionType: string
+	clearActionType: string
+	undoActionType: string
+	redoActionType: string
+	jumpToStateActionType: string
+	jumpToBranchActionType: string
+	jumpToLatestOnBranchActionType: string
+	createBranchActionType: string
+	squashActionType: string
+	renameBranchActionType: string
+	renameStateActionType: string
+	initialBranchName: string
+	initialStateName: string
+	skipToStartActionType: string
+	skipToEndActionType: string
 
 	/**
 	 * State and Branch Naming
 	 */
-	actionName?: (state: any, stateId: StateId) => string
-	branchName?: (
+	actionName: (state: any, stateId: StateId) => string
+	branchName: (
 		oldBranch: BranchId,
 		newBranch: BranchId,
 		actionName: string,
 	) => string
 
 	// Custom Handlers
-	canHandleAction?: (action: any) => boolean
-	handleAction?: (action: any, history: DagHistory<T>) => DagHistory<T>
+	canHandleAction: (action: any) => boolean
+	handleAction: (action: any, history: DagHistory<T>) => DagHistory<T>
+}
+
+export type RawConfiguration<T> = {
+	[P in keyof Configuration<T>]?: Configuration<T>[P]
 }
 
 /**
