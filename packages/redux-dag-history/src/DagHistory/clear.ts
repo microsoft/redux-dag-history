@@ -1,16 +1,12 @@
-import DagGraph from '../DagGraph';
-import {
-  IDagHistory,
-  StateId,
-  BranchId,
-  IConfiguration,
-} from '../interfaces';
-import createHistory from './createHistory';
+import { Configuration, DagHistory } from '../interfaces'
+import createHistory from './createHistory'
+import log from './log'
 
-const log = require('debug')('redux-dag-history:DagHistory');
-
-export default function clear<T>(history: IDagHistory<T>, config: IConfiguration<T>): IDagHistory<T> {
-  log('clearing history');
-  const { graph, current } = history;
-  return createHistory(current, config);
+export default function clear<T>(
+	history: DagHistory<T>,
+	config?: Configuration<T>,
+): DagHistory<T> {
+	log('clearing history')
+	const { current } = history
+	return createHistory(current, config)
 }

@@ -1,34 +1,23 @@
-import {
-  IDagHistory,
-  StateNameGenerator,
-  StateId,
-  BranchId,
-} from '../interfaces';
-import DagGraph from '../DagGraph';
-import { jump } from './jump';
-
-const log = require('debug')('redux-dag-history:DagHistory');
+import DagGraph from '../DagGraph'
+import { BranchId, DagHistory, StateId } from '../interfaces'
+import createBranch from './createBranch'
+import { jump } from './jump'
+import log from './log'
 
 export default function jumpToLatestOnBranch<T>(
-  branch: BranchId,
-  history: IDagHistory<T>,
-): IDagHistory<T> {
-  log('jumping to latest on branch %s', branch);
-  const { graph } = history;
-  const reader = new DagGraph(graph);
-  const branches = reader.branches;
+	branch: BranchId,
+	history: DagHistory<T>,
+): DagHistory<T> {
+	log('jumping to latest on branch %s', branch)
+	const { graph } = history
+	const reader = new DagGraph(graph)
+	const branches = reader.branches
 
-  const jumpTo = (state: StateId) => (
-    jump(
-      state,
-      history,
-      writer => writer.setCurrentBranch(branch),
-    )
-  );
+	const jumpTo = (state: StateId) =>
+		jump(state, history, writer => writer.setCurrentBranch(branch))
 
-  if (branches.indexOf(branch) === -1) {
-    return this.createBranch(branch, history);
-  }
-  return jumpTo(reader.latestOn(branch));
+	if (branches.indexOf(branch) === -1) {
+		return createBranch(branch, history)
+	}
+	return jumpTo(reader.latestOn(branch))
 }
-

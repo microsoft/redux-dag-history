@@ -1,46 +1,64 @@
 {
-  "name": "redux-dag-history-parent",
-  "version": "0.0.0",
-  "private": true,
-  "scripts": {
-    "lint": "tslint 'packages/*/{src,test}/**/*.ts*'",
-    "jest": "jest",
-    "jest:watch": "jest --watch",
-    "jest:coverage": "jest --coverage",
-    "start:middleware": "lerna exec --scope @essex/redux-dag-history -- npm run start",
-    "start:component": "lerna exec --scope @essex/dag-history-component -- npm run start",
-    "packages:test": "lerna run test --stream",
-    "packages:build": "lerna run build --stream",
-    "packages:clean": "lerna run clean",
-    "test": "run-s packages:clean lint packages:build jest:coverage",
-    "start": "run-p --parallel start:*"
-  },
-  "author": "Chris Trevino <chtrevin@microsoft.com>",
-  "workspaces": [
-    "packages/*"
-  ],
-  "jest": {
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js"
-    ],
-    "moduleNameMapper": {
-      "\\.(css|scss)$": "<rootDir>/scripts/stub.js"
-    },
-    "transform": {
-      "^.+\\.(ts|tsx)$": "<rootDir>/scripts/preprocessor.js"
-    },
-    "testRegex": ".*/packages/.*/test/.*/.*\\.spec\\.(ts|tsx|js)$"
-  },
-  "devDependencies": {
-    "@types/redux-logger": "^2.6.34",
-    "redux-logger": "^2.8.2"
-  },
-  "dependencies": {
-    "jest": "^22.1.4",
-    "lerna": "^2.8.0",
-    "npm-run-all": "^4.1.2",
-    "tslint": "^5.9.1"
-  }
+	"name": "redux-dag-history-parent",
+	"version": "0.0.0",
+	"private": true,
+	"scripts": {
+		"//precommit": "lint-staged",
+		"prepush": "yarn lint",
+		"prettify": "prettier \"packages/*/**/*.{js,jsx,ts,tsx}\"",
+		"lint": "tslint 'packages/*/{src,test}/**/*.ts*'",
+		"jest": "jest",
+		"jest:watch": "jest --watch",
+		"jest:coverage": "jest --coverage",
+		"start:middleware":
+			"lerna exec --scope @essex/redux-dag-history -- npm run start",
+		"start:component":
+			"lerna exec --scope @essex/dag-history-component -- npm run start",
+		"packages:test": "lerna run test --stream",
+		"packages:build": "lerna run build --stream",
+		"packages:clean": "lerna run clean",
+		"test": "run-s packages:clean lint packages:build jest:coverage",
+		"start": "run-p --parallel start:*"
+	},
+	"author": "Chris Trevino <chtrevin@microsoft.com>",
+	"workspaces": ["packages/*"],
+	"lint-staged": {
+		"packages/**/*.{js,tsx}": [
+			"prettier --trailingComma=es5 --write",
+			"git add"
+		],
+		"packages/**/*.{ts,tsx}": [
+			"prettier --trailingComma=all --write",
+			"git add"
+		]
+	},
+	"prettier": {
+		"singleQuote": true,
+		"trailingComma": "all",
+		"semi": false,
+		"useTabs": true
+	},
+	"jest": {
+		"moduleFileExtensions": ["ts", "tsx", "js"],
+		"moduleNameMapper": {
+			"\\.(css|scss)$": "<rootDir>/scripts/stub.js"
+		},
+		"transform": {
+			"^.+\\.(ts|tsx)$": "<rootDir>/scripts/preprocessor.js"
+		},
+		"testRegex": ".*/packages/.*/test/.*/.*\\.spec\\.(ts|tsx|js)$"
+	},
+	"devDependencies": {
+		"@types/jest": "^22.1.1",
+		"@types/redux-logger": "^2.6.34",
+		"husky": "^0.14.3",
+		"jest": "^22.1.4",
+		"lerna": "^2.8.0",
+		"lint-staged": "^6.1.0",
+		"npm-run-all": "^4.1.2",
+		"prettier": "^1.10.2",
+		"redux-logger": "^2.8.2",
+		"tslint": "^5.9.1",
+		"tslint-react": "^3.4.0"
+	}
 }

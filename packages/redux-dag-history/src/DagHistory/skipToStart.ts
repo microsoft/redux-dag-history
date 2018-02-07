@@ -1,22 +1,16 @@
-import * as Immutable from 'immutable';
-import DagGraph from '../DagGraph';
-import {
-  IDagHistory,
-  StateId,
-  BranchId,
-  IConfiguration,
-} from '../interfaces';
-import jumpToState from './jumpToState';
+import DagGraph from '../DagGraph'
+import { DagHistory } from '../interfaces'
+import jumpToState from './jumpToState'
+import log from './log'
 
-const log = require('debug')('redux-dag-history:DagHistory');
+export default function skipToStart<T>(history: DagHistory<T>): DagHistory<T> {
+	log('skip to start')
+	const { graph } = history
+	const reader = new DagGraph(graph)
 
-export default function skipToStart<T>(history: IDagHistory<T>): IDagHistory<T> {
-  const { graph } = history;
-  const reader = new DagGraph(graph);
-
-  let result = reader.currentStateId;
-  while (reader.parentOf(result) !== null) {
-    result = reader.parentOf(result);
-  }
-  return jumpToState(result, history);
+	let result = reader.currentStateId
+	while (reader.parentOf(result) !== null) {
+		result = reader.parentOf(result)
+	}
+	return jumpToState(result, history)
 }

@@ -1,39 +1,18 @@
-import clear from './clear';
-import createBranch from './createBranch';
-import createHistory from './createHistory';
-import getExistingState from './getExistingState';
-import insert from './insert';
-import jumpToBranch from './jumpToBranch';
-import jumpToLatestOnBranch from './jumpToLatestOnBranch';
-import jumpToState from './jumpToState';
-import jumpToStateLogged from './jumpToStateLogged';
-import load from './load';
-import redo from './redo';
-import renameBranch from './renameBranch';
-import renameState from './renameState';
-import replaceCurrentState from './replaceCurrentState';
-import skipToEnd from './skipToEnd';
-import skipToStart from './skipToStart';
-import squash from './squash';
-import undo from './undo';
-
-export {
-  clear,
-  createBranch,
-  createHistory,
-  getExistingState,
-  insert,
-  jumpToBranch,
-  jumpToLatestOnBranch,
-  jumpToState,
-  jumpToStateLogged,
-  load,
-  redo,
-  renameBranch,
-  renameState,
-  replaceCurrentState,
-  skipToEnd,
-  skipToStart,
-  squash,
-  undo,
-};
+export { default as clear } from './clear'
+export { default as createBranch } from './createBranch'
+export { default as createHistory } from './createHistory'
+export { default as getExistingState } from './getExistingState'
+export { default as insert } from './insert'
+export { default as jumpToBranch } from './jumpToBranch'
+export { default as jumpToLatestOnBranch } from './jumpToLatestOnBranch'
+export { default as jumpToState } from './jumpToState'
+export { default as jumpToStateLogged } from './jumpToStateLogged'
+export { default as load } from './load'
+export { default as redo } from './redo'
+export { default as renameBranch } from './renameBranch'
+export { default as renameState } from './renameState'
+export { default as replaceCurrentState } from './replaceCurrentState'
+export { default as skipToEnd } from './skipToEnd'
+export { default as skipToStart } from './skipToStart'
+export { default as squash } from './squash'
+export { default as undo } from './undo'
