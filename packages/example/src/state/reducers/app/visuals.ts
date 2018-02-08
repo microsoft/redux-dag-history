@@ -5,11 +5,19 @@ const INITIAL_STATE = {
 	color: '#FF0000',
 }
 
+export interface State {
+	value: number
+	color: string
+}
+
 function randomColor() {
 	return `#${Math.floor(Math.random() * 0xffffff).toString(16)}`
 }
 
-export default function reduce(state = INITIAL_STATE, action) {
+export default function reduce(
+	state: State = INITIAL_STATE,
+	action: ReduxActions.Action<any>,
+) {
 	let result = state
 	if (action.type === Actions.INCREMENT) {
 		result = { ...state, value: state.value + 1 }

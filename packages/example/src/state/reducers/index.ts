@@ -2,9 +2,10 @@ import dagHistory from '@essex/redux-dag-history/lib/reducer'
 import * as debug from 'debug'
 import * as redux from 'redux'
 
-import Configuration from '../../../src/state/Configuration'
-import history from '../../../src/state/reducers'
-import app from './app'
+import Configuration from '@essex/dag-history-component/lib/state/Configuration'
+import history from '@essex/dag-history-component/lib/state/reducers'
+import app, { State as AppState } from './app'
+import hashString from '../../util/hashString'
 
 const log = debug('app:state')
 
@@ -18,30 +19,14 @@ export const EXCLUDED_ACTION_NAMES = [
 	'HIGHLIGHT_SUCCESSORS',
 ]
 
-function stateEqualityPredicate(state1, state2) {
+function stateEqualityPredicate(state1: State, state2: State) {
 	log('checking equality between states', state1, state2)
 	const colorsEqual = state1.visuals.color === state2.visuals.color
 	const valuesEqual = state1.visuals.value === state2.visuals.value
 	return colorsEqual && valuesEqual
 }
 
-function hashString(str) {
-	let hash = 0
-	let i
-	let chr
-	let len
-	if (str.length === 0) {
-		return hash
-	}
-	for (i = 0, len = str.length; i < len; i += 1) {
-		chr = str.charCodeAt(i)
-		hash = (hash << 5) - hash + chr // eslint-disable-line no-bitwise
-		hash |= 0 // eslint-disable-line no-bitwise
-	}
-	return hash
-}
-
-function stateKeyGenerator(state) {
+function stateKeyGenerator(state: State) {
 	const { color, value } = state.visuals
 	const stateString = `${color}:${value}`
 	return '' + hashString(stateString)
@@ -60,6 +45,11 @@ const DAG_HISTORY_CONFIG = new Configuration({
 		branchContainerExpanded: true,
 	},
 })
+
+export interface State {
+	app: AppState
+	component: any // TODO: Create a state interface for the component
+}
 
 export default redux.combineReducers({
 	app: dagHistory(app, DAG_HISTORY_CONFIG),

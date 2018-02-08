@@ -1,10 +1,9 @@
 import * as debug from 'debug'
 import simulate from './simulate'
-
-const { saveAs } = require('filesaver.js')
+import { saveAs } from 'file-saver'
 const log = debug('redux-dag-history:FilePersister')
 
-function readJson(file) {
+function readJson(file: Blob) {
 	return new Promise((resolve, reject) => {
 		const reader = new FileReader()
 		reader.onerror = err => {
@@ -20,7 +19,7 @@ function readJson(file) {
 	})
 }
 
-export function save(history) {
+export function save(history: any) {
 	const blob = new Blob([JSON.stringify(history)], {
 		type: 'text/plain;charset=utf-8',
 	})
@@ -39,7 +38,8 @@ export function load() {
 		pickerElem.addEventListener('change', function handleChange() {
 			this.removeEventListener('change', handleChange, false)
 			log('Loading... on change!')
-			const file = this.files[0]
+			// tslint:disable-next-line no-string-literal
+			const file = this['files'][0]
 			log('history file selected', file)
 			resolve(readJson(file))
 		})

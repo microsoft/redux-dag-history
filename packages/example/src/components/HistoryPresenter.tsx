@@ -1,10 +1,9 @@
 import { get } from 'lodash'
 
-
 import * as React from 'react'
-import createHistoryContainer from '../../src/components/createHistoryContainer'
-import '../../src/daghistory.scss'
-import { IBookmark } from '../../src/interfaces'
+import createHistoryContainer from '@essex/dag-history-component/lib/components/createHistoryContainer'
+import '@essex/dag-history-component/lib/daghistory.scss'
+import { IBookmark } from '@essex/dag-history-component/lib/interfaces'
 import { load, save } from '../persister'
 
 const HistoryContainer = createHistoryContainer(
@@ -17,7 +16,7 @@ const HistoryPresenter: React.StatelessComponent<void> = props => {
 	return (
 		<div className="history-viz-container">
 			<HistoryContainer
-				bookmarksEnabled
+				bookmarksEnabled={true}
 				controlBar={{
 					onSaveHistory: save,
 					onLoadHistory: load,

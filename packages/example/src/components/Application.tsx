@@ -11,13 +11,8 @@ export interface ApplicationProps {
 	store: any
 }
 
-export interface ApplicationState {}
-
 @DragDropContext(HTML5Backend)
-export default class Application extends React.Component<
-	ApplicationProps,
-	ApplicationState
-> {
+export default class Application extends React.Component<ApplicationProps> {
 	public render() {
 		const { store } = this.props
 		return (

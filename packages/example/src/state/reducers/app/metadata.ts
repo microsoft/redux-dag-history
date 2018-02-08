@@ -6,7 +6,16 @@ const DEFAULT_STATE = {
 	source: null,
 }
 
-export default function reduce(state = DEFAULT_STATE, action) {
+export interface State {
+	name: string
+	historyIndex: number
+	source: string | null
+}
+
+export default function reduce(
+	state: State = DEFAULT_STATE,
+	action: ReduxActions.Action<any>,
+) {
 	if (action.type === Actions.INCREMENT) {
 		return {
 			name: 'Increment Value',

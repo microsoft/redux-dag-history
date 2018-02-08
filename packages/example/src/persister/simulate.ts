@@ -3,6 +3,20 @@ const EVENT_MATCHERS = {
 	MouseEvents: /^(?:click|dblclick|mouse(?:down|up|over|move|out))$/,
 }
 
+interface Options {
+	pointerX: number
+	pointerY: number
+	button: number
+	ctrlKey: boolean
+	altKey: boolean
+	shiftKey: boolean
+	metaKey: boolean
+	bubbles: boolean
+	cancelable: boolean
+}
+
+type Optional<T> = { [K in keyof T]?: T[K] }
+
 const DEFAULT_OPTIONS = {
 	pointerX: 0,
 	pointerY: 0,
@@ -18,13 +32,16 @@ const DEFAULT_OPTIONS = {
 //
 // From http://stackoverflow.com/questions/6157929/how-to-simulate-a-mouse-click-using-javascript
 //
-export default function simulate(element, eventName, opts = {}) {
+export default function simulate(
+	element: HTMLElement,
+	eventName: string,
+	opts: Optional<Options> = {},
+) {
 	const options = { ...DEFAULT_OPTIONS, ...opts }
 	let oEvent = null
 	let eventType = null
 
 	for (const name in EVENT_MATCHERS) {
-		//eslint-disable-line
 		if (EVENT_MATCHERS[name].test(eventName)) {
 			eventType = name
 			break
@@ -62,8 +79,10 @@ export default function simulate(element, eventName, opts = {}) {
 		}
 		element.dispatchEvent(oEvent)
 	} else {
-		const evt = document.createEventObject()
-		element.fireEvent(`on${eventName}`, {
+		// tslint:disable-next-line no-string-literal
+		const evt = document['createEventObject']()
+		// tslint:disable-next-line no-string-literal
+		element['fireEvent'](`on${eventName}`, {
 			...evt,
 			...options,
 			clientX: options.pointerX,

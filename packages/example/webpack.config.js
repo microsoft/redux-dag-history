@@ -8,7 +8,7 @@ module.exports = {
 	devtool: 'source-map',
 	context: path.join(__dirname),
 	entry: {
-		javascript: './example/app.tsx',
+		javascript: './src/app.tsx',
 	},
 	output: {
 		path: path.join(__dirname, 'dist'),
@@ -18,7 +18,6 @@ module.exports = {
 		extensions: ['.js', '.jsx', '.ts', '.tsx'],
 		alias: {
 			'react/lib/ReactMount': 'react-dom/lib/ReactMount',
-			sinon: 'sinon/pkg/sinon',
 		},
 	},
 	plugins: [
