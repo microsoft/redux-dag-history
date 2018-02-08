@@ -1,6 +1,6 @@
 import { BranchId } from '@essex/redux-dag-history/lib/interfaces'
 import * as classnames from 'classnames'
-
+import { BranchType } from '../../interfaces'
 import * as React from 'react'
 import BranchProfile from '../BranchProfile'
 import './Branch.scss'
@@ -8,7 +8,7 @@ import './Branch.scss'
 export interface BranchProps {
 	id?: BranchId
 	label: string
-	branchType: 'current' | 'legacy'
+	branchType: BranchType
 	startsAt: number
 	endsAt: number
 	currentBranchStart?: number

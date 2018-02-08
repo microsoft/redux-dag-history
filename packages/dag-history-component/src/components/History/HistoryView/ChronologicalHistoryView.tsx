@@ -1,4 +1,3 @@
-
 import * as DagHistoryActions from '@essex/redux-dag-history/lib/ActionCreators'
 import * as React from 'react'
 import { connect } from 'react-redux'

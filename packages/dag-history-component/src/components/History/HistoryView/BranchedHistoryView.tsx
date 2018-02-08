@@ -1,8 +1,7 @@
-
 import * as DagHistoryActions from '@essex/redux-dag-history/lib/ActionCreators'
 import { BranchId, StateId } from '@essex/redux-dag-history/lib/interfaces'
 import * as React from 'react'
-import * as ReactCSSTransitionGroup from 'react-addons-css-transition-group'
+import Transition from 'react-transition-group/Transition'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Bookmark } from '../../../interfaces'
@@ -18,8 +17,6 @@ import StateListContainer, {
 	StateListContainerProps,
 } from './StateListContainer'
 
-export interface BranchedHistoryViewStateProps {}
-
 export interface BranchedHistoryViewDispatchProps {
 	onStateSelect: (id: StateId) => void
 	onAddBookmark: Function
@@ -30,13 +27,9 @@ export interface BranchedHistoryViewDispatchProps {
 	onRenameBranch: Function
 }
 
-export interface BranchedHistoryViewOwnProps
-	extends HistoryContainerSharedProps {}
-
 export interface BranchedHistoryViewProps
-	extends BranchedHistoryViewStateProps,
-		BranchedHistoryViewDispatchProps,
-		BranchedHistoryViewOwnProps {
+	extends BranchedHistoryViewDispatchProps,
+		HistoryContainerSharedProps {
 	bookmarks: Bookmark[]
 }
 
@@ -59,23 +52,22 @@ const BranchedHistoryView: React.StatelessComponent<
 						onClick={onToggleBranchContainer}
 					/>
 				</div>
-				<ReactCSSTransitionGroup
+				{branchList}
+				{/* TODO
+				<Transition
 					transitionName="show-docked-under"
 					transitionEnterTimeout={250}
 					transitionLeaveTimeout={250}
 				>
 					{branchList}
-				</ReactCSSTransitionGroup>
+				</Transition>
+				*/}
 			</div>
 		</div>
 	)
 }
 
-export default connect<
-	BranchedHistoryViewStateProps,
-	BranchedHistoryViewDispatchProps,
-	BranchedHistoryViewOwnProps
->(
+export default connect<{}, BranchedHistoryViewDispatchProps, {}>(
 	() => ({}),
 	dispatch =>
 		bindActionCreators(

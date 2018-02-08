@@ -1,11 +1,10 @@
-
 import * as React from 'react'
 const MdExpandMore = require('react-icons/lib/md/expand-more')
 const MdExpandLess = require('react-icons/lib/md/expand-less')
 
 export interface ExpandCollapseToggleProps {
 	isExpanded?: boolean
-	onClick: () => void
+	onClick: Function
 }
 
 const ExpandCollapseToggle: React.StatelessComponent<

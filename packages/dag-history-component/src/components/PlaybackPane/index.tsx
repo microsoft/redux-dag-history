@@ -1,4 +1,3 @@
-
 import * as debug from 'debug'
 import * as React from 'react'
 import './PlaybackPane.scss'
@@ -33,17 +32,17 @@ const PlaybackPane: React.StatelessComponent<PlaybackPaneProps> = props => {
 					<h3>{text}</h3>
 				</div>
 				<DiscoveryTrail
-					vertical
-					fullWidth
-					bookmark
-					active
+					vertical={true}
+					fullWidth={true}
+					bookmark={true}
+					active={true}
 					depth={depth - 1}
 					highlight={highlight}
 				/>
 			</div>
 			<DiscoveryTrail
-				active
-				fullWidth
+				active={true}
+				fullWidth={true}
 				leadIn={bookmarkNumLeadInStates}
 				depth={bookmarkDepth - 1}
 				highlight={bookmarkHighlight}

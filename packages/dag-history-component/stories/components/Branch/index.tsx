@@ -1,13 +1,14 @@
-import { action, storiesOf } from '@kadira/storybook'
+import { action, storiesOf } from '@storybook/react'
 import * as React from 'react'
 import Branch from '../../../src/components/Branch'
+import { BranchType } from '../../../src/interfaces'
 
 storiesOf('Branch', module)
 	.add('Branch with half-depth', () => (
 		<Branch
 			label="master"
 			onClick={action('clicked')}
-			branchType="current"
+			branchType={BranchType.CURRENT}
 			maxDepth={10}
 			startsAt={0}
 			endsAt={5}
@@ -20,7 +21,7 @@ storiesOf('Branch', module)
 			startsAt={5}
 			endsAt={10}
 			activeStateIndex={7}
-			branchType="current"
+			branchType={BranchType.CURRENT}
 		/>
 	))
 	.add('Branch with inactive start', () => (
@@ -29,6 +30,6 @@ storiesOf('Branch', module)
 			maxDepth={30}
 			startsAt={10}
 			endsAt={20}
-			branchType="legacy"
+			branchType={BranchType.LEGACY}
 		/>
 	))

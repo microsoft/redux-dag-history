@@ -1,4 +1,4 @@
-import { action, storiesOf } from '@kadira/storybook'
+import { action, storiesOf } from '@storybook/react'
 import { fromJS } from 'immutable'
 import { get } from 'lodash'
 import * as React from 'react'
@@ -24,7 +24,8 @@ function createStore(state) {
 
 	// If the redux devtools are available, wire into them
 	const composeEnhancers =
-		window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || redux.compose
+		// tslint:disable-next-line no-string-literal
+		window['__REDUX_DEVTOOLS_EXTENSION_COMPOSE__'] || redux.compose
 	const logger = createLogger()
 
 	const store: redux.Store<any> = composeEnhancers(

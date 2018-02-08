@@ -1,5 +1,6 @@
 import * as debug from 'debug'
 import * as React from 'react'
+import { StateId } from '@essex/redux-dag-history/lib/interfaces'
 
 import Bookmark from '../Bookmark'
 import './BookmarkList.scss'
@@ -25,7 +26,7 @@ export default class BookmarkList extends React.PureComponent<
 	BookmarkListProps,
 	{}
 > {
-	public onBookmarkClick(index, stateId) {
+	public onBookmarkClick(index: number, stateId: StateId) {
 		if (this.props.onBookmarkClick) {
 			this.props.onBookmarkClick(index, stateId)
 		}

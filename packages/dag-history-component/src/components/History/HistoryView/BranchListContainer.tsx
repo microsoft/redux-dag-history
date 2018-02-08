@@ -1,4 +1,3 @@
-
 import DagGraph from '@essex/redux-dag-history/lib/DagGraph'
 import {
 	BranchId,
@@ -9,10 +8,10 @@ import * as debug from 'debug'
 import * as React from 'react'
 import isNumber from '../../../util/isNumber'
 import BranchList from '../../BranchList'
-
+import { BranchType } from '../../../interfaces'
 const log = debug('dag-history-component:components:HistoryView')
 
-function getCurrentCommitPath(historyGraph) {
+function getCurrentCommitPath(historyGraph: DagGraph<any>) {
 	const { currentBranch } = historyGraph
 	const latestCommitOnBranch = historyGraph.latestOn(currentBranch)
 	return historyGraph.commitPath(latestCommitOnBranch)
@@ -20,19 +19,16 @@ function getCurrentCommitPath(historyGraph) {
 
 export interface BranchListContainerProps {
 	history: DagHistory<any>
-	pinnedStateId: StateId
+	pinnedStateId?: StateId
 	onRenameBranch: Function
 	onBranchSelect: (id: BranchId) => void
 	style?: any
 }
 
-export interface BranchListContainerState {}
-
 export default class BranchListContainer extends React.Component<
-	BranchListContainerProps,
-	BranchListContainerState
+	BranchListContainerProps
 > {
-	public getBranchList(historyGraph, commitPath) {
+	public getBranchList(historyGraph: DagGraph<any>, commitPath: string[]) {
 		const { branches, currentBranch, currentStateId } = historyGraph
 		const { pinnedStateId: pinnedState, onRenameBranch } = this.props
 		const pinnedStateBranch = historyGraph.branchOf(pinnedState)
@@ -90,11 +86,11 @@ export default class BranchListContainer extends React.Component<
 		})
 
 		return branches
-			.sort((a, b) => a - b)
-			.reverse()
+			.sort((a, b) => parseInt(b, 10) - parseInt(a, 10))
 			.map(branch => {
 				const { startsAt, endsAt } = branchData[branch]
-				const branchType = currentBranch === branch ? 'current' : 'legacy'
+				const branchType =
+					currentBranch === branch ? BranchType.CURRENT : BranchType.LEGACY
 				const label = historyGraph.getBranchName(branch)
 				const showActiveStateIndex =
 					currentBranch === branch || activeStateBranch === branch

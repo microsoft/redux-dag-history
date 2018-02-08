@@ -1,4 +1,4 @@
-import { action, storiesOf } from '@kadira/storybook'
+import { action, storiesOf } from '@storybook/react'
 import * as React from 'react'
 import DiscoveryTrail from '../../../src/components/DiscoveryTrail'
 

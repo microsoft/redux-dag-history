@@ -1,7 +1,5 @@
-
 import DagGraph from '@essex/redux-dag-history/lib/DagGraph'
-import { StateId } from '@essex/redux-dag-history/lib/interfaces'
-import { DagHistory } from '@essex/redux-dag-history/lib/interfaces'
+import { DagHistory, StateId } from '@essex/redux-dag-history/lib/interfaces'
 import * as debug from 'debug'
 import * as React from 'react'
 import { Bookmark } from '../../../interfaces'
@@ -10,7 +8,7 @@ import StateList from '../../StateList'
 
 const log = debug('dag-history-component:components:HistoryView')
 
-function getCurrentCommitPath(historyGraph) {
+function getCurrentCommitPath(historyGraph: DagGraph<any>) {
 	const { currentBranch } = historyGraph
 	const latestCommitOnBranch = historyGraph.latestOn(currentBranch)
 	return historyGraph.commitPath(latestCommitOnBranch)
@@ -89,7 +87,8 @@ function getStateList(
 				),
 			)
 
-			// Remove the natural child in the current branch's commit path, since it will be presented as a child of the current state.
+			// Remove the natural child in the current branch's commit path,
+			// since it will be presented as a child of the current state.
 			commitPathData.splice(pinnedStateIndex + 1, 1, ...pinnedChildrenData)
 		}
 	}
@@ -101,7 +100,7 @@ export interface StateListContainerProps {
 	commitPath?: StateId[]
 	getSourceFromState: Function
 	branchContainerExpanded?: boolean
-	pinnedStateId: StateId
+	pinnedStateId?: StateId
 	bookmarksEnabled?: boolean
 	branchTypeOverride?: string
 	bookmarks: Bookmark[]

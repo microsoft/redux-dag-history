@@ -1,40 +1,36 @@
-
 import DagGraph from '@essex/redux-dag-history/lib/DagGraph'
 import { DagHistory } from '@essex/redux-dag-history/lib/interfaces'
 import * as debug from 'debug'
 import * as React from 'react'
-import { Bookmark as BookmarkPayload } from '../../interfaces'
-import Bookmark from '../../util/Bookmark'
 import isNumber from '../../util/isNumber'
 import PlaybackPane from '../PlaybackPane'
 import Transport from '../Transport'
 import makeActions from './BookmarkActions'
 import HistoryTabs from './HistoryTabs'
 import HistoryView from './HistoryView'
+import BookmarkHelper from '../../util/Bookmark'
 import { HistoryContainerSharedProps } from './interfaces'
+import { Bookmark } from '../../interfaces'
 import StoryboardingView from './StoryboardingView'
 
 import './History.scss'
 
 const log = debug('dag-history-component:components:History')
 
-export interface HistoryStateProps {}
 export interface HistoryDispatchProps {
 	onLoad?: Function
 	onClear?: Function
-	onSelectMainView: Function
+	onSelectMainView?: (view: string) => void
 	onToggleBranchContainer?: Function
 	onStartPlayback?: Function
 	onStopPlayback?: Function
 	onSelectBookmarkDepth?: Function
 	onSelectState?: Function
 }
-export interface HistoryOwnProps extends HistoryContainerSharedProps {}
 
 export interface HistoryProps
-	extends HistoryStateProps,
-		HistoryDispatchProps,
-		HistoryOwnProps {}
+	extends HistoryContainerSharedProps,
+		HistoryDispatchProps {}
 
 export default class History extends React.Component<HistoryProps, {}> {
 	public shouldComponentUpdate(nextProps: HistoryProps) {
@@ -116,7 +112,7 @@ export default class History extends React.Component<HistoryProps, {}> {
 				? selectedBookmarkDepth
 				: bookmarkPath.length - 1
 
-		const initialDepth = new Bookmark(
+		const initialDepth = new BookmarkHelper(
 			bookmarks[0],
 			new DagGraph(history.graph),
 		).startingDepth()
@@ -157,25 +153,32 @@ export default class History extends React.Component<HistoryProps, {}> {
 	public render() {
 		const {
 			mainView,
-			onSelectMainView,
+			onSelectMainView = () => null,
 			bookmarksEnabled,
 			isPlayingBack,
 			controlBar,
 		} = this.props
-		return isPlayingBack ? (
-			this.renderPlayback()
-		) : (
-			<HistoryTabs
-				bookmarksEnabled={bookmarksEnabled}
-				controlBarEnabled={!!controlBar}
-				selectedTab={mainView}
-				onTabSelect={onSelectMainView}
-				historyView={<HistoryView {...this.props} />}
-				storyboardingView={<StoryboardingView {...this.props} />}
-				onSaveClicked={this.onSaveClicked.bind(this)}
-				onLoadClicked={this.onLoadClicked.bind(this)}
-				onClearClicked={this.onClearClicked.bind(this)}
-			/>
-		)
+		return isPlayingBack
+			? this.renderPlayback()
+			: ((
+					<HistoryTabs
+						bookmarksEnabled={bookmarksEnabled}
+						controlBarEnabled={!!controlBar}
+						selectedTab={mainView}
+						onTabSelect={onSelectMainView}
+						historyView={<HistoryView {...this.props} />}
+						storyboardingView={
+							<StoryboardingView
+								{
+									...this
+										.props as any /* TODO: Fix this, shouldn't cast to any*/
+								}
+							/>
+						}
+						onSaveClicked={() => this.onSaveClicked()}
+						onLoadClicked={() => this.onLoadClicked()}
+						onClearClicked={() => this.onClearClicked()}
+					/>
+				) as any)
 	}
 }

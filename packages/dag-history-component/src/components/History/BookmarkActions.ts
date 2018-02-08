@@ -9,14 +9,8 @@ export default function makeActions(
 	rawSelectedBookmark: number,
 	rawSelectedBookmarkDepth: number,
 	history: any,
-	bookmarks: Bookmark[],
-	onSelectBookmarkDepth: (
-		data: {
-			bookmarkIndex: number
-			depth: number
-			state: string
-		},
-	) => void,
+	bookmarks: BookmarkData[],
+	onSelectBookmarkDepth: Function,
 ) {
 	const graph = new DagGraph(history.graph)
 	const { currentStateId } = graph

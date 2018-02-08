@@ -1,20 +1,19 @@
+import {
+	BranchId,
+	DagHistory,
+	StateId,
+} from '@essex/redux-dag-history/lib/interfaces'
 import * as DagHistoryActions from '@essex/redux-dag-history/lib/ActionCreators'
-import { StateId } from '@essex/redux-dag-history/lib/interfaces'
-
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import '../daghistory.scss'
 import { Bookmark } from '../interfaces'
 import * as Actions from '../state/actions/creators'
-import {
-	default as HistoryComponent,
-	HistoryDispatchProps,
-	HistoryOwnProps,
-} from './History'
+import HistoryComponent from './History'
 
 export interface HistoryContainerStateProps {
-	history?: any
+	history?: DagHistory<any>
 	mainView?: string
 	historyType?: string
 	branchContainerExpanded?: boolean
@@ -55,9 +54,8 @@ export interface HistoryContainerProps
 
 const HistoryContainer: React.StatelessComponent<
 	HistoryContainerProps
-> = props => {
-	return <HistoryComponent {...props} />
-}
+	// TODO: Hacky, figure out the typings here
+> = props => <HistoryComponent {...props as any} />
 
 export default function createHistoryContainer(
 	getMiddlewareState: Function,

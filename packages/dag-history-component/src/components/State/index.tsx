@@ -1,7 +1,8 @@
 import * as classnames from 'classnames'
 
 import * as React from 'react'
-import * as ReactCSSTransitionGroup from 'react-addons-css-transition-group'
+
+import Transition from 'react-transition-group/Transition'
 import colors from '../../palette'
 import Continuation from '../Continuation'
 import { StateProps } from './interfaces'
@@ -122,13 +123,14 @@ export default class State extends React.PureComponent<StateProps> {
 				}}
 				onClick={e => handleClick(e)}
 			>
-				<ReactCSSTransitionGroup
+				<Transition
 					transitionName="continuation-dissolve"
+					timeout={250}
 					transitionEnterTimeout={250}
 					transitionLeaveTimeout={250}
 				>
 					{continuation}
-				</ReactCSSTransitionGroup>
+				</Transition>
 				<div className="state-detail">
 					<div className={classnames('state-source', { active })}>
 						{source || ''}

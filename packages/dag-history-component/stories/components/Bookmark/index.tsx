@@ -1,4 +1,4 @@
-import { action, storiesOf } from '@kadira/storybook'
+import { action, storiesOf } from '@storybook/react'
 import * as React from 'react'
 import Bookmark from '../../../src/components/Bookmark/Bookmark'
 
@@ -19,6 +19,6 @@ storiesOf('Bookmark', module)
 			name="Some Bookmark Name"
 			annotation="Some Bookmark Annotation Text. Derp Depr Derp Derp"
 			onClick={action('click')}
-			active
+			active={true}
 		/>
 	))

@@ -1,7 +1,7 @@
 import { StateId } from '@essex/redux-dag-history/lib/interfaces'
 
 import * as React from 'react'
-import * as ReactCSSTransitionGroup from 'react-addons-css-transition-group'
+import Transition from 'react-transition-group/Transition'
 import isNumber from '../../util/isNumber'
 import State from '../State'
 import { StateProps } from '../State/interfaces'
@@ -15,12 +15,7 @@ export interface StateListProps {
 	onStateBookmarkClick?: Function
 }
 
-export interface StateListState {}
-
-export default class StateList extends React.Component<
-	StateListProps,
-	StateListState
-> {
+export default class StateList extends React.Component<StateListProps> {
 	private containerDiv: HTMLDivElement
 
 	public componentDidUpdate() {
@@ -67,13 +62,16 @@ export default class StateList extends React.Component<
 		))
 		return (
 			<div ref={e => (this.containerDiv = e)} className="state-list-container">
-				<ReactCSSTransitionGroup
+				{/* TODO
+				<Transition
 					transitionName="state-entry"
 					transitionEnterTimeout={250}
 					transitionLeaveTimeout={250}
 				>
-					{stateViews}
-				</ReactCSSTransitionGroup>
+				{stateViews}
+				</Transition>
+			*/}
+				{stateViews}
 			</div>
 		)
 	}

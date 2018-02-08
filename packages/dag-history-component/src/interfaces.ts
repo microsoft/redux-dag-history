@@ -5,3 +5,8 @@ export interface Bookmark {
 	name: string
 	data: { [name: string]: any }
 }
+
+export enum BranchType {
+	CURRENT = 'current',
+	LEGACY = 'legacy',
+}
