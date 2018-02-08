@@ -13,7 +13,6 @@ module.exports = function configureWallaby(wallaby) {
 				{ test: /\.html$/, use: 'file-loader?name=[name].[ext]' },
 				{ test: /\.css$/, use: 'style-loader!css-loader' },
 				{ test: /\.json$/, use: 'json-loader' },
-				{ test: /\.s(a|c)ss$/, use: 'style-loader!css-loader!sass-loader' },
 			],
 		},
 	})

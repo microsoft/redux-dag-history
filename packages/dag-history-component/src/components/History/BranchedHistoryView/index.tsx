@@ -11,11 +11,16 @@ import Transport from '../../Transport'
 import { HistoryContainerSharedProps } from '../interfaces'
 import BranchListContainer, {
 	BranchListContainerProps,
-} from './BranchListContainer'
-import './show-branches-animation.scss'
+} from '../../BranchListContainer'
 import StateListContainer, {
 	StateListContainerProps,
-} from './StateListContainer'
+} from '../../StateListContainer'
+import {
+	BranchListContainerEl,
+	HistoryControlBar,
+	HistoryControlBarTitle,
+} from '../styled'
+import HistoryContainer from '../../HistoryContainer'
 
 export interface BranchedHistoryViewDispatchProps {
 	onStateSelect: (id: StateId) => void
@@ -42,16 +47,16 @@ const BranchedHistoryView: React.StatelessComponent<
 	) : null
 
 	return (
-		<div className="history-container" style={{ flex: 1 }}>
+		<HistoryContainer>
 			<StateListContainer {...props} />
-			<div className="branch-list-container">
-				<div className="history-control-bar">
-					<div className="title">Paths</div>
+			<BranchListContainerEl>
+				<HistoryControlBar>
+					<HistoryControlBarTitle>Paths</HistoryControlBarTitle>
 					<ExpandCollapseToggle
 						isExpanded={branchContainerExpanded}
 						onClick={onToggleBranchContainer}
 					/>
-				</div>
+				</HistoryControlBar>
 				{branchList}
 				{/* TODO
 				<Transition
@@ -62,8 +67,8 @@ const BranchedHistoryView: React.StatelessComponent<
 					{branchList}
 				</Transition>
 				*/}
-			</div>
-		</div>
+			</BranchListContainerEl>
+		</HistoryContainer>
 	)
 }
 

@@ -3,6 +3,7 @@ import {
 	DagHistory, // eslint-disable-line no-unused-vars
 	StateId, // eslint-disable-line no-unused-vars
 } from '@essex/redux-dag-history/lib/interfaces'
+import { BranchType } from '../../interfaces'
 
 export interface StateProps {
 	id: StateId
@@ -16,7 +17,7 @@ export interface StateProps {
 	numChildren?: number
 	bookmarked?: boolean
 	showContinuation?: boolean
-	branchType?: 'current' | 'legacy' | 'unrelated'
+	branchType?: BranchType
 	onBookmarkClick?: (state: StateId) => void
 	onClick?: (state: StateId) => void
 	onContinuationClick?: (state: StateId) => void

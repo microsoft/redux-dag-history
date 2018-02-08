@@ -2,9 +2,9 @@ import DagGraph from '@essex/redux-dag-history/lib/DagGraph'
 import { DagHistory, StateId } from '@essex/redux-dag-history/lib/interfaces'
 import * as debug from 'debug'
 import * as React from 'react'
-import { Bookmark } from '../../../interfaces'
-import isNumber from '../../../util/isNumber'
-import StateList from '../../StateList'
+import { Bookmark } from '../../interfaces'
+import isNumber from '../../util/isNumber'
+import StateList from '../StateList'
 
 const log = debug('dag-history-component:components:HistoryView')
 

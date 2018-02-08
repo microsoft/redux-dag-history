@@ -5,7 +5,8 @@ import { bindActionCreators } from 'redux'
 import { Bookmark } from '../../../interfaces'
 import * as DagComponentActions from '../../../state/actions/creators'
 import { HistoryContainerSharedProps } from '../interfaces'
-import StateListContainer from './StateListContainer'
+import StateListContainer from '../../StateListContainer'
+import HistoryContainer from '../../HistoryContainer'
 
 export interface ChronologicalHistoryViewDispatchProps {
 	onBranchSelect: Function
@@ -33,14 +34,14 @@ export interface ChronologicalHistoryViewProps
 const ChronologicalHistoryView: React.StatelessComponent<
 	ChronologicalHistoryViewProps
 > = props => (
-	<div className="history-container" style={{ flex: 1 }}>
+	<HistoryContainer>
 		<StateListContainer
 			{...props}
 			chronological={true}
 			branchTypeOverride={'current'}
 			commitPath={props.history.graph.get('chronologicalStates').toJS()}
 		/>
-	</div>
+	</HistoryContainer>
 )
 
 export default connect<

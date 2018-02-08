@@ -1,8 +1,7 @@
 import { BranchId } from '@essex/redux-dag-history/lib/interfaces'
-
 import * as React from 'react'
 import Branch, { BranchProps } from '../Branch'
-import './BranchList.scss'
+import { Container, Branches } from './styled'
 
 export interface BranchListProps {
 	activeBranch?: BranchId
@@ -26,9 +25,9 @@ const BranchList: React.StatelessComponent<BranchListProps> = ({
 		/>
 	))
 	return (
-		<div className="history-branch-list" style={{ ...style }}>
-			<div className="history-branch-list-inner">{branchViews}</div>
-		</div>
+		<Container style={style}>
+			<Branches>{branchViews}</Branches>
+		</Container>
 	)
 }
 

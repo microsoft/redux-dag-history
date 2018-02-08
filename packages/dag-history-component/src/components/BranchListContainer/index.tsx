@@ -6,9 +6,9 @@ import {
 } from '@essex/redux-dag-history/lib/interfaces'
 import * as debug from 'debug'
 import * as React from 'react'
-import isNumber from '../../../util/isNumber'
-import BranchList from '../../BranchList'
-import { BranchType } from '../../../interfaces'
+import isNumber from '../../util/isNumber'
+import BranchList from '../BranchList'
+import { BranchType } from '../../interfaces'
 const log = debug('dag-history-component:components:HistoryView')
 
 function getCurrentCommitPath(historyGraph: DagGraph<any>) {

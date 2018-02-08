@@ -1,8 +1,7 @@
-
 import * as React from 'react'
-import './Continuation.scss'
+import { Container } from './styled'
 
-function getContinuationText(count) {
+function getContinuationText(count: number) {
 	const sanecount = Math.abs(count || 0)
 	let result
 	if (sanecount <= 1) {
@@ -15,7 +14,7 @@ function getContinuationText(count) {
 	return result
 }
 
-function handleClick(handler) {
+function handleClick(handler: Function) {
 	if (handler) {
 		return evt => {
 			handler(evt)
@@ -32,18 +31,14 @@ export interface ContinuationProps {
 
 const Continuation: React.StatelessComponent<ContinuationProps> = ({
 	count,
-	color,
+	color: backgroundColor,
 	onClick,
 }) => {
 	const continuationText = getContinuationText(count)
 	return (
-		<div
-			className="history-state-continuations"
-			style={{ backgroundColor: color }}
-			onClick={handleClick(onClick)}
-		>
+		<Container style={{ backgroundColor }} onClick={handleClick(onClick)}>
 			{continuationText}
-		</div>
+		</Container>
 	)
 }
 

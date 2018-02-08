@@ -1,16 +1,14 @@
-
 import * as React from 'react'
+import { Container } from './styled'
+const debounce = require('lodash/debounce')
 const LeftIcon = require('react-icons/lib/md/keyboard-arrow-left')
 const RightIcon = require('react-icons/lib/md/keyboard-arrow-right')
 const UpIcon = require('react-icons/lib/fa/caret-up')
 const DownIcon = require('react-icons/lib/fa/caret-down')
 const PlayIcon = require('react-icons/lib/md/play-arrow')
 const StopIcon = require('react-icons/lib/md/stop')
-import { debounce } from 'lodash'
 
 const DEFAULT_ICON_SIZE = 30
-
-import './Transport.scss'
 
 export interface TransportCallbackProps {
 	onPlay?: Function
@@ -124,8 +122,7 @@ class Transport extends React.Component<TransportProps> {
 		}
 
 		return (
-			<div
-				className="history-transport-panel"
+			<Container
 				tabIndex={0}
 				onKeyPress={() => undefined} // allows event bubbling
 			>
@@ -138,7 +135,7 @@ class Transport extends React.Component<TransportProps> {
 					<UpIcon size={iconSize} onClick={() => this.back()} />
 					<DownIcon size={iconSize} onClick={() => this.forward()} />
 				</div>
-			</div>
+			</Container>
 		)
 	}
 }

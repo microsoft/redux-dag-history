@@ -1,13 +1,14 @@
-import { action, storiesOf } from '@storybook/react'
+import { storiesOf } from '@storybook/react'
 import { fromJS } from 'immutable'
 import { get } from 'lodash'
 import * as React from 'react'
 import HTML5Backend from 'react-dnd-html5-backend'
 import { Provider } from 'react-redux'
 import * as redux from 'redux'
-import * as createLogger from 'redux-logger'
+import { createLogger } from 'redux-logger'
 import thunk from 'redux-thunk'
 import createHistoryContainer from '../../../src/components/createHistoryContainer'
+const { action } = require('@storybook/addon-actions')
 
 const DragDropContextProvider = require('react-dnd/lib/DragDropContextProvider')
 	.default
@@ -18,7 +19,7 @@ const Container = createHistoryContainer(
 	state => get(state, 'metadata.source'),
 )
 
-function createStore(state) {
+function createStore(state: any) {
 	// A simple static reducer
 	const reducer = () => state
 
@@ -120,7 +121,7 @@ storiesOf('History Injection', module).add('On Bookmarks view with ', () => {
 	return (
 		<Provider store={store}>
 			<DragDropContextProvider backend={HTML5Backend}>
-				<Container bookmarksEnabled />
+				<Container bookmarksEnabled={true} />
 			</DragDropContextProvider>
 		</Provider>
 	)

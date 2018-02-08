@@ -1,4 +1,3 @@
-
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -8,9 +7,13 @@ import OptionDropdown from '../../OptionDropdown'
 import { HistoryContainerSharedProps } from '../interfaces'
 import BranchedHistoryView, {
 	BranchedHistoryViewProps,
-} from './BranchedHistoryView'
-import ChronologicalHistoryView from './ChronologicalHistoryView'
-
+} from '../BranchedHistoryView'
+import ChronologicalHistoryView from '../ChronologicalHistoryView'
+import {
+	DropdownOptionRow,
+	ColumnContainer,
+	DropdownContainer,
+} from '../styled'
 const BranchedIcon = require('react-icons/lib/go/git-branch')
 const ChronologicalIcon = require('react-icons/lib/go/three-bars')
 
@@ -24,8 +27,6 @@ const viewIcons = {
 	chronological: <ChronologicalIcon size={20} />,
 }
 
-export interface HistoryViewStateProps {}
-
 export interface HistoryViewDispatchProps {
 	onSelectHistoryType: Function
 }
@@ -35,8 +36,7 @@ export interface HistoryViewOwnProps extends HistoryContainerSharedProps {
 }
 
 export interface HistoryViewProps
-	extends HistoryViewStateProps,
-		HistoryViewDispatchProps,
+	extends HistoryViewDispatchProps,
 		HistoryViewOwnProps {}
 
 const HistoryView: React.StatelessComponent<HistoryViewProps> = props => {
@@ -51,24 +51,18 @@ const HistoryView: React.StatelessComponent<HistoryViewProps> = props => {
 	const historyTypeOption = name => ({
 		label: viewLabels[name],
 		element: (
-			<div className="dropdown-option-row">
+			<DropdownOptionRow>
 				<span>{viewLabels[name]}</span>
 				{viewIcons[name]}
-			</div>
+			</DropdownOptionRow>
 		),
 		onClick: () => onSelectHistoryType(name),
 	})
 	const label = viewLabels[historyType]
 
 	return (
-		<div style={{ display: 'flex', flex: 1, flexDirection: 'column' }}>
-			<div
-				style={{
-					display: 'flex',
-					flexDirection: 'row',
-					justifyContent: 'flex-end',
-				}}
-			>
+		<ColumnContainer>
+			<DropdownContainer>
 				<OptionDropdown
 					triggerClass="history-type-dropdown-trigger"
 					label={label}
@@ -78,17 +72,13 @@ const HistoryView: React.StatelessComponent<HistoryViewProps> = props => {
 						historyTypeOption('chronological'),
 					]}
 				/>
-			</div>
+			</DropdownContainer>
 			{renderedHistory}
-		</div>
+		</ColumnContainer>
 	)
 }
 
-export default connect<
-	HistoryViewStateProps,
-	HistoryViewDispatchProps,
-	HistoryViewOwnProps
->(
+export default connect<{}, HistoryViewDispatchProps, HistoryViewOwnProps>(
 	() => ({}),
 	dispatch =>
 		bindActionCreators(

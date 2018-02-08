@@ -1,7 +1,8 @@
-import { action, storiesOf } from '@storybook/react'
+import { storiesOf } from '@storybook/react'
 import * as React from 'react'
 import Branch from '../../../src/components/Branch'
 import { BranchType } from '../../../src/interfaces'
+const { action } = require('@storybook/addon-actions')
 
 storiesOf('Branch', module)
 	.add('Branch with half-depth', () => (

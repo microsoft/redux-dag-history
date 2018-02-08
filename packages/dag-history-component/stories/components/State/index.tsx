@@ -1,6 +1,8 @@
-import { action, storiesOf } from '@storybook/react'
+import { storiesOf } from '@storybook/react'
 import * as React from 'react'
 import State from '../../../src/components/State'
+import { BranchType } from '../../../src/interfaces'
+const { action } = require('@storybook/addon-actions')
 
 storiesOf('State', module)
 	.add('Current, Active', () => (
@@ -8,11 +10,11 @@ storiesOf('State', module)
 			id="1"
 			source="Search Widget"
 			label="Added Search Criteria"
-			branchType="current"
+			branchType={BranchType.CURRENT}
 			onClick={action('click')}
 			onContinuationClick={action('continuationClick')}
 			numChildren={4}
-			active
+			active={true}
 		/>
 	))
 	.add('Current, Inactive', () => (
@@ -20,7 +22,7 @@ storiesOf('State', module)
 			id="1"
 			source="Search Widget"
 			label="Added Search Criteria"
-			branchType="current"
+			branchType={BranchType.CURRENT}
 			onClick={action('click')}
 			onContinuationClick={action('continuationClick')}
 			numChildren={2}
@@ -31,11 +33,11 @@ storiesOf('State', module)
 			id="1"
 			source="Search Widget"
 			label="Added Search Criteria"
-			branchType="legacy"
+			branchType={BranchType.LEGACY}
 			onClick={action('click')}
 			onContinuationClick={action('continuationClick')}
 			numChildren={1}
-			active
+			active={true}
 		/>
 	))
 	.add('Legacy, Inactive', () => (
@@ -43,7 +45,7 @@ storiesOf('State', module)
 			id="1"
 			source="Search Widget"
 			label="Added Search Criteria"
-			branchType="legacy"
+			branchType={BranchType.LEGACY}
 			onClick={action('click')}
 			onContinuationClick={action('continuationClick')}
 			numChildren={12}
@@ -54,11 +56,11 @@ storiesOf('State', module)
 			id="1"
 			source="Search Widget"
 			label="Added Search Criteria"
-			branchType="current"
+			branchType={BranchType.CURRENT}
 			onClick={action('click')}
 			onContinuationClick={action('continuationClick')}
 			numChildren={2}
-			renderBookmarks
+			renderBookmarks={true}
 		/>
 	))
 	.add('Legacy, Unbookmarked', () => (
@@ -66,11 +68,11 @@ storiesOf('State', module)
 			id="1"
 			source="Search Widget"
 			label="Added Search Criteria"
-			branchType="legacy"
+			branchType={BranchType.LEGACY}
 			onClick={action('click')}
 			onContinuationClick={action('continuationClick')}
 			numChildren={2}
-			renderBookmarks
+			renderBookmarks={true}
 		/>
 	))
 	.add('Current, Bookmarked', () => (
@@ -78,12 +80,12 @@ storiesOf('State', module)
 			id="1"
 			source="Search Widget"
 			label="Added Search Criteria"
-			branchType="current"
+			branchType={BranchType.CURRENT}
 			onClick={action('click')}
 			onContinuationClick={action('continuationClick')}
 			numChildren={2}
-			renderBookmarks
-			bookmarked
+			renderBookmarks={true}
+			bookmarked={true}
 		/>
 	))
 	.add('Legacy, Bookmarked', () => (
@@ -91,12 +93,12 @@ storiesOf('State', module)
 			id="1"
 			source="Search Widget"
 			label="Added Search Criteria"
-			branchType="legacy"
+			branchType={BranchType.LEGACY}
 			onClick={action('click')}
 			onContinuationClick={action('continuationClick')}
 			numChildren={2}
-			renderBookmarks
-			bookmarked
+			renderBookmarks={true}
+			bookmarked={true}
 		/>
 	))
 	.add('Pinned', () => (
@@ -104,10 +106,10 @@ storiesOf('State', module)
 			id="1"
 			source="Search Widget"
 			label="Added Search Criteria"
-			branchType="current"
+			branchType={BranchType.CURRENT}
 			onClick={action('click')}
 			onContinuationClick={action('continuationClick')}
 			numChildren={12}
-			pinned
+			pinned={true}
 		/>
 	))

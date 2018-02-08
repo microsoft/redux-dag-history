@@ -9,4 +9,5 @@ export interface Bookmark {
 export enum BranchType {
 	CURRENT = 'current',
 	LEGACY = 'legacy',
+	UNRELATED = 'unrelated',
 }

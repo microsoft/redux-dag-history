@@ -1,6 +1,7 @@
-import { action, storiesOf } from '@storybook/react'
+import { storiesOf } from '@storybook/react'
 import * as React from 'react'
 import Bookmark from '../../../src/components/Bookmark/Bookmark'
+const { action } = require('@storybook/addon-actions')
 
 storiesOf('Bookmark', module)
 	.add('Inactive', () => (

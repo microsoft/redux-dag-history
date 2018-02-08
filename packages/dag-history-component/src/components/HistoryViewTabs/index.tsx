@@ -1,7 +1,6 @@
 import * as React from 'react'
-import { Tab, TabList, TabPanel, Tabs } from 'react-tabs'
 import OptionDropdown from '../OptionDropdown'
-import './Tabs.scss'
+import { Container, Tab, TabList, TabPanel, Tabs, OptionMenu } from './styled'
 
 const viewNameToIndex = {
 	history: 0,
@@ -40,7 +39,7 @@ const HistoryContainer: React.StatelessComponent<HistoryContainerProps> = ({
 		return historyView
 	}
 	const controlBar = controlBarEnabled && (
-		<div className="history-option-menu">
+		<OptionMenu>
 			<OptionDropdown
 				contentClass="view-options-dropdown"
 				options={[
@@ -49,11 +48,11 @@ const HistoryContainer: React.StatelessComponent<HistoryContainerProps> = ({
 					{ label: 'Clear', onClick: onClearClicked },
 				]}
 			/>
-		</div>
+		</OptionMenu>
 	)
 
 	return (
-		<div className="history-container">
+		<Container>
 			{controlBar}
 			<Tabs
 				onSelect={handleTabSelector(onTabSelect)}
@@ -66,7 +65,7 @@ const HistoryContainer: React.StatelessComponent<HistoryContainerProps> = ({
 				<TabPanel>{historyView}</TabPanel>
 				<TabPanel>{storyboardingView}</TabPanel>
 			</Tabs>
-		</div>
+		</Container>
 	)
 }
 

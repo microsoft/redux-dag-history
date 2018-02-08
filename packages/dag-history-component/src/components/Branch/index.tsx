@@ -3,7 +3,7 @@ import * as classnames from 'classnames'
 import { BranchType } from '../../interfaces'
 import * as React from 'react'
 import BranchProfile from '../BranchProfile'
-import './Branch.scss'
+import { Container, Details, Name, ProfileContainer } from './styled'
 
 export interface BranchProps {
 	id?: BranchId
@@ -31,11 +31,8 @@ const Branch: React.StatelessComponent<BranchProps> = ({
 	onClick,
 	active,
 }) => (
-	<div
-		className="history-branch"
-		onClick={e => (onClick ? onClick(e) : undefined)}
-	>
-		<div className="history-branch-profile-container">
+	<Container onClick={e => (onClick ? onClick(e) : undefined)}>
+		<ProfileContainer>
 			<BranchProfile
 				start={startsAt}
 				end={endsAt}
@@ -45,11 +42,11 @@ const Branch: React.StatelessComponent<BranchProps> = ({
 				type={branchType}
 				activeStateIndex={activeStateIndex}
 			/>
-		</div>
-		<div className="branch-details">
-			<div className={classnames('branch-name', { active })}>{label}</div>
-		</div>
-	</div>
+		</ProfileContainer>
+		<Details>
+			<Name className={classnames({ active })}>{label}</Name>
+		</Details>
+	</Container>
 )
 
 export default Branch

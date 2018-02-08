@@ -1,14 +1,19 @@
 import * as debug from 'debug'
-
 import { StateId } from '@essex/redux-dag-history/lib/interfaces'
 import * as classnames from 'classnames'
-
 import * as React from 'react'
 import DiscoveryTrail from '../DiscoveryTrail'
-import './Bookmark.scss'
-
+import {
+	Container,
+	ControlsContainer,
+	DetailsEditable,
+	DiscoveryTrailLabel,
+	DiscoveryTrailInfoButton,
+	EditableTitleContainer,
+	EditAnnotation,
+	Title,
+} from './styled'
 const CloseIcon = require('react-icons/lib/fa/caret-down')
-
 const log = debug('dag-history-component:components:Bookmark')
 
 export interface EditBookmarkProps {
@@ -130,27 +135,16 @@ export default class EditBookmark extends React.Component<EditBookmarkProps> {
 			selectedDepth,
 		)
 		return (
-			<div
-				className={`history-bookmark ${active ? 'selected' : ''}`}
-				data-index={index}
-			>
-				<div className="bookmark-details-editable">
-					<div
-						style={{ display: 'flex', justifyContent: 'space-between' }}
-						onClick={() => this.onClick()}
-					>
-						<div
-							className={classnames('bookmark-title', { active })}
-							tabIndex={0}
-						>
+			<Container className={classnames({ active })} data-index={index}>
+				<DetailsEditable>
+					<EditableTitleContainer onClick={() => this.onClick()}>
+						<Title className={classnames({ active })} tabIndex={0}>
 							{name}
-						</div>
+						</Title>
 						<CloseIcon tabIndex={1} onClick={() => this.onDone()} />
-					</div>
-					<textarea
+					</EditableTitleContainer>
+					<EditAnnotation
 						tabIndex={2}
-						style={{ marginTop: 5 }}
-						className="bookmark-input bookmark-annotation"
 						ref={c => this.setAnnotationComponent(c)}
 						name="bookmarkAnnotation"
 						cols={40}
@@ -160,22 +154,17 @@ export default class EditBookmark extends React.Component<EditBookmarkProps> {
 						onBlur={() => this.onDoneEditing()}
 					/>
 					<div>
-						<div
-							className="bookmark-controls-container"
-							onClick={() => this.onClick()}
-						>
-							<span className="discovery-trail-label">Discovery trail</span>
-							<button
-								className="discovery-trail-intro-button"
-								style={{ marginLeft: 5 }}
+						<ControlsContainer onClick={() => this.onClick()}>
+							<DiscoveryTrailLabel>Discovery trail</DiscoveryTrailLabel>
+							<DiscoveryTrailInfoButton
 								tabIndex={3}
 								onClick={e =>
 									this.onLeadInSet(commitPathLength - selectedDepth - 1)
 								}
 							>
 								Set intro
-							</button>
-						</div>
+							</DiscoveryTrailInfoButton>
+						</ControlsContainer>
 						<DiscoveryTrail
 							depth={commitPathLength - 1}
 							highlight={selectedDepth}
@@ -184,8 +173,8 @@ export default class EditBookmark extends React.Component<EditBookmarkProps> {
 							onIndexClicked={idx => onDiscoveryTrailIndexClicked(idx)}
 						/>
 					</div>
-				</div>
-			</div>
+				</DetailsEditable>
+			</Container>
 		)
 	}
 }

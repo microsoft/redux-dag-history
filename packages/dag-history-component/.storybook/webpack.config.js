@@ -10,10 +10,6 @@ const cssRule = {
 	test: /\.css/,
 	loaders: ['style-loader', 'css-loader'],
 }
-const sassRule = {
-	test: /\.scss/,
-	loaders: ['style-loader', 'css-loader', 'sass-loader'],
-}
 
 module.exports = (baseConfig, env) => {
 	const rules = get(baseConfig, 'module.rules', [])
@@ -24,7 +20,7 @@ module.exports = (baseConfig, env) => {
 			extensions: extensions.concat('.ts', '.tsx'),
 		}),
 		module: Object.assign({}, get(baseConfig, 'module', {}), {
-			rules: rules.concat(tsxRule, cssRule, sassRule),
+			rules: rules.concat(tsxRule, cssRule),
 		}),
 	})
 	return config

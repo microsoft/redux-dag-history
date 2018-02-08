@@ -2,13 +2,12 @@ import * as DagHistoryActions from '@essex/redux-dag-history/lib/ActionCreators'
 import DagGraph from '@essex/redux-dag-history/lib/DagGraph'
 import { DagHistory } from '@essex/redux-dag-history/lib/interfaces'
 import * as debug from 'debug'
-
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { Bookmark } from '../../../interfaces'
-import * as Actions from '../../../state/actions/creators'
-import BookmarkList from '../../BookmarkList'
+import { Bookmark } from '../../interfaces'
+import * as Actions from '../../state/actions/creators'
+import BookmarkList from '../BookmarkList'
 
 const log = debug('dag-history-component:components:StoryboardingView')
 

@@ -1,11 +1,9 @@
 import * as classnames from 'classnames'
 import * as debug from 'debug'
-
 import * as React from 'react'
 import calculateSpans from './calculateSpans'
-import './DiscoveryTrail.scss'
-
 import calculateIndex from '../../util/calculateIndex'
+import { StatePager, BookmarkPager, PagerState } from './styled'
 
 const log = debug('dag-history-component:components:DiscoveryTrail')
 
@@ -81,17 +79,18 @@ export default class DiscoveryTrail extends React.Component<
 		}
 	}
 
+	private get pagerComponent() {
+		return this.props.bookmark ? BookmarkPager : StatePager
+	}
+
 	private get pagerClass() {
-		const {
+		const { vertical, fullWidth: isFullWidth } = this.props
+		const horizontal = !vertical
+		const radiusEdges = !isFullWidth
+		return classnames({
 			vertical,
-			bookmark: isBookmark,
-			fullWidth: isFullWidth,
-		} = this.props
-		const baseClassName = isBookmark ? 'bookmark-pager' : 'state-pager'
-		return classnames(baseClassName, {
-			vertical,
-			horizontal: !vertical,
-			radiusEdges: !isFullWidth,
+			horizontal,
+			radiusEdges,
 		})
 	}
 
@@ -106,10 +105,11 @@ export default class DiscoveryTrail extends React.Component<
 			fullWidth: isFullWidth,
 		} = this.props
 		const spans = calculateSpans(depth, highlight, leadIn, active)
+		const Pager = this.pagerComponent
 		const spanTags = spans.map((s, index) => (
-			<div
+			<PagerState
 				key={`pagerSpan::${index}`}
-				className={classnames('pager-state', s.type, {
+				className={classnames(s.type, {
 					startItem: !isFullWidth && index === 0,
 					endItem: !isFullWidth && index === spans.length - 1,
 				})}
@@ -118,13 +118,13 @@ export default class DiscoveryTrail extends React.Component<
 		))
 
 		return (
-			<div
+			<Pager
 				className={this.pagerClass}
 				onClick={e => this.handleClick(e)}
 				ref={e => (this.containerDiv = e)}
 			>
 				{spanTags}
-			</div>
+			</Pager>
 		)
 	}
 }

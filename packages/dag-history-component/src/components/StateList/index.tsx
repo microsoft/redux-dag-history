@@ -1,10 +1,10 @@
 import { StateId } from '@essex/redux-dag-history/lib/interfaces'
-
 import * as React from 'react'
 import Transition from 'react-transition-group/Transition'
 import isNumber from '../../util/isNumber'
 import State from '../State'
 import { StateProps } from '../State/interfaces'
+import { Container } from './styled'
 
 export interface StateListProps {
 	states: StateProps[]
@@ -61,7 +61,7 @@ export default class StateList extends React.Component<StateListProps> {
 			/>
 		))
 		return (
-			<div ref={e => (this.containerDiv = e)} className="state-list-container">
+			<Container ref={e => (this.containerDiv = e)}>
 				{/* TODO
 				<Transition
 					transitionName="state-entry"
@@ -72,7 +72,7 @@ export default class StateList extends React.Component<StateListProps> {
 				</Transition>
 			*/}
 				{stateViews}
-			</div>
+			</Container>
 		)
 	}
 }

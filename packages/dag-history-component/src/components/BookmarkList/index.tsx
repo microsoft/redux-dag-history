@@ -1,9 +1,10 @@
 import * as debug from 'debug'
 import * as React from 'react'
 import { StateId } from '@essex/redux-dag-history/lib/interfaces'
-
 import Bookmark from '../Bookmark'
-import './BookmarkList.scss'
+import { Bookmarks } from './styled'
+import StateListContainer from '../StateListContainerContainer'
+
 const { DropTarget } = require('react-dnd')
 
 const log = debug('@essex/redux-dag-history:BookmarkList')
@@ -76,9 +77,9 @@ export default class BookmarkList extends React.PureComponent<
 			bookmarkViews.splice(adjustedHoverIndex, 0, dragged)
 		}
 		return (
-			<div className="state-list-container">
-				<div className="bookmark-list">{bookmarkViews}</div>
-			</div>
+			<StateListContainer>
+				<Bookmarks>{bookmarkViews}</Bookmarks>
+			</StateListContainer>
 		)
 	}
 }

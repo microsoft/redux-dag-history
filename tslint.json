@@ -14,6 +14,9 @@
 		// Ignoring this temporarily until we get the refactor up
 		"ban-types": false,
 
+		// This should only be enabled for test file (stories, specs, etc..)
+		"no-implicit-dependencies": [true, "dev"],
+
 		"ban": false,
 		"class-name": true,
 		"forin": true,

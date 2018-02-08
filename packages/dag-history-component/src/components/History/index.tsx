@@ -5,15 +5,14 @@ import * as React from 'react'
 import isNumber from '../../util/isNumber'
 import PlaybackPane from '../PlaybackPane'
 import Transport from '../Transport'
-import makeActions from './BookmarkActions'
-import HistoryTabs from './HistoryTabs'
-import HistoryView from './HistoryView'
+import makeActions from '../../util/BookmarkActions'
+import Tabs from '../HistoryViewTabs'
+import SwitchingHistoryView from './SwitchingHistoryView'
 import BookmarkHelper from '../../util/Bookmark'
 import { HistoryContainerSharedProps } from './interfaces'
 import { Bookmark } from '../../interfaces'
-import StoryboardingView from './StoryboardingView'
-
-import './History.scss'
+import StoryboardingView from '../StoryboardingView'
+import StateListContainerContainer from '../StateListContainerContainer'
 
 const log = debug('dag-history-component:components:History')
 
@@ -119,7 +118,7 @@ export default class History extends React.Component<HistoryProps, {}> {
 
 		// End the presentation if we're on the last slide
 		return (
-			<div className="state-list-container">
+			<StateListContainerContainer>
 				<PlaybackPane
 					text={slideText}
 					depth={bookmarks.length}
@@ -146,7 +145,7 @@ export default class History extends React.Component<HistoryProps, {}> {
 					onPlay={() => onStartPlayback({ initialDepth })}
 					onStop={onStopPlayback}
 				/>
-			</div>
+			</StateListContainerContainer>
 		)
 	}
 
@@ -161,12 +160,12 @@ export default class History extends React.Component<HistoryProps, {}> {
 		return isPlayingBack
 			? this.renderPlayback()
 			: ((
-					<HistoryTabs
+					<Tabs
 						bookmarksEnabled={bookmarksEnabled}
 						controlBarEnabled={!!controlBar}
 						selectedTab={mainView}
 						onTabSelect={onSelectMainView}
-						historyView={<HistoryView {...this.props} />}
+						historyView={<SwitchingHistoryView {...this.props} />}
 						storyboardingView={
 							<StoryboardingView
 								{

@@ -1,9 +1,8 @@
-
 import * as React from 'react'
 import colors from '../../palette'
-import './BranchProfile.scss'
 import calculateSpans from './calculateSpans'
-
+import { Container } from './styled'
+import { BranchType } from '../../interfaces'
 /**
  * Gets styling for the branch-info spans
  */
@@ -21,7 +20,7 @@ export interface BranchProfileProps {
 	branchEnd?: number
 	max: number
 	activeStateIndex?: number
-	type: 'current' | 'legacy'
+	type: BranchType
 }
 
 const BranchProfile: React.StatelessComponent<BranchProfileProps> = ({
@@ -43,10 +42,10 @@ const BranchProfile: React.StatelessComponent<BranchProfileProps> = ({
 		activeIndex,
 	)
 	const spanComponents = infoSpans
-		.map(s => infoSpanStyle(s.length, colors[s.type]))
+		.map(s => infoSpanStyle(s.length, colors[s.type.toString()]))
 		.map((style, index) => <div key={`branchinfo:${index}`} style={style} />)
 
-	return <div className="history-branch-profile">{spanComponents}</div>
+	return <Container>{spanComponents}</Container>
 }
 
 export default BranchProfile

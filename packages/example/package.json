@@ -6,19 +6,12 @@
 		"start": "webpack-dev-server --host 0.0.0.0 --inline --history-api-fallback"
 	},
 	"license": "MIT",
-	"files": [
-		"package.json",
-		"README.md",
-		"LICENSE",
-		"src/"
-	],
+	"files": ["package.json", "README.md", "LICENSE", "src/"],
 	"devDependencies": {
 		"css-loader": "^0.28.9",
 		"exports-loader": "^0.7.0",
 		"imports-loader": "^0.7.1",
-		"node-sass": "^4.7.2",
 		"postcss-loader": "^2.1.0",
-		"sass-loader": "^6.0.6",
 		"style-loader": "^0.20.1",
 		"ts-loader": "^3.4.0",
 		"typescript": "^2.7.1",

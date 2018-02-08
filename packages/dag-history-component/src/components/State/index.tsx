@@ -1,12 +1,17 @@
 import * as classnames from 'classnames'
-
 import * as React from 'react'
-
 import Transition from 'react-transition-group/Transition'
 import colors from '../../palette'
 import Continuation from '../Continuation'
 import { StateProps } from './interfaces'
-import './State.scss'
+import { BranchType } from '../../interfaces'
+import {
+	Container,
+	Detail,
+	Source,
+	Name,
+	ContinuationContainer,
+} from './styled'
 
 const Bookmark = require('react-icons/lib/io/bookmark')
 
@@ -25,17 +30,15 @@ const coloring = {
 	},
 }
 
-function getBackgroundColor(branchType, active) {
-	let result = null
-	result = coloring[branchType][active ? 'active' : 'nonactive']
-	return result
+function getBackgroundColor(branchType: BranchType, active: boolean) {
+	return coloring[branchType.toString()][active ? 'active' : 'nonactive']
 }
 
-function continuationColor(isActive, isPinned) {
+function continuationColor(active: boolean, pinned: boolean) {
 	let result = colors.CONT_BLANK
-	if (isPinned) {
+	if (pinned) {
 		result = colors.CONT_PINNED
-	} else if (isActive) {
+	} else if (active) {
 		result = colors.CONT_ACTIVE
 	}
 	return result
@@ -47,7 +50,7 @@ export default class State extends React.PureComponent<StateProps> {
 		source: undefined,
 		showContinuation: true,
 		label: '',
-		branchType: 'current',
+		branchType: BranchType.CURRENT,
 		numChildren: 0,
 	}
 
@@ -89,19 +92,13 @@ export default class State extends React.PureComponent<StateProps> {
 		}
 
 		const continuation = showContinuation ? (
-			<div
-				style={{
-					overflow: 'hidden',
-					display: 'flex',
-					justifyContent: 'center',
-				}}
-			>
+			<ContinuationContainer>
 				<Continuation
 					count={numChildren}
 					color={continuationColor(active, pinned)}
 					onClick={e => handleContinuationClick(e)}
 				/>
-			</div>
+			</ContinuationContainer>
 		) : null
 
 		const bookmark = renderBookmarks ? (
@@ -115,8 +112,8 @@ export default class State extends React.PureComponent<StateProps> {
 		const marginLeftValue = successor ? 30 : 0
 
 		return (
-			<div
-				className={classnames('history-state', { successor })}
+			<Container
+				className={classnames({ successor })}
 				style={{
 					...this.props.style,
 					backgroundColor,
@@ -131,16 +128,12 @@ export default class State extends React.PureComponent<StateProps> {
 				>
 					{continuation}
 				</Transition>
-				<div className="state-detail">
-					<div className={classnames('state-source', { active })}>
-						{source || ''}
-					</div>
-					<div className={classnames('state-name', { active })}>
-						{label || ''}
-					</div>
-				</div>
+				<Detail>
+					<Source className={classnames({ active })}>{source || ''}</Source>
+					<Name className={classnames({ active })}>{label || ''}</Name>
+				</Detail>
 				{bookmark}
-			</div>
+			</Container>
 		)
 	}
 }

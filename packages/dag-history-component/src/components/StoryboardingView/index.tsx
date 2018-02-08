@@ -4,14 +4,15 @@ import { DagHistory } from '@essex/redux-dag-history/lib/interfaces'
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import * as Actions from '../../../state/actions/creators'
-import Transport from '../../Transport'
-import makeActions from '../BookmarkActions'
+import * as Actions from '../../state/actions/creators'
+import Transport from '../Transport'
+import makeActions from '../../util/BookmarkActions'
 import BookmarkListContainer, {
 	BookmarkListContainerProps,
 } from './BookmarkListContainer'
-import { Bookmark as BookmarkData } from '../../../interfaces'
-import Bookmark from '../../../util/Bookmark'
+import { Bookmark as BookmarkData } from '../../interfaces'
+import Bookmark from '../../util/Bookmark'
+import HistoryContainer from '../HistoryContainer'
 
 export interface StoryboardingViewDispatchProps {
 	onStartPlayback: Function
@@ -67,7 +68,7 @@ const StoryboardingView: React.StatelessComponent<
 	const stateId = bookmark.commitPath[bookmark.sanitizeDepth(initialDepth)]
 
 	return (
-		<div className="history-container">
+		<HistoryContainer>
 			<BookmarkListContainer {...props} />
 			<Transport
 				onBack={handleStepBack}
@@ -77,7 +78,7 @@ const StoryboardingView: React.StatelessComponent<
 				onStepBack={handleStepBack}
 				onStepForward={handleStepForward}
 			/>
-		</div>
+		</HistoryContainer>
 	)
 }
 

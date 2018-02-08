@@ -1,8 +1,13 @@
 import * as classnames from 'classnames'
-
 import * as React from 'react'
 import DiscoveryTrail from '../DiscoveryTrail'
-import './Bookmark.scss'
+import {
+	Container,
+	DetailsContainer,
+	Details,
+	Title,
+	Annotation,
+} from './styled'
 
 export interface BookmarkProps {
 	name: string
@@ -51,25 +56,20 @@ const Bookmark: React.StatelessComponent<BookmarkProps> = (
 		/>
 	) : null
 	return (
-		<div className={`history-bookmark ${active ? 'selected' : ''}`}>
-			<div className="bookmark-details-container">
-				<div
-					className="bookmark-details"
-					onClick={onClick ? () => onClick() : undefined}
-				>
-					<div
-						className={classnames('bookmark-title', { active })}
+		<Container className={classnames({ active })}>
+			<DetailsContainer>
+				<Details onClick={onClick ? () => onClick() : undefined}>
+					<Title
+						className={classnames({ active })}
 						onClick={() => onClickEdit()}
 					>
 						{name}
-					</div>
-					<div className="bookmark-annotation" onClick={() => onClickEdit()}>
-						{annotation}
-					</div>
-				</div>
+					</Title>
+					<Annotation onClick={() => onClickEdit()}>{annotation}</Annotation>
+				</Details>
 				{discoveryTrail}
-			</div>
-		</div>
+			</DetailsContainer>
+		</Container>
 	)
 }
 

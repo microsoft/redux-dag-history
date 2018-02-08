@@ -1,19 +1,14 @@
 {
-    "compilerOptions": {
-        "module": "commonjs",
-        "jsx": "react",
-        "target": "es5",
-        "noImplicitAny": false,
-        "sourceMap": false,
-        "experimentalDecorators": true,
-        "declaration": true,
-        "outDir": "lib",
-        "lib": [
-          "es2017",
-          "dom"
-        ]
-    },
-    "files": [
-      "src/index.ts"
-    ]
+	"compilerOptions": {
+		"module": "commonjs",
+		"jsx": "react",
+		"target": "es5",
+		"noImplicitAny": false,
+		"sourceMap": false,
+		"experimentalDecorators": true,
+		"declaration": true,
+		"outDir": "lib",
+		"lib": ["esnext", "dom", "es2016.array.include"]
+	},
+	"files": ["src/index.ts"]
 }

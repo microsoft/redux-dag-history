@@ -1,8 +1,7 @@
 import * as debug from 'debug'
 import * as React from 'react'
-import './PlaybackPane.scss'
 import DiscoveryTrail from '../DiscoveryTrail'
-
+import { Container, Paged, Pane } from './styled'
 const log = debug('dag-history-component:components:PlaybackPane')
 
 export interface PlaybackPaneProps {
@@ -26,11 +25,11 @@ const PlaybackPane: React.StatelessComponent<PlaybackPaneProps> = props => {
 		onDiscoveryTrailIndexClicked,
 	} = props
 	return (
-		<div className="playback-pane-container">
-			<div className="playback-pane-paged">
-				<div className="playback-pane">
+		<Container>
+			<Paged>
+				<Pane>
 					<h3>{text}</h3>
-				</div>
+				</Pane>
 				<DiscoveryTrail
 					vertical={true}
 					fullWidth={true}
@@ -39,7 +38,7 @@ const PlaybackPane: React.StatelessComponent<PlaybackPaneProps> = props => {
 					depth={depth - 1}
 					highlight={highlight}
 				/>
-			</div>
+			</Paged>
 			<DiscoveryTrail
 				active={true}
 				fullWidth={true}
@@ -48,7 +47,7 @@ const PlaybackPane: React.StatelessComponent<PlaybackPaneProps> = props => {
 				highlight={bookmarkHighlight}
 				onIndexClicked={idx => onDiscoveryTrailIndexClicked(idx)}
 			/>
-		</div>
+		</Container>
 	)
 }
 
