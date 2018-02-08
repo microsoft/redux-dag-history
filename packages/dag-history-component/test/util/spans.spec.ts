@@ -1,4 +1,3 @@
-import { expect } from 'chai'
 import * as SpanCalc from '../../src/util/spans'
 
 function assertSpan(span, start, end, type) {

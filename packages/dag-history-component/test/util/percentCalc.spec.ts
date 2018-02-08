@@ -1,4 +1,3 @@
-import { expect } from 'chai'
 import calculateIndex from '../../src/util/calculateIndex'
 
 const adjust = (x: number) => x - 0.001

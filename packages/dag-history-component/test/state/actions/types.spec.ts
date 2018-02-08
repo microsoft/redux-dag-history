@@ -1,4 +1,3 @@
-import { expect } from 'chai'
 import * as types from '../../../src/state/actions/types'
 
 describe('Action Types', () => {

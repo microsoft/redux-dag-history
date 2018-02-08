@@ -1,5 +1,4 @@
 import * as Promise from 'bluebird'
-import { expect } from 'chai'
 import { mount } from 'enzyme'
 import * as React from 'react'
 import * as TestUtils from 'react-addons-test-utils'
@@ -22,11 +21,11 @@ describe('The Transport Component', () => {
 
 	it('can handle play invocations', () => {
 		let rendered = mount(<Transport playing />)
-		; (rendered.get(0) as any).play()
+		;(rendered.get(0) as any).play()
 
 		let fired = false
 		rendered = mount(<Transport onPlay={() => (fired = true)} />)
-		; (rendered.get(0) as any).play()
+		;(rendered.get(0) as any).play()
 		return Promise.delay(CLICK_DELAY)
 			.then(() => {
 				expect(fired).to.be.true
@@ -39,11 +38,11 @@ describe('The Transport Component', () => {
 
 	it('can handle stop invocations', () => {
 		let rendered = mount(<Transport playing />)
-		; (rendered.get(0) as any).stop()
+		;(rendered.get(0) as any).stop()
 
 		let fired = false
 		rendered = mount(<Transport playing onStop={() => (fired = true)} />)
-		; (rendered.get(0) as any).stop()
+		;(rendered.get(0) as any).stop()
 		return Promise.delay(CLICK_DELAY)
 			.then(() => {
 				expect(fired).to.be.true
@@ -56,11 +55,11 @@ describe('The Transport Component', () => {
 
 	it('can handle back invocations', () => {
 		let rendered = mount(<Transport />)
-		; (rendered.get(0) as any).stepBack()
+		;(rendered.get(0) as any).stepBack()
 
 		let fired = false
 		rendered = mount(<Transport onStepBack={() => (fired = true)} />)
-		; (rendered.get(0) as any).stepBack()
+		;(rendered.get(0) as any).stepBack()
 		return Promise.delay(CLICK_DELAY)
 			.then(() => {
 				expect(fired).to.be.true
@@ -73,11 +72,11 @@ describe('The Transport Component', () => {
 
 	it('can handle forward invocations', () => {
 		let rendered = mount(<Transport />)
-		; (rendered.get(0) as any).stepForward()
+		;(rendered.get(0) as any).stepForward()
 
 		let fired = false
 		rendered = mount(<Transport onStepForward={() => (fired = true)} />)
-		; (rendered.get(0) as any).stepForward()
+		;(rendered.get(0) as any).stepForward()
 		return Promise.delay(CLICK_DELAY)
 			.then(() => {
 				expect(fired).to.be.true

@@ -1,4 +1,3 @@
-import { expect } from 'chai'
 import {
 	default as makeReducer,
 	INITIAL_STATE,

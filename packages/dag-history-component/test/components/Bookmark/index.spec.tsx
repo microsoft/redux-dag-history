@@ -1,5 +1,4 @@
 import * as Promise from 'bluebird'
-import { expect } from 'chai'
 import { mount } from 'enzyme'
 import * as React from 'react'
 import { Provider } from 'react-redux'
@@ -16,8 +15,8 @@ const render = (jsx, store = createStore(() => ({}))) => {
 
 xdescribe('Bookmark Component', () => {
 	it('exists', () => {
-		expect(document).to.be.ok
-		expect(Bookmark).to.be.ok
+		expect(document).toBeDefined()
+		expect(Bookmark).toBeDefined()
 	})
 
 	it('can render into the DOM', () => {
@@ -37,7 +36,7 @@ xdescribe('Bookmark Component', () => {
 			<EditBookmark
 				index={0}
 				selectedDepth={0}
-				active
+				active={true}
 				name="My Name"
 				annotation="anno"
 			/>,
@@ -129,7 +128,7 @@ xdescribe('Bookmark Component', () => {
 			relatedTarget: rendered.find('.bookmark-annotation').node,
 		})
 		return Promise.delay(10).then(() => {
-			expect(done).to.be.false
+			expect(done).toBeFalsy()
 		})
 	})
 })

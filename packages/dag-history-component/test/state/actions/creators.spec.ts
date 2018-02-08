@@ -1,5 +1,4 @@
 import * as DagHistoryActions from '@essex/redux-dag-history/lib/ActionTypes'
-import { expect } from 'chai'
 import * as sinon from 'sinon'
 import * as ActionCreators from '../../../src/state/actions/creators'
 import * as ActionTypes from '../../../src/state/actions/types'

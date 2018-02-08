@@ -1,4 +1,3 @@
-import { expect } from 'chai'
 import { mount } from 'enzyme'
 import * as React from 'react'
 import OptionDropdown from '../../../src/components/OptionDropdown'
@@ -11,10 +10,10 @@ const {
 describe('The OptionDropdown Component', () => {
 	it('can be rendered', () => {
 		let rendered = mount(<OptionDropdown />)
-		expect(rendered).to.be.ok
+		expect(rendered).toBeDefined()
 
 		rendered = mount(<OptionDropdown label="TestOptions" />)
-		expect(rendered).to.be.ok
+		expect(rendered).toBeDefined()
 	})
 
 	it('can handle on option being clicked', () => {
@@ -34,23 +33,23 @@ describe('The OptionDropdown Component', () => {
 			.at(0)
 			.simulate('click')
 
-		expect(rendered).to.be.ok
+		expect(rendered).toBeDefined()
 		rendered
 			.find('li')
 			.at(0)
 			.simulate('click')
-		expect(clicked).to.equal('derp')
+		expect(clicked).toEqual('derp')
 
 		rendered
 			.find('li')
 			.at(1)
 			.simulate('click')
-		expect(clicked).to.equal('herp')
+		expect(clicked).toEqual('herp')
 
 		rendered
 			.find('li')
 			.at(2)
 			.simulate('click')
-		expect(clicked).to.equal('flerp')
+		expect(clicked).toEqual('flerp')
 	})
 })

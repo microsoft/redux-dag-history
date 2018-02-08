@@ -1,4 +1,3 @@
-import { expect } from 'chai'
 import { mount } from 'enzyme'
 import * as React from 'react'
 

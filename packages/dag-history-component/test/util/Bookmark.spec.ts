@@ -1,4 +1,3 @@
-import { expect } from 'chai'
 import Bookmark from '../../src/util/Bookmark'
 
 class TestableBookmark extends Bookmark {

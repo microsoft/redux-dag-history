@@ -1,4 +1,3 @@
-import { expect } from 'chai'
 import palette from '../src/palette'
 
 describe('The Palette Module', () => {

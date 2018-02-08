@@ -1,6 +1,5 @@
 import * as dagHistory from '@essex/redux-dag-history/lib/DagHistory'
 import * as Promise from 'bluebird'
-import { expect } from 'chai'
 import { mount } from 'enzyme'
 import * as React from 'react'
 import { Provider } from 'react-redux'
