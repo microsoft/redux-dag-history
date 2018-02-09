@@ -1,6 +1,5 @@
-import {
-	Configuration, // eslint-disable-line no-unused-vars
-} from '@essex/redux-dag-history/lib/interfaces'
+import { Action } from 'redux-actions'
+import { Configuration } from '@essex/redux-dag-history/lib/interfaces'
 import {
 	BOOKMARK_DRAG_CANCEL,
 	BOOKMARK_DRAG_DROP,
@@ -8,14 +7,23 @@ import {
 	BOOKMARK_DRAG_START,
 } from '../actions/types'
 
-export const INITIAL_STATE = {
+export interface State {
+	sourceIndex?: number
+	sourceKey?: string
+	hoverIndex?: number
+}
+
+export const INITIAL_STATE: State = {
 	sourceIndex: undefined,
 	sourceKey: undefined,
 	hoverIndex: undefined,
 }
 
 export default function makeReducer(config: Configuration<any>) {
-	return function reduce(state = INITIAL_STATE, action) {
+	return function reduce(
+		state: State = INITIAL_STATE,
+		action: ReduxActions.Action<any>,
+	) {
 		let result = state
 		if (action.type === BOOKMARK_DRAG_START) {
 			result = {

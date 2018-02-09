@@ -61,7 +61,7 @@ export default class BookmarkList extends React.PureComponent<
 				stateId={s.stateId}
 				onSelectBookmarkDepth={onSelectBookmarkDepth}
 				onClick={() => this.onBookmarkClick(index, s.stateId)}
-				onDiscoveryTrailIndexClicked={selectedIndex => {
+				onDiscoveryTrailIndexClicked={(selectedIndex: number) => {
 					const target = s.shortestCommitPath[selectedIndex]
 					onSelectBookmarkDepth({ target, depth: selectedIndex, state: target })
 					onSelectState(target)

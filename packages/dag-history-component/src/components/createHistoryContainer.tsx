@@ -6,7 +6,7 @@ import {
 import * as DagHistoryActions from '@essex/redux-dag-history/lib/ActionCreators'
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { bindActionCreators } from 'redux'
+import { bindActionCreators, Dispatch } from 'redux'
 import { Bookmark } from '../interfaces'
 import * as Actions from '../state/actions/creators'
 import HistoryComponent from './History'
@@ -61,7 +61,7 @@ export default function createHistoryContainer(
 	getComponentState: Function,
 	getSourceFromState: Function,
 ) {
-	const mapStateToProps = state => {
+	const mapStateToProps = (state: any) => {
 		const middleware = getMiddlewareState(state)
 		const component = getComponentState(state)
 		return {
@@ -85,7 +85,7 @@ export default function createHistoryContainer(
 			isPlayingBack: component.playback.isPlayingBack,
 		}
 	}
-	const mapDispatchToProps = dispatch =>
+	const mapDispatchToProps = (dispatch: Dispatch<any>) =>
 		bindActionCreators(
 			{
 				onClear: DagHistoryActions.clear,

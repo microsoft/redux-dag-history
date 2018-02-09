@@ -25,14 +25,15 @@ function getStateList(
 	const { currentBranch, currentStateId } = historyGraph
 
 	const activeBranchStartsAt = historyGraph.branchStartDepth(currentBranch)
-	const isBookmarked = id => bookmarks.map(b => b.stateId).includes(id)
+	const isBookmarked = (id: StateId) =>
+		bookmarks.map(b => b.stateId).includes(id)
 
 	//
 	// Transform state-ids into data that is used to render the states in the StateList view
 	//
 	const getStateData = (
-		id,
-		index,
+		id: StateId,
+		index: number,
 		isSuccessor?: boolean,
 		isCurrentBranchSuccessor?: boolean,
 	) => {
@@ -133,8 +134,8 @@ const StateListContainer: React.StatelessComponent<StateListContainerProps> = ({
 	const commitPathtoUse = commitPath || getCurrentCommitPath(historyGraph)
 	const { currentStateId } = historyGraph
 
-	const onStateContinuationClick = id => onPinState(id)
-	const onStateBookmarkClick = id => {
+	const onStateContinuationClick = (id: StateId) => onPinState(id)
+	const onStateBookmarkClick = (id: StateId) => {
 		log('bookmarking state %s', id)
 		const bookmarked = bookmarks.map(b => b.stateId).includes(id)
 		log('bookmarked?', bookmarked)

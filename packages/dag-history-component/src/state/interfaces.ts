@@ -1,6 +1,4 @@
-import {
-	Configuration, // eslint-disable-line no-unused-vars
-} from '@essex/redux-dag-history/lib/interfaces'
+import { Configuration } from '@essex/redux-dag-history/lib/interfaces'
 
 export interface ComponentConfiguration<T> extends Configuration<T> {
 	initialViewState: {

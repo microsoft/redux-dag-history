@@ -1,15 +1,9 @@
 {
+	"extends": "../../tsconfig.json",
 	"compilerOptions": {
-		"module": "es2015",
-		"jsx": "react",
-		"target": "es2015",
-		"moduleResolution": "node",
-		"noImplicitAny": false,
-		"sourceMap": false,
-		"experimentalDecorators": true,
-		"declaration": true,
 		"outDir": "lib",
-		"lib": ["es2015", "dom", "es2016.array.include"]
+		"declaration": true,
+		"noEmit": false
 	},
 	"files": ["src/index.ts"]
 }

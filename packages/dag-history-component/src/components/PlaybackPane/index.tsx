@@ -45,7 +45,7 @@ const PlaybackPane: React.StatelessComponent<PlaybackPaneProps> = props => {
 				leadIn={bookmarkNumLeadInStates}
 				depth={bookmarkDepth - 1}
 				highlight={bookmarkHighlight}
-				onIndexClicked={idx => onDiscoveryTrailIndexClicked(idx)}
+				onIndexClicked={(idx: number) => onDiscoveryTrailIndexClicked(idx)}
 			/>
 		</Container>
 	)

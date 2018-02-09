@@ -1,12 +1,3 @@
 {
-	"compilerOptions": {
-		"module": "es2015",
-		"jsx": "react",
-		"target": "es2015",
-		"noImplicitAny": false,
-		"sourceMap": false,
-		"experimentalDecorators": true,
-		"lib": ["es2017", "dom"]
-	},
-	"files": ["src/app.tsx"]
+	"extends": "../../tsconfig.json"
 }

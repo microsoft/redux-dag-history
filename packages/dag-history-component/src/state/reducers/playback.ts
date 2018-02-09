@@ -1,21 +1,29 @@
-import {
-	Configuration, // eslint-disable-line no-unused-vars
-} from '@essex/redux-dag-history/lib/interfaces'
+import { Configuration } from '@essex/redux-dag-history/lib/interfaces'
 import {
 	SELECT_BOOKMARK_DEPTH,
 	START_PLAYBACK,
 	STOP_PLAYBACK,
 } from '../actions/types'
 import isHistoryAction from './isHistoryAction'
+import { Action } from 'redux-actions'
 
-export const INITIAL_STATE = {
+export interface State {
+	isPlayingBack: boolean
+	bookmark?: number
+	depth?: number
+}
+
+export const INITIAL_STATE: State = {
 	isPlayingBack: false,
 	bookmark: undefined,
 	depth: undefined,
 }
 
 export default function(config: Configuration<any>) {
-	return function reduce(state = INITIAL_STATE, action) {
+	return function reduce(
+		state: State = INITIAL_STATE,
+		action: ReduxActions.Action<any>,
+	) {
 		let result = state
 		if (action.type === START_PLAYBACK) {
 			const { initialDepth } = action.payload

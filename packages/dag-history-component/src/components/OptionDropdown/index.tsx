@@ -9,14 +9,16 @@ import {
 const MdMoreVert = require('react-icons/lib/md/more-vert')
 const { default: Dropdown } = require('react-simple-dropdown')
 
+export interface Option {
+	element?: JSX.Element
+	label?: string
+	onClick: Function
+}
+
 export interface OptionDropdownProps {
 	label?: string
 	icon?: JSX.Element
-	options?: Array<{
-		element?: JSX.Element
-		label?: string
-		onClick: Function
-	}>
+	options?: Option[]
 	triggerClass?: string
 	contentClass?: string
 }
@@ -25,7 +27,7 @@ export default class OptionDropdown extends React.Component<
 	OptionDropdownProps
 > {
 	public static defaultProps = {
-		options: [],
+		options: [] as Option[],
 	}
 
 	private dropdown: any
@@ -45,7 +47,7 @@ export default class OptionDropdown extends React.Component<
 				triggerIcon = <div>{triggerIcon}</div>
 			}
 
-			const optionClicked = onClick => {
+			const optionClicked = (onClick: Function) => {
 				onClick()
 				this.dropdown.hide()
 			}
@@ -55,7 +57,7 @@ export default class OptionDropdown extends React.Component<
 			}
 
 			result = (
-				<Dropdown ref={e => (this.dropdown = e)}>
+				<Dropdown ref={(e: any) => (this.dropdown = e)}>
 					<DropdownTrigger
 						className={triggerClass}
 						onClick={() => triggerClicked()}

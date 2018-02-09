@@ -1,6 +1,4 @@
-import {
-	Configuration, // eslint-disable-line no-unused-vars
-} from '@essex/redux-dag-history/lib/interfaces'
+import { Configuration } from '@essex/redux-dag-history/lib/interfaces'
 import {
 	ADD_BOOKMARK,
 	CHANGE_BOOKMARK,
@@ -8,10 +6,16 @@ import {
 	REMOVE_BOOKMARK,
 	RENAME_BOOKMARK,
 } from '../actions/types'
+import { Bookmark } from '../../interfaces'
+import { Action } from 'redux-actions'
 
-export const INITIAL_STATE = []
+export type State = Bookmark[]
+export const INITIAL_STATE: State = []
 
-export default function reduce(state = INITIAL_STATE, action) {
+export default function reduce(
+	state: State = INITIAL_STATE,
+	action: ReduxActions.Action<any>,
+) {
 	switch (action.type) {
 		case ADD_BOOKMARK: {
 			const { name, stateId, data } = action.payload

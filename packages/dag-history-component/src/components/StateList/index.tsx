@@ -32,19 +32,19 @@ export default class StateList extends React.Component<StateListProps> {
 			onStateBookmarkClick,
 		} = this.props
 
-		const handleClick = id => {
+		const handleClick = (id: StateId) => {
 			if (onStateClick) {
 				onStateClick(id)
 			}
 		}
 
-		const handleContinuationClick = id => {
+		const handleContinuationClick = (id: StateId) => {
 			if (onStateContinuationClick) {
 				onStateContinuationClick(id)
 			}
 		}
 
-		const handleBookmarkClick = id => {
+		const handleBookmarkClick = (id: StateId) => {
 			if (onStateBookmarkClick) {
 				onStateBookmarkClick(id)
 			}
@@ -61,7 +61,7 @@ export default class StateList extends React.Component<StateListProps> {
 			/>
 		))
 		return (
-			<Container ref={e => (this.containerDiv = e)}>
+			<Container innerRef={(e: HTMLDivElement) => (this.containerDiv = e)}>
 				{/* TODO
 				<Transition
 					transitionName="state-entry"

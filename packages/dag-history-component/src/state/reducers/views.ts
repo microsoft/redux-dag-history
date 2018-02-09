@@ -3,12 +3,17 @@ import {
 	SELECT_MAIN_VIEW,
 	TOGGLE_BRANCH_CONTAINER,
 } from '../actions/types'
-import {
-	ComponentConfiguration, // eslint-disable-line no-unused-vars
-} from '../interfaces'
+import { ComponentConfiguration } from '../interfaces'
 import isHistoryAction from './isHistoryAction'
+import { Action } from 'redux-actions'
 
-export const INITIAL_STATE = {
+export interface State {
+	mainView: string
+	historyType: string
+	branchContainerExpanded: boolean
+}
+
+export const INITIAL_STATE: State = {
 	mainView: 'history',
 	historyType: 'branched',
 	branchContainerExpanded: true,
@@ -19,7 +24,10 @@ export default function makeReducer<T>(config: ComponentConfiguration<T>) {
 		...INITIAL_STATE,
 		...config.initialViewState,
 	}
-	return function reduce(state = initialState, action) {
+	return function reduce(
+		state: State = initialState,
+		action: ReduxActions.Action<any>,
+	) {
 		let result = state
 		if (action.type === SELECT_MAIN_VIEW) {
 			result = {

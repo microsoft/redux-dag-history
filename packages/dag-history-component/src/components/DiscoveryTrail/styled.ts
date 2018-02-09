@@ -15,11 +15,11 @@ const statePagerBorderColor = '1px solid #cbcbcb'
 export const PagerState = styled.div``
 
 const Pager = (
-	borderColor,
-	highlightedColor,
-	highlightedInactiveColor,
-	leadInColor,
-	emptyColor,
+	borderColor: string,
+	highlightedColor: string,
+	highlightedInactiveColor: string,
+	leadInColor: string,
+	emptyColor: string,
 ) =>
 	styled.div`
 		display: flex;

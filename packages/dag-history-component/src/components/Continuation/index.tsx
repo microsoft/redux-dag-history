@@ -16,7 +16,7 @@ function getContinuationText(count: number) {
 
 function handleClick(handler: Function) {
 	if (handler) {
-		return evt => {
+		return (evt: React.MouseEvent<any>) => {
 			handler(evt)
 			evt.stopPropagation()
 		}

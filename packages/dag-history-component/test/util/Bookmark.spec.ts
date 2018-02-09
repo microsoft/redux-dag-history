@@ -1,8 +1,8 @@
 import Bookmark from '../../src/util/Bookmark'
+import { Bookmark as BookmarkData } from '../../src/interfaces'
 
 class TestableBookmark extends Bookmark {
-	constructor(bookmark, private commitPathVar: number[]) {
-		// eslint-disable-line
+	constructor(bookmark: BookmarkData, private commitPathVar: number[]) {
 		super(bookmark, null)
 	}
 
@@ -13,19 +13,19 @@ class TestableBookmark extends Bookmark {
 
 describe('The Bookmark Class', () => {
 	it('can be constructed', () => {
-		const bm = new TestableBookmark({}, [])
-		expect(bm).to.be.ok
+		const bm = new TestableBookmark(({} as any) as BookmarkData, [])
+		expect(bm).toBeDefined()
 	})
 
 	it('can determine the number of lead-in states', () => {
 		let bm = new TestableBookmark({ data: { numLeadInStates: 3 } }, [])
-		expect(bm.numLeadInStates).to.equal(3)
+		expect(bm.numLeadInStates).toEqual(3)
 
 		bm = new TestableBookmark({ data: {} }, [])
-		expect(bm.numLeadInStates).to.equal(undefined)
+		expect(bm.numLeadInStates).toEqual(undefined)
 
 		bm = new TestableBookmark({}, [])
-		expect(bm.numLeadInStates).to.equal(undefined)
+		expect(bm.numLeadInStates).toEqual(undefined)
 	})
 
 	it('can determine the annotation', () => {

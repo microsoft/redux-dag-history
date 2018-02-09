@@ -15,7 +15,7 @@ import {
 
 const Bookmark = require('react-icons/lib/io/bookmark')
 
-const coloring = {
+const coloring: { [key: string]: { [key: string]: string } } = {
 	current: {
 		active: colors.CURRENT_ACTIVE,
 		nonactive: colors.CURRENT,
@@ -46,8 +46,6 @@ function continuationColor(active: boolean, pinned: boolean) {
 
 export default class State extends React.PureComponent<StateProps> {
 	public static defaultProps = {
-		id: undefined,
-		source: undefined,
 		showContinuation: true,
 		label: '',
 		branchType: BranchType.CURRENT,
@@ -73,19 +71,19 @@ export default class State extends React.PureComponent<StateProps> {
 		} = this.props
 		const backgroundColor = getBackgroundColor(branchType, active)
 
-		const handleClick = e => {
+		const handleClick = () => {
 			if (onClick) {
 				onClick(id)
 			}
 		}
 
-		const handleContinuationClick = e => {
+		const handleContinuationClick = () => {
 			if (onContinuationClick) {
 				onContinuationClick(id)
 			}
 		}
 
-		const handleBookmarkClick = e => {
+		const handleBookmarkClick = () => {
 			if (onBookmarkClick) {
 				onBookmarkClick(id)
 			}
@@ -96,7 +94,7 @@ export default class State extends React.PureComponent<StateProps> {
 				<Continuation
 					count={numChildren}
 					color={continuationColor(active, pinned)}
-					onClick={e => handleContinuationClick(e)}
+					onClick={() => handleContinuationClick()}
 				/>
 			</ContinuationContainer>
 		) : null
@@ -105,7 +103,7 @@ export default class State extends React.PureComponent<StateProps> {
 			<Bookmark
 				size={25}
 				color={bookmarked ? 'gold' : 'white'}
-				onClick={e => handleBookmarkClick(e)}
+				onClick={() => handleBookmarkClick()}
 			/>
 		) : null
 
@@ -118,7 +116,7 @@ export default class State extends React.PureComponent<StateProps> {
 					...this.props.style,
 					backgroundColor,
 				}}
-				onClick={e => handleClick(e)}
+				onClick={e => handleClick()}
 			>
 				<Transition
 					transitionName="continuation-dissolve"

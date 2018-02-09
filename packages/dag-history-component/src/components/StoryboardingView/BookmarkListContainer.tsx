@@ -83,7 +83,7 @@ const BookmarkListContainer: React.StatelessComponent<
 			active,
 			annotation: b.data.annotation || '',
 			numLeadInStates: b.data.numLeadInStates,
-			onBookmarkChange: ({ name, data }) =>
+			onBookmarkChange: ({ name, data }: { name: string; data: any }) =>
 				onBookmarkChange({ stateId, name, data }),
 			shortestCommitPath,
 			selectedDepth,
@@ -98,7 +98,9 @@ const BookmarkListContainer: React.StatelessComponent<
 			hoverIndex={hoverIndex}
 			dragKey={dragKey}
 			bookmarks={bookmarkData}
-			onBookmarkClick={(index, state) => onSelectBookmark(index, state)}
+			onBookmarkClick={(index: number, state: any) =>
+				onSelectBookmark(index, state)
+			}
 			onSelectState={onSelectState}
 			onSelectBookmarkDepth={onSelectBookmarkDepth}
 		/>

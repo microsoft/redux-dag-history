@@ -9,6 +9,8 @@ import {
 	DropTarget,
 	DragSourceMonitor,
 	DropTargetMonitor,
+	DragSourceCollector,
+	DropTargetCollector,
 } from 'react-dnd'
 import {
 	bookmarkDragCancel,
@@ -75,12 +77,12 @@ const dropTargetSpec = {
 	},
 }
 
-const connectDragSource = (c, monitor) => ({
+const connectDragSource: DragSourceCollector = (c, monitor) => ({
 	connectDragSource: c.dragSource(),
 	isDragging: monitor.isDragging(),
 })
 
-const connectDropTarget = (c, monitor) => ({
+const connectDropTarget: DropTargetCollector = (c, monitor) => ({
 	connectDropTarget: c.dropTarget(),
 })
 

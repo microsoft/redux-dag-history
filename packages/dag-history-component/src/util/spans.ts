@@ -3,11 +3,7 @@ import * as debug from 'debug'
 const log = debug('dag-history-component:SpanCalculator')
 
 export class Span {
-	constructor(
-		public start: number,
-		public end: number,
-		public type: string, // eslint-disable-line no-unused-vars
-	) {}
+	constructor(public start: number, public end: number, public type: string) {}
 
 	public toString() {
 		return `Span::${this.type}[${this.start} => ${this.end}]`
@@ -21,7 +17,7 @@ export class Span {
 		return other.start === this.start && other.end === this.end
 	}
 
-	public contains(index) {
+	public contains(index: number) {
 		return index >= this.start && index <= this.end
 	}
 }
@@ -29,7 +25,11 @@ export class Span {
 /**
  * Gets the initial set of common spans for a branch profile
  */
-export function initialSpans(start: number, max: number, type = 'NONE') {
+export function initialSpans(
+	start: number,
+	max: number,
+	type: string = 'NONE',
+) {
 	return [new Span(start, max + 1, type)]
 }
 

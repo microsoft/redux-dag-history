@@ -1,6 +1,6 @@
 import { initialSpans, insertSpan, Span } from '../../util/spans'
 
-const isNumber = d => !isNaN(d) && d !== null
+const isNumber = (d: number | null | undefined) => !isNaN(d) && d !== null
 
 export default function calculateSpans(
 	depth: number,

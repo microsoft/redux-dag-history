@@ -32,7 +32,7 @@ export default class DagGraph<T> {
 	public print(): string {
 		const graph = this.graph.toJS()
 		let root: any = null
-		const states = {}
+		const states: { [key: string]: any } = {}
 		const getOrCreateState = (stateId: StateId) => {
 			let result = states[stateId]
 			if (!result) {

@@ -5,8 +5,7 @@ import dragDrop from './dragDrop'
 import pinnedState from './pinnedState'
 import playback from './playback'
 import views from './views'
-
-import { ComponentConfiguration } from '../interfaces' // eslint-disable-line no-unused-vars
+import { ComponentConfiguration } from '../interfaces'
 
 export default function createReducer<T>(config: ComponentConfiguration<T>) {
 	return redux.combineReducers({

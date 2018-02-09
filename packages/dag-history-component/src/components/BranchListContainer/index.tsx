@@ -34,7 +34,7 @@ export default class BranchListContainer extends React.Component<
 		const pinnedStateBranch = historyGraph.branchOf(pinnedState)
 
 		// Determine what branches are on the commit path
-		const branchPaths = {}
+		const branchPaths: { [key: string]: { start: number; end: number } } = {}
 		const branchPath = commitPath.map(commit => historyGraph.branchOf(commit))
 		branchPath.forEach((branch, index) => {
 			if (branchPaths[branch]) {
@@ -45,7 +45,7 @@ export default class BranchListContainer extends React.Component<
 		})
 
 		// This is a hash of branchId -> stateId
-		const selectedSuccessorsByBranch = {}
+		const selectedSuccessorsByBranch: { [key: string]: StateId } = {}
 		if (pinnedState !== undefined) {
 			historyGraph.childrenOf(pinnedState).forEach(child => {
 				const branch = historyGraph.branchOf(child)
@@ -53,12 +53,12 @@ export default class BranchListContainer extends React.Component<
 			})
 		}
 
-		const getSuccessorDepth = branch => {
+		const getSuccessorDepth = (branch: BranchId) => {
 			const successorId = selectedSuccessorsByBranch[branch]
 			return successorId ? historyGraph.depthIndexOf(branch, successorId) : null
 		}
 
-		const getPinnedStateDepth = branch => {
+		const getPinnedStateDepth = (branch: BranchId) => {
 			if (pinnedState !== undefined || pinnedStateBranch !== branch) {
 				return null
 			}
@@ -72,7 +72,9 @@ export default class BranchListContainer extends React.Component<
 		)
 
 		let maxDepth = 0
-		const branchData = {}
+		const branchData: {
+			[key: string]: { startsAt: number; endsAt: number; length: number }
+		} = {}
 		branches.forEach(branch => {
 			const startsAt = historyGraph.branchStartDepth(branch)
 			const endsAt = historyGraph.branchEndDepth(branch)
@@ -116,7 +118,7 @@ export default class BranchListContainer extends React.Component<
 					currentBranchEnd,
 					successorDepth,
 					pinnedStateIndex,
-					onRename: name => onRenameBranch({ branch, name }),
+					onRename: (name: string) => onRenameBranch({ branch, name }),
 				}
 			})
 			.filter(
@@ -132,7 +134,7 @@ export default class BranchListContainer extends React.Component<
 		const commitPath = getCurrentCommitPath(historyGraph)
 		const { currentBranch } = historyGraph
 		const { onBranchSelect } = this.props
-		const onBranchContinuationClick = id =>
+		const onBranchContinuationClick = (id: BranchId) =>
 			log('branch continuation clicked', id)
 		const branchList = this.getBranchList(historyGraph, commitPath)
 		return (

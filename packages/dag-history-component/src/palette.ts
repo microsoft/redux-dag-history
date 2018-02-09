@@ -1,4 +1,4 @@
-const colors = {
+const colors: { [key: string]: string } = {
 	// Profile Colors
 	NONE: 'transparent',
 	CURRENT_ACTIVE: '#70A5D3',

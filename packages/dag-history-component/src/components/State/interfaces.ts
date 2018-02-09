@@ -1,8 +1,5 @@
 import DagGraph from '@essex/redux-dag-history/lib/DagGraph'
-import {
-	DagHistory, // eslint-disable-line no-unused-vars
-	StateId, // eslint-disable-line no-unused-vars
-} from '@essex/redux-dag-history/lib/interfaces'
+import { DagHistory, StateId } from '@essex/redux-dag-history/lib/interfaces'
 import { BranchType } from '../../interfaces'
 
 export interface StateProps {

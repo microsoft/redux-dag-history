@@ -21,8 +21,7 @@ export function jump<T>(
 	return {
 		current: unfreeze(targetState),
 		graph: graph.withMutations(g => {
-			const writer = new DagGraph<T>(g) // eslint-disable-line new-parens
-				.setCurrentStateId(stateId)
+			const writer = new DagGraph<T>(g).setCurrentStateId(stateId)
 			callback(writer)
 		}),
 	}

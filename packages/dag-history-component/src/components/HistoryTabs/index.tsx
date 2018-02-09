@@ -3,14 +3,14 @@ import OptionDropdown from '../OptionDropdown'
 import { Container, OptionMenu } from './styled'
 import { Tab, TabList, TabPanel, Tabs } from 'react-tabs'
 
-const viewNameToIndex = {
+const viewNameToIndex: { [key: string]: number } = {
 	history: 0,
 	storyboarding: 1,
 }
 const indexToViewName = ['history', 'storyboarding']
 
 function handleTabSelector(onTabSelect: (view: string) => void) {
-	return index => onTabSelect(indexToViewName[index])
+	return (index: number) => onTabSelect(indexToViewName[index])
 }
 
 export interface HistoryContainerProps {

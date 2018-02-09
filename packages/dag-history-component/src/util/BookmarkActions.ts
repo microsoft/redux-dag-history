@@ -1,6 +1,7 @@
 import DagGraph from '@essex/redux-dag-history/lib/DagGraph'
+import { StateId } from '@essex/redux-dag-history/lib/interfaces'
 import * as debug from 'debug'
-import { Bookmark as BookmarkData } from '../interfaces' // eslint-disable-line no-unused-vars
+import { Bookmark as BookmarkData } from '../interfaces'
 import Bookmark from './Bookmark'
 
 const log = debug('dag-history-component:BookmarkActions')
@@ -20,16 +21,16 @@ export default function makeActions(
 		}
 		return new Bookmark(bookmarks[index], graph)
 	}
-	const jump = (index: number, jumpToDepth: number) => {
-		const target = bookmarkAt(index)
-		const state = target.getStateAtDepth(jumpToDepth)
+	const jump = (index: number, jumpToDepth?: number) => {
+		const target: Bookmark = bookmarkAt(index)
+		const state: StateId = target.getStateAtDepth(jumpToDepth)
 		onSelectBookmarkDepth({ bookmarkIndex: index, depth: jumpToDepth, state })
 	}
 	const bookmarkIndex =
 		rawSelectedBookmark !== undefined
 			? rawSelectedBookmark
 			: Math.max(0, bookmarks.findIndex(it => it.stateId === currentStateId))
-	const bookmark = bookmarkAt(bookmarkIndex)
+	const bookmark: Bookmark = bookmarkAt(bookmarkIndex)
 	const depth = bookmark
 		? bookmark.sanitizeDepth(rawSelectedBookmarkDepth)
 		: null
@@ -77,8 +78,7 @@ export default function makeActions(
 
 	const handleStepBack = () => rawStepBack(bookmark.isDepthAtStart(depth))
 	const handleStepBackUnbounded = () => rawStepBack(depth === 0)
-
-	const handleJumpToBookmark = (index: number) => jump(index, undefined)
+	const handleJumpToBookmark = (index: number) => jump(index)
 	const handlePreviousBookmark = () =>
 		handleJumpToBookmark(Math.max(bookmarkIndex - 1, 0))
 	const handleNextBookmark = () =>

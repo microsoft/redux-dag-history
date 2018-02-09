@@ -21,12 +21,16 @@ export interface BookmarkProps {
 	onDiscoveryTrailIndexClicked?: (index: number) => void
 }
 
-const determineHighlight = props => {
+function determineHighlight(props: BookmarkProps): number {
+	/*
+	TODO: Props here were wrong - fix highlight
 	const { selectedDepth } = props
 	if (selectedDepth === undefined && props.active) {
 		return Math.max(0, (props.shortestCommitPath || []).length - 1)
 	}
 	return selectedDepth
+	*/
+	return 0
 }
 
 const Bookmark: React.StatelessComponent<BookmarkProps> = (
@@ -52,7 +56,7 @@ const Bookmark: React.StatelessComponent<BookmarkProps> = (
 			highlight={highlight}
 			leadIn={numLeadInStates}
 			active={active}
-			onIndexClicked={idx => onDiscoveryTrailIndexClicked(idx)}
+			onIndexClicked={(idx: number) => onDiscoveryTrailIndexClicked(idx)}
 		/>
 	) : null
 	return (

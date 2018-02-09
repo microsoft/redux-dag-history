@@ -17,12 +17,12 @@ import {
 const BranchedIcon = require('react-icons/lib/go/git-branch')
 const ChronologicalIcon = require('react-icons/lib/go/three-bars')
 
-const viewLabels = {
+const viewLabels: { [key: string]: string } = {
 	branched: 'Branched',
 	chronological: 'Chronological',
 }
 
-const viewIcons = {
+const viewIcons: { [key: string]: JSX.Element } = {
 	branched: <BranchedIcon size={20} />,
 	chronological: <ChronologicalIcon size={20} />,
 }
@@ -48,7 +48,7 @@ const HistoryView: React.StatelessComponent<HistoryViewProps> = props => {
 			<BranchedHistoryView {...props} />
 		)
 
-	const historyTypeOption = name => ({
+	const historyTypeOption = (name: string) => ({
 		label: viewLabels[name],
 		element: (
 			<DropdownOptionRow>

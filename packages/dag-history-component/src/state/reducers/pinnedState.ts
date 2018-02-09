@@ -1,14 +1,18 @@
-import {
-	Configuration, // eslint-disable-line no-unused-vars
-} from '@essex/redux-dag-history/lib/interfaces'
+import { Configuration, StateId } from '@essex/redux-dag-history/lib/interfaces'
 import { PIN_STATE } from '../actions/types'
+import { Action } from 'redux-actions'
 
-export const INITIAL_STATE = {
-	id: undefined,
+export interface State {
+	id?: StateId
 }
 
+export const INITIAL_STATE = {}
+
 export default function makeReducer(config: Configuration<any>) {
-	return function reduce(state = INITIAL_STATE, action) {
+	return function reduce(
+		state: State = INITIAL_STATE,
+		action: ReduxActions.Action<any>,
+	) {
 		let result = state
 		if (action.type === PIN_STATE) {
 			const stateId = action.payload

@@ -57,8 +57,6 @@ export default class DiscoveryTrail extends React.Component<
 		vertical: false,
 		active: false,
 		depth: 0,
-		highlight: undefined,
-		leadIn: undefined,
 		fullWidth: false,
 	}
 
@@ -121,7 +119,7 @@ export default class DiscoveryTrail extends React.Component<
 			<Pager
 				className={this.pagerClass}
 				onClick={e => this.handleClick(e)}
-				ref={e => (this.containerDiv = e)}
+				innerRef={(e: HTMLDivElement) => (this.containerDiv = e)}
 			>
 				{spanTags}
 			</Pager>

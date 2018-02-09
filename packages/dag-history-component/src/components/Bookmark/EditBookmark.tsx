@@ -35,7 +35,7 @@ export interface EditBookmarkProps {
 }
 
 export default class EditBookmark extends React.Component<EditBookmarkProps> {
-	private annotationComponent: HTMLTextAreaElement
+	private annotationComponent?: HTMLTextAreaElement
 	private leadInComponent: HTMLSelectElement
 
 	public componentDidMount() {
@@ -170,7 +170,9 @@ export default class EditBookmark extends React.Component<EditBookmarkProps> {
 							highlight={selectedDepth}
 							leadIn={numLeadInStates}
 							active={active}
-							onIndexClicked={idx => onDiscoveryTrailIndexClicked(idx)}
+							onIndexClicked={(idx: number) =>
+								onDiscoveryTrailIndexClicked(idx)
+							}
 						/>
 					</div>
 				</DetailsEditable>

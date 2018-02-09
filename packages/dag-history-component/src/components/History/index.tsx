@@ -19,7 +19,7 @@ const log = debug('dag-history-component:components:History')
 export interface HistoryDispatchProps {
 	onLoad?: Function
 	onClear?: Function
-	onSelectMainView?: (view: string) => void
+	onSelectMainView?: (view: string) => any
 	onToggleBranchContainer?: Function
 	onStartPlayback?: Function
 	onStopPlayback?: Function
@@ -126,7 +126,7 @@ export default class History extends React.Component<HistoryProps, {}> {
 					bookmarkDepth={bookmarkPath.length}
 					bookmarkHighlight={bookmarkHighlight}
 					bookmarkNumLeadInStates={numLeadInStates}
-					onDiscoveryTrailIndexClicked={selectedIndex => {
+					onDiscoveryTrailIndexClicked={(selectedIndex: number) => {
 						const target = bookmarkPath[selectedIndex]
 						onSelectBookmarkDepth({
 							target,
@@ -152,7 +152,7 @@ export default class History extends React.Component<HistoryProps, {}> {
 	public render() {
 		const {
 			mainView,
-			onSelectMainView = () => null,
+			onSelectMainView,
 			bookmarksEnabled,
 			isPlayingBack,
 			controlBar,

@@ -1,13 +1,11 @@
-import {
-	Configuration, // eslint-disable-line no-unused-vars
-} from '@essex/redux-dag-history/lib/interfaces'
+import { Configuration } from '@essex/redux-dag-history/lib/interfaces'
 import {
 	BOOKMARK_EDIT,
 	MOVE_BOOKMARK,
 	BOOKMARK_EDIT_DONE,
 } from '../actions/types'
 import isHistoryAction from './isHistoryAction'
-import { handleActions, Action } from 'redux-actions'
+import { Action } from 'redux-actions'
 
 export interface State {
 	editIndex: number

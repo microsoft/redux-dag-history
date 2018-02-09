@@ -22,7 +22,7 @@ export default function createHistory<T>(
 	}
 
 	// If possible, hash the initial state
-	const stateHash = {}
+	const stateHash: { [key: string]: any } = {}
 	if (config && config.stateKeyGenerator) {
 		const initialHash = config.stateKeyGenerator(initialState)
 		stateHash[initialHash] = stateId

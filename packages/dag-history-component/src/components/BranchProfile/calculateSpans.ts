@@ -1,7 +1,7 @@
 import { initialSpans, insertSpan, Span } from '../../util/spans'
 
-const isNumber = d => !isNaN(d) && d !== null
-const convertArg = (arg, offset) =>
+const isNumber = (d: number) => !isNaN(d) && d !== null
+const convertArg = (arg: number | undefined, offset: number) =>
 	arg !== null && arg !== undefined ? arg - offset : arg
 
 export default function calculateSpans(

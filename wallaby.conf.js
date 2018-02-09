@@ -1,4 +1,4 @@
-const wallabyWebpack = require('wallaby-webpack') // eslint-disable-line import/no-extraneous-dependencies
+const wallabyWebpack = require('wallaby-webpack')
 
 module.exports = function configureWallaby(wallaby) {
 	const webpackPostprocessor = wallabyWebpack({
@@ -30,7 +30,7 @@ module.exports = function configureWallaby(wallaby) {
 		},
 		postprocessor: webpackPostprocessor,
 		bootstrap() {
-			window.__moduleBundler.loadTests() // eslint-disable-line no-underscore-dangle
+			window.__moduleBundler.loadTests()
 		},
 		env: {
 			kind: 'electron',

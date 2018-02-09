@@ -1,6 +1,7 @@
 import * as DagHistoryActions from '@essex/redux-dag-history/lib/ActionCreators'
 import { StateId } from '@essex/redux-dag-history/lib/interfaces'
 import * as ReduxActions from 'redux-actions'
+import { Dispatch } from 'redux'
 import * as Types from './types'
 
 const { createAction } = ReduxActions
@@ -41,21 +42,21 @@ export const bookmarkEditDone = createAction(Types.BOOKMARK_EDIT_DONE)
 
 // Composite Action Creators
 export function changeBookmark(payload: ChangeBookmarkPayload) {
-	return dispatch => {
+	return (dispatch: Dispatch<any>) => {
 		dispatch(doChangeBookmark(payload))
 		dispatch(bookmarkEditDone())
 	}
 }
 
 export function startPlayback(payload: StartPlaybackPayload) {
-	return dispatch => {
+	return (dispatch: Dispatch<any>) => {
 		dispatch(DagHistoryActions.jumpToState(payload.stateId))
 		dispatch(doStartPlayback(payload))
 	}
 }
 
 export function bookmarkDragDrop(payload: BookmarkDragDropPayload) {
-	return dispatch => {
+	return (dispatch: Dispatch<any>) => {
 		dispatch(doBookmarkDragDrop())
 		if (payload.droppedOn >= 0) {
 			dispatch(
@@ -72,7 +73,7 @@ export const selectBookmarkDepth = (
 	payload: BookmarkDepthAndStateSelection,
 ) => {
 	const { bookmarkIndex, depth, state } = payload
-	return dispatch => {
+	return (dispatch: Redux.Dispatch<any>) => {
 		dispatch(doSelectBookmarkDepth({ bookmarkIndex, depth }))
 		dispatch(DagHistoryActions.jumpToState(state))
 	}

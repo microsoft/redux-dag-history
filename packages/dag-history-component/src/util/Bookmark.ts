@@ -1,5 +1,5 @@
-import DagGraph from '@essex/redux-dag-history/lib/DagGraph' // eslint-disable-line
-
+import DagGraph from '@essex/redux-dag-history/lib/DagGraph'
+import { Bookmark as BookmarkData } from '../interfaces'
 /**
  * Represents bookmark data for our bookmark
  */
@@ -9,31 +9,25 @@ export default class Bookmark {
 	 * @param bookmark - The bookmark item in state
 	 * @param graph - The source graph for the bookmark
 	 */
-	constructor(
-		// eslint-disable-line
-		private bookmark: any, // eslint-disable-line
-		private graph: DagGraph<any>, // eslint-disable-line
-	) {
-		// eslint-disable-line
-	}
+	constructor(private bookmark: BookmarkData, private graph: DagGraph<any>) {}
 
 	public get numLeadInStates() {
-		const { bookmark } = this
+		const bookmark = this.bookmark
 		return bookmark && bookmark.data && bookmark.data.numLeadInStates
 	}
 
 	public get annotation() {
-		const { bookmark } = this
+		const bookmark = this.bookmark
 		return bookmark && bookmark.data && bookmark.data.annotation
 	}
 
 	public get name() {
-		const { bookmark } = this
+		const bookmark = this.bookmark
 		return bookmark.name
 	}
 
 	public get stateId() {
-		const { bookmark } = this
+		const bookmark = this.bookmark
 		return bookmark.stateId
 	}
 
@@ -97,7 +91,7 @@ export default class Bookmark {
 		if (depth !== undefined) {
 			return depth
 		}
-		const { commitPathLength } = this
+		const commitPathLength = this.commitPathLength
 		return commitPathLength - 1
 	}
 }

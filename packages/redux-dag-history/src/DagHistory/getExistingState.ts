@@ -18,8 +18,7 @@ export default function getExistingState<T>(
 		const found = dagGraph.getStateForHash(hash)
 
 		if (found) {
-			const existingState = new DagGraph<T>(history.graph) // eslint-disable-line new-parens
-				.getState(found)
+			const existingState = new DagGraph<T>(history.graph).getState(found)
 			const areEqual = config.stateEqualityPredicate(newState, existingState)
 			if (areEqual) {
 				return found
