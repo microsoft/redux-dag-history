@@ -1,4 +1,5 @@
 import * as debug from 'debug'
+// tslint:disable-next-line no-implicit-dependencies
 import { Reducer } from 'redux'
 import { Action } from 'redux-actions'
 import Configuration from './Configuration'

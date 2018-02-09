@@ -14,9 +14,11 @@ const doBookmarkDragDrop = createAction(Types.BOOKMARK_DRAG_DROP)
 export const doStartPlayback = createAction<StartPlaybackPayload>(
 	Types.START_PLAYBACK,
 )
-export const selectMainView = createAction(Types.SELECT_MAIN_VIEW)
+export const selectMainView = createAction<string>(Types.SELECT_MAIN_VIEW)
 export const selectHistoryType = createAction<string>(Types.SELECT_HISTORY_TYPE)
-export const toggleBranchContainer = createAction(Types.TOGGLE_BRANCH_CONTAINER)
+export const toggleBranchContainer = createAction<{ index: number }>(
+	Types.TOGGLE_BRANCH_CONTAINER,
+)
 export const stopPlayback = createAction(Types.STOP_PLAYBACK)
 export const bookmarkDragStart = createAction<BookmarkDragStartPayload>(
 	Types.BOOKMARK_DRAG_START,

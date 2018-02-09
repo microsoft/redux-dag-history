@@ -5,12 +5,15 @@ import * as ActionTypes from '../../../src/state/actions/types'
 
 describe('The Action Creators Module', () => {
 	it('has action creators that emit FSA-compliant actions', () => {
-		expect(ActionCreators.selectMainView('derp')).to.deep.equal({
+		expect(ActionCreators.selectMainView('derp')).toEqual({
 			type: ActionTypes.SELECT_MAIN_VIEW,
 			payload: 'derp',
 		})
-		expect(ActionCreators.toggleBranchContainer()).to.deep.equal({
+		expect(ActionCreators.toggleBranchContainer({ index: 3 })).toEqual({
 			type: ActionTypes.TOGGLE_BRANCH_CONTAINER,
+			payload: {
+				index: 3,
+			},
 		})
 	})
 
@@ -19,14 +22,14 @@ describe('The Action Creators Module', () => {
 			const dispatch = sinon.spy()
 			ActionCreators.bookmarkDragDrop({ index: 0, droppedOn: 1 })(dispatch)
 
-			expect(dispatch.callCount).to.equal(2)
+			expect(dispatch.callCount).toEqual(2)
 			const firstAction = dispatch.getCall(0).args[0]
-			expect(firstAction.type).to.equal(ActionTypes.BOOKMARK_DRAG_DROP)
-			expect(firstAction.payload).to.be.undefined
+			expect(firstAction.type).toEqual(ActionTypes.BOOKMARK_DRAG_DROP)
+			expect(firstAction.payload).toBeUndefined()
 
 			const secondAction = dispatch.getCall(1).args[0]
-			expect(secondAction.type).to.equal(ActionTypes.MOVE_BOOKMARK)
-			expect(secondAction.payload).to.deep.equal({ from: 0, to: 1 })
+			expect(secondAction.type).toEqual(ActionTypes.MOVE_BOOKMARK)
+			expect(secondAction.payload).toEqual({ from: 0, to: 1 })
 		})
 
 		it('will only emit a drop event when the to index is invalid', () => {
@@ -35,9 +38,9 @@ describe('The Action Creators Module', () => {
 				dispatch,
 			)
 
-			expect(dispatch.callCount).to.equal(1)
+			expect(dispatch.callCount).toEqual(1)
 			const firstAction = dispatch.getCall(0).args[0]
-			expect(firstAction.type).to.equal(ActionTypes.BOOKMARK_DRAG_DROP)
+			expect(firstAction.type).toEqual(ActionTypes.BOOKMARK_DRAG_DROP)
 		})
 	})
 
@@ -52,14 +55,14 @@ describe('The Action Creators Module', () => {
 				dispatch,
 			)
 
-			expect(dispatch.callCount).to.equal(2)
+			expect(dispatch.callCount).toEqual(2)
 			const firstAction = dispatch.getCall(0).args[0]
-			expect(firstAction.type).to.equal(ActionTypes.SELECT_BOOKMARK_DEPTH)
-			expect(firstAction.payload).to.deep.equal({ bookmarkIndex, depth })
+			expect(firstAction.type).toEqual(ActionTypes.SELECT_BOOKMARK_DEPTH)
+			expect(firstAction.payload).toEqual({ bookmarkIndex, depth })
 
 			const secondAction = dispatch.getCall(1).args[0]
-			expect(secondAction.type).to.equal(DagHistoryActions.JUMP_TO_STATE)
-			expect(secondAction.payload).to.deep.equal(state)
+			expect(secondAction.type).toEqual(DagHistoryActions.JUMP_TO_STATE)
+			expect(secondAction.payload).toEqual(state)
 		})
 	})
 
@@ -70,17 +73,17 @@ describe('The Action Creators Module', () => {
 			const dispatch = sinon.spy()
 			ActionCreators.selectBookmark(bookmarkIndex, state)(dispatch)
 
-			expect(dispatch.callCount).to.equal(2)
+			expect(dispatch.callCount).toEqual(2)
 			const firstAction = dispatch.getCall(0).args[0]
-			expect(firstAction.type).to.equal(ActionTypes.SELECT_BOOKMARK_DEPTH)
-			expect(firstAction.payload).to.deep.equal({
+			expect(firstAction.type).toEqual(ActionTypes.SELECT_BOOKMARK_DEPTH)
+			expect(firstAction.payload).toEqual({
 				bookmarkIndex,
 				depth: undefined,
 			})
 
 			const secondAction = dispatch.getCall(1).args[0]
-			expect(secondAction.type).to.equal(DagHistoryActions.JUMP_TO_STATE)
-			expect(secondAction.payload).to.deep.equal(state)
+			expect(secondAction.type).toEqual(DagHistoryActions.JUMP_TO_STATE)
+			expect(secondAction.payload).toEqual(state)
 		})
 	})
 })
