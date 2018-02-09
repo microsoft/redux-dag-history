@@ -7,16 +7,18 @@ import {
 	pickRandomColor as doPickRandomColor,
 } from '../../state/Actions'
 
-interface VisualBStateProps {
+export interface VisualBStateProps {
 	value: number
 }
-interface VisualBDispatchProps {
+
+export interface VisualBDispatchProps {
 	actions: {
 		increment: Function
 		decrement: Function
 	}
 }
-interface VisualBProps extends VisualBStateProps, VisualBDispatchProps {}
+
+export interface VisualBProps extends VisualBStateProps, VisualBDispatchProps {}
 
 const RawVisualB: React.StatelessComponent<VisualBProps> = ({
 	value,

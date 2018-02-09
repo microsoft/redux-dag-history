@@ -39,7 +39,7 @@ export function load() {
 			this.removeEventListener('change', handleChange, false)
 			log('Loading... on change!')
 			// tslint:disable-next-line no-string-literal
-			const file = this['files'][0]
+			const file = (this as any).files[0]
 			log('history file selected', file)
 			resolve(readJson(file))
 		})

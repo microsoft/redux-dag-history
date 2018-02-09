@@ -4,7 +4,7 @@ import reducers from './reducers'
 
 const composeEnhancers =
 	// tslint:disable-next-line no-string-literal
-	window['__REDUX_DEVTOOLS_EXTENSION_COMPOSE__'] || redux.compose
+	(window as any)['__REDUX_DEVTOOLS_EXTENSION_COMPOSE__'] || redux.compose
 const createStoreWithMiddleware = composeEnhancers(
 	redux.applyMiddleware(thunk),
 )(redux.createStore)

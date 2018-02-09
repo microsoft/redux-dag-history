@@ -7,15 +7,17 @@ import {
 	pickRandomColor as doPickRandomColor,
 } from '../../state/Actions'
 
-interface VisualAStateProps {
+export interface VisualAStateProps {
 	backgroundColor: string
 }
-interface VisualADispatchProps {
+
+export interface VisualADispatchProps {
 	actions: {
 		pickRandomColor: Function
 	}
 }
-interface VisualAProps extends VisualAStateProps, VisualADispatchProps {}
+
+export interface VisualAProps extends VisualAStateProps, VisualADispatchProps {}
 
 const RawVisualA: React.StatelessComponent<VisualAProps> = ({
 	backgroundColor,

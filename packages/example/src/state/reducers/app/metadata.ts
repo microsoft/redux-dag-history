@@ -1,6 +1,6 @@
 import * as Actions from '../../Actions'
 
-const DEFAULT_STATE = {
+const DEFAULT_STATE: State = {
 	name: 'Initial',
 	historyIndex: 0,
 	source: null,

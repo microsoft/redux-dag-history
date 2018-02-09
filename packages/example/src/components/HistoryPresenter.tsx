@@ -4,9 +4,9 @@ import createHistoryContainer from '@essex/dag-history-component/lib/components/
 import { load, save } from '../persister'
 
 const HistoryContainer = createHistoryContainer(
-	state => state.app,
-	state => state.component,
-	state => get(state, 'metadata.source'),
+	(state: any) => state.app,
+	(state: any) => state.component,
+	(state: any) => get(state, 'metadata.source'),
 )
 
 const HistoryPresenter: React.StatelessComponent<{}> = () => {

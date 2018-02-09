@@ -6,7 +6,12 @@
 		"start": "webpack-dev-server --host 0.0.0.0 --inline --history-api-fallback"
 	},
 	"license": "MIT",
-	"files": ["package.json", "README.md", "LICENSE", "src/"],
+	"files": [
+		"package.json",
+		"README.md",
+		"LICENSE",
+		"src/"
+	],
 	"devDependencies": {
 		"css-loader": "^0.28.9",
 		"exports-loader": "^0.7.0",
@@ -24,6 +29,7 @@
 		"@types/file-saver": "^1.3.0",
 		"@types/lodash": "^4.14.102",
 		"@types/react": "^16.0.36",
+		"@types/react-dnd-html5-backend": "^2.1.8",
 		"@types/react-dom": "^16.0.3",
 		"@types/react-redux": "^5.0.14",
 		"@types/react-router": "^4.0.21",

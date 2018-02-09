@@ -1,9 +1,9 @@
-const EVENT_MATCHERS = {
+const EVENT_MATCHERS: { [key: string]: RegExp } = {
 	HTMLEvents: /^(?:load|unload|abort|error|select|change|submit|reset|focus|blur|resize|scroll)$/,
 	MouseEvents: /^(?:click|dblclick|mouse(?:down|up|over|move|out))$/,
 }
 
-interface Options {
+export interface Options {
 	pointerX: number
 	pointerY: number
 	button: number
@@ -15,7 +15,7 @@ interface Options {
 	cancelable: boolean
 }
 
-type Optional<T> = { [K in keyof T]?: T[K] }
+export type Optional<T> = { [K in keyof T]?: T[K] }
 
 const DEFAULT_OPTIONS = {
 	pointerX: 0,
@@ -38,8 +38,8 @@ export default function simulate(
 	opts: Optional<Options> = {},
 ) {
 	const options = { ...DEFAULT_OPTIONS, ...opts }
-	let oEvent = null
-	let eventType = null
+	let oEvent: any = null
+	let eventType: string = null
 
 	for (const name in EVENT_MATCHERS) {
 		if (EVENT_MATCHERS[name].test(eventName)) {
@@ -80,9 +80,10 @@ export default function simulate(
 		element.dispatchEvent(oEvent)
 	} else {
 		// tslint:disable-next-line no-string-literal
-		const evt = document['createEventObject']()
+		const evt = (document as any)['createEventObject']()
+		const elm = element as any
 		// tslint:disable-next-line no-string-literal
-		element['fireEvent'](`on${eventName}`, {
+		elm.fireEvent(`on${eventName}`, {
 			...evt,
 			...options,
 			clientX: options.pointerX,
