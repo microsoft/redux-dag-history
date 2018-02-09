@@ -118,14 +118,15 @@ export default class State extends React.PureComponent<StateProps> {
 				}}
 				onClick={e => handleClick()}
 			>
-				<Transition
+				{/*<Transition
 					transitionName="continuation-dissolve"
 					timeout={250}
 					transitionEnterTimeout={250}
 					transitionLeaveTimeout={250}
 				>
 					{continuation}
-				</Transition>
+				</Transition>*/}
+				{continuation}
 				<Detail>
 					<Source className={classnames({ active })}>{source || ''}</Source>
 					<Name className={classnames({ active })}>{label || ''}</Name>

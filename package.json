@@ -4,7 +4,7 @@
 	"private": true,
 	"scripts": {
 		"precommit": "lint-staged",
-		"prepush": "yarn lint",
+		"//prepush": "yarn lint",
 		"build": "lerna run build --stream",
 		"clean": "lerna run clean",
 		"prettify": "prettier \"packages/*/**/*.{js,jsx,ts,tsx}\"",
