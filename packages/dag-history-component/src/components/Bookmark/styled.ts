@@ -14,8 +14,6 @@ export const Dragged = styled.div`
 	background-color: grey;
 `
 
-export const DragDropWrapper = styled.div``
-
 export const Container = styled.div`
 	border-top: 1px solid ${white};
 	align-items: center;

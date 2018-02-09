@@ -1,9 +1,6 @@
 import { get } from 'lodash'
-
 import * as React from 'react'
 import createHistoryContainer from '@essex/dag-history-component/lib/components/createHistoryContainer'
-import '@essex/dag-history-component/lib/daghistory.scss'
-import { IBookmark } from '@essex/dag-history-component/lib/interfaces'
 import { load, save } from '../persister'
 
 const HistoryContainer = createHistoryContainer(
@@ -12,7 +9,7 @@ const HistoryContainer = createHistoryContainer(
 	state => get(state, 'metadata.source'),
 )
 
-const HistoryPresenter: React.StatelessComponent<void> = props => {
+const HistoryPresenter: React.StatelessComponent<{}> = () => {
 	return (
 		<div className="history-viz-container">
 			<HistoryContainer

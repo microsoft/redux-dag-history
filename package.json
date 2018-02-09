@@ -3,23 +3,24 @@
 	"version": "0.0.0",
 	"private": true,
 	"scripts": {
-		"//": "TODO: Re-enable pre-push script ",
 		"precommit": "lint-staged",
-		"//prepush": "yarn lint",
+		"prepush": "yarn lint",
 		"prettify": "prettier \"packages/*/**/*.{js,jsx,ts,tsx}\"",
 		"lint": "tslint 'packages/*/{src,test}/**/*.ts*'",
 		"jest": "jest",
 		"jest:watch": "jest --watch",
 		"jest:coverage": "jest --coverage",
 		"start:middleware":
-			"lerna exec --scope @essex/redux-dag-history -- npm run start",
+			"lerna run start --scope @essex/redux-dag-history --stream",
 		"start:component":
-			"lerna exec --scope @essex/dag-history-component -- npm run start",
+			"lerna run start --scope @essex/dag-history-component --stream",
+		"start:example":
+			"lerna run start --scope=@essex/dag-history-example --stream",
 		"packages:test": "lerna run test --stream",
 		"packages:build": "lerna run build --stream",
 		"packages:clean": "lerna run clean",
 		"test": "run-s packages:clean lint packages:build jest:coverage",
-		"start": "run-p --parallel start:*"
+		"start": "npm-run-all packages:clean packages:build -p start:*"
 	},
 	"author": "Chris Trevino <chtrevin@microsoft.com>",
 	"workspaces": ["packages/*"],

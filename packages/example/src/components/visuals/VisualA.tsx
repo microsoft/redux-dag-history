@@ -31,7 +31,7 @@ const RawVisualA: React.StatelessComponent<VisualAProps> = ({
 )
 
 export default connect<VisualAStateProps, VisualADispatchProps, {}>(
-	({ app: { current: { visuals: { color: backgroundColor } } } }) => ({
+	({ app: { current: { visuals: { color: backgroundColor } } } }: any) => ({
 		backgroundColor,
 	}),
 	dispatch => ({

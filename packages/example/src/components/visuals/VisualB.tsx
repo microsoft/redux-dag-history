@@ -34,7 +34,7 @@ const RawVisualB: React.StatelessComponent<VisualBProps> = ({
 )
 
 export default connect<VisualBStateProps, VisualBDispatchProps, {}>(
-	({ app: { current: { visuals: { value } } } }) => ({ value }),
+	({ app: { current: { visuals: { value } } } }: any) => ({ value }),
 	dispatch => ({
 		actions: bindActionCreators(
 			{

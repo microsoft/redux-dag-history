@@ -35,7 +35,7 @@ function createStore(state: any) {
 	return store
 }
 
-storiesOf('History Injection', module).add('On Bookmarks view with ', () => {
+storiesOf('History Injection', module).add('On Bookmarks view ', () => {
 	const store = createStore({
 		app: {
 			current: {},

@@ -2,8 +2,6 @@ const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const path = require('path')
 
-const CSS_LOADERS = ['style-loader', 'css-loader', 'postcss-loader']
-
 module.exports = {
 	devtool: 'source-map',
 	context: path.join(__dirname),
@@ -31,8 +29,7 @@ module.exports = {
 	],
 	module: {
 		rules: [
-			{ test: /\.css$/, use: CSS_LOADERS },
-			{ test: /\.scss$/, use: [...CSS_LOADERS, 'sass-loader'] },
+			{ test: /\.css$/, use: ['style-loader', 'css-loader', 'postcss-loader'] },
 			{ test: /\.ts(x|)/, use: ['ts-loader'], exclude: /node_modules/ },
 		],
 	},

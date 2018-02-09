@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Dispatch } from 'redux'
 import EditableBookmark, { EditableBookmarkProps } from './EditableBookmark'
-import { Dragged, DragDropWrapper } from './styled'
+import { Dragged } from './styled'
 const flow = require('lodash/flow')
 
 export interface DragDropBookmarkProps extends EditableBookmarkProps {
@@ -26,12 +26,16 @@ export default class DrapDropBookmark extends React.Component<
 
 	private renderBookmark() {
 		if (this.props.isDragging) {
-			return <Dragged />
+			return (
+				<div>
+					<Dragged />
+				</div>
+			)
 		} else {
 			return (
-				<DragDropWrapper>
+				<div>
 					<EditableBookmark {...this.props} />
-				</DragDropWrapper>
+				</div>
 			)
 		}
 	}

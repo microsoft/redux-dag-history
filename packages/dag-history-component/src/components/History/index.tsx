@@ -6,7 +6,7 @@ import isNumber from '../../util/isNumber'
 import PlaybackPane from '../PlaybackPane'
 import Transport from '../Transport'
 import makeActions from '../../util/BookmarkActions'
-import Tabs from '../HistoryViewTabs'
+import HistoryTabs from '../HistoryTabs'
 import SwitchingHistoryView from './SwitchingHistoryView'
 import BookmarkHelper from '../../util/Bookmark'
 import { HistoryContainerSharedProps } from './interfaces'
@@ -157,27 +157,26 @@ export default class History extends React.Component<HistoryProps, {}> {
 			isPlayingBack,
 			controlBar,
 		} = this.props
-		return isPlayingBack
-			? this.renderPlayback()
-			: ((
-					<Tabs
-						bookmarksEnabled={bookmarksEnabled}
-						controlBarEnabled={!!controlBar}
-						selectedTab={mainView}
-						onTabSelect={onSelectMainView}
-						historyView={<SwitchingHistoryView {...this.props} />}
-						storyboardingView={
-							<StoryboardingView
-								{
-									...this
-										.props as any /* TODO: Fix this, shouldn't cast to any*/
-								}
-							/>
+		return isPlayingBack ? (
+			this.renderPlayback()
+		) : (
+			<HistoryTabs
+				bookmarksEnabled={bookmarksEnabled}
+				controlBarEnabled={!!controlBar}
+				selectedTab={mainView}
+				onTabSelect={onSelectMainView}
+				historyView={<SwitchingHistoryView {...this.props} />}
+				storyboardingView={
+					<StoryboardingView
+						{
+							...this.props as any /* TODO: Fix this, shouldn't cast to any*/
 						}
-						onSaveClicked={() => this.onSaveClicked()}
-						onLoadClicked={() => this.onLoadClicked()}
-						onClearClicked={() => this.onClearClicked()}
 					/>
-				) as any)
+				}
+				onSaveClicked={() => this.onSaveClicked()}
+				onLoadClicked={() => this.onLoadClicked()}
+				onClearClicked={() => this.onClearClicked()}
+			/>
+		)
 	}
 }

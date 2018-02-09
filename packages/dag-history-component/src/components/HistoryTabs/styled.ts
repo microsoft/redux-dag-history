@@ -1,4 +1,5 @@
 import * as react from 'react'
+import 'react-tabs/style/react-tabs.css'
 import styled, { StyledComponentClass } from 'styled-components'
 import {
 	Tab as TabRaw,

@@ -1,6 +1,7 @@
 import * as React from 'react'
 import OptionDropdown from '../OptionDropdown'
-import { Container, Tab, TabList, TabPanel, Tabs, OptionMenu } from './styled'
+import { Container, OptionMenu } from './styled'
+import { Tab, TabList, TabPanel, Tabs } from 'react-tabs'
 
 const viewNameToIndex = {
 	history: 0,

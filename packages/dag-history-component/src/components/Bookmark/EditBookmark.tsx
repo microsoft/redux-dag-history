@@ -145,7 +145,7 @@ export default class EditBookmark extends React.Component<EditBookmarkProps> {
 					</EditableTitleContainer>
 					<EditAnnotation
 						tabIndex={2}
-						ref={c => this.setAnnotationComponent(c)}
+						innerRef={c => this.setAnnotationComponent(c)}
 						name="bookmarkAnnotation"
 						cols={40}
 						rows={5}

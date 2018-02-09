@@ -11,8 +11,7 @@ export interface ApplicationProps {
 	store: any
 }
 
-@DragDropContext(HTML5Backend)
-export default class Application extends React.Component<ApplicationProps> {
+export class Application extends React.Component<ApplicationProps> {
 	public render() {
 		const { store } = this.props
 		return (
@@ -32,3 +31,5 @@ export default class Application extends React.Component<ApplicationProps> {
 		)
 	}
 }
+
+export default DragDropContext(HTML5Backend)(Application)

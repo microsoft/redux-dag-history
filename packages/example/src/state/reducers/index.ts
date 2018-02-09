@@ -19,14 +19,14 @@ export const EXCLUDED_ACTION_NAMES = [
 	'HIGHLIGHT_SUCCESSORS',
 ]
 
-function stateEqualityPredicate(state1: State, state2: State) {
+function stateEqualityPredicate(state1: AppState, state2: AppState) {
 	log('checking equality between states', state1, state2)
 	const colorsEqual = state1.visuals.color === state2.visuals.color
 	const valuesEqual = state1.visuals.value === state2.visuals.value
 	return colorsEqual && valuesEqual
 }
 
-function stateKeyGenerator(state: State) {
+function stateKeyGenerator(state: AppState) {
 	const { color, value } = state.visuals
 	const stateString = `${color}:${value}`
 	return '' + hashString(stateString)
