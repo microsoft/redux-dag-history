@@ -14,7 +14,7 @@ export interface BookmarkListProps {
 	onBookmarkClick?: Function
 	onSelectState?: Function
 	onSelectBookmarkDepth?: Function
-	bookmarkEditIndex: number
+	bookmarkEditIndex?: number
 	onBookmarkEdit: Function
 	onBookmarkEditDone: Function
 

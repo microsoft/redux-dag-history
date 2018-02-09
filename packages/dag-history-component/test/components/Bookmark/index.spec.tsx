@@ -23,15 +23,15 @@ xdescribe('Bookmark Component', () => {
 		const rendered = render(
 			<Bookmark index={0} name="My Name" annotation="anno" />,
 		)
-		expect(rendered.find('.bookmark-input').length).to.equal(0)
-		expect(rendered.find('.bookmark-annotation').length).to.equal(1)
+		expect(rendered.find('.bookmark-input').length).toEqual(0)
+		expect(rendered.find('.bookmark-annotation').length).toEqual(1)
 	})
 
 	it('will render with a selected class if it has the active attribute set', () => {
 		let rendered = render(
-			<Bookmark index={0} active name="My Name" annotation="anno" />,
+			<Bookmark index={0} active={true} name="My Name" annotation="anno" />,
 		)
-		expect(rendered.find('.history-bookmark .selected').length).to.equal(1)
+		expect(rendered.find('.history-bookmark .selected').length).toEqual(1)
 		rendered = render(
 			<EditBookmark
 				index={0}
@@ -41,14 +41,14 @@ xdescribe('Bookmark Component', () => {
 				annotation="anno"
 			/>,
 		)
-		expect(rendered.find('.history-bookmark .selected').length).to.equal(1)
+		expect(rendered.find('.history-bookmark .selected').length).toEqual(1)
 	})
 
 	it('will render without a selected class if it has the active attribute set', () => {
 		const rendered = render(
 			<Bookmark index={0} name="My Name" annotation="anno" />,
 		)
-		expect(rendered.find('.history-bookmark .selected').length).to.equal(0)
+		expect(rendered.find('.history-bookmark .selected').length).toEqual(0)
 	})
 
 	it('will flip into edit mode when the title clicked on', () => {
@@ -56,7 +56,7 @@ xdescribe('Bookmark Component', () => {
 			<Bookmark index={0} name="My Name" annotation="anno" />,
 		)
 		rendered.find('.bookmark-title').simulate('click')
-		expect(rendered.find('.bookmark-input').length).to.equal(1)
+		expect(rendered.find('.bookmark-input').length).toEqual(1)
 	})
 
 	it('will flip into edit mode when the annotation is clicked on', () => {
@@ -64,7 +64,7 @@ xdescribe('Bookmark Component', () => {
 			<Bookmark index={0} name="My Name" annotation="anno" />,
 		)
 		rendered.find('.bookmark-annotation').simulate('click')
-		expect(rendered.find('.bookmark-input').length).to.equal(1)
+		expect(rendered.find('.bookmark-input').length).toEqual(1)
 	})
 
 	xit('will pop out of edit mode when the bookmark-details div is blurred', () => {
@@ -83,7 +83,7 @@ xdescribe('Bookmark Component', () => {
 			.find('.bookmark-details-editable')
 			.simulate('blur', { currentTarge: null })
 		return Promise.delay(10).then(() => {
-			expect(done).to.be.true
+			expect(done).toBeTruthy()
 		})
 	})
 
@@ -91,7 +91,7 @@ xdescribe('Bookmark Component', () => {
 		let changesReceived = 0
 		const receiveChange = change => {
 			changesReceived += 1
-			expect(change.data.annotation).to.equal('abc123')
+			expect(change.data.annotation).toEqual('abc123')
 		}
 		const rendered = render(
 			<EditBookmark
@@ -103,10 +103,11 @@ xdescribe('Bookmark Component', () => {
 				onBookmarkChange={receiveChange}
 			/>,
 		)
-		rendered.find('.bookmark-annotation').node.value = 'abc123'
+		// tslint:disable-next-line no-string-literal
+		rendered.find('.bookmark-annotation')['node'].value = 'abc123'
 		rendered.find('.bookmark-annotation').simulate('blur')
 		return Promise.delay(10).then(() => {
-			expect(changesReceived).to.equal(1)
+			expect(changesReceived).toEqual(1)
 		})
 	})
 
@@ -123,9 +124,11 @@ xdescribe('Bookmark Component', () => {
 				onBookmarkChange={() => ({})}
 			/>,
 		)
-		rendered.find('.bookmark-annotation').node.value = 'abc123'
+		// tslint:disable-next-line no-string-literal
+		rendered.find('.bookmark-annotation')['node'].value = 'abc123'
 		rendered.find('.bookmark-annotation').simulate('blur', {
-			relatedTarget: rendered.find('.bookmark-annotation').node,
+			// tslint:disable-next-line no-string-literal
+			relatedTarget: rendered.find('.bookmark-annotation')['node'],
 		})
 		return Promise.delay(10).then(() => {
 			expect(done).toBeFalsy()

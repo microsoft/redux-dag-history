@@ -1,19 +1,20 @@
 import { mount } from 'enzyme'
 import * as React from 'react'
 import Branch from '../../../src/components/Branch'
+import { BranchType } from '../../../src/interfaces'
 
 describe('The Branch component', () => {
 	it('can be rendered', () => {
 		const rendered = mount(
 			<Branch
 				label="A Test Branch"
-				branchType="current"
+				branchType={BranchType.CURRENT}
 				startsAt={0}
 				endsAt={10}
 				maxDepth={15}
 			/>,
 		)
-		expect(rendered).to.be.ok
+		expect(rendered).toBeDefined()
 		rendered.simulate('click') // no error
 	})
 
@@ -22,7 +23,7 @@ describe('The Branch component', () => {
 		const rendered = mount(
 			<Branch
 				label="A Test Branch"
-				branchType="current"
+				branchType={BranchType.CURRENT}
 				startsAt={0}
 				endsAt={10}
 				maxDepth={15}
@@ -30,6 +31,6 @@ describe('The Branch component', () => {
 			/>,
 		)
 		rendered.simulate('click')
-		expect(clicked).to.be.true
+		expect(clicked).toBeDefined()
 	})
 })

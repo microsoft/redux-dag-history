@@ -14,6 +14,6 @@ describe('The PlaybackPane Component', () => {
 			/>,
 		)
 		const found = rendered.findWhere(it => it.text() === 'Hello!')
-		expect(found.length).to.be.gte(1)
+		expect(found.length).toBeGreaterThanOrEqual(1)
 	})
 })

@@ -1,61 +1,70 @@
 import { mount } from 'enzyme'
 import * as React from 'react'
-
 import Continuation from '../../../src/components/Continuation'
 import State from '../../../src/components/State'
+import { BranchType } from '../../../src/interfaces'
 const Bookmark = require('react-icons/lib/io/bookmark')
 
 describe('The State Component', () => {
 	it('can be rendered', () => {
 		let rendered = mount(<State id="1" source="abc" label="def" />)
-		expect(rendered).to.be.ok
-
-		rendered = mount(<State id="1" label="A State" branchType="current" />)
-		expect(rendered).to.be.ok
+		expect(rendered).toBeDefined()
 
 		rendered = mount(
-			<State id="1" label="A State" branchType="current" renderBookmarks />,
+			<State id="1" label="A State" branchType={BranchType.CURRENT} />,
 		)
-		expect(rendered).to.be.ok
+		expect(rendered).toBeDefined()
 
 		rendered = mount(
 			<State
 				id="1"
 				label="A State"
-				branchType="current"
-				renderBookmarks
-				bookmarked
+				branchType={BranchType.CURRENT}
+				renderBookmarks={true}
 			/>,
 		)
-		expect(rendered).to.be.ok
+		expect(rendered).toBeDefined()
 
 		rendered = mount(
 			<State
 				id="1"
 				label="A State"
-				branchType="current"
-				renderBookmarks
-				bookmarked
-				pinned
+				branchType={BranchType.CURRENT}
+				renderBookmarks={true}
+				bookmarked={true}
 			/>,
 		)
-		expect(rendered).to.be.ok
+		expect(rendered).toBeDefined()
 
 		rendered = mount(
 			<State
 				id="1"
 				label="A State"
-				branchType="current"
-				renderBookmarks
-				bookmarked
-				successor
+				branchType={BranchType.CURRENT}
+				renderBookmarks={true}
+				bookmarked={true}
+				pinned={true}
 			/>,
 		)
-		expect(rendered).to.be.ok
+		expect(rendered).toBeDefined()
+
+		rendered = mount(
+			<State
+				id="1"
+				label="A State"
+				branchType={BranchType.CURRENT}
+				renderBookmarks={true}
+				bookmarked={true}
+				successor={true}
+			/>,
+		)
+		expect(rendered).toBeDefined()
 	})
 
 	it('can handle clicks when click handlers are not defined without throwing', () => {
-		const rendered = mount(<State id="1" label="a state" renderBookmarks />)
+		const rendered = mount(
+			<State id="1" label="a state" renderBookmarks={true} />,
+		)
 		rendered.simulate('click')
 		rendered.find(Continuation).simulate('click')
 		rendered.find(Bookmark).simulate('click')
@@ -69,17 +78,17 @@ describe('The State Component', () => {
 			<State
 				id="1"
 				label="a label"
-				renderBookmarks
+				renderBookmarks={true}
 				onClick={() => (clicked = true)}
 				onContinuationClick={() => (continuationClicked = true)}
 				onBookmarkClick={() => (bookmarkClicked = true)}
 			/>,
 		)
 		rendered.simulate('click')
-		expect(clicked).to.be.true
+		expect(clicked).toBeTruthy()
 		rendered.find(Continuation).simulate('click')
-		expect(continuationClicked).to.be.true
+		expect(continuationClicked).toBeTruthy()
 		rendered.find(Bookmark).simulate('click')
-		expect(bookmarkClicked).to.be.true
+		expect(bookmarkClicked).toBeTruthy()
 	})
 })

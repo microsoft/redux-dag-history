@@ -1,7 +1,6 @@
 import * as Promise from 'bluebird'
 import { mount } from 'enzyme'
 import * as React from 'react'
-import * as TestUtils from 'react-addons-test-utils'
 import Transport from '../../../src/components/Transport'
 
 const MdKeyboardArrowLeft = require('react-icons/lib/md/keyboard-arrow-left')
@@ -16,11 +15,11 @@ const CLICK_DELAY = 55
 describe('The Transport Component', () => {
 	it('can render', () => {
 		const rendered = mount(<Transport />)
-		expect(rendered).to.be.ok
+		expect(rendered).toBeDefined()
 	})
 
 	it('can handle play invocations', () => {
-		let rendered = mount(<Transport playing />)
+		let rendered = mount(<Transport playing={true} />)
 		;(rendered.get(0) as any).play()
 
 		let fired = false
@@ -28,29 +27,29 @@ describe('The Transport Component', () => {
 		;(rendered.get(0) as any).play()
 		return Promise.delay(CLICK_DELAY)
 			.then(() => {
-				expect(fired).to.be.true
+				expect(fired).toBeTruthy()
 				fired = false
 				rendered.find(MdPlayArrow).simulate('click')
 				return Promise.delay(CLICK_DELAY)
 			})
-			.then(() => expect(fired).to.be.true)
+			.then(() => expect(fired).toBeTruthy())
 	})
 
 	it('can handle stop invocations', () => {
-		let rendered = mount(<Transport playing />)
+		let rendered = mount(<Transport playing={true} />)
 		;(rendered.get(0) as any).stop()
 
 		let fired = false
-		rendered = mount(<Transport playing onStop={() => (fired = true)} />)
+		rendered = mount(<Transport playing={true} onStop={() => (fired = true)} />)
 		;(rendered.get(0) as any).stop()
 		return Promise.delay(CLICK_DELAY)
 			.then(() => {
-				expect(fired).to.be.true
+				expect(fired).toBeTruthy()
 				fired = false
 				rendered.find(MdStop).simulate('click')
 				return Promise.delay(CLICK_DELAY)
 			})
-			.then(() => expect(fired).to.be.true)
+			.then(() => expect(fired).toBeTruthy())
 	})
 
 	it('can handle back invocations', () => {
@@ -62,12 +61,12 @@ describe('The Transport Component', () => {
 		;(rendered.get(0) as any).stepBack()
 		return Promise.delay(CLICK_DELAY)
 			.then(() => {
-				expect(fired).to.be.true
+				expect(fired).toBeTruthy()
 				fired = false
 				rendered.find(MdKeyboardArrowLeft).simulate('click')
 				return Promise.delay(CLICK_DELAY)
 			})
-			.then(() => expect(fired).to.be.true)
+			.then(() => expect(fired).toBeTruthy())
 	})
 
 	it('can handle forward invocations', () => {
@@ -79,11 +78,11 @@ describe('The Transport Component', () => {
 		;(rendered.get(0) as any).stepForward()
 		return Promise.delay(CLICK_DELAY)
 			.then(() => {
-				expect(fired).to.be.true
+				expect(fired).toBeTruthy()
 				fired = false
 				rendered.find(MdKeyboardArrowRight).simulate('click')
 				return Promise.delay(CLICK_DELAY)
 			})
-			.then(() => expect(fired).to.be.true)
+			.then(() => expect(fired).toBeTruthy())
 	})
 })

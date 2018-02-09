@@ -7,6 +7,8 @@ xdescribe('The BookmarkList Component', () => {
 	it('can render a set of bookmarks', () => {
 		const rendered = mount(
 			<BookmarkList
+				onBookmarkEdit={() => undefined}
+				onBookmarkEditDone={() => undefined}
 				bookmarks={[
 					{
 						index: 0,
@@ -32,8 +34,8 @@ xdescribe('The BookmarkList Component', () => {
 				]}
 			/>,
 		)
-		expect(rendered.find('.history-bookmark').length).to.equal(3)
-		expect(rendered).to.be.ok
+		expect(rendered.find('.history-bookmark').length).toEqual(3)
+		expect(rendered).toBeDefined()
 	})
 
 	xit('can propagate up bookmark clicks', () => {
@@ -41,6 +43,8 @@ xdescribe('The BookmarkList Component', () => {
 		let clickedStateId = null
 		const rendered = mount(
 			<BookmarkList
+				onBookmarkEdit={() => undefined}
+				onBookmarkEditDone={() => undefined}
 				onBookmarkClick={(index, stateId) => {
 					clickedIndex = index
 					clickedStateId = stateId
@@ -75,13 +79,15 @@ xdescribe('The BookmarkList Component', () => {
 			.find(Bookmark)
 			.at(1)
 			.simulate('click')
-		expect(clickedIndex).to.equal(1)
-		expect(clickedStateId).to.equal(2)
+		expect(clickedIndex).toEqual(1)
+		expect(clickedStateId).toEqual(2)
 	})
 
 	it('can handle click events when no handler is defined', () => {
 		const rendered = mount(
 			<BookmarkList
+				onBookmarkEdit={() => undefined}
+				onBookmarkEditDone={() => undefined}
 				bookmarks={[
 					{
 						index: 0,

@@ -1,11 +1,12 @@
 import { mount } from 'enzyme'
 import * as React from 'react'
 import BranchList from '../../../src/components/BranchList'
+import { BranchType } from '../../../src/interfaces'
 
 describe('The BranchList component', () => {
 	it('can render an empty branch list', () => {
 		const rendered = mount(<BranchList activeBranch={null} branches={[]} />)
-		expect(rendered).to.be.ok
+		expect(rendered).toBeDefined()
 	})
 
 	it('can render an non-empty branch list', () => {
@@ -20,16 +21,16 @@ describe('The BranchList component', () => {
 						startsAt: 5,
 						endsAt: 10,
 						maxDepth: 10,
-						branchType: 'current',
+						branchType: BranchType.CURRENT,
 					},
 				]}
 				onBranchClick={id => (clickedId = id)}
 			/>,
 		)
-		expect(rendered).to.be.ok
+		expect(rendered).toBeDefined()
 		rendered.find('.history-branch').get(0)
 		rendered.find('.history-branch').simulate('click')
-		expect(clickedId).to.equal('5')
+		expect(clickedId).toEqual('5')
 	})
 
 	it('will not throw an error when an branch is clicked without an onClick handler defined', () => {
@@ -43,13 +44,13 @@ describe('The BranchList component', () => {
 						startsAt: 5,
 						endsAt: 10,
 						maxDepth: 10,
-						branchType: 'current',
+						branchType: BranchType.CURRENT,
 					},
 				]}
 			/>,
 		)
 		// click should be ok
-		expect(rendered).to.be.ok
+		expect(rendered).toBeDefined()
 		rendered.find('.history-branch').get(0)
 		rendered.find('.history-branch').simulate('click')
 	})

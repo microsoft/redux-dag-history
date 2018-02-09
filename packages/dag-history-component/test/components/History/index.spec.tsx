@@ -17,12 +17,12 @@ describe('The History Component', () => {
 			<Provider store={store}>
 				<History
 					onSelectMainView={() => ({})}
-					bookmarksEnabled
+					bookmarksEnabled={true}
 					bookmarks={[]}
 					history={history}
 					getSourceFromState={state => 'test source'}
 					historyType="branched"
-					branchContainerExpanded
+					branchContainerExpanded={true}
 					mainView="history"
 					controlBar={{
 						onConfirmClear: () => Promise.resolve(true),
@@ -32,7 +32,7 @@ describe('The History Component', () => {
 				/>
 			</Provider>,
 		)
-		expect(rendered).to.be.ok
+		expect(rendered).toBeDefined()
 	})
 
 	it('can be rendered in chronological mode', () => {
@@ -42,7 +42,7 @@ describe('The History Component', () => {
 			<Provider store={store}>
 				<History
 					onSelectMainView={() => ({})}
-					bookmarksEnabled
+					bookmarksEnabled={true}
 					history={history}
 					bookmarks={[]}
 					getSourceFromState={state => 'test source'}
@@ -56,7 +56,7 @@ describe('The History Component', () => {
 				/>
 			</Provider>,
 		)
-		expect(rendered).to.be.ok
+		expect(rendered).toBeDefined()
 	})
 
 	xit('can be rendered in storyboarding mode', () => {
@@ -66,7 +66,7 @@ describe('The History Component', () => {
 			<Provider store={store}>
 				<History
 					onSelectMainView={() => ({})}
-					bookmarksEnabled
+					bookmarksEnabled={true}
 					history={history}
 					bookmarks={[]}
 					getSourceFromState={state => 'test source'}
@@ -80,7 +80,7 @@ describe('The History Component', () => {
 				/>
 			</Provider>,
 		)
-		expect(rendered).to.be.ok
+		expect(rendered).toBeDefined()
 	})
 
 	xit('can be rendered in playback mode', () => {
@@ -91,21 +91,23 @@ describe('The History Component', () => {
 			<Provider store={store}>
 				<History
 					onSelectMainView={() => ({})}
-					bookmarksEnabled
+					bookmarksEnabled={true}
 					bookmarks={[]}
-					history={{
-						...history,
-						bookmarkPlaybackIndex: 0,
-						bookmarks: [
-							{
-								stateId: 1,
-								name: 'a thing happened',
-								data: {
-									annotation: 'welp',
+					history={
+						{
+							...history,
+							bookmarkPlaybackIndex: 0,
+							bookmarks: [
+								{
+									stateId: 1,
+									name: 'a thing happened',
+									data: {
+										annotation: 'welp',
+									},
 								},
-							},
-						],
-					}}
+							],
+						} as any
+					}
 					getSourceFromState={state => 'test source'}
 					historyType="branched"
 					mainView="storyboarding"
@@ -117,6 +119,6 @@ describe('The History Component', () => {
 				/>
 			</Provider>,
 		)
-		expect(rendered).to.be.ok
+		expect(rendered).toBeDefined()
 	})
 })

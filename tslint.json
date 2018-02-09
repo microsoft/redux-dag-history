@@ -7,6 +7,8 @@
 		"semicolon": false,
 		"indent": false,
 		"trailing-comma": false,
+		"align": false,
+		"whitespace": false,
 
 		// Annoying rules, but may be worth re-enabling at some point
 		"ordered-imports": false,
