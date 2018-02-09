@@ -3,13 +3,13 @@ import {
 	DagHistory,
 	StateId,
 } from '@essex/redux-dag-history/lib/interfaces'
-import { Bookmark } from '../../interfaces'
+import { Bookmark, HistoryType, ComponentView } from '../../interfaces'
 
 export interface HistoryContainerSharedProps {
 	history: DagHistory<any>
 	pinnedStateId?: StateId
-	mainView: string
-	historyType: string
+	mainView: ComponentView
+	historyType: HistoryType
 	dragIndex?: number
 	hoverIndex?: number
 	bookmarkEditIndex?: number

@@ -7,14 +7,14 @@ import * as DagHistoryActions from '@essex/redux-dag-history/lib/ActionCreators'
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'
-import { Bookmark } from '../interfaces'
+import { Bookmark, ComponentView, HistoryType } from '../interfaces'
 import * as Actions from '../state/actions/creators'
 import HistoryComponent from './History'
 
 export interface HistoryContainerStateProps {
 	history?: DagHistory<any>
-	mainView?: string
-	historyType?: string
+	mainView?: ComponentView
+	historyType?: HistoryType
 	branchContainerExpanded?: boolean
 	pinnedStateId?: StateId
 	selectedBookmark?: number

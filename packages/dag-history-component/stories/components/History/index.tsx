@@ -5,6 +5,7 @@ import * as React from 'react'
 import HTML5Backend from 'react-dnd-html5-backend'
 import { Provider } from 'react-redux'
 import * as redux from 'redux'
+import { HistoryType, ComponentView } from '../../../src/interfaces'
 import { createLogger } from 'redux-logger'
 import thunk from 'redux-thunk'
 import createHistoryContainer from '../../../src/components/createHistoryContainer'
@@ -14,9 +15,9 @@ const DragDropContextProvider = require('react-dnd/lib/DragDropContextProvider')
 	.default
 
 const Container = createHistoryContainer(
-	state => state.app,
-	state => state.component,
-	state => get(state, 'metadata.source'),
+	(state: any) => state.app,
+	(state: any) => state.component,
+	(state: any) => get(state, 'metadata.source'),
 )
 
 function createStore(state: any) {
@@ -25,8 +26,7 @@ function createStore(state: any) {
 
 	// If the redux devtools are available, wire into them
 	const composeEnhancers =
-		// tslint:disable-next-line no-string-literal
-		window['__REDUX_DEVTOOLS_EXTENSION_COMPOSE__'] || redux.compose
+		(window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || redux.compose
 	const logger = createLogger()
 
 	const store: redux.Store<any> = composeEnhancers(
@@ -102,7 +102,7 @@ storiesOf('History Injection', module).add('On Bookmarks view ', () => {
 			dragDrop: {},
 			views: {
 				mainView: 'storyboarding',
-				historyType: 'branched',
+				historyType: HistoryType.BRANCHED,
 				branchContainerExpanded: false,
 			},
 			playback: { isPlayingBack: false, bookmark: 6, depth: 1 },

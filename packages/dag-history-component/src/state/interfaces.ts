@@ -1,9 +1,10 @@
 import { Configuration } from '@essex/redux-dag-history/lib/interfaces'
+import { ComponentView, HistoryType } from '../interfaces'
 
 export interface ComponentConfiguration<T> extends Configuration<T> {
 	initialViewState: {
-		mainView?: string
-		historyType?: string
+		mainView?: ComponentView
+		historyType?: HistoryType
 		branchContainerExpanded?: boolean
 	}
 }

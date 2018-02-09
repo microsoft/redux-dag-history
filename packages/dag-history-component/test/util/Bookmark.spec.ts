@@ -67,12 +67,12 @@ describe('The Bookmark Class', () => {
 			'3',
 			'4',
 		])
-		expect(bm.presentedPath).toEqual([3, 4])
+		expect(bm.presentedPath).toEqual(['3', '4'])
 		expect(bm.presentedPathLength).toEqual(2)
 		expect(bm.hiddenPathLength).toEqual(2)
 
 		bm = new TestableBookmark({ data: {} } as any, ['1', '2', '3', '4'])
-		expect(bm.presentedPath).toEqual([4])
+		expect(bm.presentedPath).toEqual(['4'])
 		expect(bm.presentedPathLength).toEqual(1)
 		expect(bm.hiddenPathLength).toEqual(3)
 	})
@@ -105,8 +105,8 @@ describe('The Bookmark Class', () => {
 			'3',
 			'4',
 		])
-		expect(bm.getStateAtDepth(undefined)).toEqual(4)
-		expect(bm.getStateAtDepth(0)).toEqual(1)
+		expect(bm.getStateAtDepth(undefined)).toEqual('4')
+		expect(bm.getStateAtDepth(0)).toEqual('1')
 	})
 
 	it('can sanitize a depth', () => {

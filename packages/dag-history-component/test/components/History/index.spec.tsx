@@ -6,8 +6,8 @@ import { Provider } from 'react-redux'
 import { createStore } from 'redux'
 import History from '../../../src/components/History'
 import Configuration from '../../../src/state/Configuration'
+import { HistoryType, ComponentView } from '../../../src/interfaces'
 import * as Adapter from 'enzyme-adapter-react-16'
-
 configure({ adapter: new Adapter() })
 
 // It's kind of cheap, but rendering the top-level component
@@ -23,10 +23,10 @@ describe('The History Component', () => {
 					bookmarksEnabled={true}
 					bookmarks={[]}
 					history={history}
-					getSourceFromState={state => 'test source'}
-					historyType="branched"
+					getSourceFromState={(state: any) => 'test source'}
+					historyType={HistoryType.BRANCHED}
 					branchContainerExpanded={true}
-					mainView="history"
+					mainView={ComponentView.HISTORY}
 					controlBar={{
 						onConfirmClear: () => Promise.resolve(true),
 						onLoadHistory: () => Promise.resolve({}),
@@ -48,9 +48,9 @@ describe('The History Component', () => {
 					bookmarksEnabled={true}
 					history={history}
 					bookmarks={[]}
-					getSourceFromState={state => 'test source'}
-					historyType="chronological"
-					mainView="history"
+					getSourceFromState={(state: any) => 'test source'}
+					historyType={HistoryType.CHRONOLOGICAL}
+					mainView={ComponentView.HISTORY}
 					controlBar={{
 						onConfirmClear: () => Promise.resolve(true),
 						onLoadHistory: () => Promise.resolve({}),
@@ -72,9 +72,9 @@ describe('The History Component', () => {
 					bookmarksEnabled={true}
 					history={history}
 					bookmarks={[]}
-					getSourceFromState={state => 'test source'}
-					historyType="chronological"
-					mainView="storyboarding"
+					getSourceFromState={(state: any) => 'test source'}
+					historyType={HistoryType.CHRONOLOGICAL}
+					mainView={ComponentView.STORYBOARDING}
 					controlBar={{
 						onConfirmClear: () => Promise.resolve(true),
 						onLoadHistory: () => Promise.resolve({}),
@@ -111,9 +111,9 @@ describe('The History Component', () => {
 							],
 						} as any
 					}
-					getSourceFromState={state => 'test source'}
-					historyType="branched"
-					mainView="storyboarding"
+					getSourceFromState={(state: any) => 'test source'}
+					historyType={HistoryType.BRANCHED}
+					mainView={ComponentView.STORYBOARDING}
 					controlBar={{
 						onConfirmClear: () => Promise.resolve(true),
 						onLoadHistory: () => Promise.resolve({}),

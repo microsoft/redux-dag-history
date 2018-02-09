@@ -21,10 +21,10 @@ describe('The Views reducer', () => {
 
 	it('can handle a selectMainView event', () => {
 		const reduce = makeReducer(defaultConfig as any)
-		const state = reduce(undefined, selectMainView('bookmarks'))
+		const state = reduce(undefined, selectMainView('storyboarding'))
 		expect(state).toEqual({
 			...INITIAL_STATE,
-			mainView: 'bookmarks',
+			mainView: 'storyboarding',
 		})
 	})
 

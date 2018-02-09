@@ -14,7 +14,7 @@ describe('The Continuation component', () => {
 	it('can render a sane continuation count', () => {
 		const rendered = mount(<Continuation count={10} />)
 		expect(rendered).toBeDefined()
-		const found = rendered.find('.history-state-continuations')
+		const found = rendered.find(Continuation)
 		expect(found.html().indexOf('10')).toBeGreaterThanOrEqual(0)
 		expect(found.length).toEqual(1)
 	})
@@ -22,7 +22,7 @@ describe('The Continuation component', () => {
 	it('can render a high count', () => {
 		const rendered = mount(<Continuation count={1000} />)
 		expect(rendered).toBeDefined()
-		const found = rendered.find('.history-state-continuations')
+		const found = rendered.find(Continuation)
 		expect(found.html().indexOf('99+')).toBeGreaterThanOrEqual(0)
 		expect(found.length).toEqual(1)
 	})

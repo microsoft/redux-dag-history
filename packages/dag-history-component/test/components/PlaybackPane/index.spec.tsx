@@ -16,7 +16,8 @@ describe('The PlaybackPane Component', () => {
 				bookmarkHighlight={0}
 			/>,
 		)
-		const found = rendered.findWhere(it => it.text() === 'Hello!')
-		expect(found.length).toBeGreaterThanOrEqual(1)
+
+		const html = rendered.html()
+		expect(html.indexOf('Hello!')).toBeGreaterThanOrEqual(0)
 	})
 })

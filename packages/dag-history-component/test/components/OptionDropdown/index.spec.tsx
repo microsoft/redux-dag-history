@@ -33,7 +33,7 @@ describe('The OptionDropdown Component', () => {
 		)
 
 		rendered
-			.find('.history-dropdown-trigger div')
+			.find(OptionDropdown)
 			.at(0)
 			.simulate('click')
 

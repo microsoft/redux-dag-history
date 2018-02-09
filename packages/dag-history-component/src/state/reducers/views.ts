@@ -3,20 +3,21 @@ import {
 	SELECT_MAIN_VIEW,
 	TOGGLE_BRANCH_CONTAINER,
 } from '../actions/types'
+import { HistoryType, ComponentView } from '../../interfaces'
 import { ComponentConfiguration } from '../interfaces'
 import isHistoryAction from './isHistoryAction'
 import { Action } from 'redux-actions'
 import makeReducer from './configurableReducer'
 
 export interface State {
-	mainView: string
-	historyType: string
+	mainView: ComponentView
+	historyType: HistoryType
 	branchContainerExpanded: boolean
 }
 
 export const INITIAL_STATE: State = {
-	mainView: 'history',
-	historyType: 'branched',
+	mainView: ComponentView.HISTORY,
+	historyType: HistoryType.BRANCHED,
 	branchContainerExpanded: true,
 }
 
@@ -51,7 +52,7 @@ function reduce(
 		// Insertable actions clear the pinned state
 		result = {
 			...state,
-			mainView: 'history',
+			mainView: ComponentView.HISTORY,
 		}
 	}
 	return result

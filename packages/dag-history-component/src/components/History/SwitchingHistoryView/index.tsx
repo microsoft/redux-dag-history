@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
-import { Bookmark } from '../../../interfaces'
+import { Bookmark, HistoryType } from '../../../interfaces'
 import { selectHistoryType } from '../../../state/actions/creators'
 import OptionDropdown from '../../OptionDropdown'
 import { HistoryContainerSharedProps } from '../interfaces'
@@ -42,7 +42,7 @@ export interface HistoryViewProps
 const HistoryView: React.StatelessComponent<HistoryViewProps> = props => {
 	const { historyType, onSelectHistoryType } = props
 	const renderedHistory =
-		historyType === 'chronological' ? (
+		historyType === HistoryType.CHRONOLOGICAL ? (
 			<ChronologicalHistoryView {...props} />
 		) : (
 			<BranchedHistoryView {...props} />
@@ -68,8 +68,8 @@ const HistoryView: React.StatelessComponent<HistoryViewProps> = props => {
 					label={label}
 					icon={viewIcons[historyType]}
 					options={[
-						historyTypeOption('branched'),
-						historyTypeOption('chronological'),
+						historyTypeOption(HistoryType.BRANCHED),
+						historyTypeOption(HistoryType.CHRONOLOGICAL),
 					]}
 				/>
 			</DropdownContainer>

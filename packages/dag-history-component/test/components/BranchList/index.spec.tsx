@@ -1,6 +1,7 @@
 import { mount, configure } from 'enzyme'
 import * as React from 'react'
 import BranchList from '../../../src/components/BranchList'
+import Branch from '../../../src/components/Branch'
 import { BranchType } from '../../../src/interfaces'
 import * as Adapter from 'enzyme-adapter-react-16'
 
@@ -31,8 +32,8 @@ describe('The BranchList component', () => {
 			/>,
 		)
 		expect(rendered).toBeDefined()
-		rendered.find('.history-branch').get(0)
-		rendered.find('.history-branch').simulate('click')
+		rendered.find(Branch).get(0)
+		rendered.find(Branch).simulate('click')
 		expect(clickedId).toEqual('5')
 	})
 
@@ -54,7 +55,7 @@ describe('The BranchList component', () => {
 		)
 		// click should be ok
 		expect(rendered).toBeDefined()
-		rendered.find('.history-branch').get(0)
-		rendered.find('.history-branch').simulate('click')
+		rendered.find(Branch).get(0)
+		rendered.find(Branch).simulate('click')
 	})
 })

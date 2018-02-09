@@ -1,13 +1,13 @@
 import * as React from 'react'
 import { Container } from './styled'
+import {
+	StepBack,
+	StepForward,
+	JumpBack,
+	JumpForward,
+	PlayPause,
+} from './Buttons'
 const debounce = require('lodash/debounce')
-const LeftIcon = require('react-icons/lib/md/keyboard-arrow-left')
-const RightIcon = require('react-icons/lib/md/keyboard-arrow-right')
-const UpIcon = require('react-icons/lib/fa/caret-up')
-const DownIcon = require('react-icons/lib/fa/caret-down')
-const PlayIcon = require('react-icons/lib/md/play-arrow')
-const StopIcon = require('react-icons/lib/md/stop')
-
 const DEFAULT_ICON_SIZE = 30
 
 export interface TransportCallbackProps {
@@ -112,28 +112,25 @@ class Transport extends React.Component<TransportProps> {
 			onStepBack: this.props.onStepBack,
 		}
 
-		let playPauseButton = <div />
-		if (showPlay) {
-			playPauseButton = playing ? (
-				<StopIcon size={iconSize} onClick={() => this.stop()} />
-			) : (
-				<PlayIcon size={iconSize} onClick={() => this.play()} />
-			)
-		}
-
 		return (
 			<Container
 				tabIndex={0}
 				onKeyPress={() => undefined} // allows event bubbling
 			>
 				<div>
-					<LeftIcon size={iconSize} onClick={() => this.stepBack()} />
-					<RightIcon size={iconSize} onClick={() => this.stepForward()} />
+					<StepBack size={iconSize} onClick={() => this.stepBack()} />
+					<StepForward size={iconSize} onClick={() => this.stepForward()} />
 				</div>
-				{playPauseButton}
+				<PlayPause
+					onPlay={() => this.play()}
+					onStop={() => this.stop()}
+					playing={playing}
+					show={showPlay}
+					size={iconSize}
+				/>
 				<div>
-					<UpIcon size={iconSize} onClick={() => this.back()} />
-					<DownIcon size={iconSize} onClick={() => this.forward()} />
+					<JumpBack size={iconSize} onClick={() => this.back()} />
+					<JumpForward size={iconSize} onClick={() => this.forward()} />
 				</div>
 			</Container>
 		)

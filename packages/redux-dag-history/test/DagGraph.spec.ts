@@ -5,22 +5,22 @@ function makeGraph() {
 	return new DagGraph(
 		fromJS({
 			current: {
-				state: 1,
-				branch: 1,
+				state: '1',
+				branch: '1',
 			},
 			branches: {
 				1: {
-					latest: 1,
+					latest: '1',
 					name: 'Initial Branch',
-					first: 1,
-					committed: 1,
+					first: '1',
+					committed: '1',
 				},
 			},
 			states: {
 				1: {
 					state: { a: 1, b: 'xyz' },
 					name: 'Initial State',
-					branch: 1,
+					branch: '1',
 					parent: null,
 				},
 			},
@@ -42,26 +42,6 @@ describe('DagGraph', () => {
 			expect(() => new DagGraph({} as any)).toThrow(
 				/must be an immutablejs instance/,
 			)
-		})
-	})
-
-	describe('print', () => {
-		it('will print out a basic graph', () => {
-			const graph = makeGraph()
-			expect(graph.print()).toEqual(`├─ current
-│  ├─ state: 1
-│  └─ branch: 1
-├─ branches
-│  └─ 1
-│     ├─ latest: 1
-│     ├─ name: Initial Branch
-│     ├─ first: 1
-│     └─ committed: 1
-└─ dag
-   ├─ id: 1
-   ├─ name: Initial State
-   └─ children
-`)
 		})
 	})
 

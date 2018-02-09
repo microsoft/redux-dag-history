@@ -11,3 +11,13 @@ export enum BranchType {
 	LEGACY = 'legacy',
 	UNRELATED = 'unrelated',
 }
+
+export enum HistoryType {
+	BRANCHED = 'branched',
+	CHRONOLOGICAL = 'chronological',
+}
+
+export enum ComponentView {
+	HISTORY = 'history',
+	STORYBOARDING = 'storyboarding',
+}

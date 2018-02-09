@@ -33,10 +33,10 @@ describe('The bookmarks reducer', () => {
 		state = reduce(state, addBookmark({ stateId: 2, name: 'state2' }))
 		state = reduce(state, addBookmark({ stateId: 3, name: 'state3' }))
 
-		expect(state.length).to.equal(3)
+		expect(state.length).toEqual(3)
 
 		state = reduce(state, removeBookmark(2))
-		expect(state.length).to.equal(2)
+		expect(state.length).toEqual(2)
 		expect(fan(state)).toEqual([1, 3])
 	})
 
@@ -47,7 +47,7 @@ describe('The bookmarks reducer', () => {
 		state = reduce(state, addBookmark({ stateId: 3, name: 'state3' }))
 
 		state = reduce(state, renameBookmark({ stateId: 2, name: 'newName' }))
-		expect(state[1].name).to.equal('newName')
+		expect(state[1].name).toEqual('newName')
 	})
 
 	it('can change a bookmark', () => {
@@ -60,7 +60,7 @@ describe('The bookmarks reducer', () => {
 			state,
 			doChangeBookmark({ stateId: '2', name: 'newName', data: { x: 1 } }),
 		)
-		expect(state[1].name).to.equal('newName')
+		expect(state[1].name).toEqual('newName')
 		expect(state[1].data).toEqual({ x: 1 })
 	})
 
