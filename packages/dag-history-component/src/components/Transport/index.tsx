@@ -6,7 +6,7 @@ import {
 	JumpBack,
 	JumpForward,
 	PlayPause,
-} from './Buttons'
+} from './buttons'
 const debounce = require('lodash/debounce')
 const DEFAULT_ICON_SIZE = 30
 
