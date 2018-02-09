@@ -1,4 +1,6 @@
 import Configuration from '@essex/redux-dag-history/lib/Configuration'
+import { ComponentView, HistoryType } from '../interfaces'
+
 import { ComponentConfiguration, RawComponentConfiguration } from './interfaces'
 
 export default class ComponentConfigurationImpl<T> extends Configuration<T>
