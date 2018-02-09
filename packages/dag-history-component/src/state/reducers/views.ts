@@ -6,6 +6,7 @@ import {
 import { ComponentConfiguration } from '../interfaces'
 import isHistoryAction from './isHistoryAction'
 import { Action } from 'redux-actions'
+import makeReducer from './configurableReducer'
 
 export interface State {
 	mainView: string
@@ -19,38 +20,41 @@ export const INITIAL_STATE: State = {
 	branchContainerExpanded: true,
 }
 
-export default function makeReducer<T>(config: ComponentConfiguration<T>) {
-	const initialState = {
-		...INITIAL_STATE,
-		...config.initialViewState,
-	}
-	return function reduce(
-		state: State = initialState,
-		action: ReduxActions.Action<any>,
-	) {
-		let result = state
-		if (action.type === SELECT_MAIN_VIEW) {
-			result = {
-				...state,
-				mainView: action.payload,
-			}
-		} else if (action.type === SELECT_HISTORY_TYPE) {
-			result = {
-				...state,
-				historyType: action.payload,
-			}
-		} else if (action.type === TOGGLE_BRANCH_CONTAINER) {
-			result = {
-				...state,
-				branchContainerExpanded: !state.branchContainerExpanded,
-			}
-		} else if (!isHistoryAction(action) && config.actionFilter(action.type)) {
-			// Insertable actions clear the pinned state
-			result = {
-				...state,
-				mainView: 'history',
-			}
+function reduce(
+	state: State,
+	action: ReduxActions.Action<any>,
+	config: ComponentConfiguration<any>,
+) {
+	if (!state) {
+		state = {
+			...INITIAL_STATE,
+			...config.initialViewState,
 		}
-		return result
 	}
+	let result = state
+	if (action.type === SELECT_MAIN_VIEW) {
+		result = {
+			...state,
+			mainView: action.payload,
+		}
+	} else if (action.type === SELECT_HISTORY_TYPE) {
+		result = {
+			...state,
+			historyType: action.payload,
+		}
+	} else if (action.type === TOGGLE_BRANCH_CONTAINER) {
+		result = {
+			...state,
+			branchContainerExpanded: !state.branchContainerExpanded,
+		}
+	} else if (!isHistoryAction(action) && config.actionFilter(action.type)) {
+		// Insertable actions clear the pinned state
+		result = {
+			...state,
+			mainView: 'history',
+		}
+	}
+	return result
 }
+
+export default makeReducer(reduce)

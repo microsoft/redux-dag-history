@@ -1,11 +1,15 @@
-import { mount } from 'enzyme'
+import { mount, configure } from 'enzyme'
 import * as React from 'react'
 import OptionDropdown from '../../../src/components/OptionDropdown'
+import * as Adapter from 'enzyme-adapter-react-16'
+
 const {
 	default: Dropdown,
 	DropdownTrigger,
 	DropdownContent,
 } = require('react-simple-dropdown')
+
+configure({ adapter: new Adapter() })
 
 describe('The OptionDropdown Component', () => {
 	it('can be rendered', () => {

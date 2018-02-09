@@ -1,11 +1,14 @@
 import * as dagHistory from '@essex/redux-dag-history/lib/DagHistory'
 import * as Promise from 'bluebird'
-import { mount } from 'enzyme'
+import { mount, configure } from 'enzyme'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import { createStore } from 'redux'
 import History from '../../../src/components/History'
 import Configuration from '../../../src/state/Configuration'
+import * as Adapter from 'enzyme-adapter-react-16'
+
+configure({ adapter: new Adapter() })
 
 // It's kind of cheap, but rendering the top-level component
 // gives us a lot of baseline statement test-coverage

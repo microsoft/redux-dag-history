@@ -11,12 +11,12 @@ const fan = bookmarks => bookmarks.map(b => b.stateId)
 
 describe('The bookmarks reducer', () => {
 	it('emits an empty bookmarks array by default', () => {
-		expect(reduce(undefined, { type: 'derp' })).to.deep.equal([])
+		expect(reduce(undefined, { type: 'derp' })).toEqual([])
 	})
 
 	it('can add a bookmark', () => {
 		const state = reduce(undefined, addBookmark({ stateId: 1, name: 'derp' }))
-		expect(state).to.deep.equal([{ stateId: 1, name: 'derp', data: {} }])
+		expect(state).toEqual([{ stateId: 1, name: 'derp', data: {} }])
 	})
 
 	it('can add a bookmark with data', () => {
@@ -24,7 +24,7 @@ describe('The bookmarks reducer', () => {
 			undefined,
 			addBookmark({ stateId: 1, name: 'derp', data: { x: 1 } }),
 		)
-		expect(state).to.deep.equal([{ stateId: 1, name: 'derp', data: { x: 1 } }])
+		expect(state).toEqual([{ stateId: 1, name: 'derp', data: { x: 1 } }])
 	})
 
 	it('can remove a bookmark', () => {
@@ -37,7 +37,7 @@ describe('The bookmarks reducer', () => {
 
 		state = reduce(state, removeBookmark(2))
 		expect(state.length).to.equal(2)
-		expect(fan(state)).to.deep.equal([1, 3])
+		expect(fan(state)).toEqual([1, 3])
 	})
 
 	it('can rename a bookmark', () => {
@@ -61,7 +61,7 @@ describe('The bookmarks reducer', () => {
 			doChangeBookmark({ stateId: '2', name: 'newName', data: { x: 1 } }),
 		)
 		expect(state[1].name).to.equal('newName')
-		expect(state[1].data).to.deep.equal({ x: 1 })
+		expect(state[1].data).toEqual({ x: 1 })
 	})
 
 	it('can move a bookmark', () => {
@@ -71,15 +71,15 @@ describe('The bookmarks reducer', () => {
 		state = reduce(state, addBookmark({ stateId: '3', name: 'state3' }))
 
 		state = reduce(state, moveBookmark({ from: 0, to: 2 }))
-		expect(fan(state)).to.deep.equal(['2', '3', '1'])
+		expect(fan(state)).toEqual(['2', '3', '1'])
 
 		state = reduce(state, moveBookmark({ from: 0, to: 1 }))
-		expect(fan(state)).to.deep.equal(['3', '2', '1'])
+		expect(fan(state)).toEqual(['3', '2', '1'])
 
 		state = reduce(state, moveBookmark({ from: 2, to: 1 }))
-		expect(fan(state)).to.deep.equal(['3', '1', '2'])
+		expect(fan(state)).toEqual(['3', '1', '2'])
 
 		state = reduce(state, moveBookmark({ from: 2, to: 0 }))
-		expect(fan(state)).to.deep.equal(['2', '3', '1'])
+		expect(fan(state)).toEqual(['2', '3', '1'])
 	})
 })

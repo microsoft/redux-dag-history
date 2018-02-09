@@ -60,7 +60,7 @@ export default class DagGraph<T> {
 			current: graph.current,
 			chronologicalStates: graph.chronologicalStates,
 			branches: graph.branches,
-			// states: graph.states,
+			states: graph.states,
 			dag: root,
 		}
 		return JSON.stringify(tree, null, 4)

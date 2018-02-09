@@ -16,7 +16,7 @@ const defaultConfig = {
 describe('The Playback reducer', () => {
 	it('will emit an initial state', () => {
 		const state = makeReducer(defaultConfig)(undefined, { type: 'derp' })
-		expect(state).to.deep.equal(INITIAL_STATE)
+		expect(state).toEqual(INITIAL_STATE)
 	})
 
 	it('can handle a startPlayback event', () => {
@@ -24,7 +24,7 @@ describe('The Playback reducer', () => {
 		const reduce = makeReducer(defaultConfig)
 		state = reduce(state, { type: 'derp' })
 		state = reduce(state, doStartPlayback({ initialDepth: 3, stateId: '1' }))
-		expect(state).to.deep.equal({
+		expect(state).toEqual({
 			isPlayingBack: true,
 			bookmark: 0,
 			depth: 3,
@@ -37,7 +37,7 @@ describe('The Playback reducer', () => {
 		state = reduce(state, { type: 'derp' })
 		state = reduce(state, doStartPlayback({ initialDepth: 3, stateId: '1' }))
 		state = reduce(state, stopPlayback())
-		expect(state).to.deep.equal(INITIAL_STATE)
+		expect(state).toEqual(INITIAL_STATE)
 	})
 
 	it('can handle a selectBookmarkDepth event', () => {
@@ -53,7 +53,7 @@ describe('The Playback reducer', () => {
 				bookmarkIndex: 1,
 			},
 		})
-		expect(state).to.deep.equal({
+		expect(state).toEqual({
 			isPlayingBack: true,
 			bookmark: 1,
 			depth: 5,

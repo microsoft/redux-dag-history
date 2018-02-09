@@ -1,7 +1,8 @@
 import * as Promise from 'bluebird'
-import { mount } from 'enzyme'
+import { mount, configure } from 'enzyme'
 import * as React from 'react'
 import Transport from '../../../src/components/Transport'
+import * as Adapter from 'enzyme-adapter-react-16'
 
 const MdKeyboardArrowLeft = require('react-icons/lib/md/keyboard-arrow-left')
 const MdKeyboardArrowRight = require('react-icons/lib/md/keyboard-arrow-right')
@@ -9,8 +10,9 @@ const MdSkipNext = require('react-icons/lib/md/skip-next')
 const MdSkipPrevious = require('react-icons/lib/md/skip-previous')
 const MdPlayArrow = require('react-icons/lib/md/play-arrow')
 const MdStop = require('react-icons/lib/md/stop')
-
 const CLICK_DELAY = 55
+
+configure({ adapter: new Adapter() })
 
 describe('The Transport Component', () => {
 	it('can render', () => {

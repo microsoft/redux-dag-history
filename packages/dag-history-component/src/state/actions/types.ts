@@ -1,4 +1,6 @@
-const action = (name: string) => `DAG_HISTORY_COMPONENT_${name.toUpperCase()}`
+function action(name: string): string {
+	return `DAG_HISTORY_COMPONENT_${name.toUpperCase()}`
+}
 
 // Action Types
 export const SELECT_MAIN_VIEW = action('SELECT_MAIN_VIEW')

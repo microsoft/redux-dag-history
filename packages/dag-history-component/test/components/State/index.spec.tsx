@@ -1,9 +1,12 @@
-import { mount } from 'enzyme'
+import { mount, configure } from 'enzyme'
 import * as React from 'react'
 import Continuation from '../../../src/components/Continuation'
 import State from '../../../src/components/State'
 import { BranchType } from '../../../src/interfaces'
+import * as Adapter from 'enzyme-adapter-react-16'
 const Bookmark = require('react-icons/lib/io/bookmark')
+
+configure({ adapter: new Adapter() })
 
 describe('The State Component', () => {
 	it('can be rendered', () => {

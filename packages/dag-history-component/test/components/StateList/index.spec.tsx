@@ -1,9 +1,12 @@
-import { mount } from 'enzyme'
+import { mount, configure } from 'enzyme'
 import * as React from 'react'
 import Continuation from '../../../src/components/Continuation'
 import State from '../../../src/components/State'
 import StateList from '../../../src/components/StateList'
+import * as Adapter from 'enzyme-adapter-react-16'
 const Bookmark = require('react-icons/lib/io/bookmark')
+
+configure({ adapter: new Adapter() })
 
 xdescribe('The StateList component', () => {
 	it('can render a set of states', () => {

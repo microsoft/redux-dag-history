@@ -1,12 +1,14 @@
 import * as Promise from 'bluebird'
-import { mount } from 'enzyme'
+import { mount, configure } from 'enzyme'
 import * as React from 'react'
 import { Provider } from 'react-redux'
 import { createStore } from 'redux'
 import Bookmark from '../../../src/components/Bookmark'
 import EditBookmark from '../../../src/components/Bookmark/EditBookmark'
 import History from '../../../src/components/History'
+import * as Adapter from 'enzyme-adapter-react-16'
 
+configure({ adapter: new Adapter() })
 const makeStore = () => createStore(() => ({}))
 
 const render = (jsx, store = createStore(() => ({}))) => {

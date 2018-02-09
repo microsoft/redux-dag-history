@@ -7,7 +7,7 @@ export interface Configuration<T> {
 	/**
 	 * A flag indicating whether or not to print per-action debug information
 	 */
-	debug: boolean
+	debug?: boolean
 
 	/**
 	 * A Predicate filter to determine whether an action is insertable into the history view.

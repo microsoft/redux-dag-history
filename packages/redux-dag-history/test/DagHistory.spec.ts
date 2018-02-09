@@ -1,11 +1,13 @@
 import DagGraph from '../src/DagGraph'
 import * as DagHistory from '../src/DagHistory'
+import Configuration from '../src/Configuration'
 
-const stateNameById = {
-	actionName: (state: any, id: number) => `${id}`,
+const config = new Configuration<BasicState>({
+	actionName: (state: any, id: string) => id,
 	branchName: (oldBranch: any, newBranch: any, actionName: string) =>
 		actionName,
-}
+})
+
 const INITIAL_BRANCH = '1'
 
 interface BasicState {
@@ -42,7 +44,7 @@ describe('The DagHistory Module', () => {
 	describe('insert', () => {
 		it('will insert a new state into the history', () => {
 			const historyA = DagHistory.createHistory<BasicState>()
-			const historyB = DagHistory.insert({ x: 1 }, historyA, stateNameById)
+			const historyB = DagHistory.insert({ x: 1 }, historyA, config)
 
 			const graphA = new DagGraph(historyA.graph)
 			const graphB = new DagGraph(historyB.graph)
@@ -58,12 +60,12 @@ describe('The DagHistory Module', () => {
 			const historyA = DagHistory.createHistory<BasicState>()
 			const graphA = new DagGraph(historyA.graph)
 
-			const historyB = DagHistory.insert({ x: 1 }, historyA, stateNameById)
+			const historyB = DagHistory.insert({ x: 1 }, historyA, config)
 			const graphB = new DagGraph(historyB.graph)
 
 			const historyC = DagHistory.jumpToState(graphA.currentStateId, historyB)
 
-			const historyD = DagHistory.insert({ x: 2 }, historyC, stateNameById)
+			const historyD = DagHistory.insert({ x: 2 }, historyC, config)
 			const graphD = new DagGraph(historyD.graph)
 			expect(graphD.getState(graphB.currentStateId)).toBeDefined()
 		})
@@ -74,7 +76,7 @@ describe('The DagHistory Module', () => {
 			let currentBranch = graph.currentBranch
 
 			const insert = () => {
-				history = DagHistory.insert({ x: 1 }, history, stateNameById)
+				history = DagHistory.insert({ x: 1 }, history, config)
 				graph = new DagGraph(history.graph)
 				currentBranch = graph.currentBranch
 				return graph.currentStateId
@@ -122,7 +124,7 @@ describe('The DagHistory Module', () => {
 			expect(graph.committedOn(currentBranch)).toEqual(stateC)
 			// 'D ->*p first on current is C',
 			expect(graph.firstOn(currentBranch)).toEqual(stateC)
-			expect(graph.commitPath(stateC)).toMatchObject([1, 3])
+			expect(graph.commitPath(stateC)).toMatchObject(['1', '3'])
 
 			// Check branch depths
 			// 'start depth should be 1',
@@ -152,7 +154,7 @@ describe('The DagHistory Module', () => {
 			const historyA = DagHistory.createHistory<BasicState>()
 			const graphA = new DagGraph(historyA.graph)
 
-			const historyB = DagHistory.insert({ x: 1 }, historyA, stateNameById)
+			const historyB = DagHistory.insert({ x: 1 }, historyA, config)
 			const graphB = new DagGraph(historyB.graph)
 
 			const historyC = DagHistory.undo(historyB)
@@ -164,7 +166,7 @@ describe('The DagHistory Module', () => {
 		it('redo will move the committed state forward', () => {
 			const historyA = DagHistory.createHistory<BasicState>()
 
-			const historyB = DagHistory.insert({ x: 1 }, historyA, stateNameById)
+			const historyB = DagHistory.insert({ x: 1 }, historyA, config)
 			const graphB = new DagGraph(historyB.graph)
 
 			const historyC = DagHistory.undo(historyB)
@@ -181,7 +183,7 @@ describe('The DagHistory Module', () => {
 			const historyA = DagHistory.createHistory<BasicState>()
 			const graphA = new DagGraph(historyA.graph)
 
-			const historyB = DagHistory.insert({ x: 1 }, historyA, stateNameById)
+			const historyB = DagHistory.insert({ x: 1 }, historyA, config)
 			const graphB = new DagGraph(historyB.graph)
 
 			const historyC = DagHistory.jumpToState(graphA.currentStateId, historyB)
@@ -189,7 +191,7 @@ describe('The DagHistory Module', () => {
 			const historyD = DagHistory.createBranch('derp', historyC)
 			const graphD = new DagGraph(historyD.graph)
 
-			const historyE = DagHistory.insert({ x: 2 }, historyD, stateNameById)
+			const historyE = DagHistory.insert({ x: 2 }, historyD, config)
 			const graphE = new DagGraph(historyE.graph)
 
 			// a -> b <master>
@@ -213,13 +215,13 @@ describe('The DagHistory Module', () => {
 			const historyA = DagHistory.createHistory<BasicState>()
 			const graphA = new DagGraph(historyA.graph)
 
-			const historyB = DagHistory.insert({ x: 1 }, historyA, stateNameById)
+			const historyB = DagHistory.insert({ x: 1 }, historyA, config)
 			const graphB = new DagGraph(historyB.graph)
 
 			const historyD = DagHistory.createBranch('derp', historyB)
 			const graphD = new DagGraph(historyD.graph)
 
-			const historyE = DagHistory.insert({ x: 2 }, historyD, stateNameById)
+			const historyE = DagHistory.insert({ x: 2 }, historyD, config)
 			const graphE = new DagGraph(historyE.graph)
 
 			// a -> b <master>
@@ -244,8 +246,7 @@ describe('The DagHistory Module', () => {
 	describe('clear', () => {
 		it('can clear the history', () => {
 			const historyA = DagHistory.createHistory<BasicState>()
-			const historyB = DagHistory.insert({ x: 1 }, historyA, stateNameById)
-
+			const historyB = DagHistory.insert({ x: 1 }, historyA, config)
 			const historyC = DagHistory.clear(historyB)
 			expect(Object.keys(historyC.graph.get('states').toJS()).length).toEqual(1)
 		})
@@ -259,7 +260,7 @@ describe('The DagHistory Module', () => {
 			//  (init)  I
 			//  (A)       -> A0*
 			history = DagHistory.createBranch('A', history)
-			history = DagHistory.insert({ x: 1 }, history, stateNameById)
+			history = DagHistory.insert<BasicState>({ x: 1 }, history, config)
 
 			// Pop back to the Initial Branch
 			// (init) I*
@@ -271,8 +272,8 @@ describe('The DagHistory Module', () => {
 			// (A)      -> A0
 			// (B)      -> B0 -> B1 -> B2*
 			history = DagHistory.createBranch('B', history)
-			history = DagHistory.insert({ x: 2 }, history, stateNameById)
-			history = DagHistory.insert({ x: 3 }, history, stateNameById)
+			history = DagHistory.insert<BasicState>({ x: 2 }, history, config)
+			history = DagHistory.insert<BasicState>({ x: 3 }, history, config)
 
 			// Squash Branch B
 			// (init) I
@@ -287,9 +288,9 @@ describe('The DagHistory Module', () => {
 
 		it('will collapse a linear chain into a single root', () => {
 			let history = DagHistory.createHistory<BasicState>({ x: 0 })
-			history = DagHistory.insert({ x: 1 }, history, stateNameById)
-			history = DagHistory.insert({ x: 2 }, history, stateNameById)
-			history = DagHistory.insert({ x: 3 }, history, stateNameById)
+			history = DagHistory.insert<BasicState>({ x: 1 }, history, config)
+			history = DagHistory.insert<BasicState>({ x: 2 }, history, config)
+			history = DagHistory.insert<BasicState>({ x: 3 }, history, config)
 			// Set up a flat linear chain
 			// (init)  I -> A -> B -> C*
 			// A squash should flatten this totally

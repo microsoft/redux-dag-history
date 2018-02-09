@@ -1,5 +1,6 @@
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const CircularDependencyPlugin = require('circular-dependency-plugin')
 const path = require('path')
 
 module.exports = {
@@ -25,6 +26,9 @@ module.exports = {
 		new webpack.NoEmitOnErrorsPlugin(),
 		new webpack.ProvidePlugin({
 			saveAs: 'imports?this=>global!exports?global.saveAs!filesaver.js',
+		}),
+		new CircularDependencyPlugin({
+			failsOnError: true,
 		}),
 	],
 	module: {

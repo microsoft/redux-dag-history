@@ -16,7 +16,7 @@ export default function createBranch<T>(
 		graph: graph.withMutations(g => {
 			const { lastBranchId } = reader
 			const newBranchId = nextId(lastBranchId)
-			return reader
+			return new DagGraph(g)
 				.setCurrentBranch(newBranchId)
 				.setLastBranchId(newBranchId)
 				.setBranchName(newBranchId, branchName)

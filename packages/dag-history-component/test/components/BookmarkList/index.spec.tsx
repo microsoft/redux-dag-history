@@ -1,7 +1,10 @@
-import { mount } from 'enzyme'
+import { mount, configure } from 'enzyme'
 import * as React from 'react'
 import Bookmark from '../../../src/components/Bookmark'
 import BookmarkList from '../../../src/components/BookmarkList'
+import * as Adapter from 'enzyme-adapter-react-16'
+
+configure({ adapter: new Adapter() })
 
 xdescribe('The BookmarkList Component', () => {
 	it('can render a set of bookmarks', () => {

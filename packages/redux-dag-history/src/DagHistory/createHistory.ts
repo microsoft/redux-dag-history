@@ -1,4 +1,5 @@
 import { BranchId, Configuration, DagHistory, StateId } from '../interfaces'
+import ConfigurationImpl from '../Configuration'
 import nextId from '../nextId'
 import load from './load'
 
@@ -7,7 +8,7 @@ const EMPTY_STATE: any = {}
 
 export default function createHistory<T>(
 	initialState: T = EMPTY_STATE,
-	config: Configuration<T>,
+	config: Configuration<T> = new ConfigurationImpl({}),
 ): DagHistory<T> {
 	log('creating history')
 	const stateId: StateId = nextId()
@@ -17,7 +18,7 @@ export default function createHistory<T>(
 	// We may need to insert the initial hash into the state data, so construct it here
 	const initialStateData = {
 		name: initialStateName,
-		branch: 1,
+		branch: branchId,
 		hash: '',
 	}
 

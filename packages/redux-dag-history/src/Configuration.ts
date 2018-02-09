@@ -28,9 +28,6 @@ export default class ConfigurationImpl<T> implements Configuration<T> {
 	}
 
 	public get stateKeyGenerator() {
-		if (!this.rawConfig.stateKeyGenerator) {
-			throw new Error('config.stateKeyGenerator must be defined')
-		}
 		return this.rawConfig.stateKeyGenerator
 	}
 

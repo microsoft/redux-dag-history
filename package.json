@@ -5,9 +5,11 @@
 	"scripts": {
 		"precommit": "lint-staged",
 		"prepush": "yarn lint",
+		"build": "lerna run build --stream",
+		"clean": "lerna run clean",
 		"prettify": "prettier \"packages/*/**/*.{js,jsx,ts,tsx}\"",
 		"lint": "tslint 'packages/*/{src,test}/**/*.ts*'",
-		"jest": "jest",
+		"jest": "cross-env TS_JEST_DEBUG=true jest",
 		"jest:watch": "jest --watch",
 		"jest:coverage": "jest --coverage",
 		"start:middleware":
@@ -17,10 +19,8 @@
 		"start:example":
 			"lerna run start --scope=@essex/dag-history-example --stream",
 		"packages:test": "lerna run test --stream",
-		"packages:build": "lerna run build --stream",
-		"packages:clean": "lerna run clean",
-		"test": "run-s packages:clean lint packages:build jest:coverage",
-		"start": "npm-run-all packages:clean packages:build -p start:*"
+		"test": "run-s clean lint build jest:coverage",
+		"start": "npm-run-all clean build -p start:*"
 	},
 	"author": "Chris Trevino <chtrevin@microsoft.com>",
 	"workspaces": ["packages/*"],
@@ -41,18 +41,27 @@
 		"useTabs": true
 	},
 	"jest": {
-		"moduleFileExtensions": ["ts", "tsx", "js"],
+		"transform": {
+			"^.+\\.tsx?$": "ts-jest"
+		},
+		"globals": {
+			"__TS_CONFIG__": {
+				"module": "commonjs"
+			},
+			"ts-jest": {
+				"tsConfigFile": "tsconfig.jest.json"
+			}
+		},
+		"moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json"],
 		"moduleNameMapper": {
 			"\\.(css|scss)$": "<rootDir>/scripts/stub.js"
-		},
-		"transform": {
-			"^.+\\.(ts|tsx)$": "<rootDir>/scripts/preprocessor.js"
 		},
 		"testRegex": ".*/packages/.*/test/.*/.*\\.spec\\.(ts|tsx|js)$"
 	},
 	"devDependencies": {
 		"@types/jest": "^22.1.1",
 		"@types/redux-logger": "^2.6.34",
+		"cross-env": "^5.1.3",
 		"husky": "^0.14.3",
 		"jest": "^22.1.4",
 		"lerna": "^2.8.0",
@@ -60,6 +69,7 @@
 		"npm-run-all": "^4.1.2",
 		"prettier": "^1.10.2",
 		"redux-logger": "^2.8.2",
+		"ts-jest": "^22.0.3",
 		"tslint": "^5.9.1",
 		"tslint-react": "^3.4.0"
 	}

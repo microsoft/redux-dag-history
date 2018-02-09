@@ -56,6 +56,26 @@ const HistoryContainer: React.StatelessComponent<
 	// TODO: Hacky, figure out the typings here
 > = props => <HistoryComponent {...props as any} />
 
+// HACK: these unused expressions sidesteps webpack's tree-shaking from pruning these imports
+bindActionCreators // tslint:disable-line no-unused-expression
+Actions // tslint:disable-line no-unused-expression
+DagHistoryActions // tslint:disable-line no-unused-expression
+
+const mapDispatchToProps = (dispatch: Dispatch<any>) =>
+	bindActionCreators(
+		{
+			onClear: DagHistoryActions.clear,
+			onLoad: DagHistoryActions.load,
+			onSelectMainView: Actions.selectMainView,
+			onSelectState: DagHistoryActions.jumpToState,
+			onToggleBranchContainer: Actions.toggleBranchContainer,
+			onStartPlayback: Actions.startPlayback,
+			onStopPlayback: Actions.stopPlayback,
+			onSelectBookmarkDepth: Actions.selectBookmarkDepth,
+		},
+		dispatch,
+	)
+
 export default function createHistoryContainer(
 	getMiddlewareState: Function,
 	getComponentState: Function,
@@ -85,20 +105,6 @@ export default function createHistoryContainer(
 			isPlayingBack: component.playback.isPlayingBack,
 		}
 	}
-	const mapDispatchToProps = (dispatch: Dispatch<any>) =>
-		bindActionCreators(
-			{
-				onClear: DagHistoryActions.clear,
-				onLoad: DagHistoryActions.load,
-				onSelectMainView: Actions.selectMainView,
-				onSelectState: DagHistoryActions.jumpToState,
-				onToggleBranchContainer: Actions.toggleBranchContainer,
-				onStartPlayback: Actions.startPlayback,
-				onStopPlayback: Actions.stopPlayback,
-				onSelectBookmarkDepth: Actions.selectBookmarkDepth,
-			},
-			dispatch,
-		)
 	return connect<HistoryContainerStateProps, {}, HistoryContainerOwnProps>(
 		mapStateToProps,
 		mapDispatchToProps,

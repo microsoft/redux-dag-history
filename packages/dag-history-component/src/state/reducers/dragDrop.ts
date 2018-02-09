@@ -6,6 +6,7 @@ import {
 	BOOKMARK_DRAG_HOVER,
 	BOOKMARK_DRAG_START,
 } from '../actions/types'
+import makeReducer from './configurableReducer'
 
 export interface State {
 	sourceIndex?: number
@@ -19,34 +20,35 @@ export const INITIAL_STATE: State = {
 	hoverIndex: undefined,
 }
 
-export default function makeReducer(config: Configuration<any>) {
-	return function reduce(
-		state: State = INITIAL_STATE,
-		action: ReduxActions.Action<any>,
-	) {
-		let result = state
-		if (action.type === BOOKMARK_DRAG_START) {
-			result = {
-				...state,
-				sourceIndex: action.payload.index,
-				sourceKey: action.payload.key,
-			}
-		} else if (action.type === BOOKMARK_DRAG_HOVER) {
-			const hoverIndex = action.payload.index
-			result = {
-				...state,
-				hoverIndex,
-			}
-		} else if (action.type === BOOKMARK_DRAG_DROP) {
-			result = INITIAL_STATE
-		} else if (action.type === BOOKMARK_DRAG_CANCEL) {
-			result = INITIAL_STATE
-		} else if (
-			action.type.indexOf('DAG_HISTORY_') !== 0 &&
-			config.actionFilter(action.type)
-		) {
-			result = INITIAL_STATE
+function reducer(
+	state: State = INITIAL_STATE,
+	action: ReduxActions.Action<any>,
+	config: Configuration<any>,
+) {
+	let result = state
+	if (action.type === BOOKMARK_DRAG_START) {
+		result = {
+			...state,
+			sourceIndex: action.payload.index,
+			sourceKey: action.payload.key,
 		}
-		return result
+	} else if (action.type === BOOKMARK_DRAG_HOVER) {
+		const hoverIndex = action.payload.index
+		result = {
+			...state,
+			hoverIndex,
+		}
+	} else if (action.type === BOOKMARK_DRAG_DROP) {
+		result = INITIAL_STATE
+	} else if (action.type === BOOKMARK_DRAG_CANCEL) {
+		result = INITIAL_STATE
+	} else if (
+		action.type.indexOf('DAG_HISTORY_') !== 0 &&
+		config.actionFilter(action.type)
+	) {
+		result = INITIAL_STATE
 	}
+	return result
 }
+
+export default makeReducer(reducer)

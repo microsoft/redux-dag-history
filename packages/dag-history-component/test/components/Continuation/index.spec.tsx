@@ -1,6 +1,9 @@
-import { mount } from 'enzyme'
+import { mount, configure } from 'enzyme'
 import * as React from 'react'
 import Continuation from '../../../src/components/Continuation'
+import * as Adapter from 'enzyme-adapter-react-16'
+
+configure({ adapter: new Adapter() })
 
 describe('The Continuation component', () => {
 	it('can be rendered', () => {
