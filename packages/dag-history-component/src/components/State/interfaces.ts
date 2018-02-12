@@ -1,5 +1,4 @@
-import DagGraph from '@essex/redux-dag-history/lib/DagGraph'
-import { DagHistory, StateId } from '@essex/redux-dag-history/lib/interfaces'
+import { DagHistory, StateId, DagGraph } from '@essex/redux-dag-history'
 import { BranchType } from '../../interfaces'
 
 export interface StateProps {

@@ -34,6 +34,7 @@ export const ColumnContainer = styled.div`
 	display: flex;
 	flex: 1;
 	flex-direction: column;
+	max-height: 100%;
 `
 
 export const DropdownContainer = styled.div`

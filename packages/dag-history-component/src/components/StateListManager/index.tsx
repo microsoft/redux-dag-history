@@ -1,4 +1,5 @@
-import { DagHistory, StateId, DagGraph } from '@essex/redux-dag-history'
+import DagGraph from '@essex/redux-dag-history/lib/DagGraph'
+import { DagHistory, StateId } from '@essex/redux-dag-history/lib/interfaces'
 import * as debug from 'debug'
 import * as React from 'react'
 import { Bookmark } from '../../interfaces'
@@ -95,7 +96,7 @@ function getStateList(
 	return commitPathData
 }
 
-export interface StateListContainerProps {
+export interface StateListManagerProps {
 	history: DagHistory<any>
 	commitPath?: StateId[]
 	getSourceFromState: Function
@@ -115,7 +116,7 @@ export interface StateListContainerProps {
 	onPinState: Function
 }
 
-const StateListContainer: React.StatelessComponent<StateListContainerProps> = ({
+const StateListManager: React.StatelessComponent<StateListManagerProps> = ({
 	history: { graph },
 	bookmarks,
 	commitPath,
@@ -167,4 +168,4 @@ const StateListContainer: React.StatelessComponent<StateListContainerProps> = ({
 	)
 }
 
-export default StateListContainer
+export default StateListManager

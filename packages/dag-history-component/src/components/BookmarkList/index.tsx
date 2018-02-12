@@ -1,8 +1,8 @@
 import * as debug from 'debug'
 import * as React from 'react'
-import { StateId } from '@essex/redux-dag-history/lib/interfaces'
+import { StateId } from '@essex/redux-dag-history'
 import Bookmark from '../Bookmark'
-import { Bookmarks } from './styled'
+import { Bookmarks, NoBookmarkText } from './styled'
 import StateListContainer from '../StateListContainerContainer'
 
 const { DropTarget } = require('react-dnd')
@@ -22,6 +22,10 @@ export interface BookmarkListProps {
 	hoverIndex?: number
 	dragKey?: string
 }
+
+const NoBookmarks: React.StatelessComponent<{}> = () => (
+	<NoBookmarkText>No Bookmarks</NoBookmarkText>
+)
 
 export default class BookmarkList extends React.PureComponent<
 	BookmarkListProps,
@@ -78,7 +82,9 @@ export default class BookmarkList extends React.PureComponent<
 		}
 		return (
 			<StateListContainer>
-				<Bookmarks>{bookmarkViews}</Bookmarks>
+				<Bookmarks>
+					{bookmarkViews.length > 0 ? bookmarkViews : <NoBookmarks />}
+				</Bookmarks>
 			</StateListContainer>
 		)
 	}

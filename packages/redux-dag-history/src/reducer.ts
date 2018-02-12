@@ -4,7 +4,7 @@ import { Reducer } from 'redux'
 import { Action } from 'redux-actions'
 import Configuration from './Configuration'
 import DagGraph from './DagGraph'
-import * as DagHistoryImpl from './DagHistory'
+import DagHistoryImpl from './DagHistory'
 import { DagHistory } from './interfaces'
 
 const log = debug('redux-dag-history:reducer')

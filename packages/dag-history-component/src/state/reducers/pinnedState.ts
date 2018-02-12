@@ -1,4 +1,4 @@
-import { Configuration, StateId } from '@essex/redux-dag-history/lib/interfaces'
+import { Configuration, StateId } from '@essex/redux-dag-history'
 import { PIN_STATE } from '../actions/types'
 import { Action } from 'redux-actions'
 import makeReducer from './configurableReducer'

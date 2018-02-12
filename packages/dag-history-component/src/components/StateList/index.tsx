@@ -1,6 +1,6 @@
-import { StateId } from '@essex/redux-dag-history/lib/interfaces'
+import { StateId } from '@essex/redux-dag-history'
 import * as React from 'react'
-import Transition from 'react-transition-group/Transition'
+import { TransitionGroup, CSSTransition } from 'react-transition-group'
 import isNumber from '../../util/isNumber'
 import State from '../State'
 import { StateProps } from '../State/interfaces'
@@ -51,27 +51,23 @@ export default class StateList extends React.Component<StateListProps> {
 		}
 
 		const stateViews = states.map((s, index) => (
-			<State
-				{...s}
-				{...{ renderBookmarks }}
+			<CSSTransition
 				key={s.id}
-				onClick={id => handleClick(id)}
-				onContinuationClick={id => handleContinuationClick(id)}
-				onBookmarkClick={id => handleBookmarkClick(id)}
-			/>
+				classNames="state-entry"
+				timeout={{ enter: 250, exit: 250 }}
+			>
+				<State
+					{...s}
+					{...{ renderBookmarks }}
+					onClick={id => handleClick(id)}
+					onContinuationClick={id => handleContinuationClick(id)}
+					onBookmarkClick={id => handleBookmarkClick(id)}
+				/>
+			</CSSTransition>
 		))
 		return (
 			<Container innerRef={(e: HTMLDivElement) => (this.containerDiv = e)}>
-				{/* TODO
-				<Transition
-					transitionName="state-entry"
-					transitionEnterTimeout={250}
-					transitionLeaveTimeout={250}
-				>
-				{stateViews}
-				</Transition>
-			*/}
-				{stateViews}
+				<TransitionGroup>{stateViews}</TransitionGroup>
 			</Container>
 		)
 	}

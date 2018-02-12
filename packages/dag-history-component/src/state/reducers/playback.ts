@@ -1,4 +1,4 @@
-import { Configuration } from '@essex/redux-dag-history/lib/interfaces'
+import { Configuration } from '@essex/redux-dag-history'
 import {
 	SELECT_BOOKMARK_DEPTH,
 	START_PLAYBACK,

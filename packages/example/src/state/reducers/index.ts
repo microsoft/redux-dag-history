@@ -1,4 +1,4 @@
-import dagHistory from '@essex/redux-dag-history/lib/reducer'
+import { reducer as dagHistoryReducer } from '@essex/redux-dag-history'
 import * as debug from 'debug'
 import * as redux from 'redux'
 
@@ -52,6 +52,6 @@ export interface State {
 }
 
 export default redux.combineReducers({
-	app: dagHistory(app, DAG_HISTORY_CONFIG),
+	app: dagHistoryReducer(app, DAG_HISTORY_CONFIG),
 	component: history(DAG_HISTORY_CONFIG),
 })

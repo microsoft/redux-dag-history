@@ -1,6 +1,6 @@
 import * as classnames from 'classnames'
 import * as React from 'react'
-import Transition from 'react-transition-group/Transition'
+import { TransitionGroup, CSSTransition } from 'react-transition-group'
 import colors from '../../palette'
 import Continuation from '../Continuation'
 import { StateProps } from './interfaces'
@@ -90,13 +90,18 @@ export default class State extends React.PureComponent<StateProps> {
 		}
 
 		const continuation = showContinuation ? (
-			<ContinuationContainer>
-				<Continuation
-					count={numChildren}
-					color={continuationColor(active, pinned)}
-					onClick={() => handleContinuationClick()}
-				/>
-			</ContinuationContainer>
+			<CSSTransition
+				classNames="continuation-dissolve"
+				timeout={{ enter: 250, exit: 250 }}
+			>
+				<ContinuationContainer>
+					<Continuation
+						count={numChildren}
+						color={continuationColor(active, pinned)}
+						onClick={() => handleContinuationClick()}
+					/>
+				</ContinuationContainer>
+			</CSSTransition>
 		) : null
 
 		const bookmark = renderBookmarks ? (
@@ -118,15 +123,7 @@ export default class State extends React.PureComponent<StateProps> {
 				}}
 				onClick={e => handleClick()}
 			>
-				{/*<Transition
-					transitionName="continuation-dissolve"
-					timeout={250}
-					transitionEnterTimeout={250}
-					transitionLeaveTimeout={250}
-				>
-					{continuation}
-				</Transition>*/}
-				{continuation}
+				<TransitionGroup>{continuation}</TransitionGroup>
 				<Detail>
 					<Source className={classnames({ active })}>{source || ''}</Source>
 					<Name className={classnames({ active })}>{label || ''}</Name>

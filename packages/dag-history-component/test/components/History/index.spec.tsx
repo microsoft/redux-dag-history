@@ -1,4 +1,4 @@
-import * as dagHistory from '@essex/redux-dag-history/lib/DagHistory'
+import { DagHistoryImpl } from '@essex/redux-dag-history'
 import * as Promise from 'bluebird'
 import { mount, configure } from 'enzyme'
 import * as React from 'react'
@@ -15,7 +15,7 @@ configure({ adapter: new Adapter() })
 describe('The History Component', () => {
 	it('can be rendered in branched mode', () => {
 		const store = createStore(() => ({}))
-		const history = dagHistory.createHistory({}, new Configuration())
+		const history = DagHistoryImpl.createHistory({}, new Configuration())
 		const rendered = mount(
 			<Provider store={store}>
 				<History

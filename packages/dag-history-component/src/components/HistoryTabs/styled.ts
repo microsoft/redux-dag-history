@@ -40,8 +40,8 @@ export const TabList = styled(TabListRaw)`
 
 export const TabPanel = styled(TabPanelRaw)`
 	display: flex;
-	flex: 1;
 	max-height: 100%;
+	height: 100%;
 `
 
 export const Tabs = styled(TabsRaw)`

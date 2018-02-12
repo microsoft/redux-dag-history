@@ -1,4 +1,4 @@
-import { BranchId } from '@essex/redux-dag-history/lib/interfaces'
+import { BranchId } from '@essex/redux-dag-history'
 import * as React from 'react'
 import Branch, { BranchProps } from '../Branch'
 import { Container, Branches } from './styled'

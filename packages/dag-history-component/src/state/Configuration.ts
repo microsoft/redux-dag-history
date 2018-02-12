@@ -1,9 +1,8 @@
-import Configuration from '@essex/redux-dag-history/lib/Configuration'
+import { ConfigurationImpl } from '@essex/redux-dag-history'
 import { ComponentView, HistoryType } from '../interfaces'
-
 import { ComponentConfiguration, RawComponentConfiguration } from './interfaces'
 
-export default class ComponentConfigurationImpl<T> extends Configuration<T>
+export default class ComponentConfigurationImpl<T> extends ConfigurationImpl<T>
 	implements ComponentConfiguration<T> {
 	constructor(rawConfig: RawComponentConfiguration<T> = {}) {
 		super(rawConfig as any)

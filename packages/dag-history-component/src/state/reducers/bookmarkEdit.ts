@@ -1,5 +1,5 @@
 import { Action } from 'redux-actions'
-import { Configuration } from '@essex/redux-dag-history/lib/interfaces'
+import { Configuration } from '@essex/redux-dag-history'
 import {
 	BOOKMARK_EDIT,
 	MOVE_BOOKMARK,

@@ -1,4 +1,4 @@
-import DagGraph from '@essex/redux-dag-history/lib/DagGraph'
+import { DagGraph } from '@essex/redux-dag-history'
 import { Bookmark as BookmarkData } from '../interfaces'
 /**
  * Represents bookmark data for our bookmark

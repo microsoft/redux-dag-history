@@ -1,5 +1,4 @@
-import DagGraph from '@essex/redux-dag-history/lib/DagGraph'
-import { DagHistory } from '@essex/redux-dag-history/lib/interfaces'
+import { DagGraph, DagHistory } from '@essex/redux-dag-history'
 import * as debug from 'debug'
 import * as React from 'react'
 import isNumber from '../../util/isNumber'
@@ -13,7 +12,7 @@ import { HistoryContainerSharedProps } from './interfaces'
 import { Bookmark } from '../../interfaces'
 import StoryboardingView from '../StoryboardingView'
 import StateListContainerContainer from '../StateListContainerContainer'
-
+import '../../../styles.css'
 const log = debug('dag-history-component:components:History')
 
 export interface HistoryDispatchProps {

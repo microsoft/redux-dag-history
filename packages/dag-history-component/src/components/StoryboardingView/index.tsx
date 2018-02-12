@@ -1,6 +1,8 @@
-import * as DagHistoryActions from '@essex/redux-dag-history/lib/ActionCreators'
-import DagGraph from '@essex/redux-dag-history/lib/DagGraph'
-import { DagHistory } from '@essex/redux-dag-history/lib/interfaces'
+import {
+	DagHistory,
+	DagGraph,
+	ActionCreators as DagHistoryActions,
+} from '@essex/redux-dag-history'
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
@@ -63,9 +65,16 @@ const StoryboardingView: React.StatelessComponent<
 		onSelectBookmarkDepth,
 	)
 
-	const bookmark = new Bookmark(bookmarks[0], new DagGraph(history.graph))
-	const initialDepth = bookmark.startingDepth()
-	const stateId = bookmark.commitPath[bookmark.sanitizeDepth(initialDepth)]
+	const onPlay = () => {
+		if (bookmarks.length === 0) {
+			return
+		}
+		const bookmark = new Bookmark(bookmarks[0], new DagGraph(history.graph))
+		const initialDepth = bookmark.startingDepth()
+		const stateId = bookmark.commitPath[bookmark.sanitizeDepth(initialDepth)]
+
+		onStartPlayback({ initialDepth, stateId })
+	}
 
 	return (
 		<HistoryContainer>
@@ -73,7 +82,7 @@ const StoryboardingView: React.StatelessComponent<
 			<Transport
 				onBack={handleStepBack}
 				onForward={handleStepForward}
-				onPlay={() => onStartPlayback({ initialDepth, stateId })}
+				onPlay={onPlay}
 				onStop={onStopPlayback}
 				onStepBack={handleStepBack}
 				onStepForward={handleStepForward}
