@@ -1,19 +1,13 @@
-import * as Immutable from 'immutable';
-import DagGraph from '../DagGraph';
-import {
-  IDagHistory,
-  StateId,
-  BranchId,
-  IConfiguration,
-} from '../interfaces';
+import DagGraph from '../DagGraph'
+import { DagHistory } from '../interfaces'
 
-const log = require('debug')('redux-dag-history:DagHistory');
+import log from './log'
 
-export default function squash<T>(history: IDagHistory<T>): IDagHistory<T> {
-  log('squashing history');
-  const { graph, current } = history;
-  return {
-    current,
-    graph: graph.withMutations(g => new DagGraph(g).squashCurrentBranch()),
-  };
+export default function squash<T>(history: DagHistory<T>): DagHistory<T> {
+	log('squashing history')
+	const { graph, current } = history
+	return {
+		current,
+		graph: graph.withMutations(g => new DagGraph(g).squashCurrentBranch()),
+	}
 }

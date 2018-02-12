@@ -1,36 +1,28 @@
-import * as Immutable from 'immutable';
-import DagGraph from '../DagGraph';
-import nextId from '../nextId';
-import {
-  IDagHistory,
-  StateId,
-  BranchId,
-  IConfiguration,
-} from '../interfaces';
-
-const log = require('debug')('redux-dag-history:DagHistory');
+import DagGraph from '../DagGraph'
+import { DagHistory } from '../interfaces'
+import nextId from '../nextId'
+import log from './log'
 
 export default function createBranch<T>(
-  branchName: string,
-  history: IDagHistory<T>
-): IDagHistory<T> {
-  log('creating branch %s', branchName);
-  const { graph, current } = history;
-  const reader = new DagGraph(graph);
+	branchName: string,
+	history: DagHistory<T>,
+): DagHistory<T> {
+	log('creating branch %s', branchName)
+	const { graph, current } = history
+	const reader = new DagGraph(graph)
 
-  return {
-    current,
-    graph: graph.withMutations((g) => {
-      const reader = new DagGraph(graph);
-      const { lastBranchId } = reader;
-      const newBranchId = nextId(lastBranchId);
-      return reader
-        .setCurrentBranch(newBranchId)
-        .setLastBranchId(newBranchId)
-        .setBranchName(newBranchId, branchName)
-        .setCommitted(newBranchId, reader.currentStateId)
-        .setFirst(newBranchId, reader.currentStateId)
-        .setLatest(newBranchId, reader.currentStateId);
-    }),
-  };
+	return {
+		current,
+		graph: graph.withMutations(g => {
+			const { lastBranchId } = reader
+			const newBranchId = nextId(lastBranchId)
+			return new DagGraph(g)
+				.setCurrentBranch(newBranchId)
+				.setLastBranchId(newBranchId)
+				.setBranchName(newBranchId, branchName)
+				.setCommitted(newBranchId, reader.currentStateId)
+				.setFirst(newBranchId, reader.currentStateId)
+				.setLatest(newBranchId, reader.currentStateId)
+		}),
+	}
 }

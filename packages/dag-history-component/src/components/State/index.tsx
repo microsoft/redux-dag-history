@@ -1,157 +1,135 @@
-import * as React from 'react';
-import * as classnames from 'classnames';
-import Continuation from '../Continuation';
-import colors from '../../palette';
-import './State.scss';
-import { IStateProps } from './interfaces';
-import * as ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import * as classnames from 'classnames'
+import * as React from 'react'
+import { TransitionGroup, CSSTransition } from 'react-transition-group'
+import colors from '../../palette'
+import Continuation from '../Continuation'
+import { StateProps } from './interfaces'
+import { BranchType } from '../../interfaces'
+import {
+	Container,
+	Detail,
+	Source,
+	Name,
+	ContinuationContainer,
+} from './styled'
 
-const Bookmark = require('react-icons/lib/io/bookmark');
-const { PropTypes } = React;
+const Bookmark = require('react-icons/lib/io/bookmark')
 
-const coloring = {
-  current: {
-    active: colors.CURRENT_ACTIVE,
-    nonactive: colors.CURRENT,
-  },
-  legacy: {
-    active: colors.LEGACY_ACTIVE,
-    nonactive: colors.ANCESTOR,
-  },
-  unrelated: {
-    active: colors.UNRELATED,
-    nonactive: colors.UNRELATED_UNIQUE,
-  }
-};
-
-function getBackgroundColor(branchType, active) {
-  let result = null;
-  result = coloring[branchType][active ? 'active' : 'nonactive'];
-  return result;
+const coloring: { [key: string]: { [key: string]: string } } = {
+	current: {
+		active: colors.CURRENT_ACTIVE,
+		nonactive: colors.CURRENT,
+	},
+	legacy: {
+		active: colors.LEGACY_ACTIVE,
+		nonactive: colors.ANCESTOR,
+	},
+	unrelated: {
+		active: colors.UNRELATED,
+		nonactive: colors.UNRELATED_UNIQUE,
+	},
 }
 
-function continuationColor(isActive, isPinned) {
-  let result = colors.CONT_BLANK;
-  if (isPinned) {
-    result = colors.CONT_PINNED;
-  } else if (isActive) {
-    result = colors.CONT_ACTIVE;
-  }
-  return result;
+function getBackgroundColor(branchType: BranchType, active: boolean) {
+	return coloring[branchType.toString()][active ? 'active' : 'nonactive']
 }
 
-export interface IStateState {}
+function continuationColor(active: boolean, pinned: boolean) {
+	let result = colors.CONT_BLANK
+	if (pinned) {
+		result = colors.CONT_PINNED
+	} else if (active) {
+		result = colors.CONT_ACTIVE
+	}
+	return result
+}
 
-export default class State extends React.PureComponent<IStateProps, IStateState> {
-  static propTypes = {
-    id: PropTypes.string.isRequired,
-    source: PropTypes.string,
-    label: PropTypes.string.isRequired,
-    active: PropTypes.bool,
-    pinned: PropTypes.bool,
-    bookmarked: PropTypes.bool,
-    renderBookmarks: PropTypes.bool,
-    numChildren: PropTypes.number,
-    branchType: PropTypes.oneOf(['current', 'legacy', 'unrelated']),
-    onBookmarkClick: PropTypes.func,
-    onClick: PropTypes.func,
-    onContinuationClick: PropTypes.func,
-    showContinuation: PropTypes.bool,
-    style: PropTypes.any,
-  };
+export default class State extends React.PureComponent<StateProps> {
+	public static defaultProps = {
+		showContinuation: true,
+		label: '',
+		branchType: BranchType.CURRENT,
+		numChildren: 0,
+	}
 
-  static defaultProps = {
-    id: undefined,
-    source: undefined,
-    showContinuation: true,
-    label: '',
-    branchType: 'current',
-    numChildren: 0,
-  };
+	public render() {
+		const {
+			id,
+			source,
+			label,
+			branchType,
+			active,
+			renderBookmarks,
+			bookmarked,
+			numChildren,
+			onClick,
+			onContinuationClick,
+			onBookmarkClick,
+			successor,
+			pinned,
+			showContinuation,
+		} = this.props
+		const backgroundColor = getBackgroundColor(branchType, active)
 
-  public render() {
-    const {
-      id,
-      source,
-      label,
-      branchType,
-      active,
-      renderBookmarks,
-      bookmarked,
-      numChildren,
-      onClick,
-      onContinuationClick,
-      onBookmarkClick,
-      successor,
-      pinned,
-      showContinuation,
-    } = this.props;
-    const backgroundColor = getBackgroundColor(branchType, active);
+		const handleClick = () => {
+			if (onClick) {
+				onClick(id)
+			}
+		}
 
-    const handleClick = (e) => {
-      if (onClick) {
-        onClick(id);
-      }
-    };
+		const handleContinuationClick = () => {
+			if (onContinuationClick) {
+				onContinuationClick(id)
+			}
+		}
 
-    const handleContinuationClick = (e) => {
-      if (onContinuationClick) {
-        onContinuationClick(id);
-      }
-    };
+		const handleBookmarkClick = () => {
+			if (onBookmarkClick) {
+				onBookmarkClick(id)
+			}
+		}
 
-    const handleBookmarkClick = (e) => {
-      if (onBookmarkClick) {
-        onBookmarkClick(id);
-      }
-    };
+		const continuation = showContinuation ? (
+			<CSSTransition
+				classNames="continuation-dissolve"
+				timeout={{ enter: 250, exit: 250 }}
+			>
+				<ContinuationContainer>
+					<Continuation
+						count={numChildren}
+						color={continuationColor(active, pinned)}
+						onClick={() => handleContinuationClick()}
+					/>
+				</ContinuationContainer>
+			</CSSTransition>
+		) : null
 
-    const continuation = showContinuation ? (
-      <div style={{overflow: 'hidden', display: 'flex', justifyContent: 'center'}}>
-        <Continuation
-          count={numChildren}
-          color={continuationColor(active, pinned)}
-          onClick={(e) => handleContinuationClick(e)}
-        />
-      </div>
-    ) : null;
+		const bookmark = renderBookmarks ? (
+			<Bookmark
+				size={25}
+				color={bookmarked ? 'gold' : 'white'}
+				onClick={() => handleBookmarkClick()}
+			/>
+		) : null
 
-    const bookmark = renderBookmarks ? (
-      <Bookmark
-        size={25}
-        color={bookmarked ? 'gold' : 'white'}
-        onClick={e => handleBookmarkClick(e)}
-      />
-    ) : null;
+		const marginLeftValue = successor ? 30 : 0
 
-    const marginLeftValue = successor ? 30 : 0;
-
-    return (
-      <div
-        className={classnames('history-state', { successor })}
-        style={{
-          ...this.props.style,
-          backgroundColor,
-        }}
-        onClick={e => handleClick(e)}
-      >
-        <ReactCSSTransitionGroup
-          transitionName="continuation-dissolve"
-          transitionEnterTimeout={250}
-          transitionLeaveTimeout={250}
-        >
-          {continuation}
-        </ReactCSSTransitionGroup>
-        <div className="state-detail">
-          <div className={classnames('state-source', { active })}>
-            {source || ''}
-          </div>
-          <div className={classnames('state-name', { active })}>
-            {label || ''}
-          </div>
-        </div>
-        {bookmark}
-      </div>
-    );
-  }
+		return (
+			<Container
+				className={classnames({ successor })}
+				style={{
+					...this.props.style,
+					backgroundColor,
+				}}
+				onClick={e => handleClick()}
+			>
+				<TransitionGroup>{continuation}</TransitionGroup>
+				<Detail>
+					<Source className={classnames({ active })}>{source || ''}</Source>
+					<Name className={classnames({ active })}>{label || ''}</Name>
+				</Detail>
+				{bookmark}
+			</Container>
+		)
+	}
 }

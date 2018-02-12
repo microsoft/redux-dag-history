@@ -1,105 +1,95 @@
-import * as React from 'react';
-const MdMoreVert = require('react-icons/lib/md/more-vert');
-const { default: Dropdown, DropdownTrigger, DropdownContent } = require('react-simple-dropdown');
-import './OptionDropdown.scss';
+import * as React from 'react'
+import {
+	DropdownTrigger,
+	TriggerContent,
+	DropdownContent,
+	OptionList,
+	ListItem,
+} from './styled'
+const MdMoreVert = require('react-icons/lib/md/more-vert')
+const { default: Dropdown } = require('react-simple-dropdown')
 
-const { PropTypes } = React;
-
-export interface IOptionDropdownProps {
-  label?: string;
-  icon?: JSX.Element;
-  options?: {
-    element?: JSX.Element;
-    label?: string;
-    onClick: Function;
-  }[];
-  triggerClass?: string;
-  contentClass?: string;
+export interface Option {
+	element?: JSX.Element
+	label?: string
+	onClick: Function
 }
 
-export interface IOptionDropdownState {
+export interface OptionDropdownProps {
+	label?: string
+	icon?: JSX.Element
+	options?: Option[]
 }
 
-export default class OptionDropdown extends React.Component<IOptionDropdownProps, IOptionDropdownState> {
-  private dropdown: any;
+export interface OptionDropdownState {
+	show: boolean
+}
 
-  public static propTypes = {
-    trigger: PropTypes.element,
-    label: PropTypes.string,
-    icon: PropTypes.element,
-    triggerClass: PropTypes.string,
-    contentClass: PropTypes.string,
-    options: PropTypes.arrayOf(PropTypes.shape({
-      element: PropTypes.element,
-      label: PropTypes.string,
-      onClick: PropTypes.func.isRequired,
-    })),
-  };
+export default class OptionDropdown extends React.Component<
+	OptionDropdownProps,
+	OptionDropdownState
+> {
+	public static defaultProps = {
+		options: [] as Option[],
+	}
 
-  public static defaultProps = {
-    options: [],
-  };
+	constructor(props: OptionDropdownProps) {
+		super(props)
+		this.state = { show: false }
+	}
 
-  render() {
-    const {
-      label,
-      icon,
-      options,
-      triggerClass,
-      contentClass,
-    } = this.props;
-    let result = null;
-    if (options.length === 0) {
-      result = label ? (
-        <div className={`dropdown-label-only ${triggerClass}`}>
-          {label}
-        </div>
-      ) : null;
-    } else {
-      const triggerLabel = label ? <div className="label">{label}</div> : null;
-      let triggerIcon = icon;
-      if (!triggerIcon && !label) {
-        triggerIcon = (<MdMoreVert size={24} style={{ margin: 4 }} />);
-      }
-      if (triggerIcon) {
-        triggerIcon = (
-          <div className="dropown-icon-wrapper">
-            {triggerIcon}
-          </div>
-        );
-      }
+	public render() {
+		const { label, icon, options } = this.props
+		let result = null
+		if (options.length === 0) {
+			result = label ? <div>{label}</div> : null
+		} else {
+			const triggerLabel = label ? <div className="label">{label}</div> : null
+			let triggerIcon = icon
+			if (!triggerIcon && !label) {
+				triggerIcon = <MdMoreVert size={24} style={{ margin: 4 }} />
+			}
+			if (triggerIcon) {
+				triggerIcon = <div>{triggerIcon}</div>
+			}
 
-      const optionClicked = (onClick) => {
-        onClick();
-        this.dropdown.hide();
-      };
+			const optionClicked = (onClick: Function) => {
+				onClick()
+				this.setState({ show: false })
+			}
 
-      const triggerClicked = () => {
-        this.dropdown.show();
-      };
+			const triggerClicked = () => {
+				this.setState({ show: true })
+			}
 
-      result = (
-        <Dropdown ref={e => (this.dropdown = e)}>
-          <DropdownTrigger className={`history-dropdown-trigger ${triggerClass}`} onClick={() => triggerClicked()}>
-            <div style={{ display: 'flex', flexDirection: 'row' }}>
-              {triggerLabel}
-              {triggerIcon}
-            </div>
-          </DropdownTrigger>
-          <DropdownContent className={`history-dropdown-content ${contentClass}`}>
-            <ul>
-              {
-                options.map(({ element: optionElement, label: optionLabel, onClick }, index) => (
-                  <li key={`option:${index}`} onClick={() => optionClicked(onClick)}>
-                    {optionElement || optionLabel}
-                  </li>
-                ))
-              }
-            </ul>
-          </DropdownContent>
-        </Dropdown>
-      );
-    }
-    return result;
-  }
+			result = (
+				<Dropdown active={this.state.show}>
+					<DropdownTrigger onClick={() => triggerClicked()}>
+						<TriggerContent>
+							{triggerLabel}
+							{triggerIcon}
+						</TriggerContent>
+					</DropdownTrigger>
+					<DropdownContent>
+						<OptionList>
+							{options.map(
+								(
+									{ element: optionElement, label: optionLabel, onClick },
+									index,
+								) => (
+									<ListItem
+										key={`option:${index}`}
+										onClick={() => optionClicked(onClick)}
+									>
+										{optionElement || optionLabel}
+									</ListItem>
+								),
+							)}
+						</OptionList>
+					</DropdownContent>
+				</Dropdown>
+			)
+		}
+		return result
+	}
 }

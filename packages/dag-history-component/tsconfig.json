@@ -1,19 +1,9 @@
 {
-    "compilerOptions": {
-        "module": "commonjs",
-        "jsx": "react",
-        "target": "es5",
-        "noImplicitAny": false,
-        "sourceMap": false,
-        "experimentalDecorators": true,
-        "declaration": true,
-        "outDir": "lib",
-        "lib": [
-          "es2017",
-          "dom"
-        ]
-    },
-    "files": [
-      "src/index.ts"
-    ]
+	"extends": "../../tsconfig.json",
+	"compilerOptions": {
+		"outDir": "lib",
+		"declaration": true,
+		"noEmit": false
+	},
+	"files": ["src/index.ts"]
 }

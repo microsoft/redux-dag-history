@@ -1,17 +1,9 @@
-import { Action } from 'redux-actions';
-import * as ActionCreators from './ActionCreators';
-import * as ActionTypes from './ActionTypes';
-import Configuration from './Configuration';
-import DagGraph from './DagGraph';
-import * as DagHistory from './DagHistory';
-import * as interfaces from './interfaces';
-import reducer from './reducer';
-
-export = {
-  ActionCreators,
-  ActionTypes,
-  Configuration,
-  DagGraph,
-  DagHistory,
-  reducer,
-};
+import * as ActionCreatorsImport from './ActionCreators'
+import * as ActionTypesImport from './ActionTypes'
+export { default as DagHistoryImpl } from './DagHistory'
+export { default as ConfigurationImpl } from './Configuration'
+export { default as DagGraph } from './DagGraph'
+export { default as reducer } from './reducer'
+export * from './interfaces'
+export const ActionCreators = ActionCreatorsImport
+export const ActionTypes = ActionTypesImport

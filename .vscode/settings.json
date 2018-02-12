@@ -1,14 +1,17 @@
 // Place your settings in this file to overwrite default and user settings.
 {
-  "files.exclude": {
-    "**/.git": true,
-    "**/.svn": true,
-    "**/.DS_Store": true,
-    "**/*~": true,
-    "**/#*": true,
-    "**/lib/": true,
-    "coverage": true,
-    "storybook-static": true
-  },
-  "typescript.tsdk": "./node_modules/typescript/lib"
+	"editor.useTabStops": true,
+	"editor.formatOnSave": true,
+	"files.eol": "\n",
+	"files.exclude": {
+		"**/.git": true,
+		"**/.svn": true,
+		"**/.DS_Store": true,
+		"**/*~": true,
+		"**/#*": true,
+		"**/lib/": true,
+		"coverage": true,
+		"storybook-static": true
+	},
+	"typescript.tsdk": "./node_modules/typescript/lib"
 }

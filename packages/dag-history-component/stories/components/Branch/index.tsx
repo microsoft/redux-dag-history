@@ -1,34 +1,36 @@
-import * as React from 'react';
-import { storiesOf, action } from '@kadira/storybook';
-import Branch from '../../../src/components/Branch';
+import { storiesOf } from '@storybook/react'
+import * as React from 'react'
+import Branch from '../../../src/components/Branch'
+import { BranchType } from '../../../src/interfaces'
+const { action } = require('@storybook/addon-actions')
 
 storiesOf('Branch', module)
-.add('Branch with half-depth', () => (
-  <Branch
-    label="master"
-    onClick={action('clicked')}
-    branchType="current"
-    maxDepth={10}
-    startsAt={0}
-    endsAt={5}
-  />
-))
-.add('Branch with an ative commit', () => (
-  <Branch
-    label="Enable Filtering"
-    maxDepth={12}
-    startsAt={5}
-    endsAt={10}
-    activeStateIndex={7}
-    branchType="current"
-  />
-))
-.add('Branch with inactive start', () => (
-  <Branch
-    label="My Branch"
-    maxDepth={30}
-    startsAt={10}
-    endsAt={20}
-    branchType="legacy"
-  />
-));
+	.add('Branch with half-depth', () => (
+		<Branch
+			label="master"
+			onClick={action('clicked')}
+			branchType={BranchType.CURRENT}
+			maxDepth={10}
+			startsAt={0}
+			endsAt={5}
+		/>
+	))
+	.add('Branch with an ative commit', () => (
+		<Branch
+			label="Enable Filtering"
+			maxDepth={12}
+			startsAt={5}
+			endsAt={10}
+			activeStateIndex={7}
+			branchType={BranchType.CURRENT}
+		/>
+	))
+	.add('Branch with inactive start', () => (
+		<Branch
+			label="My Branch"
+			maxDepth={30}
+			startsAt={10}
+			endsAt={20}
+			branchType={BranchType.LEGACY}
+		/>
+	))

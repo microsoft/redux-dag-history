@@ -1,109 +1,76 @@
 {
-  "name": "redux-dag-history-parent",
-  "version": "0.0.0",
-  "private": true,
-  "scripts": {
-    "postinstall": "lerna bootstrap",
-    "lint": "tslint 'packages/*/{src,test}/**/*.ts*'",
-    "jest": "jest",
-    "jest:watch": "jest --watch",
-    "jest:coverage": "jest --coverage",
-    "start:middleware": "lerna exec --scope @essex/redux-dag-history -- npm run start",
-    "start:component": "lerna exec --scope @essex/dag-history-component -- npm run start",
-    "packages:test": "lerna run test --stream",
-    "packages:build": "lerna run build --stream",
-    "packages:clean": "lerna run clean",
-    "test": "npm-run-all packages:clean lint packages:build jest:coverage",
-    "start": "npm-run-all --parallel start:*"
-  },
-  "dependencies": {
-    "@kadira/storybook": "^2.35.3",
-    "@types/bluebird": "^3.0.37",
-    "@types/chai": "^3.4.33",
-    "@types/classnames": "^0.0.32",
-    "@types/enzyme": "^2.7.4",
-    "@types/history": "^4.5.0",
-    "@types/jest": "^18.1.1",
-    "@types/jsdom": "^2.0.29",
-    "@types/node": "^7.0.5",
-    "@types/react": "^15.0.8",
-    "@types/react-addons-css-transition-group": "^15.0.1",
-    "@types/react-dnd": "^2.0.32",
-    "@types/react-dom": "^0.14.23",
-    "@types/react-redux": "^4.4.36",
-    "@types/react-router": "^3.0.2",
-    "@types/react-router-redux": "^4.0.40",
-    "@types/react-tabs": "^0.5.22",
-    "@types/redux": "^3.6.31",
-    "@types/redux-actions": "^1.2.2",
-    "@types/redux-thunk": "^2.1.32",
-    "@types/sinon": "^1.16.35",
-    "autoprefixer": "^6.7.2",
-    "babel-polyfill": "^6.22.0",
-    "bluebird": "^3.4.7",
-    "chai": "^3.5.0",
-    "classnames": "^2.2.5",
-    "cpx": "^1.3.1",
-    "css-loader": "^0.26.1",
-    "electron": "^1.6.2",
-    "enzyme": "^2.7.1",
-    "filesaver.js": "^0.2.0",
-    "html-webpack-plugin": "^2.28.0",
-    "immutable": "^3.8.1",
-    "imports-loader": "^0.7.0",
-    "jest": "^18.1.0",
-    "json-loader": "^0.5.4",
-    "lerna": "^2.0.0-beta.38",
-    "node-sass": "^4.5.0",
-    "npm-run-all": "^4.0.1",
-    "postcss-loader": "^1.2.2",
-    "react": "^15.4.2",
-    "react-addons-css-transition-group": "^15.4.2",
-    "react-addons-test-utils": "^15.4.2",
-    "react-dnd": "^2.2.3",
-    "react-dnd-html5-backend": "^2.2.3",
-    "react-dom": "^15.4.2",
-    "react-hot-loader": "^1.3.0",
-    "react-icons": "^2.2.3",
-    "react-keydown": "^1.6.2",
-    "react-redux": "^5.0.2",
-    "react-router": "^3.0.2",
-    "react-router-redux": "^4.0.2",
-    "react-simple-dropdown": "^1.1.4",
-    "react-tabs": "^0.8.2",
-    "redux": "^3.3.1",
-    "redux-actions": "^1.2.1",
-    "redux-thunk": "^2.2.0",
-    "rimraf": "^2.5.4",
-    "sass-loader": "^5.0.1",
-    "sinon": "2.0.0-pre",
-    "skeleton-css": "^2.0.4",
-    "style-loader": "^0.13.1",
-    "treeify": "^1.0.1",
-    "ts-loader": "^2.0.0",
-    "ts-node": "^2.0.0",
-    "tslint": "^4.4.2",
-    "typescript": "^2.1.6",
-    "wallaby-webpack": "^0.0.33",
-    "webpack": "^2.2.1",
-    "webpack-dev-server": "^2.3.0"
-  },
-  "jest": {
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js"
-    ],
-    "moduleNameMapper": {
-      "\\.(css|scss)$": "<rootDir>/scripts/stub.js"
-    },
-    "transform": {
-      "^.+\\.(ts|tsx)$": "<rootDir>/scripts/preprocessor.js"
-    },
-    "testRegex": ".*/packages/.*/test/.*/.*\\.spec\\.(ts|tsx|js)$"
-  },
-  "devDependencies": {
-    "@types/redux-logger": "^2.6.34",
-    "redux-logger": "^2.8.2"
-  }
+	"name": "redux-dag-history-parent",
+	"version": "0.0.0",
+	"private": true,
+	"scripts": {
+		"precommit": "lint-staged",
+		"//prepush": "yarn lint",
+		"build": "lerna run build --stream",
+		"clean": "lerna run clean",
+		"prettify": "prettier \"packages/*/**/*.{js,jsx,ts,tsx}\"",
+		"lint": "tslint 'packages/*/{src,test}/**/*.ts*'",
+		"jest": "cross-env TS_JEST_DEBUG=true jest",
+		"jest:watch": "jest --watch",
+		"jest:coverage": "jest --coverage",
+		"start:middleware":
+			"lerna run start --scope @essex/redux-dag-history --stream",
+		"start:component":
+			"lerna run start --scope @essex/dag-history-component --stream",
+		"start:example":
+			"lerna run start --scope=@essex/dag-history-example --stream",
+		"packages:test": "lerna run test --stream",
+		"test": "run-s clean lint build jest:coverage",
+		"start": "npm-run-all clean build -p start:*"
+	},
+	"author": "Chris Trevino <chtrevin@microsoft.com>",
+	"workspaces": ["packages/*"],
+	"lint-staged": {
+		"packages/**/*.{js,tsx}": [
+			"prettier --trailingComma=es5 --write",
+			"git add"
+		],
+		"packages/**/*.{ts,tsx}": [
+			"prettier --trailingComma=all --write",
+			"git add"
+		]
+	},
+	"prettier": {
+		"singleQuote": true,
+		"trailingComma": "all",
+		"semi": false,
+		"useTabs": true
+	},
+	"jest": {
+		"transform": {
+			"^.+\\.tsx?$": "ts-jest"
+		},
+		"globals": {
+			"__TS_CONFIG__": {
+				"module": "commonjs"
+			},
+			"ts-jest": {
+				"tsConfigFile": "tsconfig.jest.json"
+			}
+		},
+		"moduleFileExtensions": ["ts", "tsx", "js", "jsx", "json"],
+		"moduleNameMapper": {
+			"\\.(css|scss)$": "<rootDir>/scripts/stub.js"
+		},
+		"testRegex": ".*/packages/.*/test/.*/.*\\.spec\\.(ts|tsx|js)$"
+	},
+	"devDependencies": {
+		"@types/jest": "^22.1.1",
+		"@types/redux-logger": "^2.6.34",
+		"cross-env": "^5.1.3",
+		"husky": "^0.14.3",
+		"jest": "^22.1.4",
+		"lerna": "^2.8.0",
+		"lint-staged": "^6.1.0",
+		"npm-run-all": "^4.1.2",
+		"prettier": "^1.10.2",
+		"redux-logger": "^2.8.2",
+		"ts-jest": "^22.0.3",
+		"tslint": "^5.9.1",
+		"tslint-react": "^3.4.0"
+	}
 }

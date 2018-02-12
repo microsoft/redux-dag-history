@@ -1,24 +1,21 @@
-import DagGraph from '@essex/redux-dag-history/lib/DagGraph';
-import {
-  StateId, // eslint-disable-line no-unused-vars
-  IDagHistory, // eslint-disable-line no-unused-vars
-} from '@essex/redux-dag-history/lib/interfaces';
+import { DagHistory, StateId, DagGraph } from '@essex/redux-dag-history'
+import { BranchType } from '../../interfaces'
 
-export interface IStateProps {
-  id: StateId;
-  active?: boolean;
-  renderBookmarks?: boolean;
-  pinned?: boolean;
-  successor?: boolean;
-  state?: any;
-  source?: string;
-  label: string;
-  numChildren?: number;
-  bookmarked?: boolean;
-  showContinuation?: boolean;
-  branchType?: 'current' | 'legacy' | 'unrelated';
-  onBookmarkClick?: (state: StateId) => void;
-  onClick?: (state: StateId) => void;
-  onContinuationClick?: (state: StateId) => void;
-  style?: any;
+export interface StateProps {
+	id: StateId
+	active?: boolean
+	renderBookmarks?: boolean
+	pinned?: boolean
+	successor?: boolean
+	state?: any
+	source?: string
+	label: string
+	numChildren?: number
+	bookmarked?: boolean
+	showContinuation?: boolean
+	branchType?: BranchType
+	onBookmarkClick?: (state: StateId) => void
+	onClick?: (state: StateId) => void
+	onContinuationClick?: (state: StateId) => void
+	style?: any
 }

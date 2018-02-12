@@ -1,0 +1,10 @@
+{
+  "recommendations": [
+    "esbenp.prettier-vscode",
+    "msjsdiag.debugger-for-chrome",
+    "eg2.tslint",
+    "jpoissonnier.vscode-styled-components",
+    "naumovs.color-highlight",
+    "WallabyJs.wallaby-vscode"
+  ]
+}

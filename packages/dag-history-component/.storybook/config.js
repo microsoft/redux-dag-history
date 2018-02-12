@@ -1,7 +1,7 @@
-const { configure } = require('@kadira/storybook');
+const { configure } = require('@storybook/react')
 
 function loadStories() {
-  require('../stories');
+	require('../stories')
 }
 
-configure(loadStories, module);
+configure(loadStories, module)

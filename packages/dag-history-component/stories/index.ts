@@ -1,8 +1,9 @@
-import './components/Bookmark';
-import './components/Branch';
-import './components/BranchList';
-import './components/BranchProfile';
-import './components/Continuation';
-import './components/State';
-import './components/DiscoveryTrail';
-import './components/History';
+import './components/Bookmark'
+import './components/Branch'
+import './components/BranchList'
+import './components/BranchProfile'
+import './components/Continuation'
+import './components/DiscoveryTrail'
+import './components/History'
+import './components/State'
+import './components/HistoryTypeDropdown'

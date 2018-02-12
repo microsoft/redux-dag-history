@@ -1,18 +1,18 @@
-import Configuration from '@essex/redux-dag-history/lib/Configuration';
-import { IComponentConfiguration } from './interfaces';  // eslint-disable-line no-unused-vars
+import { ConfigurationImpl } from '@essex/redux-dag-history'
+import { ComponentView, HistoryType } from '../interfaces'
+import { ComponentConfiguration, RawComponentConfiguration } from './interfaces'
 
-export default class ComponentConfiguration<T>
-  extends Configuration<T>
-  implements IComponentConfiguration<T> {
-  constructor(rawConfig: IComponentConfiguration<T> = {}) {
-    super(rawConfig);
-  }
+export default class ComponentConfigurationImpl<T> extends ConfigurationImpl<T>
+	implements ComponentConfiguration<T> {
+	constructor(rawConfig: RawComponentConfiguration<T> = {}) {
+		super(rawConfig as any)
+	}
 
-  private get config() {
-    return this.rawConfig as IComponentConfiguration<T>;
-  }
+	private get config() {
+		return this.rawConfig as ComponentConfiguration<T>
+	}
 
-  public get initialViewState() {
-    return this.config.initialViewState || {};
-  }
+	public get initialViewState() {
+		return this.config.initialViewState || {}
+	}
 }

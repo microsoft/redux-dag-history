@@ -1,45 +1,34 @@
-import * as React from 'react';
-import Branch, { IBranchProps } from '../Branch';
-import { BranchId } from '@essex/redux-dag-history/lib/interfaces';
-import './BranchList.scss';
+import { BranchId } from '@essex/redux-dag-history'
+import * as React from 'react'
+import Branch, { BranchProps } from '../Branch'
+import { Container, Branches } from './styled'
 
-const { PropTypes } = React;
-
-export interface IBranchListProps {
-  activeBranch?: BranchId;
-  branches: IBranchProps[];
-  onBranchClick?: (branchId: BranchId) => void;
-  style?: any;
+export interface BranchListProps {
+	activeBranch?: BranchId
+	branches: BranchProps[]
+	onBranchClick?: (branchId: BranchId) => void
+	style?: any
 }
 
-const BranchList: React.StatelessComponent<IBranchListProps> = ({
-  activeBranch,
-  branches,
-  onBranchClick,
-  style,
+const BranchList: React.StatelessComponent<BranchListProps> = ({
+	activeBranch,
+	branches,
+	onBranchClick,
+	style,
 }) => {
-  const branchViews = branches.map(s => (
-    <Branch
-      {...s}
-      key={`branch:${s.id}`}
-      onClick={() => onBranchClick ? onBranchClick(s.id) : undefined}
-      active={activeBranch === s.id}
-    />
-  ));
-  return (
-    <div className="history-branch-list" style={{...style}}>
-      <div className="history-branch-list-inner">
-        {branchViews}
-      </div>
-    </div>
-  );
-};
+	const branchViews = branches.map(s => (
+		<Branch
+			{...s}
+			key={`branch:${s.id}`}
+			onClick={() => (onBranchClick ? onBranchClick(s.id) : undefined)}
+			active={activeBranch === s.id}
+		/>
+	))
+	return (
+		<Container style={style}>
+			<Branches>{branchViews}</Branches>
+		</Container>
+	)
+}
 
-BranchList.propTypes = {
-  activeBranch: React.PropTypes.string,
-  branches: React.PropTypes.arrayOf(React.PropTypes.shape(Branch.propTypes)),
-  onBranchClick: React.PropTypes.func,
-  style: React.PropTypes.object,
-};
-
-export default BranchList;
+export default BranchList

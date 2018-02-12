@@ -1,44 +1,42 @@
-import * as React from 'react';
-import {default as EditableBookmark, IEditableBookmarkProps} from './EditableBookmark';
-const flow = require('lodash/flow');
+import * as React from 'react'
+import { Dispatch } from 'redux'
+import EditableBookmark, { EditableBookmarkProps } from './EditableBookmark'
+import { Dragged } from './styled'
+const flow = require('lodash/flow')
 
-export interface IDragDropBookmarkProps extends IEditableBookmarkProps {
-  // Injected by React DnD:
-  isDragging?: boolean;
-  connectDragSource?: Function;
-  connectDropTarget?: Function;
-  dragIndex?: number;
-  hoverIndex?: number;
-  dragKey?: string;
-  dispatch: Function;
-  stateId: string;
+export interface DragDropBookmarkProps extends EditableBookmarkProps {
+	// Injected by React DnD:
+	isDragging?: boolean
+	connectDragSource?: () => void
+	connectDropTarget?: () => void
+	dragIndex?: number
+	hoverIndex?: number
+	dragKey?: string
+	dispatch: Dispatch<any>
+	stateId: string
 }
 
-export interface IDragDropBookmarkState {}
+export default class DrapDropBookmark extends React.Component<
+	DragDropBookmarkProps
+> {
+	public render() {
+		const { connectDragSource, connectDropTarget } = this.props
+		return flow(connectDragSource, connectDropTarget)(this.renderBookmark())
+	}
 
-export default class DrapDropBookmark extends React.Component<IDragDropBookmarkProps, IDragDropBookmarkState> {
-  private renderBookmark() {
-    if (this.props.isDragging) {
-      return (<div className="bookmark-dragged" />);
-    } else {
-      return (
-        <div className="bookmark-dragdrop-wrapper">
-          <EditableBookmark {...this.props} />
-        </div>
-      );
-    }
-  }
-
-  public render() {
-    const {
-      connectDragSource,
-      connectDropTarget,
-    } = this.props;
-    return flow(
-      connectDragSource,
-      connectDropTarget,
-    )(
-      this.renderBookmark(),
-    );
-  }
+	private renderBookmark() {
+		if (this.props.isDragging) {
+			return (
+				<div>
+					<Dragged />
+				</div>
+			)
+		} else {
+			return (
+				<div>
+					<EditableBookmark {...this.props} />
+				</div>
+			)
+		}
+	}
 }

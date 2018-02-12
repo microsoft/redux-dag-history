@@ -1,23 +1,16 @@
-import * as Immutable from 'immutable';
-import DagGraph from '../DagGraph';
-import {
-  IDagHistory,
-  StateId,
-  BranchId,
-  IConfiguration,
-} from '../interfaces';
-
-const log = require('debug')('redux-dag-history:DagHistory');
+import DagGraph from '../DagGraph'
+import { DagHistory, StateId } from '../interfaces'
+import log from './log'
 
 export default function renameState<T>(
-  stateId: StateId,
-  name: string,
-  history: IDagHistory<T>,
-): IDagHistory<T> {
-  log('rename state %s => %s', stateId, name);
-  const { graph } = history;
-  return {
-    current: history.current,
-    graph: graph.withMutations(g => new DagGraph(g).renameState(stateId, name)),
-  };
+	stateId: StateId,
+	name: string,
+	history: DagHistory<T>,
+): DagHistory<T> {
+	log('rename state %s => %s', stateId, name)
+	const { graph } = history
+	return {
+		current: history.current,
+		graph: graph.withMutations(g => new DagGraph(g).renameState(stateId, name)),
+	}
 }
