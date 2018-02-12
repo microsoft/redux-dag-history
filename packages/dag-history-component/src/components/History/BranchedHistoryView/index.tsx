@@ -1,5 +1,8 @@
-import * as DagHistoryActions from '@essex/redux-dag-history/lib/ActionCreators'
-import { BranchId, StateId } from '@essex/redux-dag-history/lib/interfaces'
+import {
+	BranchId,
+	StateId,
+	ActionCreators as DagHistoryActions,
+} from '@essex/redux-dag-history'
 import * as React from 'react'
 import Transition from 'react-transition-group/Transition'
 import { connect } from 'react-redux'

@@ -1,5 +1,4 @@
-import DagGraph from '@essex/redux-dag-history/lib/DagGraph'
-import { DagHistory, StateId } from '@essex/redux-dag-history/lib/interfaces'
+import { DagHistory, StateId, DagGraph } from '@essex/redux-dag-history'
 import * as debug from 'debug'
 import * as React from 'react'
 import { Bookmark } from '../../interfaces'

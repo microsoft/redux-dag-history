@@ -1,5 +1,7 @@
-import * as DagHistoryActions from '@essex/redux-dag-history/lib/ActionCreators'
-import { StateId } from '@essex/redux-dag-history/lib/interfaces'
+import {
+	StateId,
+	ActionCreators as DagHistoryActions,
+} from '@essex/redux-dag-history'
 import * as ReduxActions from 'redux-actions'
 import { Dispatch } from 'redux'
 import * as Types from './types'

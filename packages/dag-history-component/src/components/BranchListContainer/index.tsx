@@ -1,9 +1,9 @@
-import DagGraph from '@essex/redux-dag-history/lib/DagGraph'
 import {
+	DagGraph,
 	BranchId,
 	DagHistory,
 	StateId,
-} from '@essex/redux-dag-history/lib/interfaces'
+} from '@essex/redux-dag-history'
 import * as debug from 'debug'
 import * as React from 'react'
 import isNumber from '../../util/isNumber'

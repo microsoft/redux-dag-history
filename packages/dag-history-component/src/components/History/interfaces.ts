@@ -1,8 +1,4 @@
-import {
-	BranchId,
-	DagHistory,
-	StateId,
-} from '@essex/redux-dag-history/lib/interfaces'
+import { BranchId, DagHistory, StateId } from '@essex/redux-dag-history'
 import { Bookmark, HistoryType, ComponentView } from '../../interfaces'
 
 export interface HistoryContainerSharedProps {

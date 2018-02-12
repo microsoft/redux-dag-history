@@ -1,6 +1,8 @@
-import * as DagHistoryActions from '@essex/redux-dag-history/lib/ActionCreators'
-import DagGraph from '@essex/redux-dag-history/lib/DagGraph'
-import { DagHistory } from '@essex/redux-dag-history/lib/interfaces'
+import {
+	DagHistory,
+	DagGraph,
+	ActionCreators as DagHistoryActions,
+} from '@essex/redux-dag-history'
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'

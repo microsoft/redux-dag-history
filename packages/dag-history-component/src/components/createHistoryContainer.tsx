@@ -2,8 +2,8 @@ import {
 	BranchId,
 	DagHistory,
 	StateId,
-} from '@essex/redux-dag-history/lib/interfaces'
-import * as DagHistoryActions from '@essex/redux-dag-history/lib/ActionCreators'
+	ActionCreators as DagHistoryActions,
+} from '@essex/redux-dag-history'
 import * as React from 'react'
 import { connect } from 'react-redux'
 import { bindActionCreators, Dispatch } from 'redux'

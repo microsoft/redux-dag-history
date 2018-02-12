@@ -1,6 +1,6 @@
 import * as debug from 'debug'
 import * as React from 'react'
-import { StateId } from '@essex/redux-dag-history/lib/interfaces'
+import { StateId } from '@essex/redux-dag-history'
 import Bookmark from '../Bookmark'
 import { Bookmarks } from './styled'
 import StateListContainer from '../StateListContainerContainer'

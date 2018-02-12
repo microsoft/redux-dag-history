@@ -1,5 +1,4 @@
-import DagGraph from '@essex/redux-dag-history/lib/DagGraph'
-import { DagHistory } from '@essex/redux-dag-history/lib/interfaces'
+import { DagGraph, DagHistory } from '@essex/redux-dag-history'
 import * as debug from 'debug'
 import * as React from 'react'
 import isNumber from '../../util/isNumber'

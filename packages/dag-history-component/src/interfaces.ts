@@ -1,4 +1,4 @@
-import { StateId } from '@essex/redux-dag-history/lib/interfaces'
+import { StateId } from '@essex/redux-dag-history'
 
 export interface Bookmark {
 	stateId: StateId

@@ -1,4 +1,4 @@
-import { Configuration } from '@essex/redux-dag-history/lib/interfaces'
+import { Configuration } from '@essex/redux-dag-history'
 import {
 	ADD_BOOKMARK,
 	CHANGE_BOOKMARK,

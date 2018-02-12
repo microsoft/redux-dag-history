@@ -1,4 +1,4 @@
-import { StateId } from '@essex/redux-dag-history/lib/interfaces'
+import { StateId } from '@essex/redux-dag-history'
 import * as React from 'react'
 import Transition from 'react-transition-group/Transition'
 import isNumber from '../../util/isNumber'
