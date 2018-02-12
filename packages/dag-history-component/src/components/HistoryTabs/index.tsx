@@ -1,7 +1,8 @@
 import * as React from 'react'
 import OptionDropdown from '../OptionDropdown'
-import { Container, OptionMenu } from './styled'
-import { Tab, TabList, TabPanel, Tabs } from 'react-tabs'
+import { Container, OptionMenu, Tabs } from './styled'
+import { Tab, TabList, TabPanel } from 'react-tabs'
+import '../../../styles/tabStyles.css'
 
 const viewNameToIndex: { [key: string]: number } = {
 	history: 0,

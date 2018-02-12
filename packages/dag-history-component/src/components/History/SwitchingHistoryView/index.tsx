@@ -41,13 +41,6 @@ export interface HistoryViewProps
 
 const HistoryView: React.StatelessComponent<HistoryViewProps> = props => {
 	const { historyType, onSelectHistoryType } = props
-	const renderedHistory =
-		historyType === HistoryType.CHRONOLOGICAL ? (
-			<ChronologicalHistoryView {...props} />
-		) : (
-			<BranchedHistoryView {...props} />
-		)
-
 	const historyTypeOption = (name: string) => ({
 		label: viewLabels[name],
 		element: (
@@ -73,7 +66,11 @@ const HistoryView: React.StatelessComponent<HistoryViewProps> = props => {
 					]}
 				/>
 			</DropdownContainer>
-			{renderedHistory}
+			{historyType === HistoryType.CHRONOLOGICAL ? (
+				<ChronologicalHistoryView {...props} />
+			) : (
+				<BranchedHistoryView {...props} />
+			)}
 		</ColumnContainer>
 	)
 }

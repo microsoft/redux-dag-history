@@ -20,6 +20,7 @@ export const Container = styled.div`
 	cursor: pointer;
 	display: flex;
 	height: 30px;
+	min-height: 30px;
 	min-width: 250px;
 	padding: 8px;
 	position: relative;
@@ -35,7 +36,7 @@ export const Container = styled.div`
 	}
 
 	&:hover {
-		border-right: 3px solid $highlight;
+		border-right: 3px solid ${highlight};
 	}
 `
 
@@ -53,11 +54,11 @@ export const Source = styled.div`
 	overflow: hidden;
 
 	&:active {
-		color: $black;
+		color: ${black};
 	}
 
 	&:not(.active) {
-		color: $charcoal;
+		color: ${charcoal};
 	}
 `
 
@@ -68,10 +69,10 @@ export const Name = styled.div`
 	overflow: hidden;
 
 	&:active {
-		color: $black;
+		color: ${black};
 	}
 
 	&:not(.active) {
-		color: $charcoal;
+		color: ${charcoal};
 	}
 `
