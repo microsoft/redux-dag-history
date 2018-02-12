@@ -3,6 +3,7 @@ import { StateId } from '@essex/redux-dag-history/lib/interfaces'
 import * as ReduxActions from 'redux-actions'
 import { Dispatch } from 'redux'
 import * as Types from './types'
+import { HistoryType, ComponentView } from '../../interfaces'
 
 const { createAction } = ReduxActions
 
@@ -14,8 +15,12 @@ const doBookmarkDragDrop = createAction(Types.BOOKMARK_DRAG_DROP)
 export const doStartPlayback = createAction<StartPlaybackPayload>(
 	Types.START_PLAYBACK,
 )
-export const selectMainView = createAction<string>(Types.SELECT_MAIN_VIEW)
-export const selectHistoryType = createAction<string>(Types.SELECT_HISTORY_TYPE)
+export const selectMainView = createAction<ComponentView>(
+	Types.SELECT_MAIN_VIEW,
+)
+export const selectHistoryType = createAction<HistoryType>(
+	Types.SELECT_HISTORY_TYPE,
+)
 export const toggleBranchContainer = createAction<{ index: number }>(
 	Types.TOGGLE_BRANCH_CONTAINER,
 )

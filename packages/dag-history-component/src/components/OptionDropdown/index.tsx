@@ -19,24 +19,30 @@ export interface OptionDropdownProps {
 	label?: string
 	icon?: JSX.Element
 	options?: Option[]
-	triggerClass?: string
-	contentClass?: string
+}
+
+export interface OptionDropdownState {
+	show: boolean
 }
 
 export default class OptionDropdown extends React.Component<
-	OptionDropdownProps
+	OptionDropdownProps,
+	OptionDropdownState
 > {
 	public static defaultProps = {
 		options: [] as Option[],
 	}
 
-	private dropdown: any
+	constructor(props: OptionDropdownProps) {
+		super(props)
+		this.state = { show: false }
+	}
 
 	public render() {
-		const { label, icon, options, triggerClass, contentClass } = this.props
+		const { label, icon, options } = this.props
 		let result = null
 		if (options.length === 0) {
-			result = label ? <div className={triggerClass}>{label}</div> : null
+			result = label ? <div>{label}</div> : null
 		} else {
 			const triggerLabel = label ? <div className="label">{label}</div> : null
 			let triggerIcon = icon
@@ -49,25 +55,22 @@ export default class OptionDropdown extends React.Component<
 
 			const optionClicked = (onClick: Function) => {
 				onClick()
-				this.dropdown.hide()
+				this.setState({ show: false })
 			}
 
 			const triggerClicked = () => {
-				this.dropdown.show()
+				this.setState({ show: true })
 			}
 
 			result = (
-				<Dropdown ref={(e: any) => (this.dropdown = e)}>
-					<DropdownTrigger
-						className={triggerClass}
-						onClick={() => triggerClicked()}
-					>
+				<Dropdown active={this.state.show}>
+					<DropdownTrigger onClick={() => triggerClicked()}>
 						<TriggerContent>
 							{triggerLabel}
 							{triggerIcon}
 						</TriggerContent>
 					</DropdownTrigger>
-					<DropdownContent className={contentClass}>
+					<DropdownContent>
 						<OptionList>
 							{options.map(
 								(

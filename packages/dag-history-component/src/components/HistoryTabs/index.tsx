@@ -42,7 +42,6 @@ const HistoryContainer: React.StatelessComponent<HistoryContainerProps> = ({
 	const controlBar = controlBarEnabled && (
 		<OptionMenu>
 			<OptionDropdown
-				contentClass="view-options-dropdown"
 				options={[
 					{ label: 'Save', onClick: onSaveClicked },
 					{ label: 'Load', onClick: onLoadClicked },
