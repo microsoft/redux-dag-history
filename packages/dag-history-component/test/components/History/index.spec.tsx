@@ -40,7 +40,7 @@ describe('The History Component', () => {
 
 	it('can be rendered in chronological mode', () => {
 		const store = createStore(() => ({}))
-		const history = dagHistory.createHistory({}, new Configuration())
+		const history = DagHistoryImpl.createHistory({}, new Configuration())
 		const rendered = mount(
 			<Provider store={store}>
 				<History
@@ -64,7 +64,7 @@ describe('The History Component', () => {
 
 	xit('can be rendered in storyboarding mode', () => {
 		const store = createStore(() => ({}))
-		const history = dagHistory.createHistory({}, new Configuration())
+		const history = DagHistoryImpl.createHistory({}, new Configuration())
 		const rendered = mount(
 			<Provider store={store}>
 				<History
@@ -88,7 +88,7 @@ describe('The History Component', () => {
 
 	xit('can be rendered in playback mode', () => {
 		const store = createStore(() => ({}))
-		const history = dagHistory.createHistory({}, new Configuration())
+		const history = DagHistoryImpl.createHistory({}, new Configuration())
 
 		const rendered = mount(
 			<Provider store={store}>
