@@ -12,7 +12,7 @@ import { HistoryContainerSharedProps } from './interfaces'
 import { Bookmark } from '../../interfaces'
 import StoryboardingView from '../StoryboardingView'
 import StateListContainerContainer from '../StateListContainerContainer'
-
+import '../../../styles.css'
 const log = debug('dag-history-component:components:History')
 
 export interface HistoryDispatchProps {

@@ -4,7 +4,7 @@ import {
 	ActionCreators as DagHistoryActions,
 } from '@essex/redux-dag-history'
 import * as React from 'react'
-import Transition from 'react-transition-group/Transition'
+import { TransitionGroup, CSSTransition } from 'react-transition-group'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import { Bookmark } from '../../../interfaces'
@@ -46,7 +46,12 @@ const BranchedHistoryView: React.StatelessComponent<
 > = props => {
 	const { branchContainerExpanded, onToggleBranchContainer } = props
 	const branchList = branchContainerExpanded ? (
-		<BranchListContainer {...props} />
+		<CSSTransition
+			classNames="show-docked-under"
+			timeout={{ enter: 250, exit: 250 }}
+		>
+			<BranchListContainer {...props} />
+		</CSSTransition>
 	) : null
 
 	return (
@@ -60,16 +65,7 @@ const BranchedHistoryView: React.StatelessComponent<
 						onClick={onToggleBranchContainer}
 					/>
 				</HistoryControlBar>
-				{branchList}
-				{/* TODO
-				<Transition
-					transitionName="show-docked-under"
-					transitionEnterTimeout={250}
-					transitionLeaveTimeout={250}
-				>
-					{branchList}
-				</Transition>
-				*/}
+				<TransitionGroup>{branchList}</TransitionGroup>
 			</BranchListContainerEl>
 		</HistoryContainer>
 	)

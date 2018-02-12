@@ -1,0 +1,77 @@
+.react-tabs__tab-panel--selected {
+	height: 100%;
+	max-height: 100%;
+	display: flex;
+}
+
+/**
+ * State Entry Animation
+ */
+.state-entry-enter {
+	opacity: 0;
+}
+
+.state-entry-enter.state-entry-enter-active {
+	opacity: 1;
+	transform: translate(0%, 0%);
+	transition: transform 250ms ease-in-out, opacity 250ms ease-in-out;
+}
+
+.state-entry-leave {
+	opacity: 1;
+	transform: translate(0%);
+}
+
+.state-entry-leave.state-entry-leave-active {
+	opacity: 0;
+	transform: translate(100%, 0%);
+	transition: transform 250ms ease-in-out, opacity 250ms ease-in-out;
+}
+
+/**
+ * Continuation Dissolve Animation
+ */
+.continuation-dissolve-enter {
+	opacity: 0;
+	width: 0;
+	transition: opacity 250ms ease-in-out, width 250ms ease-in-out;
+}
+
+.continuation-dissolve-enter.continuation-dissolve-enter-active {
+	opacity: 1;
+	width: 14px;
+	transition: opacity 250ms ease-in-out, width 250ms ease-in-out;
+}
+
+.continuation-dissolve-leave {
+	opacity: 1;
+	width: 14px;
+	transition: opacity 250ms ease-in-out, width 250ms ease-in-out;
+}
+
+.continuation-dissolve-leave.continuation-dissolve-leave-active {
+	opacity: 0;
+	width: 0px;
+	transition: opacity 250ms ease-in-out, width 250ms ease-in-out;
+}
+
+/**
+ * Branch List Dock Animation
+ */
+.show-docked-under-enter {
+	transform: translate(0%, 100%);
+}
+
+.show-docked-under-enter.show-docked-under-enter-active {
+	transform: translate(0%, 0%);
+	transition: transform 250ms ease-in-out;
+}
+
+.show-docked-under-exit {
+	transform: translate(0%, 0%);
+}
+
+.show-docked-under-exit.show-docked-under-exit-active {
+	transform: translate(0%, 100%);
+	transition: transform 250ms ease-in-out;
+}
