@@ -42,3 +42,10 @@ export const DropdownContainer = styled.div`
 	flex-direction: row;
 	justify-content: flex-end;
 `
+
+export const PlaybackContainer = styled.div`
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	max-height: 100%;
+`

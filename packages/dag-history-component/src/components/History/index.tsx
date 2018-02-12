@@ -11,8 +11,8 @@ import BookmarkHelper from '../../util/Bookmark'
 import { HistoryContainerSharedProps } from './interfaces'
 import { Bookmark } from '../../interfaces'
 import StoryboardingView from '../StoryboardingView'
-import StateListContainerContainer from '../StateListContainerContainer'
 import '../../../styles.css'
+import { PlaybackContainer } from './styled'
 const log = debug('dag-history-component:components:History')
 
 export interface HistoryDispatchProps {
@@ -117,7 +117,7 @@ export default class History extends React.Component<HistoryProps, {}> {
 
 		// End the presentation if we're on the last slide
 		return (
-			<StateListContainerContainer>
+			<PlaybackContainer>
 				<PlaybackPane
 					text={slideText}
 					depth={bookmarks.length}
@@ -144,7 +144,7 @@ export default class History extends React.Component<HistoryProps, {}> {
 					onPlay={() => onStartPlayback({ initialDepth })}
 					onStop={onStopPlayback}
 				/>
-			</StateListContainerContainer>
+			</PlaybackContainer>
 		)
 	}
 
