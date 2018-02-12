@@ -7,6 +7,7 @@ import { Dispatch } from 'redux'
 import * as Types from './types'
 
 const { createAction } = ReduxActions
+const { jumpToState } = DagHistoryActions
 
 // Simple Action Creators
 const doSelectBookmarkDepth = createAction<BookmarkDepthSelection>(
@@ -79,7 +80,7 @@ export const selectBookmarkDepth = (
 	const { bookmarkIndex, depth, state } = payload
 	return (dispatch: Redux.Dispatch<any>) => {
 		dispatch(doSelectBookmarkDepth({ bookmarkIndex, depth }))
-		dispatch(DagHistoryActions.jumpToState(state))
+		dispatch(jumpToState(state))
 	}
 }
 
