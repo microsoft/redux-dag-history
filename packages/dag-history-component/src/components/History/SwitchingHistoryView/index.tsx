@@ -57,7 +57,6 @@ const HistoryView: React.StatelessComponent<HistoryViewProps> = props => {
 		<ColumnContainer>
 			<DropdownContainer>
 				<OptionDropdown
-					triggerClass="history-type-dropdown-trigger"
 					label={label}
 					icon={viewIcons[historyType]}
 					options={[
