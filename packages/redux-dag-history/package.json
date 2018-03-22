@@ -1,6 +1,6 @@
 {
 	"name": "@essex/redux-dag-history",
-	"version": "5.0.0",
+	"version": "5.0.1",
 	"description": "",
 	"main": "lib/index.js",
 	"scripts": {
