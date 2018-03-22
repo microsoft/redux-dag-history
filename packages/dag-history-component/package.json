@@ -13,12 +13,7 @@
 		"build": "run-p build:*"
 	},
 	"license": "MIT",
-	"files": [
-		"package.json",
-		"README.md",
-		"LICENSE",
-		"lib/"
-	],
+	"files": ["package.json", "README.md", "LICENSE", "lib/"],
 	"devDependencies": {
 		"@storybook/addon-actions": "^3.3.12",
 		"@storybook/react": "^3.3.12",
