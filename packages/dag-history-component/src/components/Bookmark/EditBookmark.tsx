@@ -170,6 +170,7 @@ export default class EditBookmark extends React.Component<EditBookmarkProps> {
 							highlight={selectedDepth}
 							leadIn={numLeadInStates}
 							active={active}
+							style={{ height: 8 }}
 							onIndexClicked={(idx: number) =>
 								onDiscoveryTrailIndexClicked(idx)
 							}

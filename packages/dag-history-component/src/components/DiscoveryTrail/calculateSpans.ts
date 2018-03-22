@@ -15,9 +15,13 @@ export default function calculateSpans(
 	if (isNumber(leadIn) && leadIn !== 0) {
 		spans = insertSpan(spans, new Span(depth - leadIn, depth + 1, 'leadin'))
 	}
-	if (isNumber(highlight)) {
+	if (active && depth > 1) {
 		const type = active ? 'highlighted' : 'highlightedInactive'
-		spans = insertSpan(spans, new Span(highlight, highlight + 1, type))
+		const highlightDepth = highlight || depth
+		spans = insertSpan(
+			spans,
+			new Span(highlightDepth, highlightDepth + 1, type),
+		)
 	}
 	return spans
 }

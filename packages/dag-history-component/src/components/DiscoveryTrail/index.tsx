@@ -47,6 +47,8 @@ export interface DiscoveryTrailProps {
 	 * If not full width, renders curved ends
 	 */
 	fullWidth?: boolean
+
+	style?: React.CSSProperties
 }
 
 export default class DiscoveryTrail extends React.Component<
@@ -99,6 +101,7 @@ export default class DiscoveryTrail extends React.Component<
 			highlight,
 			leadIn,
 			active,
+			style,
 			bookmark: isBookmark,
 			fullWidth: isFullWidth,
 		} = this.props
@@ -118,6 +121,7 @@ export default class DiscoveryTrail extends React.Component<
 		return (
 			<Pager
 				className={this.pagerClass}
+				style={style}
 				onClick={e => this.handleClick(e)}
 				innerRef={(e: HTMLDivElement) => (this.containerDiv = e)}
 			>

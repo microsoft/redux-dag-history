@@ -1,16 +1,16 @@
 import * as react from 'react'
 import styled, { StyledComponentClass } from 'styled-components'
 
-const minPagerWidth = '6px'
+const minPagerWidth = '3px'
 const emptyStateColor = 'white'
-const highlightedStateInactiveBookmarkColor = '#ABEBC6'
-const highlightedStateColor = '#2ECC71'
-const leadInStateColor = '#ABEBC6'
+const highlightedStateInactiveBookmarkColor = 'white'
+const highlightedStateColor = '#bbf0d1'
+const leadInStateColor = '#dbf7e7'
 const emptyBookmarkColor = 'white'
 const highlightedBookmarkInactiveBookmarkColor = '#ebc6ab'
-const highlightedBookmarkColor = '#f93'
+const highlightedBookmarkColor = '#555'
 const leadInBookmarkColor = '#f5e2d4'
-const statePagerBorderColor = '1px solid #cbcbcb'
+const statePagerBorderColor = 'none'
 
 export const PagerState = styled.div``
 
