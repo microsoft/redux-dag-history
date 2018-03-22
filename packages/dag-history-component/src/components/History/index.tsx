@@ -11,7 +11,7 @@ import BookmarkHelper from '../../util/Bookmark'
 import { HistoryContainerSharedProps } from './interfaces'
 import { Bookmark } from '../../interfaces'
 import StoryboardingView from '../StoryboardingView'
-import '../../../styles.css'
+import '../../../styles/styles.css'
 import { PlaybackContainer } from './styled'
 const log = debug('dag-history-component:components:History')
 
